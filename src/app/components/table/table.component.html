@@ -1,0 +1,52 @@
+<div>
+  <div >
+    <mat-form-field >
+      <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  <form [formGroup]="form">
+
+    <!-- <mat-form-field>
+      <mat-select placeholder="Toppings">
+          <mat-option *ngFor="let cd of columnDefinitions; let i =index" >
+              <mat-checkbox [formControlName]="cd.def"> {{cd.label}}</mat-checkbox>
+          </mat-option>
+      </mat-select>
+  </mat-form-field> -->
+
+
+</form>
+
+<!-- <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button> -->
+
+<table mat-table [dataSource]="dataSource" matSort  class="mat-elevation-z8">
+
+
+    <!-- <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+    <td mat-cell *matCellDef="let element">
+    </ng-container>
+
+     <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> No. </th>
+    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container> -->
+
+    <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{column}} </th>
+      <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+      </ng-container>
+
+  <!-- <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef> Action </th>
+    <td mat-cell *matCellDef="let element" class="action-link">
+      <a (click)="openDialog('Update',element)">Edit</a> |
+      <a (click)="openDialog('Delete',element)">Delete</a>
+    </td>
+  </ng-container> -->
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>
