@@ -1,19 +1,20 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from './auth/login/login.component';
-import { DashboardComponent, } from './index';
-import { TestComponent } from './dashboard/test/test.component';
+import { LoginComponent , NotFoundComponent , DashboardComponent} from './components/index';
+import { CompanyComponent , MastersComponent } from './components/dashboard/masters/index';
+import { AuthGuard } from './auth.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent ,
+  { path: 'login', component: LoginComponent, data: { title: 'Login' } },
+  { path: 'dashboard', component: DashboardComponent, data: { title: 'Dashboard', canActivate: [AuthGuard] } ,
     children : [
-      { path: 'test', component: TestComponent },
-    ]
-}
-
-];
+    { path: 'master/:id', component: MastersComponent, data: { title: 'test' }
+    },
+  ]
+  },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: '**', component: NotFoundComponent, data: { title: 'Page Not Found' } },
+  ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,13 @@
+﻿{
+  "COMMON": {
+      "LOGIN" : "Login",
+      "LANGUAGEPREFERENCE" : "Language Preference",
+      "CANCEL" : "Cancel",
+      "SAVE" : "Save",
+      "OK" : "Ok"
+  },
+  "MASTER": {
+      "NEWCOMPANY" : "New Company"
+  }
+
+}

@@ -1,0 +1,19 @@
+::ng-deep .ng--valid  {
+  &  .mat-form-field-label  {
+    color: green !important;
+  }
+  &  .mat-form-field-ripple  {
+    background-color: green !important;
+  }
+}
+
+.d--flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+mat-form-field {
+  margin: 5px;
+  flex: 0 0 32%;
+}
+

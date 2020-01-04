@@ -1,37 +1,47 @@
+mat-option {
+  & > mat-pseudo-checkbox {
+   display: none !important;
+  }
+}
 
-// @mixin snackbar($theme) {
-//   $primary: mat-color(map-get($theme, primary));
-//   $primary-text: mat-color(map-get($theme, primary), default-contrast);
-//   $warn: mat-color(map-get($theme, warn));
-//   $warn-text: mat-color(map-get($theme, warn), default-contrast);
+.custom-dialog-container {
+  & .mat-dialog-container {
+    padding: 0px !important;
+ }
+}
 
-//   .style-succes {
-//     color: $primary-text;
-//     background-color: $primary;
-//   }
-//   .style-succes .mat-simple-snackbar-action  {
-//     color: $primary-text;
-//   }
-//   .style-error {
-//     color: $warn-text;
-//     background-color: $warn;
-//   }
-//   .style-error .mat-simple-snackbar-action {
-//     color: $warn-text;
-//   }
-// }
+.style-success {
+  background: green;
+}
 
-// .style-succes {
-//   color: red;
-//   background-color: red;
-// }
-// .style-succes .mat-simple-snackbar-action  {
-//   color: red;
-// }
-// .style-error {
-//   color: yellow;
-//   background-color: yellow;
-// }
-// .style-error .mat-simple-snackbar-action {
-//   color: yellow;
-// }
+.style-error {
+  background: red;
+
+}
+
+.style-warning {
+  background: yellow;
+
+}
+
+.style-normal {
+  background: gray;
+}
+
+  // private configSucces: MatSnackBarConfig = {
+  //   panelClass: ['style-succes'],
+  // };
+
+  // private configError: MatSnackBarConfig = {
+  //   panelClass: ['style-error'],
+  // };
+
+  // private configError: MatSnackBarConfig = {
+  //   panelClass: ['style-warning'],
+  // };
+
+  // private configError: MatSnackBarConfig = {
+  //   panelClass: ['style-normal'],
+  // };
+
+

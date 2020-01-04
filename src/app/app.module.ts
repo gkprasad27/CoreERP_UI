@@ -1,33 +1,61 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
-import { SharedModule } from './shared/shared.module';
-import { DashboardComponent , NavbarComponent, SidebarComponent } from './index';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TableComponent } from './components/table/table.component';
-import { TableDialogBoxComponent } from './components/table-dialog-box/table-dialog-box.component';
-import { TestComponent } from './dashboard/test/test.component';
+
+import { SharedImportModule } from './shared/shared-import';
+
+import { NavbarComponent , TableComponent, DeleteItemComponent } from './reuse-components/index';
+import { CompanyComponent , MastersComponent } from './components/dashboard/masters/index';
+import { LoginComponent , NotFoundComponent,
+         SidebarComponent , DashboardComponent
+        } from './components/index';
+
+import { RuntimeConfigService } from './services/runtime-config.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    DashboardComponent,
     NavbarComponent,
+    LoginComponent,
+    NotFoundComponent,
     SidebarComponent,
+    MastersComponent,
+    CompanyComponent,
     TableComponent,
-    TableDialogBoxComponent,
-    TestComponent
+    DeleteItemComponent,
+    DashboardComponent
   ],
   imports: [
     AppRoutingModule,
-    SharedModule,
-    BrowserAnimationsModule
+    SharedImportModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
   ],
-  providers: [],
+  providers: [
+    RuntimeConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (environment: RuntimeConfigService) => () => environment.loadRuntimeConfig(),
+      multi: true,
+      deps: [RuntimeConfigService, HttpClientModule]
+    },
+  ],
   bootstrap: [AppComponent],
-  entryComponents: [ TableDialogBoxComponent ]
+  entryComponents: [ DeleteItemComponent, CompanyComponent ]
 })
 export class AppModule { }

@@ -1,0 +1,32 @@
+.table {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+:host ::ng-deep table {
+  & > tbody  {
+    & tr:nth-child(even):hover {
+    background-color: #e8dbdb
+    }
+    & tr:nth-child(odd):hover {
+      background-color: gray
+      }
+  }
+}
+
+.mat-header-cell, .mat-cell {
+    min-width: 150px;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: #027ff4;
+  color: white;
+}
+
+
+
+
