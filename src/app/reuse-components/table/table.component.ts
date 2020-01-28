@@ -1,24 +1,27 @@
-import { Component, OnInit , ViewChild, AfterViewInit, Input, OnChanges, AfterViewChecked,
-   ChangeDetectorRef, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, Input, OnChanges,
+  ChangeDetectorRef, Output, EventEmitter, AfterViewInit, OnDestroy
+} from '@angular/core';
 import { MatPaginator, MatTableDataSource, MatSort, MatDialog, MatTable } from '@angular/material';
-import { Observable, merge } from 'rxjs';
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
 import { CommonService } from '../../services/common.service';
 import { isNullOrUndefined } from 'util';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DeleteItemComponent } from '../delete-item/delete-item.component';
-
+import { SearchFilterTableComponent } from '../search-filter-table/search-filter-table.component';
 // search
-import { ReplaySubject, Subject } from 'rxjs';
-import { MatSelect } from '@angular/material/select';
-import { take, takeUntil } from 'rxjs/operators';
 
+import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { ReplaySubject, Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSelect } from '@angular/material';
+import { User } from '../../models/common/user';
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
+export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDestroy {
 
   /** control for the selected bank for multi-selection */
   public tableMultiCtrl: FormControl = new FormControl();
@@ -39,69 +42,89 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   @Output() addOrUpdateEvent = new EventEmitter();
 
 
-  @ViewChild(MatTable, {static: true}) table: MatTable<any>;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   dataSource: MatTableDataSource<any>;
-    highlightedRows = [];
-
-
-  form: FormGroup;
+  highlightedRows = [];
   columnDefinitions = [];
+  filterColData = [];
+
+
   keys = [];
+  index: any;
+  showDataNotFound = false;
+  user: User;
+  routeParam: any;
 
   constructor(
     private commonService: CommonService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
-    private activatedRoute: ActivatedRoute
-    ) {}
+    private activatedRoute: ActivatedRoute,
+    private translate: TranslateService
+  ) {
+    this.user = JSON.parse(localStorage.getItem('user'));
+    console.log(this.user);
+    activatedRoute.params.subscribe(params => {
+      this.routeParam = params.id;
+    });
+  }
 
-   highlightRows(row) {
-      console.log(row);
-      if (this.highlightedRows.length) {
-        if (this.highlightedRows[0].code === row.code) {
-          this.highlightedRows = [];
-        } else {
-          this.highlightedRows = [];
-          this.highlightedRows.push(row);
-        }
+  defaultValues() {
+    this.dataSource = new MatTableDataSource();
+    this.highlightedRows = [];
+    this.columnDefinitions = [];
+    this.filterColData = [];
+    this.keys = [];
+    this.index = null;
+    this.showDataNotFound = false;
+  }
+
+  highlightRows(row, i) {
+    if (this.highlightedRows.length) {
+      if (this.index === i) {
+        this.highlightedRows = [];
+        this.index = null;
       } else {
         this.highlightedRows = [];
         this.highlightedRows.push(row);
+        this.index = i;
       }
-   }
-
-
-
-   openDialog(val, row?) {
-    let data;
-    if (!isNullOrUndefined(row)) {
-      data = { action : val , item : row };
     } else {
-      data = { action : val , item : this.highlightedRows[0] };
+      this.highlightedRows = [];
+      this.highlightedRows.push(row);
+      this.index = i;
     }
+  }
 
-    if (data.action === 'Delete' && this.highlightedRows.length) {
-    const dialogRef = this.dialog.open(DeleteItemComponent, {
+  openSearchFilter() {
+    const colData = { data: this.tableData, col: this.columnDefinitions }
+    const dialogRef = this.dialog.open(SearchFilterTableComponent, {
       width: '1024px',
-      data: this.highlightedRows,
+      data: colData,
       disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (!isNullOrUndefined(result)) {
-        this.tableData = this.tableData.filter((value, key) => {
-          return value.code !== result.code;
-        });
-        this.dataSource = new MatTableDataSource(this.tableData);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
+      this.columnDefinitions = result;
+      console.log(result);
     });
+  }
 
-    } else if (data.action === 'Edit' && this.highlightedRows.length) {
+  openDialog(val, row?) {
+    let data;
+    if (!isNullOrUndefined(row)) {
+      data = { action: val, item: row };
+      this.highlightedRows = [row];
+    } else {
+      data = { action: val, item: this.highlightedRows[0] };
+    }
+
+    if (data.action === 'Delete' && this.highlightedRows.length) {
+      this.addOrUpdateEvent.emit(data);
+    } else if (data.action === 'Edit' && this.highlightedRows.length && this.user.canEdit !== 'Edit') {
       this.addOrUpdateEvent.emit(data);
     } else if (data.action === 'Add') {
       data.item = null;
@@ -111,14 +134,24 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   }
 
   updateRowData(rowObj) {
-     for (let t = 0; t < this.tableData.length; t++) {
-        if (this.tableData[t].code === rowObj.code) {
-          this.tableData[t] = rowObj;
-        }
-      }
-     this.dataSource = new MatTableDataSource(this.tableData);
-     this.dataSource.paginator = this.paginator;
-     this.dataSource.sort = this.sort;
+    // for (let t = 0; t < this.tableData.length; t++) {
+    //   if (this.tableData[t].code === rowObj.code) {
+    //     this.tableData[t] = rowObj;
+    //   }
+    // }
+    this.tableData[this.index] = rowObj;
+    this.dataSource = new MatTableDataSource(this.tableData);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  deleteRowData() {
+    this.tableData = this.tableData.filter((value, index, array) => {
+      return index !== this.index;
+    });
+    this.dataSource = new MatTableDataSource(this.tableData);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
 
@@ -134,85 +167,68 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
 
     if (!isNullOrUndefined(this.addOrUpdateData)) {
 
-     if (this.addOrUpdateData.action === 'Edit') {
-       this.updateRowData(this.addOrUpdateData.item);
-    } else if (this.addOrUpdateData.action === 'Add') {
-      this.addRowData(this.addOrUpdateData.item);
-    }
+      if (this.addOrUpdateData.action === 'Edit') {
+        this.updateRowData(this.addOrUpdateData.item);
+      } else if (this.addOrUpdateData.action === 'Add') {
+        this.addRowData(this.addOrUpdateData.item);
+      } else if(this.addOrUpdateData.action === 'Delete') {
+        this.deleteRowData();
+      }
 
     } else {
 
-    if (!isNullOrUndefined(this.tableData)) {
-      this.dataSource = new MatTableDataSource(this.tableData);
-    }
-
-    if (!isNullOrUndefined(this.dataSource)) {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-    }
-
-    if (!isNullOrUndefined(this.tableData)) {
-
-      // tslint:disable-next-line:forin
-      for (const key in this.tableData[0]) {
-        this.keys.push({ col : key });
+      if (!isNullOrUndefined(this.tableData)) {
+        if (this.tableData.length > 0) {
+          this.showDataNotFound = false;
+          this.dataSource = new MatTableDataSource(this.tableData);
+        } else {
+          this.showDataNotFound = true;
+        }
       }
 
-      const group = {};
-      this.keys.forEach(cols => {
-        group[cols.col] = new FormControl(false);
-      });
+      if (!isNullOrUndefined(this.dataSource)) {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
 
-      this.form = new FormGroup(group);
+      if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
 
-      this.keys.forEach(cols => {
-        const obj = {
-          def : cols.col, label: cols.col, hide: this.form.get(cols.col).value
-        };
-        this.columnDefinitions.push(obj);
-      });
+        // tslint:disable-next-line:forin
+        for (const key in this.tableData[0]) {
+          this.keys.push({ col: key });
+        }
+
+        this.keys.forEach(cols => {
+          const obj = {
+            def: cols.col, label: cols.col, hide: true
+          };
+          this.columnDefinitions.push(obj);
+        });
+      }
+
+
+      if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
+        this.filteredTableMulti.next(this.columnDefinitions.slice());
+
+        this.tableMultiFilterCtrl.valueChanges
+          .pipe(takeUntil(this.onDestroy))
+          .subscribe(() => {
+            this.filterBanksMulti();
+          });
+
+      }
+
+
     }
 
-    if (!isNullOrUndefined(this.tableData)) {
-    this.filteredTableMulti.next(this.columnDefinitions.slice());
 
-    this.tableMultiFilterCtrl.valueChanges
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.filterBanksMulti();
-      });
-
-    }
-   }
 
   }
+
 
   ngAfterViewInit() {
-    this.setInitialValue();
-  }
-
-  ngOnDestroy() {
-    this.onDestroy.next();
-    this.onDestroy.complete();
-  }
-
-  protected setInitialValue() {
-    this.filteredTableMulti
-      .pipe(take(1), takeUntil(this.onDestroy))
-      .subscribe(() => {
-        this.multiSelect.compareWith = (a, b) => a && b && a.def === b.def;
-      });
-  }
-
-  toggleSelectAll(selectAllValue: boolean) {
-    this.filteredTableMulti.pipe(take(1), takeUntil(this.onDestroy))
-      .subscribe(val => {
-        if (selectAllValue) {
-          this.tableMultiCtrl.patchValue(val);
-        } else {
-          this.tableMultiCtrl.patchValue([]);
-        }
-      });
+    // this.multiSelect.open();
+    this.cdr.detectChanges();
   }
 
   protected filterBanksMulti() {
@@ -233,24 +249,45 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
     );
   }
 
-
-  saveChanges() {
-    for (let cd = 0; cd < this.keys.length; cd++) {
-      this.columnDefinitions[cd].hide = this.form.get(this.keys[cd].col).value;
-    }
+  toggleSelectAll(selectAllValue: boolean) {
+    this.filteredTableMulti.pipe(take(1), takeUntil(this.onDestroy))
+      .subscribe(val => {
+        if (selectAllValue) {
+          this.tableMultiCtrl.patchValue(val);
+        } else {
+          this.tableMultiCtrl.patchValue([]);
+        }
+      });
   }
 
 
-  // ngAfterViewChecked() {
-  //   for (let cd = 0; cd < this.keys.length; cd++) {
-  //     this.columnDefinitions[cd].hide = this.form.get(this.keys[cd].col).value;
-  //   }
-  //  }
+
+
+  checkboxCheck(index) {
+
+    this.filterColData[index] = { def: this.filterColData[index].def,
+      label: this.filterColData[index].label,  hide: !this.filterColData[index].hide };
+
+  }
+
+
+  saveChanges() {
+    this.columnDefinitions = this.filterColData.slice(0);
+    this.filterColData = [];
+  }
+
+
+  filterData() {
+    this.filterColData = [];
+    this.filterColData = this.columnDefinitions.slice(0);
+  }
+
+  cancleChanges() {
+    this.filterColData = [];
+    this.filterColData = this.columnDefinitions.slice(0);
+  }
 
   ngOnInit() {
-    this.form = new FormGroup({
-      id: new FormControl(false),
-    });
   }
 
   public doFilter = (value: string) => {
@@ -259,8 +296,12 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
 
   getDisplayedColumns(): string[] {
     if (!isNullOrUndefined(this.tableData)) {
-    return this.columnDefinitions.filter(cd => !cd.hide).map(cd => cd.def);
+      return this.columnDefinitions.filter(cd => cd.hide).map(cd => cd.def);
     }
+  }
+
+  ngOnDestroy() {
+    this.tableData = [];
   }
 
 }

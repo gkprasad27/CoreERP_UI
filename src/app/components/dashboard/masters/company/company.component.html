@@ -1,56 +1,79 @@
 <div>
-  <mat-card-title  class="bg-light p-3 m-0" [translate]="'MASTER.NEWCOMPANY'"></mat-card-title>
+
+
+  <mat-card-title  class="boader--color pl-3" [translate]="'MASTER.NEWCOMPANY'"></mat-card-title>
   <mat-card-content class="p-2 m-0">
-     <form [formGroup]="companyForm" (ngSubmit)="save()"  autocomplete="off">
+     <form [formGroup]="modelFormData" autocomplete="off">
 
       <div class="d--flex">
-      <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.code.valid }" >
-        <input matInput placeholder="Code" formControlName="code" >
-        <mat-error *ngIf="formControls.code.errors" class="help-block">
-          <div *ngIf="formControls.code.errors.required">Code is required </div>
+      <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.companyCode.valid }" >
+        <input matInput placeholder="Company code" disabled formControlName="companyCode" appFocusOnEnter tabIndex="1">
+        <mat-error *ngIf="formControls.companyCode.errors" class="help-block">
+          <div *ngIf="formControls.companyCode.errors.required">Code is required</div>        
         </mat-error>
 
       </mat-form-field>
 
       <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.name.valid }">
-        <input matInput placeholder="Name" formControlName="name" >
+        <input matInput placeholder="Name" formControlName="name" appFocusOnEnter tabIndex="2">
         <mat-error *ngIf="formControls.name.errors" class="help-block">
           <div *ngIf="formControls.name.errors.required">Name is required</div>
         </mat-error>
       </mat-form-field>
 
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address1" formControlName="address1" >
+        <input matInput placeholder="Address1" formControlName="address1" appFocusOnEnter tabIndex="3">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address2" formControlName="address2" >
+        <input matInput placeholder="Address2" formControlName="address2" appFocusOnEnter tabIndex="4" >
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Address3" formControlName="address3" appFocusOnEnter tabIndex="5">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Address4" formControlName="address4" appFocusOnEnter tabIndex="6">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Finacial Year" formControlName="finacialYear" appFocusOnEnter tabIndex="7">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="From Month" formControlName="fromMonth" appFocusOnEnter tabIndex="8">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Gst No" formControlName="gstNo" appFocusOnEnter tabIndex="9">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Active" formControlName="active" appFocusOnEnter tabIndex="10">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Place" formControlName="place" appFocusOnEnter tabIndex="11">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="State" formControlName="state" appFocusOnEnter tabIndex="12">
       </mat-form-field>
       <mat-form-field class="form-element" >
-        <input matInput placeholder="Address3" formControlName="address3" >
+        <input matInput placeholder="Pin Code" formControlName="pinCode" appFocusOnEnter tabIndex="13">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Phone1" formControlName="phone1" appFocusOnEnter tabIndex="14">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Phone2" formControlName="phone2" appFocusOnEnter tabIndex="15">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Phone3" formControlName="phone3" appFocusOnEnter tabIndex="16">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Pan No" formControlName="panNo" appFocusOnEnter tabIndex="17">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Tan No" formControlName="tanNo" appFocusOnEnter tabIndex="18">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Nature Of Business" formControlName="natureOfBusiness" appFocusOnEnter tabIndex="19">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="To Month" formControlName="toMonth" appFocusOnEnter tabIndex="20">
       </mat-form-field>
 
 
@@ -58,8 +81,8 @@
     <mat-divider></mat-divider>
 
       <div  class="form-element p-2 d-flex justify-content-end">
-        <button mat-raised-button   class="mr-1" [translate]="'COMMON.CANCEL'" (click)="cancel()">cancel</button>
-        <button mat-raised-button  color="primary" type="submit" class="ml-1" [translate]="'COMMON.SAVE'" > Save</button>
+        <button mat-raised-button   class="mr-1" class="button-color-red text-white" [translate]="'COMMON.CANCEL'" (click)="cancel()">Cancel</button>
+          <button mat-raised-button  type="submit" class="button-color-bule text-white ml-1" [translate]="'COMMON.SAVE'" (click)="save()" > Save</button>
       </div>
 
     </form>

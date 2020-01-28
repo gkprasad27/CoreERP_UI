@@ -1,5 +1,4 @@
 import {Component, HostBinding, Input, OnInit, Output, EventEmitter} from '@angular/core';
-import { MenuItem } from '../../models/menu';
 import { Router } from '@angular/router';
 import { CommonService } from '../../services/common.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -24,7 +23,7 @@ export class SidebarComponent implements OnInit {
 
   expanded: boolean;
   @HostBinding('attr.aria-expanded') ariaExpanded = this.expanded;
-  @Input() item: MenuItem;
+  @Input() item: any;
   @Input() depth: number;
 
   constructor(public commonService: CommonService,
@@ -47,7 +46,7 @@ export class SidebarComponent implements OnInit {
     });
   }
 
-  onItemSelected(item: MenuItem) {
+  onItemSelected(item: any) {
 
     if (!isNullOrUndefined(item.children)) {
       this.commonService.parentItem = item.route;
@@ -55,7 +54,7 @@ export class SidebarComponent implements OnInit {
     }
     if (!item.children || !item.children.length) {
       const route = String.Join('/', 'dashboard', this.commonService.parentItem);
-      console.log(route, this.commonService.parentItem);
+      console.log( route, item.route);
 
       this.router.navigate([ route, item.route ]);
       this.commonService.closeNav();

@@ -1,5 +1,5 @@
 .boxshadow {
-  box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
+  box-shadow: 0 15px 20px rgba(0,0,0,.3)
 }
 
 :host {
@@ -8,17 +8,5 @@
   margin: 100px 0px;
 }
 
-.mat-form-field {
-  width: 100%;
-  // min-width: 500px;
-}
 
-::ng-deep .ng--valid  {
-    &  .mat-form-field-label  {
-      color: green !important;
-    }
-    &  .mat-form-field-ripple  {
-      background-color: green !important;
-    }
-}
 

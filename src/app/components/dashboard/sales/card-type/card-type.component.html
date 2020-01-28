@@ -1,0 +1,60 @@
+<div>
+
+
+    <mat-card-title  class="background--color text-white pl-3" [translate]="'MASTER.NEWCOMPANY'"></mat-card-title>
+    <mat-card-content class="p-2 m-0">
+       <form [formGroup]="modelFormData" autocomplete="off">
+  
+        <div class="d--flex">
+        <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.code.valid }" >
+          <input matInput placeholder="Code" disabled formControlName="code" appFocusOnEnter tabIndex="1">
+          <mat-error *ngIf="formControls.code.errors" class="help-block">
+            <div *ngIf="formControls.code.errors.required">Code is required </div>
+          </mat-error>
+  
+        </mat-form-field>
+  
+        <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.cardName.valid }">
+          <input matInput placeholder="Card Name" formControlName="cardName" appFocusOnEnter tabIndex="2">
+          <mat-error *ngIf="formControls.cardName.errors" class="help-block">
+            <div *ngIf="formControls.cardName.errors.required">Name is required</div>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Card Type</mat-label>
+            <mat-select formControlName="type" (selectionChange)="getGLAccountsList()">
+              <mat-option *ngFor="let card of cardTypeList" [value]="card.id">
+                {{card.text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+        <mat-form-field>
+            <mat-label>acc Code</mat-label>
+            <mat-select formControlName="glaccount">
+              <mat-option *ngFor="let acc of getAccList" [value]="acc.id">
+                {{acc.text}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+  
+
+        <mat-form-field class="form-element" >
+          <input matInput placeholder="cardType1" formControlName="cardType1" appFocusOnEnter tabIndex="3">
+        </mat-form-field>
+       
+  
+      </div>
+      <mat-divider></mat-divider>
+  
+        <div  class="form-element p-2 d-flex justify-content-end">
+          <button mat-raised-button   class="mr-1" [translate]="'COMMON.CANCEL'" (click)="cancel()">cancel</button>
+          <button mat-raised-button  type="submit" class="background--color text-white ml-1" [translate]="'COMMON.SAVE'" (click)="save()" > Save</button>
+        </div>
+  
+      </form>
+  
+    </mat-card-content>
+  </div>
+  

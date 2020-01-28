@@ -4,20 +4,21 @@
       *ngIf="showExpandButton"
       mat-icon-button
       id="menu"
-      (click)="commonService.openNav()"
+      (click)="openCloseMemu()"
     >
       <mat-icon>menu</mat-icon>
     </button>
     <div class="container">
-        <img src="../../assets/images/CoreERP_icon.png" height="25" />
+        <img src="../../assets/images/CoreERP_icon.png" alt="hi" height="25" />
         <span class="pl-2">CoreERP</span>
     </div>
-        <button mat-button class="ml-2" >
-          <mat-icon>account_circle</mat-icon>
-         Welcome {{loginUser.username}}
-        </button>
-        
-    <button class="ml-2" mat-button routerLink="/login">
+    <div class="d-flex">
+      <span class="align-items-center d-flex cursor--pointer" (click)="openSetting()"><mat-icon>settings_applications</mat-icon></span>
+      <span class="align-items-center d-flex pl-3"><mat-icon>account_circle</mat-icon></span>
+      <small class="pl-2">  Welcome {{loginUser.username}}    </small>
+    </div>
+
+    <button class="ml-2" mat-button (click)="logout()" >
       <mat-icon>logout</mat-icon>
       Logout
     </button>

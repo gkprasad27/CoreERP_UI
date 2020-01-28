@@ -10,9 +10,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CommonService {
-  public appDrawer: any;
-  public parentItem: any;
-  public currentUrl = new BehaviorSubject<string>(undefined);
+  appDrawer: any;
+  parentItem: any;
+  currentUrl = new BehaviorSubject<string>(undefined);
+  selectedInput: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+
 
   constructor(
     private router: Router,
@@ -57,14 +59,6 @@ export class CommonService {
 
 }
 
-   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-      verticalPosition: 'top',
-      horizontalPosition: 'right',
-      panelClass : ['style-succes']
-    });
-  }
 
   public closeNav() {
     if (!isNullOrUndefined(this.appDrawer)) {

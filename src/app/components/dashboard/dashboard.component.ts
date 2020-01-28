@@ -1,5 +1,4 @@
 import {Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit, OnInit, Input} from '@angular/core';
-import { MenuItem } from '../../models/menu';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
@@ -15,7 +14,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('appDrawer', {static: false}) appDrawer: ElementRef;
-  navItems: MenuItem[] = [
+  navItems = [
     {
       displayName: 'Master',
       iconName: 'recent_actors',
@@ -32,21 +31,66 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'branches'
         },
         {
-          displayName: 'Feedback',
+          displayName: 'Division',
           iconName: 'feedback',
-          route: 'feedback'
-        }
+          route: 'division'
+        },
+        {
+          displayName: 'Segment',
+          iconName: 'feedback',
+          route: 'segment'
+        },
+        {
+          displayName: 'ProfitCenter',
+          iconName: 'feedback',
+          route: 'profitCenter'
+        },
+        {
+          displayName: 'PartnerCreation',
+          iconName: 'feedback',
+          route: 'partnerCreation'
+        },
+        {
+          displayName: 'CostCenter',
+          iconName: 'feedback',
+          route: 'costCenter'
+        },
+        {
+          displayName: 'NoSeries',
+          iconName: 'feedback',
+          route: 'noSeries'
+        },
+        {
+          displayName: 'PartnerType',
+          iconName: 'feedback',
+          route: 'partnerType'
+        },
+        {
+          displayName: 'EmployeeInBranch',
+          iconName: 'feedback',
+          route: 'employeeInBranch'
+        },
+        {
+          displayName: 'Employee',
+          iconName: 'feedback',
+          route: 'employee'
+        },
+        {
+          displayName: 'TaxMaster',
+          iconName: 'feedback',
+          route: 'taxMaster'
+        },
       ]
     },
     {
-      displayName: 'Disney',
+      displayName: 'Sales',
       iconName: 'videocam',
-      route: 'disney',
+      route: 'sales',
       children: [
         {
-          displayName: 'Speakers',
+          displayName: 'Bill Receivable Branch',
           iconName: 'group',
-          route: 'dashboard/table'
+          route: 'asnBillsRcvBranch'
         },
         {
           displayName: 'Sessions',
@@ -57,7 +101,76 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Feedback',
           iconName: 'feedback',
           route: 'feedback'
+        },
+        {
+          displayName: 'CardType',
+          iconName: 'feedback',
+          route: 'cardType'
         }
+      ]
+    },
+    {
+      displayName: 'GeneralLedger',
+      iconName: 'recent_actors',
+      route: 'generalledger',
+      children: [
+        {
+          displayName: 'AccountsGroup',
+          iconName: 'account_balance',
+          route: 'accountsgroup'
+        },
+        {
+          displayName: 'SubGroup',
+          iconName: 'group',
+          route: 'subgroup'
+        },
+        {
+          displayName: 'UnderSubgroup',
+          iconName: 'group',
+          route: 'undersubgroup'
+        },
+        {
+          displayName: 'GLAccounts',
+          iconName: 'group',
+          route: 'glaccounts'
+        },
+        {
+          displayName: 'GLSubcode',
+          iconName: 'group',
+          route: 'glsubcode'
+        },
+        {
+          displayName: 'TaxIntegration',
+          iconName: 'group',
+          route: 'taxintegration'
+        },
+        {
+          displayName: 'CashAccToBranches',
+          iconName: 'group',
+          route: 'cashacctobranches'
+        },
+        {
+          displayName: 'AccToAccClass',
+          iconName: 'group',
+          route: 'acctoaccclass'
+        },
+        {
+          displayName: 'VoucherTypes',
+          iconName: 'group',
+          route: 'vouchertypes'
+        }
+      ]
+    },
+    {
+      displayName: 'Reports',
+      iconName: 'recent_actors',
+      route: 'reports',
+      children: [
+        {
+          displayName: 'Bonus',
+          iconName: 'account_balance',
+          route: 'bonus'
+        },
       ]
     }
   ];

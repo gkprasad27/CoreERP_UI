@@ -6,14 +6,13 @@ import { map, catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class RuntimeConfigService {
+  runtimeConfig: any = null; 
 
 constructor(private injector: Injector, private httpClient: HttpClient) { }
 
-    public loadRuntimeConfig(): Observable<any> {
-      return this.httpClient.get(`../../assets/settings/runtime-config.json`, { observe: 'response' })
-        .pipe((tap<any>(response => {
-          return response;
-        })));
+    public loadRuntimeConfig():Promise<any>  {
+      return this.httpClient.get(`../../assets/settings/runtime-config.json`)
+        .pipe(tap((res) => this.runtimeConfig = res)).toPromise();
     }
 
 

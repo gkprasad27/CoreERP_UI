@@ -5,10 +5,14 @@ import { AppComponent } from './app.component';
 
 import { SharedImportModule } from './shared/shared-import';
 
-import { NavbarComponent , TableComponent, DeleteItemComponent } from './reuse-components/index';
-import { CompanyComponent , MastersComponent } from './components/dashboard/masters/index';
+import { NavbarComponent , TableComponent, DeleteItemComponent, SearchFilterTableComponent, ReportTableComponent } from './reuse-components/index';
+import { CompanyComponent , MastersComponent, BranchesComponent, DivisionComponent, SegmentComponent, ProfitCenterComponent,PartnerCreationComponent, CostCenterComponent, NoSeriesComponent, PartnerTypeComponent,EmployeeInBranchComponent ,EmployeeComponent, TaxMasterComponent } from './components/dashboard/masters/index';
+import { SalesComponent, CardTypeComponent } from './components/dashboard/sales/index';
+import {GeneralledgerComponent,AccountsGroupComponent,SubGroupComponent,UndersubGroupComponent,GlAccountsComponent,GlSubcodeComponent,TaxIntegrationComponent, 
+CashAccToBranchesComponent,AccToAccClassComponent,VoucherTypesComponent} from './components/dashboard/generalledger/index';
+import { ReportsComponent } from './components/dashboard/reports/index'
 import { LoginComponent , NotFoundComponent,
-         SidebarComponent , DashboardComponent
+         SidebarComponent , DashboardComponent, SettingComponent
         } from './components/index';
 
 import { RuntimeConfigService } from './services/runtime-config.service';
@@ -17,6 +21,9 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
+import { FocusOnEnterDirective } from './directives/focus-on-enter.directive';
+
+import { BsDropdownModule } from 'ngx-bootstrap';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -33,11 +40,40 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CompanyComponent,
     TableComponent,
     DeleteItemComponent,
-    DashboardComponent
+    DashboardComponent,
+    FocusOnEnterDirective,
+    SearchFilterTableComponent,
+    BranchesComponent,
+    DivisionComponent,
+    SalesComponent,
+    SegmentComponent,
+    ProfitCenterComponent,
+    PartnerCreationComponent,
+    CostCenterComponent,
+    NoSeriesComponent,
+    PartnerTypeComponent,
+    EmployeeInBranchComponent,
+    EmployeeComponent,
+    TaxMasterComponent,
+    CardTypeComponent,
+    GeneralledgerComponent,
+    AccountsGroupComponent,
+    SubGroupComponent,
+    UndersubGroupComponent,
+    GlAccountsComponent,
+    SettingComponent,
+    ReportsComponent,
+    ReportTableComponent,
+    GlSubcodeComponent,
+    TaxIntegrationComponent,
+    CashAccToBranchesComponent,
+    AccToAccClassComponent,
+    VoucherTypesComponent
   ],
   imports: [
     AppRoutingModule,
     SharedImportModule,
+    BsDropdownModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -56,6 +92,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     },
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ DeleteItemComponent, CompanyComponent ]
+  entryComponents: [ DeleteItemComponent, CompanyComponent, BranchesComponent,DivisionComponent, SegmentComponent, SearchFilterTableComponent,ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent, NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent , EmployeeComponent,
+  TaxMasterComponent, CardTypeComponent,AccountsGroupComponent,SubGroupComponent,UndersubGroupComponent,GlAccountsComponent,GlSubcodeComponent,TaxIntegrationComponent,CashAccToBranchesComponent,AccToAccClassComponent,VoucherTypesComponent ]
 })
 export class AppModule { }

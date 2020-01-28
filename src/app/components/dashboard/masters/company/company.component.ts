@@ -5,12 +5,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material';
 
 import { AlertService } from '../../../../services/alert.service';
-import { Company } from '../../../../models/company.model';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { StatusCodes } from '../../../../enums/common/common';
 @Component({
   selector: 'app-company',
   templateUrl: './company.component.html',
@@ -19,10 +18,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 export class CompanyComponent  implements OnInit {
 
-  companyForm: FormGroup;
+  modelFormData: FormGroup;
   isSubmitted  =  false;
   formData: any;
-
 
   constructor(
     private alertService: AlertService,
@@ -31,33 +29,39 @@ export class CompanyComponent  implements OnInit {
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
-      this.companyForm  =  this.formBuilder.group({
-        code: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
-        name: ['', [Validators.required, Validators.minLength(2)]],
-        address1: [''],
-        address2: [''],
-        address3: [''],
-        address4: [''],
-        place: [''],
-        state: [''],
-        pinCode: [''],
-        phone_1: [''],
-        phone_2: [''],
-        phone_3: [''],
-        email: [''],
-        panNo: [''],
-        tanNo: [''],
-        gstNo: [''],
-        natureOfBusiness: [''],
-        finacialYear: [''],
-        fromMonth: [''],
-        toMonth: [''],
+      this.modelFormData  =  this.formBuilder.group({
+        companyCode: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+        name: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
+        address1: [null],
+        address2: [null],
+        address3: [null],
+        address4: [null],
+        email: [null],
+        ext1: [null],  // hide
+        ext2: [null], // hide
+        ext3: [null], // hide
+        ext4: [null], // hide
+        finacialYear: [2020],  // current year
+        fromMonth: [1],  // currnet month
+        gstNo: [null],
+        active: ['Y'],
+        place: [null],
+        state: [null],
+        pinCode: [null],
+        phone1: [null],
+        phone2: [null],
+        phone3: [null],
+        panNo: [null],
+        tanNo: [null],
+        natureOfBusiness: [null],
+        toMonth: [1] // currnet month
       });
 
 
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
-        this.companyForm.patchValue(this.formData.item);
+        this.modelFormData.patchValue(this.formData.item);
+        this.modelFormData.controls['companyCode'].disable();
       }
 
   }
@@ -73,14 +77,15 @@ export class CompanyComponent  implements OnInit {
       // this.alertService.openSnackBar(caption, message);
   }
 
-  get formControls() { return this.companyForm.controls; }
+  get formControls() { return this.modelFormData.controls; }
 
 
   save() {
-    if (this.companyForm.invalid) {
+    if (this.modelFormData.invalid) {
       return;
     }
-    this.formData.item = this.companyForm.value;
+    this.modelFormData.controls['companyCode'].enable();
+    this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }
 

@@ -1,0 +1,41 @@
+<div>
+  <mat-card-title  class="boader--color pl-3" > New Partner Type</mat-card-title>
+  <mat-card-content class="p-2 m-0">
+     <form [formGroup]="modelFormData" autocomplete="off">
+
+      <div class="d--flex">
+      <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.code.valid }" >
+        <input matInput placeholder="Code" formControlName="code" appFocusOnEnter tabIndex="1">
+        <mat-error *ngIf="formControls.code.errors" class="help-block">
+          <div *ngIf="formControls.code.errors.required">Code is required </div>
+        </mat-error>
+
+      </mat-form-field>
+
+      <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.accountType.valid }">
+        <input matInput placeholder="Account Type" formControlName="accountType" appFocusOnEnter tabIndex="2">
+        <mat-error *ngIf="formControls.accountType.errors" class="help-block">
+          <div *ngIf="formControls.accountType.errors.required">Name is required</div>
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Description" formControlName="description" appFocusOnEnter tabIndex="3">
+      </mat-form-field>
+      <mat-form-field class="form-element" >
+        <input matInput placeholder="Active" formControlName="active" appFocusOnEnter tabIndex="4">
+      </mat-form-field>
+
+    </div>
+    <mat-divider></mat-divider>
+
+    <div  class="form-element p-2 d-flex justify-content-end">
+      <button mat-raised-button   class="mr-1" class="button-color-red text-white" [translate]="'COMMON.CANCEL'" (click)="cancel()">Cancel</button>
+      <button mat-raised-button  type="submit" class="button-color-bule text-white ml-1" [translate]="'COMMON.SAVE'" (click)="save()" > Save</button>
+    </div>
+
+    </form>
+
+  </mat-card-content>
+</div>

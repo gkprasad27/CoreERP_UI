@@ -1,4 +1,56 @@
-mat-option {
+@import '_reuse.scss';
+
+
+.cdk-overlay-pane-select-search.cdk-overlay-pane-select-search-with-offset {
+  margin: 50px 0px 0px 30px !important;
+ }
+ 
+.mat-form-field {
+  width: 100%;
+}
+
+ .ng--valid  {
+    &  .mat-form-field-label  {
+      color: $color-green !important
+    }
+    &  .mat-form-field-ripple  {
+      background-color: $color-green !important;
+    }
+}
+
+
+.mat-raised-button:hover {
+  border: 1px solid $color-gray !important;
+}
+
+.mat-raised-button {
+  box-shadow : none !important;
+}
+
+.background--color {
+  background-color: $color-blue !important;
+}
+
+.button-color-bule {
+  background-color: $color-blue !important;
+}
+
+.button-color-red {
+  background-color: $color-red !important;
+}
+
+.cursor--pointer {
+  cursor: pointer;
+}
+
+.boader--color {
+  padding: .30rem 1.25rem;
+  margin-bottom: 0;
+  background-color: rgba(0,0,0,.03);
+  border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+mat-option  {
   & > mat-pseudo-checkbox {
    display: none !important;
   }
@@ -11,37 +63,20 @@ mat-option {
 }
 
 .style-success {
-  background: green;
+  background: $color-green;
 }
 
 .style-error {
-  background: red;
-
+  background: $color-red;
 }
 
 .style-warning {
-  background: yellow;
-
+  background: $color-yellow;
 }
 
 .style-normal {
-  background: gray;
+  background: $color-gray;
 }
 
-  // private configSucces: MatSnackBarConfig = {
-  //   panelClass: ['style-succes'],
-  // };
-
-  // private configError: MatSnackBarConfig = {
-  //   panelClass: ['style-error'],
-  // };
-
-  // private configError: MatSnackBarConfig = {
-  //   panelClass: ['style-warning'],
-  // };
-
-  // private configError: MatSnackBarConfig = {
-  //   panelClass: ['style-normal'],
-  // };
 
 
