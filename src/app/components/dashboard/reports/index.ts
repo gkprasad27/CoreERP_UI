@@ -1,1 +1,1 @@
-export { ReportsComponent  } from './reports.component';
+export { ReportsComponent } from './reports.component';

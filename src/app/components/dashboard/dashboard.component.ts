@@ -166,11 +166,81 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       iconName: 'recent_actors',
       route: 'reports',
       children: [
+        // {
+        //   displayName: 'Bonus',
+        //   iconName: 'account_balance',
+        //   route: 'bonus'
+        // },
+        // {
+        //   displayName:'Member Master',
+        //   iconName:'account_balance',
+        //   route:'membermaster'
+        // },
+        // {
+        //   displayName:"Employee Register",
+        //   iconName:'account_balance',
+        //   route:'employeeregister'
+        // },
         {
-          displayName: 'Bonus',
-          iconName: 'account_balance',
-          route: 'bonus'
+          displayName:"Account Ledger",
+          iconName:'account_balance',
+          route:'AccountLedger'
         },
+        {
+          displayName:"24Hrs Sale Value",
+          iconName:'monetization_on',
+          route:'24HrsSaleValue'
+        },
+        {
+          displayName:"24Hrs sales stock",
+          iconName:"timeline",
+          route:"24HrsSalesStock"
+        },
+        {
+          displayName:"Shift Reports",
+          iconName:'schedule',
+          route:'Shift'
+        },
+        {
+          displayName:"Vehical Report",
+          iconName:'commute',
+          route:'Vehical'
+        },
+        {
+          displayName:"Intimate Sale Report",
+          iconName:"euro_symbol",
+          route:"Intimate Sale"
+        },
+        // {
+        //   displayName:"Sales GST Report",
+        //   iconName:"account_balance",
+        //   route:"Sales GST"
+        // },
+        // {
+        //   displayName:"Daily Sales Report",
+        //   iconName:"account_balance",
+        //   route:"Daily Sales"
+        // },
+        {
+          displayName:"Stock Verification Report",
+          iconName:"ev_station",
+          route:"Stock Verification"
+        },
+        {
+          displayName:"Stock Ledger For All Products",
+          iconName:"track_changes",
+          route:"Stock Ledger"
+        },
+        {
+          displayName:"Sales analysis by branch",
+          iconName:"score",
+          route:"Sales analysis by branch"
+        },
+        {
+          displayName:"Product Wise Monthly Purchase",
+          iconName:"category",
+          route:"Product Wise Monthly Purchase"
+        }
       ]
     }
   ];

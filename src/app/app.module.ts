@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 
 import { SharedImportModule } from './shared/shared-import';
 
-import { NavbarComponent , TableComponent, DeleteItemComponent, SearchFilterTableComponent, ReportTableComponent } from './reuse-components/index';
+import { NavbarComponent , TableComponent, DeleteItemComponent, SearchFilterTableComponent, ReportTableComponent,ReportsInnerTableComponent } from './reuse-components/index';
 import { CompanyComponent , MastersComponent, BranchesComponent, DivisionComponent, SegmentComponent, ProfitCenterComponent,PartnerCreationComponent, CostCenterComponent, NoSeriesComponent, PartnerTypeComponent,EmployeeInBranchComponent ,EmployeeComponent, TaxMasterComponent } from './components/dashboard/masters/index';
 import { SalesComponent, CardTypeComponent } from './components/dashboard/sales/index';
 import {GeneralledgerComponent,AccountsGroupComponent,SubGroupComponent,UndersubGroupComponent,GlAccountsComponent,GlSubcodeComponent,TaxIntegrationComponent, 
@@ -68,7 +68,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     TaxIntegrationComponent,
     CashAccToBranchesComponent,
     AccToAccClassComponent,
-    VoucherTypesComponent
+    VoucherTypesComponent,
+    ReportsInnerTableComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -93,6 +94,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   ],
   bootstrap: [AppComponent],
   entryComponents: [ DeleteItemComponent, CompanyComponent, BranchesComponent,DivisionComponent, SegmentComponent, SearchFilterTableComponent,ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent, NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent , EmployeeComponent,
-  TaxMasterComponent, CardTypeComponent,AccountsGroupComponent,SubGroupComponent,UndersubGroupComponent,GlAccountsComponent,GlSubcodeComponent,TaxIntegrationComponent,CashAccToBranchesComponent,AccToAccClassComponent,VoucherTypesComponent ]
+  TaxMasterComponent, CardTypeComponent,AccountsGroupComponent,SubGroupComponent,UndersubGroupComponent,GlAccountsComponent,GlSubcodeComponent,TaxIntegrationComponent,CashAccToBranchesComponent,AccToAccClassComponent,VoucherTypesComponent,ReportsInnerTableComponent ]
 })
 export class AppModule { }

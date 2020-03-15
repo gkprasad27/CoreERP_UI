@@ -9,7 +9,7 @@ import { isNullOrUndefined } from 'util';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { StatusCodes } from '../../../enums/common/common';
 import { DeleteItemComponent } from '../../../reuse-components/delete-item/delete-item.component';
-import { TableComponent } from '../../../reuse-components/table/table.component';
+import { ReportTableComponent } from '../../../reuse-components/report-table/report-table.component';
 import { AlertService } from '../../../services/alert.service';
 import { SnackBar } from '../../../enums/common/common';
 
@@ -21,8 +21,11 @@ import { SnackBar } from '../../../enums/common/common';
 export class ReportsComponent implements OnInit {
 
   tableData: any;
+  headerData:any;
+  footerData:any;
   tableUrl: any;
 
+  @ViewChild(ReportTableComponent, { static: false }) reportTableComponent: ReportTableComponent;
 
   constructor(
     private apiService: ApiService,
@@ -36,6 +39,9 @@ export class ReportsComponent implements OnInit {
       this.tableUrl = reportsService.getRouteUrls(params.id);
       if (!isNullOrUndefined(this.tableUrl)) {
         this.getTableData();
+        if (!isNullOrUndefined(this.reportTableComponent)) {
+          this.reportTableComponent.defaultValues();
+        }
       }
 
     });
@@ -43,7 +49,27 @@ export class ReportsComponent implements OnInit {
 
   ngOnInit() {
   }
+  generateTableEvent(value)
+  {
+    this.spinner.show();
+    const getUrl = String.Join('/', this.tableUrl.url);
 
+    this.apiService.apiGetRequest(getUrl,value)
+      .subscribe(
+        response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            this.tableData = res.response[this.tableUrl.listName];
+            this.headerData=res.response['headerList'];
+            this.footerData=res.response['footerList'];
+          }
+        }
+        this.spinner.hide();
+      }, error => {
+
+      });
+  }
   getTableData() {
     this.spinner.show();
     const getUrl = String.Join('/', this.tableUrl.url);
@@ -55,6 +81,8 @@ export class ReportsComponent implements OnInit {
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
             this.tableData = res.response[this.tableUrl.listName];
+            this.headerData=res.response['headerList'];
+            this.footerData=res.response['footerList'];
           }
         }
         this.spinner.hide();
