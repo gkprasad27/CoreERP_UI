@@ -11,6 +11,8 @@ import { isNullOrUndefined } from 'util';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
+import { StatusCodes } from '../../../../enums/common/common';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-tax-master',
@@ -22,6 +24,10 @@ export class TaxMasterComponent implements OnInit {
   modelFormData: FormGroup;
   isSubmitted  =  false;
   formData: any;
+    tableData: any;
+    tableUrl: any;
+    companyList: any;
+    taxtypeList: any;
 
 
   constructor(
@@ -31,6 +37,7 @@ export class TaxMasterComponent implements OnInit {
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<TaxMasterComponent>,
+    private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -52,38 +59,29 @@ export class TaxMasterComponent implements OnInit {
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-        this.modelFormData.controls['code'].disable();
       }
 
   }
 
-  ngOnInit() {
-
+  ngOnInit()
+  {
+    this.getTableData();
   }
 
-  // getTableData() {
-  //   this.spinner.show();
-  //   const getCompanyUrl = String.Join('/', this.apiConfigService.getAllCompanys);
-  //   this.apiService.apiGetRequest(getCompanyUrl)
-  //     .subscribe(
-  //       response => {
-  //       const res = response.body;
-  //       if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-  //         if (!isNullOrUndefined(res.response)) {
-  //           this.tableData = res.response[this.tableUrl.listName];
-  //         }
-  //       }
-  //       this.spinner.hide();
-  //     }, error => {
-
-  //     });
-  // }
-
-
-
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
+  getTableData() {
+    const getCompanyUrl = String.Join('/', this.apiConfigService.GetTaxTypes);
+    this.apiService.apiGetRequest(getCompanyUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              console.log(res);
+              this.taxtypeList = res.response['TaxType'];
+            }
+          }
+          this.spinner.hide();
+        });
   }
 
   get formControls() { return this.modelFormData.controls; }

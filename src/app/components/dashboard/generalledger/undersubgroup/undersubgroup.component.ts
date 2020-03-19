@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../services/api.service';
+import { CommonService } from '../../../../services/common.service';
 @Component({
   selector: 'app-undersubgroup',
   templateUrl: './undersubgroup.component.html',
@@ -29,6 +30,7 @@ export class UndersubGroupComponent  implements OnInit {
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private commonService:CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -57,7 +59,6 @@ this.getglAccgrpList();
   }
 
   getglAccgrpList() {
-    this.spinner.show();
     const getglAccgrpList = String.Join('/', this.apiConfigService.getglAccgrpList);
     this.apiService.apiGetRequest(getglAccgrpList)
       .subscribe(
@@ -70,14 +71,12 @@ this.getglAccgrpList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getAccountSubGrouplist() {
-    this.spinner.show();
-    const getAccountSubGrouplist = String.Join('/', this.apiConfigService.getAccountSubGrouplist, this.modelFormData.get('groupName').value);
+    const getAccountSubGrouplist = String.Join('/', this.apiConfigService.getAccountSubGrouplist,
+    this.modelFormData.get('groupName').value);
     this.apiService.apiGetRequest(getAccountSubGrouplist)
       .subscribe(
         response => {
@@ -89,16 +88,10 @@ this.getglAccgrpList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
 
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
-  }
 
   get formControls() { return this.modelFormData.controls; }
 

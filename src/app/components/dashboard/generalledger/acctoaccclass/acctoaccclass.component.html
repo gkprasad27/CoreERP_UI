@@ -1,13 +1,17 @@
-<div>
+<div class="position-relative popup-class">
+
+  <mat-card-title  class="boader--color d-flex justify-content-between position-absolute w-100" >
+    <span> {{'acctoaccclass.title' | translate }} </span>
+    <mat-icon class="p-2 cursor--pointer" (click)="cancel()">close</mat-icon>
+  </mat-card-title>
 
 
-    <mat-card-title  class="boader--color pl-3">New Tax Integration</mat-card-title>
-    <mat-card-content class="p-2 m-0">
+    <mat-card-content class="pt-5 p-2 m-0 overflow-auto">
        <form [formGroup]="modelFormData" autocomplete="off">
-  
+
         <div class="d--flex">
           <mat-form-field>
-            <mat-label>Accounting Class</mat-label>
+            <mat-label>{{'acctoaccclass.accClass' | translate }}</mat-label>
             <mat-select formControlName="accClass">
               <mat-option *ngFor="let acc of accClassList" [value]="acc.id">
                 {{acc.text}}
@@ -16,7 +20,7 @@
           </mat-form-field>
 
           <mat-form-field>
-            <mat-label>Transaction Type</mat-label>
+            <mat-label>{{'acctoaccclass.transactionType' | translate }}</mat-label>
             <mat-select formControlName="transactionType">
               <mat-option *ngFor="let tranList of tranTypes" [value]="tranList.id">
                 {{tranList.text}}
@@ -25,7 +29,7 @@
           </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Sales Account</mat-label>
+          <mat-label>{{'acctoaccclass.saleAcc' | translate }}</mat-label>
           <mat-select formControlName="saleAcc">
             <mat-option *ngFor="let saleAccList of salesGlAcc" [value]="saleAccList.id">
               {{saleAccList.text}}
@@ -34,7 +38,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Purchase Account</mat-label>
+          <mat-label>{{'acctoaccclass.purchaseAcc' | translate }}</mat-label>
           <mat-select formControlName="purchaseAcc">
             <mat-option *ngFor="let purchAcc of purchaseAcc" [value]="purchAcc.id">
               {{purchAcc.text}}
@@ -43,7 +47,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Inventory Account</mat-label>
+          <mat-label>{{'acctoaccclass.inventoryAcc' | translate }}</mat-label>
           <mat-select formControlName="inventoryAcc">
             <mat-option *ngFor="let invenAcc of invAcc" [value]="invenAcc.id">
               {{invenAcc.text}}
@@ -53,14 +57,20 @@
 
       </div>
       <mat-divider></mat-divider>
-  
-        <div  class="form-element p-2 d-flex justify-content-end">
-          <button mat-raised-button   class="mr-1" class="button-color-red text-white" [translate]="'COMMON.CANCEL'" (click)="cancel()">Cancel</button>
-          <button mat-raised-button  type="submit" class="button-color-bule text-white ml-1" [translate]="'COMMON.SAVE'" (click)="save()" > Save</button>
-        </div>
-  
+
+
+
       </form>
-  
+
     </mat-card-content>
+    <div  class="form-element p-2 d-flex justify-content-end">
+      <button mat-raised-button class="button-color-red text-white mr-1"  (click)="cancel()">
+        
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+          <button mat-raised-button  type="submit" class="button-color-bule text-white ml-1"  (click)="save()" >
+            
+            {{ 'COMMON.SAVE' | translate }}
+           </button>
+    </div>
   </div>
-  

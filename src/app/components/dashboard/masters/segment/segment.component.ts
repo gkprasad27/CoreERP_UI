@@ -38,26 +38,22 @@ export class SegmentComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
       this.modelFormData  =  this.formBuilder.group({
-        seqId: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
-        id: [null, [Validators.required, Validators.minLength(2)]],
-        name: [null],
+       
+        id: [null, [Validators.required, Validators.minLength(1)]],
+        name: [null, [Validators.required, Validators.minLength(0), Validators.maxLength(40)]],
+        seqId: [null],
         active: [null]
       });
 
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-        this.modelFormData.controls['seqId'].disable();
+       this.modelFormData.controls['id'].disable();
       }
 
   }
 
   ngOnInit() {
-  }
-
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
   }
 
   get formControls() { return this.modelFormData.controls; }
@@ -67,6 +63,7 @@ export class SegmentComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
+    this.modelFormData.controls['id'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

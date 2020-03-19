@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { StatusCodes } from '../../../../enums/common/common';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-branches',
@@ -31,11 +32,12 @@ export class BranchesComponent implements OnInit {
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<BranchesComponent>,
+    private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
       this.modelFormData  =  this.formBuilder.group({
-        branchCode: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+        branchCode: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
         name: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
         address1: [null],
         address2: [null],
@@ -70,7 +72,7 @@ export class BranchesComponent implements OnInit {
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-        this.modelFormData.controls['branchCode'].disable();
+       this.modelFormData.controls['branchCode'].disable();
       }
 
   }
@@ -80,7 +82,6 @@ export class BranchesComponent implements OnInit {
   }
 
   getTableData() {
-    this.spinner.show();
     const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
@@ -92,18 +93,10 @@ export class BranchesComponent implements OnInit {
             this.companyList = res.response['companiesList'];
           }
         }
-        this.spinner.hide();
-      }, error => {
-
+          this.spinner.hide();
       });
   }
 
-
-
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
-  }
 
   get formControls() { return this.modelFormData.controls; }
 
@@ -112,6 +105,7 @@ export class BranchesComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
+    this.modelFormData.controls['branchCode'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

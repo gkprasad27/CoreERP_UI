@@ -1,7 +1,7 @@
 <mat-toolbar class="bg-primary text-white">
   <mat-toolbar-row>
     <button
-      *ngIf="showExpandButton"
+      *ngIf="showExpandButtons"
       mat-icon-button
       id="menu"
       (click)="openCloseMemu()"
@@ -12,14 +12,12 @@
         <img src="../../assets/images/CoreERP_icon.png" alt="hi" height="25" />
         <span class="pl-2">CoreERP</span>
     </div>
-    <div class="d-flex">
-      <span class="align-items-center d-flex cursor--pointer" (click)="openSetting()"><mat-icon>settings_applications</mat-icon></span>
+    <div class="d-flex" *ngIf="showExpandButtons">
       <span class="align-items-center d-flex pl-3"><mat-icon>account_circle</mat-icon></span>
-      <small class="pl-2">  Welcome {{loginUser.username}}    </small>
+      <small class="pl-2" *ngIf="loginUser != null">  {{loginUser.userName}}    </small>
     </div>
 
-    <button class="ml-2" mat-button (click)="logout()" >
-      <mat-icon>logout</mat-icon>
+    <button class="ml-2" mat-button (click)="logout()" *ngIf="showExpandButtons">
       Logout
     </button>
   </mat-toolbar-row>

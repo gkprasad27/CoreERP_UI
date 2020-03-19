@@ -6,14 +6,10 @@ import { MatPaginator, MatTableDataSource, MatSort, MatDialog, MatTable } from '
 import { CommonService } from '../../services/common.service';
 import { isNullOrUndefined } from 'util';
 import { ActivatedRoute } from '@angular/router';
-import { DeleteItemComponent } from '../delete-item/delete-item.component';
-import { SearchFilterTableComponent } from '../search-filter-table/search-filter-table.component';
-// search
-
-import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSelect } from '@angular/material';
+import { MatSelect } from '@angular/material';
 import { User } from '../../models/common/user';
 import { TranslateService } from '@ngx-translate/core';
 @Component({
@@ -21,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss']
 })
-export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDestroy {
+export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
 
   /** control for the selected bank for multi-selection */
   public tableMultiCtrl: FormControl = new FormControl();
@@ -38,8 +34,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
   protected onDestroy = new Subject<void>();
 
   @Input() tableData: any;
-  @Input() addOrUpdateData: any;
   @Output() addOrUpdateEvent = new EventEmitter();
+  @Input() addOrUpdateData: any;
 
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
@@ -50,23 +46,19 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
   highlightedRows = [];
   columnDefinitions = [];
   filterColData = [];
-
-
+  doubleClick = 0;
   keys = [];
-  index: any;
   showDataNotFound = false;
   user: User;
   routeParam: any;
 
   constructor(
-    private commonService: CommonService,
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
     private translate: TranslateService
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
-    console.log(this.user);
     activatedRoute.params.subscribe(params => {
       this.routeParam = params.id;
     });
@@ -78,40 +70,21 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
     this.columnDefinitions = [];
     this.filterColData = [];
     this.keys = [];
-    this.index = null;
     this.showDataNotFound = false;
   }
 
-  highlightRows(row, i) {
-    if (this.highlightedRows.length) {
-      if (this.index === i) {
-        this.highlightedRows = [];
-        this.index = null;
-      } else {
-        this.highlightedRows = [];
-        this.highlightedRows.push(row);
-        this.index = i;
-      }
-    } else {
-      this.highlightedRows = [];
-      this.highlightedRows.push(row);
-      this.index = i;
+  highlightRows(row?) {
+    if (!isNullOrUndefined(row)) {
+          this.highlightedRows = [];
+          this.highlightedRows.push(row);
     }
   }
 
-  openSearchFilter() {
-    const colData = { data: this.tableData, col: this.columnDefinitions }
-    const dialogRef = this.dialog.open(SearchFilterTableComponent, {
-      width: '1024px',
-      data: colData,
-      disableClose: true
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.columnDefinitions = result;
-      console.log(result);
-    });
+  setIndex(row) {
+      this.highlightedRows = [];
+      this.highlightedRows.push(row);
   }
+
 
   openDialog(val, row?) {
     let data;
@@ -133,49 +106,9 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
 
   }
 
-  updateRowData(rowObj) {
-    // for (let t = 0; t < this.tableData.length; t++) {
-    //   if (this.tableData[t].code === rowObj.code) {
-    //     this.tableData[t] = rowObj;
-    //   }
-    // }
-    this.tableData[this.index] = rowObj;
-    this.dataSource = new MatTableDataSource(this.tableData);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  deleteRowData() {
-    this.tableData = this.tableData.filter((value, index, array) => {
-      return index !== this.index;
-    });
-    this.dataSource = new MatTableDataSource(this.tableData);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-
-  addRowData(rowObj) {
-    this.tableData.unshift(rowObj);
-    this.dataSource = new MatTableDataSource(this.tableData);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
 
   ngOnChanges() {
     this.highlightedRows = [];
-
-    if (!isNullOrUndefined(this.addOrUpdateData)) {
-
-      if (this.addOrUpdateData.action === 'Edit') {
-        this.updateRowData(this.addOrUpdateData.item);
-      } else if (this.addOrUpdateData.action === 'Add') {
-        this.addRowData(this.addOrUpdateData.item);
-      } else if(this.addOrUpdateData.action === 'Delete') {
-        this.deleteRowData();
-      }
-
-    } else {
 
       if (!isNullOrUndefined(this.tableData)) {
         if (this.tableData.length > 0) {
@@ -185,49 +118,52 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
           this.showDataNotFound = true;
         }
       }
-
       if (!isNullOrUndefined(this.dataSource)) {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       }
 
       if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
-
         // tslint:disable-next-line:forin
         for (const key in this.tableData[0]) {
           this.keys.push({ col: key });
         }
-
+        const col = [];
         this.keys.forEach(cols => {
           const obj = {
             def: cols.col, label: cols.col, hide: true
           };
-          this.columnDefinitions.push(obj);
+          col.push(obj);
+        });
+
+        this.translate.get(this.routeParam).subscribe(res => {
+          let key;
+          // tslint:disable-next-line: forin
+          for (key in res) {
+            // tslint:disable-next-line: prefer-for-of
+            for (let c = 0; c < col.length; c++) {
+              if (key == col[c].def) {
+                this.columnDefinitions.push(col[c]);
+              }
+            }
+          }
         });
       }
 
 
       if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
         this.filteredTableMulti.next(this.columnDefinitions.slice());
-
         this.tableMultiFilterCtrl.valueChanges
           .pipe(takeUntil(this.onDestroy))
           .subscribe(() => {
             this.filterBanksMulti();
           });
-
       }
-
-
-    }
-
-
-
+    
   }
 
 
   ngAfterViewInit() {
-    // this.multiSelect.open();
     this.cdr.detectChanges();
   }
 
@@ -235,7 +171,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
     if (!this.columnDefinitions) {
       return;
     }
-    // get the search keyword
     let search = this.tableMultiFilterCtrl.value;
     if (!search) {
       this.filteredTableMulti.next(this.columnDefinitions.slice());
@@ -243,7 +178,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
     this.filteredTableMulti.next(
       this.columnDefinitions.filter(bank => bank.def.toLowerCase().indexOf(search) > -1)
     );
@@ -260,22 +194,17 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit , OnDest
       });
   }
 
-
-
-
   checkboxCheck(index) {
-
-    this.filterColData[index] = { def: this.filterColData[index].def,
-      label: this.filterColData[index].label,  hide: !this.filterColData[index].hide };
-
+    this.filterColData[index] = {
+      def: this.filterColData[index].def,
+      label: this.filterColData[index].label, hide: !this.filterColData[index].hide
+    };
   }
-
 
   saveChanges() {
     this.columnDefinitions = this.filterColData.slice(0);
     this.filterColData = [];
   }
-
 
   filterData() {
     this.filterColData = [];

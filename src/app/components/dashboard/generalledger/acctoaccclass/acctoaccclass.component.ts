@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { ApiService } from '../../../../services/api.service';
 import { String } from 'typescript-string-operations';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-acctoaccclass',
   templateUrl: './acctoaccclass.component.html',
@@ -26,17 +27,16 @@ export class AccToAccClassComponent  implements OnInit {
   invAcc:any;
 
   constructor(
-    private alertService: AlertService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<AccToAccClassComponent>,
-    private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private spinner: NgxSpinnerService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
       this.modelFormData  =  this.formBuilder.group({
-        // code: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+        code: [null],
         accClass: [null, [Validators.required]],
         inventoryAcc: [null],
         active: [null],
@@ -57,15 +57,14 @@ export class AccToAccClassComponent  implements OnInit {
   }
 
   ngOnInit() {
-this.getAccountingClass();
-this.getMatTranTypes();
-this.getSalesGlAccounts();
-this.getPurchaseGlAccounts();
-this.getInventoryGlAccounts();
+    this.getAccountingClass();
+    this.getMatTranTypes();
+    this.getSalesGlAccounts();
+    this.getPurchaseGlAccounts();
+    this.getInventoryGlAccounts();
   }
 
   getAccountingClass() {
-    this.spinner.show();
     const getAccountingClass = String.Join('/', this.apiConfigService.getAccountingClass);
     this.apiService.apiGetRequest(getAccountingClass)
       .subscribe(
@@ -73,19 +72,14 @@ this.getInventoryGlAccounts();
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
-            console.log(res);
             this.accClassList = res.response['AccountingclassList'];
-            console.log(this.accClassList);
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getMatTranTypes() {
-    this.spinner.show();
     const getMatTranTypes = String.Join('/', this.apiConfigService.getMatTranTypes);
     this.apiService.apiGetRequest(getMatTranTypes)
       .subscribe(
@@ -93,18 +87,14 @@ this.getInventoryGlAccounts();
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
-            console.log(res);
             this.tranTypes = res.response['mattranstype'];
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getSalesGlAccounts() {
-    this.spinner.show();
     const getSalesGlAccounts = String.Join('/', this.apiConfigService.getSalesGlAccounts);
     this.apiService.apiGetRequest(getSalesGlAccounts)
       .subscribe(
@@ -117,13 +107,10 @@ this.getInventoryGlAccounts();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getPurchaseGlAccounts() {
-    this.spinner.show();
     const getPurchaseGlAccounts = String.Join('/', this.apiConfigService.getPurchaseGlAccounts);
     this.apiService.apiGetRequest(getPurchaseGlAccounts)
       .subscribe(
@@ -136,13 +123,10 @@ this.getInventoryGlAccounts();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getInventoryGlAccounts() {
-    this.spinner.show();
     const getInventoryGlAccounts = String.Join('/', this.apiConfigService.getInventoryGlAccounts);
     this.apiService.apiGetRequest(getInventoryGlAccounts)
       .subscribe(
@@ -155,14 +139,7 @@ this.getInventoryGlAccounts();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
-  }
-
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
   }
 
   get formControls() { return this.modelFormData.controls; }

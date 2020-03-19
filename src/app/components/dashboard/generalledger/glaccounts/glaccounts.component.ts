@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { ApiService } from '../../../../services/api.service';
 import { String } from 'typescript-string-operations';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-glaccounts',
   templateUrl: './glaccounts.component.html',
@@ -31,6 +32,7 @@ export class GlAccountsComponent  implements OnInit {
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private commonService:CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -42,10 +44,10 @@ export class GlAccountsComponent  implements OnInit {
         accountNumber: [null],
         ext1: [null],
         ext2: [null],
-        balanceType:[null],
+        balanceType: [null],
         nactureofaccount: [null, [Validators.required]],
         statementType: [null, [Validators.required]],
-        openingBalance:[null]
+        openingBalance: [null]
       });
 
 
@@ -65,7 +67,6 @@ this.getAccountGroupList();
   }
 
   getStatementTypes() {
-    this.spinner.show();
     const getStatementTypes = String.Join('/', this.apiConfigService.getStatementTypes);
     this.apiService.apiGetRequest(getStatementTypes)
       .subscribe(
@@ -78,13 +79,10 @@ this.getAccountGroupList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getNaturesOfAcountsList() {
-    this.spinner.show();
     const getNaturesOfAcountsList = String.Join('/', this.apiConfigService.getNaturesOfAcountsList);
     this.apiService.apiGetRequest(getNaturesOfAcountsList)
       .subscribe(
@@ -97,13 +95,10 @@ this.getAccountGroupList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getGLAccBalanceTypes() {
-    this.spinner.show();
     const getGLAccBalanceTypes = String.Join('/', this.apiConfigService.getGLAccBalanceTypes);
     this.apiService.apiGetRequest(getGLAccBalanceTypes)
       .subscribe(
@@ -116,13 +111,10 @@ this.getAccountGroupList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getAccountGroupList() {
-    this.spinner.show();
     const getAccountGroupList = String.Join('/', this.apiConfigService.getAccountGroupList);
     this.apiService.apiGetRequest(getAccountGroupList)
       .subscribe(
@@ -135,15 +127,10 @@ this.getAccountGroupList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
 
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
-  }
 
   get formControls() { return this.modelFormData.controls; }
 

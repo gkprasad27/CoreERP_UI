@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { ApiService } from '../../../../services/api.service';
 import { String } from 'typescript-string-operations';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-subgroup',
   templateUrl: './subgroup.component.html',
@@ -28,6 +29,7 @@ export class SubGroupComponent  implements OnInit {
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private commonService:CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -55,7 +57,6 @@ this.getAccgrpList();
   }
 
   getAccgrpList() {
-    this.spinner.show();
     const getAccgrpList = String.Join('/', this.apiConfigService.getAccgrpList);
     this.apiService.apiGetRequest(getAccgrpList)
       .subscribe(
@@ -68,15 +69,9 @@ this.getAccgrpList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
-  }
 
   get formControls() { return this.modelFormData.controls; }
 

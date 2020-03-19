@@ -1,13 +1,17 @@
-<div>
+<div class="position-relative popup-class">
 
 
-    <mat-card-title  class="boader--color pl-3">New Assignment of Cash Accounts to Branches</mat-card-title>
-    <mat-card-content class="p-2 m-0">
+  <mat-card-title  class="boader--color d-flex justify-content-between position-absolute w-100" >
+    <span>{{'cashacctobranches.title' | translate }}</span>
+    <mat-icon class="p-2 cursor--pointer" (click)="cancel()">close</mat-icon>
+  </mat-card-title>
+
+    <mat-card-content class="pt-5 p-2 m-0 overflow-auto">
        <form [formGroup]="modelFormData" autocomplete="off">
-  
+
         <div class="d--flex">
           <mat-form-field>
-            <mat-label>Branch Code</mat-label>
+            <mat-label>{{'cashacctobranches.branchCode' | translate }}</mat-label>
             <mat-select formControlName="branchCode">
               <mat-option *ngFor="let branch of branchesList" [value]="branch.id">
                 {{branch.text}}
@@ -16,15 +20,15 @@
           </mat-form-field>
 
           <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.code.valid }" >
-            <input matInput placeholder="Code" disabled formControlName="code" appFocusOnEnter tabIndex="1">
+            <input matInput placeholder="{{'cashacctobranches.code' | translate }}" disabled formControlName="code" appFocusOnEnter tabIndex="1">
             <mat-error *ngIf="formControls.code.errors" class="help-block">
               <div *ngIf="formControls.code.errors.required">Code is required </div>
             </mat-error>
-    
+
           </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Bank Account</mat-label>
+          <mat-label>{{'cashacctobranches.bankGlacc' | translate }}</mat-label>
           <mat-select formControlName="bankGlacc">
             <mat-option *ngFor="let bankacc of bankList" [value]="bankacc.id">
               {{bankacc.text}}
@@ -33,7 +37,7 @@
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label>Cash Account</mat-label>
+          <mat-label>{{'cashacctobranches.cashGlacc' | translate }}</mat-label>
           <mat-select formControlName="cashGlacc">
             <mat-option *ngFor="let cashAcc of cashaccList" [value]="cashAcc.id">
               {{cashAcc.text}}
@@ -41,26 +45,22 @@
           </mat-select>
         </mat-form-field>
 
-        <!-- <mat-form-field>
-          <mat-label>Balance Type</mat-label>
-          <mat-select formControlName="balanceType">
-            <mat-option *ngFor="let balType of glAccBalType" [value]="balType.id">
-              {{balType.text}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field> -->
-
-       
       </div>
       <mat-divider></mat-divider>
-  
-        <div  class="form-element p-2 d-flex justify-content-end">
-          <button mat-raised-button   class="mr-1" class="button-color-red text-white" [translate]="'COMMON.CANCEL'" (click)="cancel()">Cancel</button>
-          <button mat-raised-button  type="submit" class="button-color-bule text-white ml-1" [translate]="'COMMON.SAVE'" (click)="save()" > Save</button>
-        </div>
-  
+
+
+
       </form>
-  
+
     </mat-card-content>
+    <div  class="form-element p-2 d-flex justify-content-end">
+      <button mat-raised-button class="button-color-red text-white mr-1"  (click)="cancel()">
+        
+        {{ 'COMMON.CANCEL' | translate }}
+      </button>
+      <button mat-raised-button  type="submit" class="button-color-bule text-white ml-1"  (click)="save()" appFocusOnEnter tabIndex="2">
+        
+         {{ 'COMMON.SAVE' | translate }}
+        </button>
+    </div>
   </div>
-  

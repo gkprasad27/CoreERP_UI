@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ApiConfigService } from '../../../services/api-config.service'
-import{AccountsGroupComponent} from './accountsgroup/accountsgroup.component'
+import { ApiConfigService } from '../../../services/api-config.service';
+import {AccountsGroupComponent} from './accountsgroup/accountsgroup.component';
 import { SubGroupComponent } from './subgroup/subgroup.component';
 import {UndersubGroupComponent} from './undersubgroup/undersubgroup.component';
-import {GlAccountsComponent} from './glaccounts/glaccounts.component'
-import {GlSubcodeComponent } from './glsubcode/glsubcode.component'
-import {TaxIntegrationComponent } from './taxintegration/taxintegration.component'
-import {CashAccToBranchesComponent } from './cashacctobranches/cashacctobranches.component'
-import {AccToAccClassComponent} from './acctoaccclass/acctoaccclass.component'
-import {VoucherTypesComponent} from './vouchertypes/vouchertypes.component'
+import {GlAccountsComponent} from './glaccounts/glaccounts.component';
+import {GlSubcodeComponent } from './glsubcode/glsubcode.component';
+import {TaxIntegrationComponent } from './taxintegration/taxintegration.component';
+import {CashAccToBranchesComponent } from './cashacctobranches/cashacctobranches.component';
+import {AccToAccClassComponent} from './acctoaccclass/acctoaccclass.component';
+import {VoucherTypesComponent} from './vouchertypes/vouchertypes.component';
 
 @Injectable({
   providedIn: 'root'
@@ -87,7 +87,7 @@ export class GeneralledgerService {
             this.dynamicData.component = CashAccToBranchesComponent;
             this.dynamicData.registerUrl = this.apiConfigService.registerAsigCashAccBranch;
             this.dynamicData.updateUrl = this.apiConfigService.updateaAignmentCashAccBranch;
-            // this.dynamicData.deleteUrl = this.apiConfigService.deleteGlAccount;
+            this.dynamicData.deleteUrl = this.apiConfigService.deleteAignmentCashAccBranch;
             this.dynamicData.listName = 'AsignCashAccBranchList';
             this.dynamicData.primaryKey = 'code';
             return this.dynamicData;
@@ -96,8 +96,8 @@ export class GeneralledgerService {
               this.dynamicData.url = this.apiConfigService.getAsigAcctoAccclassList;
               this.dynamicData.component = AccToAccClassComponent;
               this.dynamicData.registerUrl = this.apiConfigService.registerAsigAcctoAccClass;
-              //this.dynamicData.updateUrl = this.apiConfigService.updateaAignmentCashAccBranch;
-              // this.dynamicData.deleteUrl = this.apiConfigService.deleteGlAccount;
+              this.dynamicData.updateUrl = this.apiConfigService.updateAccToAccClass;
+              this.dynamicData.deleteUrl = this.apiConfigService.deleteAccToAccClass;
               this.dynamicData.listName = 'AsigAcctoAccclassList';
               this.dynamicData.primaryKey = 'code';
               return this.dynamicData;

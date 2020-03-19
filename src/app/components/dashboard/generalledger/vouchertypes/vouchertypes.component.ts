@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { ApiService } from '../../../../services/api.service';
 import { String } from 'typescript-string-operations';
+import { CommonService } from '../../../../services/common.service';
 @Component({
   selector: 'vouchertypes',
   templateUrl: './vouchertypes.component.html',
@@ -22,7 +23,7 @@ export class VoucherTypesComponent  implements OnInit {
   voucherClass:any;
   compList:any;
   branchList:any;
-  
+
   constructor(
     private alertService: AlertService,
     private formBuilder: FormBuilder,
@@ -30,6 +31,7 @@ export class VoucherTypesComponent  implements OnInit {
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private commonService:CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -63,7 +65,6 @@ this.getVoucherBranchesList();
   }
 
   getVoucherClassList() {
-    this.spinner.show();
     const getVoucherClassList = String.Join('/', this.apiConfigService.getVoucherClassList);
     this.apiService.apiGetRequest(getVoucherClassList)
       .subscribe(
@@ -76,13 +77,10 @@ this.getVoucherBranchesList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getCompaniesList() {
-    this.spinner.show();
     const getCompaniesList = String.Join('/', this.apiConfigService.getCompaniesList);
     this.apiService.apiGetRequest(getCompaniesList)
       .subscribe(
@@ -95,13 +93,10 @@ this.getVoucherBranchesList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getVoucherBranchesList() {
-    this.spinner.show();
     const getVoucherBranchesList = String.Join('/', this.apiConfigService.getVoucherBranchesList);
     this.apiService.apiGetRequest(getVoucherBranchesList)
       .subscribe(
@@ -114,15 +109,9 @@ this.getVoucherBranchesList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
-  }
 
   get formControls() { return this.modelFormData.controls; }
 

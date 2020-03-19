@@ -10,6 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { StatusCodes } from '../../../../enums/common/common';
+import { CommonService } from '../../../../services/common.service';
 
 @Component({
   selector: 'app-cost-center',
@@ -31,6 +32,7 @@ export class CostCenterComponent implements OnInit {
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CostCenterComponent>,
+    private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -51,7 +53,7 @@ export class CostCenterComponent implements OnInit {
         email: [null],
         responsiblePerson: [null],
         active: ['Y'],
-        companyCodeNavigation: [null]
+        compCodeNavigation: [null]
       });
 
       this.formData = {...data};
@@ -67,7 +69,6 @@ export class CostCenterComponent implements OnInit {
   }
 
   getTableData() {
-    this.spinner.show();
     const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
@@ -79,17 +80,8 @@ export class CostCenterComponent implements OnInit {
             this.companyList = res.response['companiesList'];
           }
         }
-        this.spinner.hide();
-      }, error => {
-
+          this.spinner.hide();
       });
-  }
-
-
-
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
   }
 
   get formControls() { return this.modelFormData.controls; }
@@ -99,6 +91,7 @@ export class CostCenterComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
+    this.modelFormData.controls['code'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

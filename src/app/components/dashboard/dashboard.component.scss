@@ -1,9 +1,12 @@
-$color-white: white;
+@import '../../../reuse.scss';
 
 .mat-sidenav {
   width: 360px;
 }
 .mat-sidenav-container {
-  background-color: $color-white !important;
-  height: 80vh;
+  background-color: $background-color !important;
+  height: 92vh;
 }
+
+
+

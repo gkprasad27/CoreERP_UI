@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { StatusCodes } from '../../../../enums/common/common';
+import { CommonService } from '../../../../services/common.service';
 
 
 @Component({
@@ -26,6 +27,9 @@ export class PartnerCreationComponent implements OnInit {
   formData: any;
   branchesList : any;
   companyList: any;
+    partnerTypeList: any;
+    balanceTypeList: any;
+    getNatureList: any;
 
   constructor(
     private apiService: ApiService,
@@ -34,11 +38,12 @@ export class PartnerCreationComponent implements OnInit {
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<PartnerCreationComponent>,
+    private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
       this.modelFormData  =  this.formBuilder.group({
-        code: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+        code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
         name: [null, [Validators.required, Validators.minLength(2)]],
         branchCode: [null],
         compCode: [null],
@@ -48,19 +53,19 @@ export class PartnerCreationComponent implements OnInit {
         address4: [null],
         contactPerson: [null],
         email: [null],
-        ext1: [''],
-        ext2: [''],
-        glcontrolAcc: [''],
-        gstno: [''],
-        nacture: [''],
-        partnertype: [''],
+        ext1: [null],
+        ext2: [null],
+        glcontrolAcc: [null],
+        gstno: [null],
+        nacture: [null],
+        partnertype: [null],
         phone1: [null],
         phone2: [null],
         pinCode: [null],
         place: [null],
         state: [null],
-        addDate: [''],
-        editDate: [''],
+        addDate: [null],
+        editDate: [null],
         addWho: [null],
         editWho: [null],
         balance: [null],
@@ -83,10 +88,12 @@ export class PartnerCreationComponent implements OnInit {
   ngOnInit() {
     this.branchesListData();
     this.companiesListData();
+    this.PartnerTypesListData();
+    this.getBalanceTypesData();
+    this.getNatureListData();
   }
 
   companiesListData() {
-    this.spinner.show();
     const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
@@ -98,14 +105,11 @@ export class PartnerCreationComponent implements OnInit {
             this.companyList = res.response['companiesList'];
           }
         }
-        this.spinner.hide();
-      }, error => {
-
+          this.spinner.hide();
       });
   }
 
   branchesListData() {
-    this.spinner.show();
     const getCompanyUrl = String.Join('/', this.apiConfigService.getBranchesPartnerCreationList);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
@@ -117,18 +121,57 @@ export class PartnerCreationComponent implements OnInit {
             console.log(res);
           }
         }
-        this.spinner.hide();
-      }, error => {
-
+          this.spinner.hide();
       });
   }
-
-
-
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
+  PartnerTypesListData()
+  {
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getPartnerPartnerCreationTypes);
+    this.apiService.apiGetRequest(getCompanyUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.partnerTypeList = res.response['partnerTypeList'];
+              console.log(res);
+            }
+          }
+          this.spinner.hide();
+        });
   }
+  getBalanceTypesData()
+  {
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getBalanceTypes);
+    this.apiService.apiGetRequest(getCompanyUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.balanceTypeList = res.response['partnerCreationList'];
+              console.log(res);
+            }
+          }
+          this.spinner.hide();
+        });
+  }
+  getNatureListData() {
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getNatureList);
+    this.apiService.apiGetRequest(getCompanyUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.getNatureList = res.response['partnerCreationList'];
+              console.log(res);
+            }
+          }
+          this.spinner.hide();
+        });
+  }
+
 
   get formControls() { return this.modelFormData.controls; }
 
@@ -137,6 +180,7 @@ export class PartnerCreationComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
+    this.modelFormData.controls['code'].disable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

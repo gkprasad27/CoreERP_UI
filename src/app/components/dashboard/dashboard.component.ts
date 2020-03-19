@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit, OnInit, Input} from '@angular/core';
+import { Component, ViewChild, ElementRef, ViewEncapsulation, AfterViewInit, OnInit, Input } from '@angular/core';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../services/api.service';
 import { CommonService } from '../../services/common.service';
@@ -13,7 +13,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class DashboardComponent implements OnInit, AfterViewInit {
 
 
-  @ViewChild('appDrawer', {static: false}) appDrawer: ElementRef;
+  @ViewChild('appDrawer', { static: false }) appDrawer: ElementRef;
   navItems = [
     {
       displayName: 'Master',
@@ -80,33 +80,37 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'feedback',
           route: 'taxMaster'
         },
-      ]
-    },
-    {
-      displayName: 'Sales',
-      iconName: 'videocam',
-      route: 'sales',
-      children: [
+
         {
-          displayName: 'Bill Receivable Branch',
-          iconName: 'group',
-          route: 'asnBillsRcvBranch'
-        },
-        {
-          displayName: 'Sessions',
-          iconName: 'speaker_notes',
-          route: 'dashboard/table'
-        },
-        {
-          displayName: 'Feedback',
+          displayName: 'ProductPacking',
           iconName: 'feedback',
-          route: 'feedback'
+          route: 'productpacking'
         },
         {
-          displayName: 'CardType',
+          displayName: 'TaxGroup',
           iconName: 'feedback',
-          route: 'cardType'
-        }
+          route: 'taxgroup'
+        },
+        {
+          displayName: 'TaxStructure',
+          iconName: 'feedback',
+          route: 'taxstructure'
+        },
+        {
+          displayName: 'Tank',
+          iconName: 'feedback',
+          route: 'tank'
+        },
+        {
+          displayName: 'Unit',
+          iconName: 'feedback',
+          route: 'unit'
+        },
+        {
+          displayName: 'Pump',
+          iconName: 'feedback',
+          route: 'pump'
+        },
       ]
     },
     {
@@ -162,102 +166,262 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       ]
     },
     {
-      displayName: 'Reports',
+      displayName: 'Inventory',
       iconName: 'recent_actors',
-      route: 'reports',
+      route: 'inventory',
       children: [
-        // {
-        //   displayName: 'Bonus',
-        //   iconName: 'account_balance',
-        //   route: 'bonus'
-        // },
-        // {
-        //   displayName:'Member Master',
-        //   iconName:'account_balance',
-        //   route:'membermaster'
-        // },
-        // {
-        //   displayName:"Employee Register",
-        //   iconName:'account_balance',
-        //   route:'employeeregister'
-        // },
         {
-          displayName:"Account Ledger",
-          iconName:'account_balance',
-          route:'AccountLedger'
+          displayName: 'BrandModel',
+          iconName: 'speaker_notes',
+          route: 'brandmodel'
         },
         {
-          displayName:"24Hrs Sale Value",
-          iconName:'monetization_on',
-          route:'24HrsSaleValue'
+          displayName: 'Sizes',
+          iconName: 'speaker_notes',
+          route: 'sizes'
         },
         {
-          displayName:"24Hrs sales stock",
-          iconName:"timeline",
-          route:"24HrsSalesStock"
+          displayName: 'AccountingClass',
+          iconName: 'speaker_notes',
+          route: 'accountingclass'
         },
         {
-          displayName:"Shift Reports",
-          iconName:'schedule',
-          route:'Shift'
+          displayName: 'Brand',
+          iconName: 'speaker_notes',
+          route: 'brand'
         },
         {
-          displayName:"Vehical Report",
-          iconName:'commute',
-          route:'Vehical'
+          displayName: 'NoAssignment',
+          iconName: 'speaker_notes',
+          route: 'numberassignment'
         },
         {
-          displayName:"Intimate Sale Report",
-          iconName:"euro_symbol",
-          route:"Intimate Sale"
-        },
-        // {
-        //   displayName:"Sales GST Report",
-        //   iconName:"account_balance",
-        //   route:"Sales GST"
-        // },
-        // {
-        //   displayName:"Daily Sales Report",
-        //   iconName:"account_balance",
-        //   route:"Daily Sales"
-        // },
-        {
-          displayName:"Stock Verification Report",
-          iconName:"ev_station",
-          route:"Stock Verification"
+          displayName: 'MaterialGroups',
+          iconName: 'speaker_notes',
+          route: 'materialgroups'
         },
         {
-          displayName:"Stock Ledger For All Products",
-          iconName:"track_changes",
-          route:"Stock Ledger"
+          displayName: 'Payroll',
+          iconName: 'recent_actors',
+          route: 'payroll',
+          children: [
+            {
+              displayName: 'Leavebalances',
+              iconName: 'speaker_notes',
+              route: 'leaveopeningbalances'
+            },
+            {
+              displayName: 'LeaveType',
+              iconName: 'speaker_notes',
+              route: 'leavetype'
+            },
+            {
+              displayName: 'LeaveRequest',
+              iconName: 'speaker_notes',
+              route: 'Leaverequest'
+            },
+            {
+              displayName: 'Component Master',
+              iconName: 'speaker_notes',
+              route: 'componentmaster'
+            },
+            {
+              displayName: 'PT Master',
+              iconName: 'speaker_notes',
+              route: 'ptmaster'
+
+            },
+            {
+              displayName: 'CTCBreakup',
+              iconName: 'account_balance',
+              route: 'CTCBreakup'
+            },
+            {
+              displayName: 'Structure Creation',
+              iconName: 'account_balance',
+              route: 'structureCreation'
+            },
+            {
+              displayName: 'Leave Approval',
+              iconName: 'account_balance',
+              route: 'leaveApproval'
+            },
+            {
+              displayName: 'PF Master',
+              iconName: 'account_balance',
+              route: 'pfmaster'
+            },
+            {
+              displayName: 'Salary Process',
+              iconName: 'account_balance',
+              route: 'salaryprocess'
+            }
+
+          ]
         },
         {
-          displayName:"Sales analysis by branch",
-          iconName:"score",
-          route:"Sales analysis by branch"
+          displayName: 'Sales',
+          iconName: 'videocam',
+          route: 'sales',
+          children: [
+            {
+              displayName: 'Sales Invoice',
+              iconName: 'videocam',
+              route: 'salesInvoice',
+            },
+            {
+              displayName: 'Sales Return',
+              iconName: 'videocam',
+              route: 'salesReturn',
+            }
+          ]
+        },
+      ]
+    },
+    {
+      displayName: 'Payroll',
+      iconName: 'recent_actors',
+      route: 'payroll',
+      children: [
+        {
+          displayName: 'Leavebalances',
+          iconName: 'speaker_notes',
+          route: 'leaveopeningbalances'
         },
         {
-          displayName:"Product Wise Monthly Purchase",
-          iconName:"category",
-          route:"Product Wise Monthly Purchase"
+          displayName: 'LeaveType',
+          iconName: 'speaker_notes',
+          route: 'leavetype'
+        },
+        {
+          displayName: 'LeaveRequest',
+          iconName: 'speaker_notes',
+          route: 'Leaverequest'
+        },
+        {
+          displayName: 'Component Master',
+          iconName: 'speaker_notes',
+          route: 'componentmaster'
+        },
+        {
+          displayName: 'PT Master',
+          iconName: 'speaker_notes',
+          route: 'ptmaster'
+
+        },
+        {
+          displayName: 'CTCBreakup',
+          iconName: 'account_balance',
+          route: 'CTCBreakup'
+        },
+        {
+          displayName: 'Structure Creation',
+          iconName: 'account_balance',
+          route: 'structureCreation'
+        },
+        {
+          displayName: 'Leave Approval',
+          iconName: 'account_balance',
+          route: 'leaveApproval'
+        },
+        {
+          displayName: 'PF Master',
+          iconName: 'account_balance',
+          route: 'pfmaster'
+        },
+        {
+          displayName: 'Salary Process',
+          iconName: 'account_balance',
+          route: 'salaryprocess'
+        }
+
+      ]
+    },
+    {
+      displayName: 'Sales',
+      iconName: 'videocam',
+      route: 'sales',
+      children: [
+        {
+          displayName: 'Sales Invoice',
+          iconName: 'videocam',
+          route: 'salesInvoice',
+        },
+        {
+          displayName: 'Sales Return',
+          iconName: 'videocam',
+          route: 'salesReturn',
+        },
+        {
+          displayName: 'Stock Transfer',
+          iconName: 'videocam',
+          route: 'stockTransfer',
+        },
+        {
+          displayName: 'Purchase Invoice',
+          iconName: 'videocam',
+          route: 'purchaseInvoice',
+        },
+        {
+          displayName: 'Purchase Return',
+          iconName: 'videocam',
+          route: 'purchaseReturn',
         }
       ]
-    }
+    },
+    {
+      displayName: 'Transactions',
+      iconName: 'account_balance',
+      route: 'transactions',
+      children: [
+        {
+          displayName: 'Cash Payment',
+          iconName: 'account_balance',
+          route: 'cashpayment'
+        },
+        {
+          displayName: 'Cash Receipt',
+          iconName: 'account_balance',
+          route: 'cashreceipt'
+        },
+        {
+          displayName: 'Bank Payment',
+          iconName: 'account_balance',
+          route: 'bankpayment'
+        }
+      ]
+    },
+    {
+      displayName: 'Settings',
+      iconName: 'settings',
+      route: 'settings',
+      children: [
+        {
+          displayName: 'Role Previlages',
+          iconName: 'account_balance',
+          route: 'rolePrevilages',
+        }
+      ]
+    },
   ];
 
   constructor(
     private apiService: ApiService,
     private commonService: CommonService,
     private apiConfigService: ApiConfigService,
-    private spinner: NgxSpinnerService
-  ) { }
+    private spinner: NgxSpinnerService,
+  ) {
+    commonService.showNavbar.next(true);
+  }
 
   ngOnInit() {
-    this.spinner.show();
-    const getMenuUrl = String.Join('/', this.apiConfigService.getMenuUrl);
+    // this.getMenuList();
+  }
 
+  getMenuList() {
+    const getMenuUrl = String.Join('/', this.apiConfigService.getMenuUrl);
     this.apiService.apiGetRequest(getMenuUrl)
-        .subscribe(
+      .subscribe(
         menu => {
           console.log(menu);
           this.spinner.hide();

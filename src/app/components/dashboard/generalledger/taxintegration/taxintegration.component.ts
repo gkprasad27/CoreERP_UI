@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { ApiService } from '../../../../services/api.service';
 import { String } from 'typescript-string-operations';
+import { CommonService } from '../../../../services/common.service';
 @Component({
   selector: 'app-taxintegration',
   templateUrl: './taxintegration.component.html',
@@ -21,7 +22,7 @@ export class TaxIntegrationComponent  implements OnInit {
   formData: any;
   taxcodeList:any;
   taxaccList:any;
-  
+
   constructor(
     private alertService: AlertService,
     private formBuilder: FormBuilder,
@@ -29,6 +30,7 @@ export class TaxIntegrationComponent  implements OnInit {
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private commonService:CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
@@ -61,7 +63,6 @@ this.getGLTaxAccountList();
   }
 
   getTaxCodesList() {
-    this.spinner.show();
     const getTaxCodesList = String.Join('/', this.apiConfigService.getTaxCodesList);
     this.apiService.apiGetRequest(getTaxCodesList)
       .subscribe(
@@ -74,13 +75,10 @@ this.getGLTaxAccountList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getGLTaxAccountList() {
-    this.spinner.show();
     const getGLTaxAccountList = String.Join('/', this.apiConfigService.getGLTaxAccountList);
     this.apiService.apiGetRequest(getGLTaxAccountList)
       .subscribe(
@@ -93,15 +91,9 @@ this.getGLTaxAccountList();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
-  }
 
   get formControls() { return this.modelFormData.controls; }
 

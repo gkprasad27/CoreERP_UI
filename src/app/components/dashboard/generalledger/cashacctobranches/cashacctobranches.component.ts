@@ -8,6 +8,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { ApiService } from '../../../../services/api.service';
 import { String } from 'typescript-string-operations';
+import { CommonService } from 'src/app/services/common.service';
 @Component({
   selector: 'app-cashacctobranches',
   templateUrl: './cashacctobranches.component.html',
@@ -25,19 +26,18 @@ export class CashAccToBranchesComponent  implements OnInit {
   glaccgrpList:any;
 
   constructor(
-    private alertService: AlertService,
     private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<CashAccToBranchesComponent>,
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
+    private commonService:CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
       this.modelFormData  =  this.formBuilder.group({
         code: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
         branchCode: [null, [Validators.required]],
-        cgst: [null],
         active: [null],
         bankGlacc: [null],
         ext1: [null],
@@ -61,7 +61,6 @@ this.getCashAccounts();
   }
 
   getCashAccBranchesList() {
-    this.spinner.show();
     const getCashAccBranchesList = String.Join('/', this.apiConfigService.getCashAccBranchesList);
     this.apiService.apiGetRequest(getCashAccBranchesList)
       .subscribe(
@@ -74,13 +73,10 @@ this.getCashAccounts();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getBankAccounts() {
-    this.spinner.show();
     const getBankAccounts = String.Join('/', this.apiConfigService.getBankAccounts);
     this.apiService.apiGetRequest(getBankAccounts)
       .subscribe(
@@ -93,13 +89,10 @@ this.getCashAccounts();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
   }
 
   getCashAccounts() {
-    this.spinner.show();
     const getCashAccounts = String.Join('/', this.apiConfigService.getCashAccounts);
     this.apiService.apiGetRequest(getCashAccounts)
       .subscribe(
@@ -112,13 +105,7 @@ this.getCashAccounts();
           }
         }
         this.spinner.hide();
-      }, error => {
-
       });
-  }
-
-  showErrorAlert(caption: string, message: string) {
-      // this.alertService.openSnackBar(caption, message);
   }
 
   get formControls() { return this.modelFormData.controls; }

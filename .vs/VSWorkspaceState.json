@@ -5,12 +5,11 @@
     "\\src\\app",
     "\\src\\app\\components",
     "\\src\\app\\components\\dashboard",
-    "\\src\\app\\components\\dashboard\\generalledger",
     "\\src\\app\\components\\dashboard\\masters",
-    "\\src\\app\\components\\dashboard\\reports",
     "\\src\\app\\services",
+    "\\src\\assets\\i18n",
     "\\src\\environments"
   ],
-  "SelectedNode": "\\src\\app\\services\\api.service.ts",
+  "SelectedNode": "\\src\\app\\components\\dashboard\\masters\\cost-center",
   "PreviewInSolutionExplorer": false
 }
