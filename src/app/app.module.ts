@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 
 import { SharedImportModule } from './shared/shared-import';
 
-import { NavbarComponent, TableComponent, DeleteItemComponent } from './reuse-components/index';
+import { NavbarComponent, TableComponent, DeleteItemComponent, ReportTableComponent,ReportsInnerTableComponent ,SearchFilterTableComponent } from './reuse-components/index';
 import {
   DashboardComponent, LoginComponent, SidebarComponent, NotFoundComponent
 } from './components/index';
@@ -62,6 +62,8 @@ import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 import { PurchaseReturnComponent } from './components/dashboard/sales/purchase-return/purchase-return.component';
 import { PurchaseReturnViewComponent } from './components/dashboard/sales/purchase-return/purchase-return-view/purchase-return-view.component';
 
+import { ReportsComponent } from './components/dashboard/reports/index';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -95,7 +97,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SalesComponent, SalesInvoiceComponent, SalesReturnComponent, CreateBillComponent, SalesReturnViewComponent,
     TransactionsComponent, CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent, 
-    RolesprevilagesComponent, SettingsComponent, StocktransferComponent, CreateStockTransferComponent, PurchaseComponent, PurchaseCreateComponent, PurchaseReturnComponent, PurchaseReturnViewComponent
+    RolesprevilagesComponent, SettingsComponent, StocktransferComponent, CreateStockTransferComponent, PurchaseComponent, PurchaseCreateComponent, PurchaseReturnComponent, PurchaseReturnViewComponent,
+    ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent
   ],
   imports: [
     AppRoutingModule,
@@ -136,7 +139,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     LeaveopeningbalancesComponent, LeavetypesComponent,
     LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
     StructureCreationComponent, LeaveApprovalComponent,
-    PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent
+    PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,
+    ReportsInnerTableComponent, SearchFilterTableComponent
   ]
 })
 export class AppModule { }

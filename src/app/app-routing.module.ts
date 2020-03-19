@@ -6,7 +6,6 @@ import { GeneralledgerComponent } from './components/dashboard/generalledger/ind
 import { InventoryComponent } from './components/dashboard/Inventory/index';
 import { SalesComponent, CreateBillComponent , SalesReturnViewComponent, CreateStockTransferComponent , PurchaseCreateComponent} from './components/dashboard/sales/index';
 import { MastersComponent } from './components/dashboard/masters/index';
-// import { ReportsComponent } from './components/dashboard/reports/index';
 import { PayrollComponent } from './components/dashboard/payroll/index';
 // import { TransactionsComponent } from './components/dashboard/transactions';
 import { TransactionsComponent,CreateCashpaymentComponent,CreateCashreceiptComponent,CreateBankpaymentComponent } from './components/dashboard/transactions';
@@ -14,6 +13,8 @@ import { TransactionsComponent,CreateCashpaymentComponent,CreateCashreceiptCompo
 import {
   SettingsComponent
 } from './components/dashboard/settings/index';
+
+import { ReportsComponent } from './components/dashboard/reports/index';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { title: 'Login' } },
@@ -43,12 +44,12 @@ const routes: Routes = [
       { path: 'inventory/:id', component: InventoryComponent, data: { title: 'Inventory' }, canActivate: [AuthGuard] },
       { path: 'payroll/:id', component: PayrollComponent, data: { title: 'Payroll' }, canActivate: [AuthGuard] },
       { path: 'settings/:id', component: SettingsComponent, data: { title: 'Payroll' }, canActivate: [AuthGuard] },
-      // { path: 'reports/:id', component: ReportsComponent, data: { title: 'Report' }, canActivate: [AuthGuard] }
+      { path: 'reports/:id', component: ReportsComponent, data: { title: 'Report' }, canActivate: [AuthGuard]  }
     ]
   },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: '**', component: NotFoundComponent, data: { title: 'Page Not Found' } },
-];
+  ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
