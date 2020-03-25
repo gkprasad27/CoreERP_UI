@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 
 import { SharedImportModule } from './shared/shared-import';
 
-import { NavbarComponent, TableComponent, DeleteItemComponent, ReportTableComponent,ReportsInnerTableComponent ,SearchFilterTableComponent } from './reuse-components/index';
+import { NavbarComponent, TableComponent, DeleteItemComponent, ReportTableComponent,ReportsInnerTableComponent ,SearchFilterTableComponent, PrintComponent } from './reuse-components/index';
 import {
   DashboardComponent, LoginComponent, SidebarComponent, NotFoundComponent
 } from './components/index';
@@ -42,7 +42,10 @@ import {
 
 import {
   TransactionsComponent, CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
-  CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent
+  CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent, BankReceiptComponent,
+  CreateBankreceiptComponent,JournalVoucherComponent,CreateJournalvoucherComponent,
+   CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
+   ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent
 } from './components/dashboard/transactions/index';
 
 import {
@@ -96,9 +99,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,
     SalesComponent, SalesInvoiceComponent, SalesReturnComponent, CreateBillComponent, SalesReturnViewComponent,
     TransactionsComponent, CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
-    CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent, 
+    CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,
+    CreateBankreceiptComponent,JournalVoucherComponent,CreateJournalvoucherComponent,
     RolesprevilagesComponent, SettingsComponent, StocktransferComponent, CreateStockTransferComponent, PurchaseComponent, PurchaseCreateComponent, PurchaseReturnComponent, PurchaseReturnViewComponent,
-    ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent
+    ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent,
+    CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
+    ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
+    PrintComponent
   ],
   imports: [
     AppRoutingModule,
@@ -139,8 +146,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     LeaveopeningbalancesComponent, LeavetypesComponent,
     LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
     StructureCreationComponent, LeaveApprovalComponent,
-    PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,
-    ReportsInnerTableComponent, SearchFilterTableComponent
+    PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
+    CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,
+    JournalVoucherComponent,CreateJournalvoucherComponent,
+    ReportsInnerTableComponent, SearchFilterTableComponent,
+    PrintComponent
   ]
 })
 export class AppModule { }

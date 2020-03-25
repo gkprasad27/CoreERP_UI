@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'subgroup'
         },
         {
-          displayName: 'UnderSubgroup',
+          displayName: 'GL',
           iconName: 'group',
           route: 'undersubgroup'
         },
@@ -388,6 +388,36 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Bank Payment',
           iconName: 'account_balance',
           route: 'bankpayment'
+        },
+        {
+          displayName: 'Bank Receipt',
+          iconName: 'account_balance',
+          route: 'bankreceipt'
+        },
+        {
+          displayName: 'Journal Voucher',
+          iconName: 'account_balance',
+          route: 'journalvoucher'
+        },
+	  {
+          displayName: 'Stock Issues',
+          iconName: 'account_balance',
+          route: 'stockissues'
+        },
+        {
+          displayName: 'Stock Receipt',
+          iconName: 'account_balance',
+          route: 'stockreceipt'
+        },
+        {
+          displayName: 'Stock Short',
+          iconName: 'account_balance',
+          route: 'stockshort'
+        },
+        {
+          displayName: 'oil  Conversion',
+          iconName: 'account_balance',
+          route: 'oilconversion'
         }
       ]
     },

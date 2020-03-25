@@ -5,15 +5,14 @@ import { ApiConfigService } from '../../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../../services/api.service';
 import { isNullOrUndefined } from 'util';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource } from '@angular/material';
 import { SnackBar, StatusCodes } from '../../../../../enums/common/common';
 import { AlertService } from '../../../../../services/alert.service';
 import { Static } from '../../../../../enums/common/static';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+var curValue = require("multilingual-number-to-words");
 
 @Component({
   selector: 'app-purchase-return-view',
@@ -26,8 +25,6 @@ export class PurchaseReturnViewComponent implements OnInit {
   GetBranchesListArray = [];
   getCashPartyAccountListArray = [];
   myControl = new FormControl();
-  filteredOptions: Observable<any[]>;
-  getmemberNamesArray = [];
   getStateListArray = [];
   getProductByProductCodeArray = [];
   getProductByProductNameArray = [];
@@ -40,13 +37,11 @@ export class PurchaseReturnViewComponent implements OnInit {
     'fQty', 'totalLiters', 'tankNo', 'rate', 'discount', 'grossAmount', 'delete'
   ];
   dataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   date = new Date((new Date().getTime() - 3888000000));
   modelFormData: FormGroup;
   tableFormData: FormGroup;
   printBill = false;
-  tableFormObj = false;
   routeUrl = '';
   taxPercentage: any;
 
@@ -108,7 +103,7 @@ export class PurchaseReturnViewComponent implements OnInit {
 
   loadData() {
     this.GetBranchesList();
-    this.getCashPartyAccountList();
+    this.getCashPartyAccountList('100');
     this.getStateList();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
@@ -127,6 +122,9 @@ export class PurchaseReturnViewComponent implements OnInit {
             userId: user.seqId,
             userName: user.userName
           });
+          this.branchFormData.patchValue({
+            ledgerCode: "100"
+          });
           this.setBranchCode();
           this.genarateBillNo(user.branchCode);
           this.formGroup();
@@ -143,7 +141,6 @@ export class PurchaseReturnViewComponent implements OnInit {
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response['InvoiceDetailList']) && res.response['InvoiceDetailList'].length) {
             this.dataSource = new MatTableDataSource(res.response['InvoiceDetailList']);
-            this.dataSource.paginator = this.paginator;
             this.spinner.hide();
           }
         }
@@ -159,7 +156,6 @@ export class PurchaseReturnViewComponent implements OnInit {
       this.branchFormData.controls['stateCode'].disable();
       this.branchFormData.controls['supplierInvNo'].disable();
       this.branchFormData.controls['gstin'].disable();
-      this.branchFormData.controls['amountInWords'].disable();
       this.branchFormData.controls['narration'].disable();
     }
     this.branchFormData.controls['paymentMode'].disable();
@@ -170,6 +166,8 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.branchFormData.controls['totalCgst'].disable();
     this.branchFormData.controls['totalSgst'].disable();
     this.branchFormData.controls['totalIgst'].disable();
+    this.branchFormData.controls['amountInWords'].disable();
+    this.branchFormData.controls['userName'].disable();
   }
 
 
@@ -189,24 +187,27 @@ export class PurchaseReturnViewComponent implements OnInit {
       });
   }
 
-  getCashPartyAccountList() {
-    const getCashPartyAccountListUrl = String.Join('/', this.apiConfigService.getCashPartyAccountList);
-    this.apiService.apiGetRequest(getCashPartyAccountListUrl).subscribe(
-      response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            if (!isNullOrUndefined(res.response['CashPartyAccountList']) && res.response['CashPartyAccountList'].length) {
-              this.getCashPartyAccountListArray = res.response['CashPartyAccountList'];
-              this.branchFormData.patchValue({
-                ledgerCode: "100"
-              });
-              this.getCashPartyAccount();
-              this.spinner.hide();
+  getCashPartyAccountList(value) {
+    if (!isNullOrUndefined(value) && value != '') {
+      const getCashPartyAccountListUrl = String.Join('/', this.apiConfigService.getCashPartyAccountList, value);
+      this.apiService.apiGetRequest(getCashPartyAccountListUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['CashPartyAccountList']) && res.response['CashPartyAccountList'].length) {
+                this.getCashPartyAccountListArray = res.response['CashPartyAccountList'];
+                this.getCashPartyAccount();
+              } else {
+                this.getCashPartyAccountListArray = [];
+              }
             }
+            this.spinner.hide();
           }
-        }
-      });
+        });
+    } else {
+      this.getCashPartyAccountListArray = [];
+    }
   }
 
   genarateBillNo(branch?) {
@@ -322,7 +323,7 @@ export class PurchaseReturnViewComponent implements OnInit {
       });
   }
 
- 
+
 
 
 
@@ -458,15 +459,17 @@ export class PurchaseReturnViewComponent implements OnInit {
       grandTotal: (this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value),
       totalCgst: (this.taxPercentage) ? (totalTax / 2) : null,
       totalSgst: (this.taxPercentage) ? (totalTax / 2) : null,
-      totalIgst: (!this.taxPercentage) ? (totalTax) : null,
+      totalIgst: (this.taxPercentage) ? (totalTax) : null,
     })
-
+    this.branchFormData.patchValue({
+      amountInWords: curValue.lakhWord(this.branchFormData.get('grandTotal').value)[0],
+    });
   }
 
   getProductDeatilsSectionRcd(productCode) {
     if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
-      const getProductDeatilsSectionRcdUrl = String.Join('/', this.apiConfigService.getProductDeatilsSectionRcd, 
+      const getProductDeatilsSectionRcdUrl = String.Join('/', this.apiConfigService.getProductDeatilsSectionRcd,
         this.branchFormData.get('branchCode').value, productCode.value);
       this.apiService.apiGetRequest(getProductDeatilsSectionRcdUrl).subscribe(
         response => {
@@ -559,14 +562,16 @@ export class PurchaseReturnViewComponent implements OnInit {
   }
 
   enableFileds() {
-    this.branchFormData.controls['purchaseInvNo'].disable();
-    this.branchFormData.controls['totalAmount'].disable();
-    this.branchFormData.controls['totaltaxAmount'].disable();
-    this.branchFormData.controls['grandTotal'].disable();
-    this.branchFormData.controls['totalCgst'].disable();
-    this.branchFormData.controls['totalSgst'].disable();
-    this.branchFormData.controls['totalIgst'].disable();
-    this.branchFormData.controls['paymentMode'].disable();
+    this.branchFormData.controls['purchaseInvNo'].enable();
+    this.branchFormData.controls['totalAmount'].enable();
+    this.branchFormData.controls['totaltaxAmount'].enable();
+    this.branchFormData.controls['grandTotal'].enable();
+    this.branchFormData.controls['totalCgst'].enable();
+    this.branchFormData.controls['totalSgst'].enable();
+    this.branchFormData.controls['totalIgst'].enable();
+    this.branchFormData.controls['paymentMode'].enable();
+    this.branchFormData.controls['amountInWords'].enable();
+    this.branchFormData.controls['userName'].enable();
 
   }
 
