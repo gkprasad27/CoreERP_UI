@@ -84,7 +84,7 @@
 
           <ng-container matColumnDef="cashReceiptDate">
             <th mat-header-cell *matHeaderCellDef>{{ "cashreceipt.cashReceiptDate" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.cashReceiptDate }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.cashReceiptDate | date: 'dd/MM/yyyy' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="branchCode">

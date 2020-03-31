@@ -61,10 +61,22 @@
         </div>
         <div *ngIf="routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical'||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'
         ||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'" class="d-flex align-items-center">
-          <button mat-raised-button class="button-color-bule text-white ml-2" (click)="GenerateReport()">Generate</button>
+          <button mat-raised-button class="button-color-bule text-white ml-2" (click)="GenerateReport()" >Generate</button>
         </div>
+
+        {{ dateForm.value | json }}
+
       </form>
     </div>
+
+    <div class="m-2 table-boarder" *ngIf="tableHeaders && tableHeaders.length">
+      <div class="row">
+        <div class="col-md-6 pl-3 pt-2 pb-2 fs-15" *ngFor="let header of tableHeaders" >
+          {{ header.column}}
+        </div>
+      </div>
+    </div>
+
     <div class="m-2 table-boarder">
       <div class="d-flex align-items-center ">
         <button class="ml-2" mat-raised-button (click)="exportToExcel()">

@@ -65,7 +65,7 @@ export class CreateStockshortsComponent implements OnInit {
       stockshortDate: [(new Date()).toISOString()],
       branchCode: [null],
       branchName: [null],
-     stockshortMasterId: [null],
+     stockshortMasterId:'0',
       shiftId: [null],
       userId: '0',
       userName: [null],
@@ -89,35 +89,107 @@ export class CreateStockshortsComponent implements OnInit {
   }
 
 
-  ngOnInit()
-  {
+  //ngOnInit()
+  //{
+  //  //debugger;
+  //  this.formGroup();
+  //  this.getBranchesList();
+  //  this.GetCostCentersList();
+  //  this.activatedRoute.params.subscribe(params => {
+  //    console.log(params.id1);
+  //    if (!isNullOrUndefined(params.id1)) {
+  //      this.routeUrl = params.id1;
+  //      //this.disableForm(params.id1);
+  //      this.getStockshortDeatilList(params.id1);
+  //      let billHeader = JSON.parse(localStorage.getItem('selectedStockshort'));
+  //      this.branchFormData.setValue(billHeader);
+  //      console.log(billHeader);
+  //    } else {
+  //      //this.disableForm();
+  //      const user = JSON.parse(localStorage.getItem('user'));
+  //      if (!isNullOrUndefined(user.fromBranchCode)) {
+  //        //this.frombrnchcode = user.fromBranchCode;
+  //        this.branchFormData.patchValue({
+  //          voucherNo: user.fromBranchCode,
+  //        });
+  //        this.genaratestockshortvocherNo(user.fromBranchCode);
+  //      }
+     
+  //      this.addTableRow();
+  //    }
+  //  });
+  //}
+
+  ngOnInit() {
     //debugger;
-    this.formGroup();
+    this.loadData();
+    //debugger;
+    //this.formGroup();
+    //this.getBranchesList();
+    //this.GetCostCentersList();
+    //this.activatedRoute.params.subscribe(params => {
+    //  console.log(params.id1);
+    //  if (!isNullOrUndefined(params.id1)) {
+    //    this.routeUrl = params.id1;
+    //    //this.disableForm(params.id1);
+    //    this.getStockshortDeatilList(params.id1);
+    //    let billHeader = JSON.parse(localStorage.getItem('selectedStockshort'));
+    //    this.branchFormData.setValue(billHeader);
+    //    console.log(billHeader);
+    //  } else {
+    //    //this.disableForm();
+    //    const user = JSON.parse(localStorage.getItem('user'));
+    //    if (!isNullOrUndefined(user.fromBranchCode)) {
+    //      //this.frombrnchcode = user.fromBranchCode;
+    //      this.branchFormData.patchValue({
+    //        voucherNo: user.fromBranchCode,
+    //      });
+    //      this.genaratestockshortvocherNo(user.fromBranchCode);
+    //    }
+
+    //    this.addTableRow();
+    //  }
+    //});
+  }
+
+  loadData() {
     this.getBranchesList();
     this.GetCostCentersList();
     this.activatedRoute.params.subscribe(params => {
-      console.log(params.id1);
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         //this.disableForm(params.id1);
         this.getStockshortDeatilList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedStockshort'));
         this.branchFormData.setValue(billHeader);
-        console.log(billHeader);
       } else {
         //this.disableForm();
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!isNullOrUndefined(user.fromBranchCode)) {
-          //this.frombrnchcode = user.fromBranchCode;
+        if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
-            voucherNo: user.fromBranchCode,
+            branchCode: user.branchCode,
+            userId: user.seqId,
+            userName: user.userName
           });
-          this.genaratestockshortvocherNo(user.fromBranchCode);
+          this.setBranchCode();
+          this.genaratestockshortvocherNo(user.branchCode);
+          this.formGroup();
         }
-     
         this.addTableRow();
       }
     });
+  }
+  setBranchCode() {
+    const bname = this.GetBranchesListArray.filter(branchCode => {
+      if (branchCode.id == this.branchFormData.get('branchCode').value) {
+        return branchCode;
+      }
+    });
+    if (bname.length) {
+      this.branchFormData.patchValue({
+        branchName: !isNullOrUndefined(bname[0]) ? bname[0].text : null
+      });
+    }
   }
 
   getStockshortDeatilList(id) {
@@ -424,10 +496,12 @@ export class CreateStockshortsComponent implements OnInit {
   }
 
   reset() {
-    console.log(this.branchFormData);
     this.branchFormData.reset();
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource();
+    this.formGroup();
+    this.branchFormData = this.formBuilder.group({
+      stockshortDate: [(new Date()).toISOString()],
+    });
+    this.ngOnInit();
   }
-
 }

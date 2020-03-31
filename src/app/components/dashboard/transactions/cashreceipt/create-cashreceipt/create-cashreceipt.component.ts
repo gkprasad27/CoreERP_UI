@@ -56,8 +56,8 @@ export class CreateCashreceiptComponent implements OnInit {
   ) {
     this.branchFormData = this.formBuilder.group({
       voucherNo: [null],
-      voucherTypeId: [null],
       cashReceiptDate: [(new Date()).toISOString()],
+      branchId:[null],
       branchCode: [null],
       branchName: [null],
       shiftId: [null],
@@ -66,7 +66,13 @@ export class CreateCashreceiptComponent implements OnInit {
       employeeId: [null],
       totalAmount: [null],
       narration: [null],
-      printBill: [false],
+     // printBill: [false],
+     fromLedgerCode:[null],
+     fromLedgerName:[null],
+     fromLedgerId:[null],
+     serverDate:[null],
+     cashReceiptMasterId:[null],
+     cashReceiptVchNo:[null]
     });
     
 
@@ -82,7 +88,7 @@ export class CreateCashreceiptComponent implements OnInit {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        this.getInvoiceDeatilList(params.id1);
+        this.getCashReceiptDetailsList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedBill'));
         this.branchFormData.setValue(billHeader);
       } else {
@@ -103,14 +109,14 @@ export class CreateCashreceiptComponent implements OnInit {
     });
   }
 
-  getInvoiceDeatilList(id) {
-    const getInvoiceDeatilListUrl = String.Join('/', this.apiConfigService.getInvoiceDeatilList, id);
-    this.apiService.apiGetRequest(getInvoiceDeatilListUrl).subscribe(
+  getCashReceiptDetailsList(id) {
+    const getCashReceiptDetailsListUrl = String.Join('/', this.apiConfigService.getCashReceiptDetailsList, id);
+    this.apiService.apiGetRequest(getCashReceiptDetailsListUrl).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['InvoiceDetailList']) && res.response['InvoiceDetailList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['InvoiceDetailList']);
+          if (!isNullOrUndefined(res.response['CashReceiptDetails']) && res.response['CashReceiptDetails'].length) {
+            this.dataSource = new MatTableDataSource(res.response['CashReceiptDetails']);
             this.dataSource.paginator = this.paginator;
             this.spinner.hide();
           }
@@ -120,18 +126,12 @@ export class CreateCashreceiptComponent implements OnInit {
 
   disableForm(route?) {
     if (!isNullOrUndefined(route)) {
-      this.branchFormData.controls['ledgerCode'].disable();
+      this.branchFormData.controls['voucherNo'].disable();
       this.branchFormData.controls['branchCode'].disable();
-      this.branchFormData.controls['cashPaymentDate'].disable();
-      this.branchFormData.controls['vehicleRegNo'].disable();
-      this.branchFormData.controls['ledgerName'].disable();
-      this.branchFormData.controls['stateCode'].disable();
-      this.branchFormData.controls['paymentMode'].disable();
-      this.branchFormData.controls['memberName'].disable();
-      this.branchFormData.controls['customerGstin'].disable();
-      this.branchFormData.controls['generalNo'].disable();
+      this.branchFormData.controls['cashReceiptDate'].disable();
+      this.branchFormData.controls['userName'].disable();
       this.branchFormData.controls['narration'].disable();
-      this.branchFormData.controls['suppliedTo'].disable();
+      this.branchFormData.controls['totalAmount'].disable();
     }
 
     // this.branchFormData.controls['voucherNo'].disable();
@@ -348,10 +348,20 @@ export class CreateCashreceiptComponent implements OnInit {
 
 
   save() {
-    if (!this.tableFormObj) {
-      this.dataSource.data.pop();
-      console.log(this.dataSource.data);
+    // if (!this.tableFormObj) {
+    //   this.dataSource.data.pop();
+    //   console.log(this.dataSource.data);
+    // }
+    if (this.routeUrl != '' || this.dataSource.data.length == 0) {
+      return;
     }
+    let tableData = [];
+    for (let d = 0; d < this.dataSource.data.length; d++) {
+      if (this.dataSource.data[d]['toLedgerCode'] != '') {
+        tableData.push(this.dataSource.data[d]);
+      }
+    }
+    let content = '';
     let totalGross = null;
     let totalInvoiceAmount = null;
     this.dataSource.data.forEach(element => {
@@ -361,19 +371,22 @@ export class CreateCashreceiptComponent implements OnInit {
 
     console.log(this.branchFormData, this.dataSource.data);
 
-    this.registerCashReceipt();
+    this.registerCashReceipt(tableData);
   }
 
-  reset() {
-    console.log(this.branchFormData);
+   reset() {
     this.branchFormData.reset();
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource();
+    this.formGroup();
+    this.loadData();
   }
 
-  registerCashReceipt() {
+  registerCashReceipt(data) {
+    this.branchFormData.patchValue({
+      cashReceiptMasterId: 0
+    });
     const registerCashReceiptUrl = String.Join('/', this.apiConfigService.registerCashReceipt);
-    const requestObj = { CashreceiptHdr: this.branchFormData.value, CashreceiptDetail: this.dataSource.data };
+    const requestObj = { CashreceiptHdr: this.branchFormData.value, CashreceiptDetail: data };
     this.apiService.apiPostRequest(registerCashReceiptUrl, requestObj).subscribe(
       response => {
         const res = response.body;

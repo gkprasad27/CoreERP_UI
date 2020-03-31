@@ -26,7 +26,7 @@ import {
   SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
   NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
   TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
-  TaxgroupsComponent, TaxstructuresComponent
+  TaxgroupsComponent, TaxstructuresComponent,MSHSDRatesComponent
 } from './components/dashboard/masters/index';
 
 import {
@@ -45,7 +45,8 @@ import {
   CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent, BankReceiptComponent,
   CreateBankreceiptComponent,JournalVoucherComponent,CreateJournalvoucherComponent,
    CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
-   ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent
+   ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,PackageconversionComponent,
+    StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent
 } from './components/dashboard/transactions/index';
 
 import {
@@ -105,7 +106,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent,
     CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
     ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
-    PrintComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent
   ],
   imports: [
     AppRoutingModule,
@@ -150,7 +151,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,
     JournalVoucherComponent,CreateJournalvoucherComponent,
     ReportsInnerTableComponent, SearchFilterTableComponent,
-    PrintComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent
   ]
 })
 export class AppModule { }

@@ -38,7 +38,7 @@ export class PrintComponent implements OnInit, AfterViewInit {
           //........Customized style.......
           </style>
         </head>
-    <body onload="window.print();window.close()">${printContents}</body>
+    <body style="font-size: 10px; margin-top:2%;" onload="window.print();window.close()">${printContents}</body>
       </html>`
     );
     popupWin.document.close();

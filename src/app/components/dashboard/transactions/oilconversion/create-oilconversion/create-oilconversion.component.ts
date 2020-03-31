@@ -90,33 +90,71 @@ export class CreateOilconversionsComponent implements OnInit {
 
   ngOnInit()
   {
+    this.loadData();
     //debugger;
+    //this.getCashPaymentBranchesList();
+    //this.formGroup();
+    //this.activatedRoute.params.subscribe(params => {
+    //  console.log(params.id1);
+    //  if (!isNullOrUndefined(params.id1)) {
+    //    this.routeUrl = params.id1;
+    //    //this.disableForm(params.id1);
+    //    this.getOilconversionDeatilList(params.id1);
+    //    let billHeader = JSON.parse(localStorage.getItem('selectedOilconversion'));
+    //    this.branchFormData.setValue(billHeader);
+    //    console.log(billHeader);
+    //  } else {
+    //    //this.disableForm();
+    //    const user = JSON.parse(localStorage.getItem('user'));
+    //    if (!isNullOrUndefined(user.fromBranchCode)) {
+    //      this.branchFormData.patchValue({
+    //        voucherNo: user.fromBranchCode,
+    //      });
+    //      this.genarateVoucherNo(user.fromBranchCode);
+    //    }
+     
+    //    this.addTableRow();
+    //  }
+    //});
+  }
+  loadData() {
     this.getCashPaymentBranchesList();
-    this.formGroup();
     this.activatedRoute.params.subscribe(params => {
-      console.log(params.id1);
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         //this.disableForm(params.id1);
         this.getOilconversionDeatilList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedOilconversion'));
         this.branchFormData.setValue(billHeader);
-        console.log(billHeader);
       } else {
         //this.disableForm();
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!isNullOrUndefined(user.fromBranchCode)) {
+        if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
-            voucherNo: user.fromBranchCode,
+            branchCode: user.branchCode,
+            userId: user.seqId,
+            userName: user.userName
           });
-          this.genarateVoucherNo(user.fromBranchCode);
+          this.setBranchCode();
+          this.genarateVoucherNo(user.branchCode);
+          this.formGroup();
         }
-     
         this.addTableRow();
       }
     });
   }
-
+  setBranchCode() {
+    const bname = this.GetBranchesListArray.filter(branchCode => {
+      if (branchCode.id == this.branchFormData.get('branchCode').value) {
+        return branchCode;
+      }
+    });
+    if (bname.length) {
+      this.branchFormData.patchValue({
+        branchName: !isNullOrUndefined(bname[0]) ? bname[0].text : null
+      });
+    }
+  }
 
   getOilconversionDeatilList(id) {
     //debugger;
@@ -401,10 +439,16 @@ export class CreateOilconversionsComponent implements OnInit {
   }
 
   reset() {
-    console.log(this.branchFormData);
     this.branchFormData.reset();
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource();
+    this.formGroup();
+    this.branchFormData = this.formBuilder.group({
+      oilConversionDate: [(new Date()).toISOString()],
+    });
+    //this.reset();
+
+    this.ngOnInit();
+    this.loadData();
   }
 
 }

@@ -84,7 +84,7 @@
 
           <ng-container matColumnDef="bankPaymentDate">
             <th mat-header-cell *matHeaderCellDef>{{ "bankpayment.bankPaymentDate" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.bankPaymentDate }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.bankPaymentDate | date: 'dd/MM/yyyy' }}</td>
           </ng-container>
 
           <ng-container matColumnDef="branchCode">
@@ -97,14 +97,14 @@
             <td mat-cell *matCellDef="let element">{{ element.branchName }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="fromLedgerCode">
-            <th mat-header-cell *matHeaderCellDef>{{ "bankpayment.fromLedgerCode" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.fromLedgerCode }}</td>
+          <ng-container matColumnDef="bankLedgerCode">
+            <th mat-header-cell *matHeaderCellDef>{{ "bankpayment.bankLedgerCode" | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.bankLedgerCode }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="fromLedgerName">
-            <th mat-header-cell *matHeaderCellDef>{{ "bankpayment.fromLedgerName" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.fromLedgerName }}</td>
+          <ng-container matColumnDef="bankLedgerName">
+            <th mat-header-cell *matHeaderCellDef>{{ "bankpayment.bankLedgerName" | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.bankLedgerName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="totalAmount">

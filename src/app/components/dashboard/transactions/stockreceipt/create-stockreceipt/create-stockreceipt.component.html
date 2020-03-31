@@ -194,7 +194,7 @@
             <mat-form-field>
               <mat-label>{{ 'stockreceipts.remarks' | translate }}</mat-label>
               <textarea matInput formControlName="remarks" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
-                        cdkAutosizeMinRows="5" cdkAutosizeMaxRows="5"></textarea>
+                        cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
             </mat-form-field>
           </div>
 
@@ -202,7 +202,7 @@
 
         <div class="d-flex justify-content-end mr-4">
           <div class="d-flex flex-column mr-2">
-            <mat-label>{{ 'COMMON.PRINT' | translate }}</mat-label>
+            <!--<mat-label>{{ 'COMMON.PRINT' | translate }}</mat-label>-->
             <!--<mat-slide-toggle formControlName="printBill"></mat-slide-toggle>-->
           </div>
           <button mat-raised-button type="submit" class="button-color-bule mr-2 text-white"

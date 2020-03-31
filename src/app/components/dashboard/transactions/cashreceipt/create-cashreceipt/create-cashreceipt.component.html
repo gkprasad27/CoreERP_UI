@@ -58,7 +58,8 @@
             <input class="typeAhead" [(ngModel)]="element.toLedgerCode" type="search"
             [disabled]="element.text != 'obj'" (typeaheadOnSelect)="setAccountName($event)"
             (input)="getAccountByAccountCode($event.target.value)"
-            [typeahead]="getAccountLedgerListArray" typeaheadOptionField='id'>
+            [typeahead]="getAccountLedgerListArray" typeaheadOptionField='id' [typeaheadMinLength]="0" [minLength]="1"
+            [typeaheadWaitMs]="200">
 
           </td>
     </ng-container>
@@ -148,7 +149,7 @@
         <mat-label>{{ 'COMMON.PRINT' | translate }}</mat-label>
           <mat-slide-toggle formControlName="printBill"></mat-slide-toggle>
       </div>
-        <button mat-raised-button type="submit" class="button-color-bule mr-2 text-white"
+        <button mat-raised-button type="submit" class="button-color-bule mr-2 text-white" [disabled]="routeUrl != ''"
             (click)="save()">
             
             {{ 'COMMON.SAVE' | translate }}</button>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ApiConfigService } from '../../../services/api-config.service';
+import { PackageconversionComponent } from './packageconversion/packageconversion.component';
+import { MeterReadingComponent} from './meterreading/meterreading.component';
 @Injectable({
   providedIn: 'root'
 })
@@ -49,6 +51,31 @@ export class TransactionsService {
         this.dynamicData.coustom = false;
         return this.dynamicData;
         break;
+        case 'packageconversion':
+          this.dynamicData.url = this.apiConfigService.getPackageconversionList;
+          this.dynamicData.component = PackageconversionComponent;
+          this.dynamicData.registerUrl = this.apiConfigService.registerPackageconversion;
+          this.dynamicData.updateUrl = this.apiConfigService.updatePackageconversions;
+          this.dynamicData.deleteUrl = this.apiConfigService.deletePackageconversions;
+          this.dynamicData.listName = 'packageconversionsList';
+          this.dynamicData.primaryKey = 'packingConversionId';
+          this.dynamicData.coustom = true;
+          return this.dynamicData;
+          break;
+          case 'stockexcess':
+        this.dynamicData.coustom = false;
+        return this.dynamicData;
+        break;
+        case 'meterreading':
+            this.dynamicData.url = this.apiConfigService.getMeterReadingList;
+            this.dynamicData.component = MeterReadingComponent;
+            this.dynamicData.registerUrl = this.apiConfigService.registerMeterReading;
+            this.dynamicData.updateUrl = this.apiConfigService.updateMeterReading;
+            this.dynamicData.deleteUrl = this.apiConfigService.deleteMeterReading;
+            this.dynamicData.listName = 'MeterReadingList';
+            this.dynamicData.primaryKey = 'meterReadingId';
+            return this.dynamicData;
+            break;
      default:
     }
    }

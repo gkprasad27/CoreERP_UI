@@ -14,7 +14,7 @@ import { SearchFilterTableComponent } from '../search-filter-table/search-filter
 
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ReplaySubject, Subject, pipe } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil, map } from 'rxjs/operators';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSelect } from '@angular/material';
 import { User } from '../../models/common/user';
 import { TranslateService } from '@ngx-translate/core';
@@ -34,7 +34,7 @@ import { StatusCodes } from 'src/app/enums/common/common';
   templateUrl: './report-table.component.html',
   styleUrls: ['./report-table.component.scss']
 })
-export class ReportTableComponent implements OnInit {
+export class ReportTableComponent implements OnInit, OnChanges {
 
   public tableMultiCtrl: FormControl = new FormControl();
   public filteredTableMulti: ReplaySubject<any> = new ReplaySubject<any>(1);
@@ -45,7 +45,7 @@ export class ReportTableComponent implements OnInit {
   dateForm: FormGroup;
   params = new HttpParams();
   @Input() tableData: any;
-  @Input() headerData: any;
+  @Input() headerData: any = [];
   @Input() footerData: any;
   @Output() generateTable = new EventEmitter();
 
@@ -74,6 +74,9 @@ export class ReportTableComponent implements OnInit {
   AccountLedgers = [];
   ReportBranches = [];
   Products = [];
+
+  tableHeaders: any = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -86,17 +89,22 @@ export class ReportTableComponent implements OnInit {
     private reportsService: ReportsService,
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
-    activatedRoute.params.subscribe(params => {
-      this.routeParam = params.id;
-    });
+
     this.dateForm = this.formBuilder.group({
-      formDate: [''],
-      toDate: [''],
+      formDate: ['', Validators.required],
+      toDate: ['', Validators.required],
       selectedReport: [''],
       selectedAccountLedger: [''],
       selectedBranch: [],
       selectedProduct: []
     }, { validator: this.checkDates });
+
+    activatedRoute.params.subscribe(params => {
+      this.routeParam = params.id;
+      this.tableHeaders = [];
+      this.dateForm.reset();
+    });
+
   }
   checkDates(group: FormGroup) {
     if (group.controls.formDate.value < group.controls.toDate.value) {
@@ -201,7 +209,10 @@ export class ReportTableComponent implements OnInit {
     this.params = this.params.append('ledgerCode', this.dateForm.value.selectedAccountLedger);
     this.params = this.params.append('branchCode', this.dateForm.value.selectedBranch);
     this.params = this.params.append('productCode', this.dateForm.value.selectedProduct);
-    this.generateTable.emit(this.params)
+    this.generateTable.emit(this.params);
+
+    this.dateForm.controls['formDate'].setValue(new Date(this.dateForm.controls['formDate'].value));
+    this.dateForm.controls['toDate'].setValue(new Date(this.dateForm.controls['toDate'].value));
   }
 
   exportToExcel(): void {
@@ -284,6 +295,7 @@ export class ReportTableComponent implements OnInit {
       fs.saveAs(blob, this.routeParam + 'Report.xlsx');
     });
   }
+
   exportToPdf() {
     let doc = new jsPDF('p', 'mm', 'a4');
     let columns = []; //["ID", "Name", "Country"];
@@ -299,6 +311,7 @@ export class ReportTableComponent implements OnInit {
         j++;
       }
     }
+
     doc.autoTable({
       body: [
         [{ content: this.routeParam + ' Report', colSpan: 2, rowSpan: 2, styles: { halign: 'center', fontStyle: 'bold' } }],
@@ -309,20 +322,41 @@ export class ReportTableComponent implements OnInit {
     let currentDate = new Date();
 
     let headerRows = [];
-    for (var i: number = 0; i < this.headerData.length; i++) {
+    for (var i: number = 0; i < this.tableHeaders.length; i++) {
       headerRows[i] = [];
       let j = 0;
-      for (const key in this.headerData[0]) {
-        headerRows[i][j] = this.headerData[i][key];
+      for (const key in this.tableHeaders[0]) {
+        headerRows[i][j] = this.tableHeaders[i][key];
         j++;
       }
     }
+
+    headerRows = [
+      headerRows[0] ? headerRows[0].concat(headerRows[1]) : "",
+      headerRows[2] ? headerRows[2].concat(headerRows[3]) : "",
+      headerRows[4] ? headerRows[4].concat(headerRows[5]) : "",
+      headerRows[6] ? headerRows[6].concat(headerRows[7]) : "",
+      headerRows[8] ? headerRows[8].concat(headerRows[9]) : "",
+      headerRows[10] ? headerRows[10].concat(headerRows[11]) : "",
+      headerRows[12] ? headerRows[12].concat(headerRows[13]) : "",
+      headerRows[14] ? headerRows[14].concat(headerRows[15]) : ""
+    ];
+
+    headerRows = headerRows.filter(arr => arr != "");
+
+    debugger
+
     doc.autoTable({
       margin: { top: 10 },
+      columnStyles: {
+        1: { halign: 'right' }
+      },
       body: headerRows,
       theme: 'plain'
     })
+
     doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 5 });
+
     let footerRows = [];
     for (var i: number = 0; i < this.footerData.length; i++) {
       footerRows[i] = [];
@@ -332,13 +366,29 @@ export class ReportTableComponent implements OnInit {
         j++;
       }
     }
+
+    let updatedFooterRows = [];
+
+    if (footerRows && footerRows.length) {
+      footerRows.forEach((ft) => {
+        let temp = [];
+        ft.forEach(data => {
+          if (data != "") {
+            temp.push(data);
+          }
+        });
+        updatedFooterRows.push(temp);
+      })
+    }
+
     doc.autoTable({
-      body: footerRows,
+      body: updatedFooterRows,
       theme: 'plain',
       startY: doc.autoTable.previous.finalY + 10
     })
     doc.save(this.routeParam + 'Report.pdf');
   }
+
   openDialog(val, row?) {
     if (this.routeParam == 'Shift') {
       this.dateForm.patchValue({
@@ -423,6 +473,9 @@ export class ReportTableComponent implements OnInit {
   }
 
   ngOnChanges() {
+    this.columnDefinitions = [];
+    this.keys = [];
+
     if (!isNullOrUndefined(this.tableData)) {
       if (this.tableData.length > 0) {
         this.dataSource = new MatTableDataSource(this.tableData);
@@ -448,6 +501,12 @@ export class ReportTableComponent implements OnInit {
         this.columnDefinitions.push(obj);
       });
     }
+
+    console.log(this.columnDefinitions);
+
+
+    this.generateTableHeaders();
+
   }
   ngAfterViewInit() {
     // this.multiSelect.open();
@@ -458,8 +517,23 @@ export class ReportTableComponent implements OnInit {
     this.getReportBranchesList();
     this.getProductsList();
   }
+
+  generateTableHeaders() {
+    this.tableHeaders = [];
+    if (this.headerData && this.headerData.length) {
+      this.headerData.forEach((header) => {
+        for (let key in header) {
+          if (header[key] != "") {
+            this.tableHeaders.push({ 'column': header[key] })
+          }
+        }
+      })
+    }
+  }
+
   ngOnDestroy() {
     this.tableData = [];
+    this.tableHeaders = [];
   }
 
 }

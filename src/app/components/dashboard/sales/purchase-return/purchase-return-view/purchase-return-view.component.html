@@ -16,7 +16,7 @@
 
                     <mat-form-field class="form-element">
                         <mat-label>{{ 'SALESINVOICE.branchName' | translate }}</mat-label>
-                        <mat-select formControlName="branchCode" (selectionChange)="genarateBillNo(); setBranchCode();">
+                        <mat-select formControlName="branchCode" (selectionChange)="genarateBillNo();">
                             <mat-option *ngFor="let branch of GetBranchesListArray" [value]="branch.id">
                                 {{ branch.id }} - {{branch.text}}
                             </mat-option>
@@ -33,7 +33,7 @@
 
                     <mat-form-field class="form-element">
                         <input matInput placeholder="{{ 'PURCHASE.purchaseInvNo' | translate }}"
-                            formControlName="purchaseInvNo" appFocusOnEnter tabIndex="1">
+                            formControlName="purchaseInvNo" >
                     </mat-form-field>
 
                     <mat-form-field>
@@ -61,18 +61,18 @@
 
                     <mat-form-field class="form-element">
                         <input matInput placeholder="{{ 'PURCHASE.supplierInvNo' | translate }}"
-                            formControlName="supplierInvNo" appFocusOnEnter tabIndex="2">
+                            formControlName="supplierInvNo" >
                     </mat-form-field>
 
               <mat-form-field>
                         <mat-label>{{ 'SALESINVOICE.paymentMode' | translate }}</mat-label>
                         <input matInput placeholder="{{ 'PURCHASE.paymentMode' | translate }}"
-                        formControlName="paymentMode" appFocusOnEnter tabIndex="3">
+                        formControlName="paymentMode" >
                     </mat-form-field>
 
                     <mat-form-field class="form-element">
                         <input matInput  placeholder="{{ 'PURCHASE.gstin' | translate }}"
-                            formControlName="gstin" appFocusOnEnter tabIndex="4">
+                            formControlName="gstin" >
                     </mat-form-field>
 
                 </div>
@@ -101,11 +101,12 @@
                         <td mat-cell *matCellDef="let element;">
                             <input class="typeAhead" [(ngModel)]="element.productCode" type="search"
                                 [disabled]="element.text != 'obj'"
-                                (typeaheadOnSelect)="getProductDeatilsSectionRcd($event)"
+                                (typeaheadOnSelect)="getProductDeatilsSectionRcd($event, dataSource.filteredData.indexOf(element))"
                                 (input)="getProductByProductCode($event.target.value)"
                                 [typeahead]="getProductByProductCodeArray" typeaheadOptionField='text'
                                 autocomplete="off"
-                                [typeaheadMinLength]="0" [minLength]="1" [typeaheadWaitMs]="200">
+                                [typeaheadMinLength]="0" [minLength]="1" [typeaheadWaitMs]="200"
+                                appFocusOnEnter tabIndex="1">
                         </td>
                     </ng-container>
 
@@ -117,7 +118,8 @@
                                 (input)="getProductByProductName($event.target.value)"
                                 [typeahead]="getProductByProductNameArray" typeaheadOptionField='text'
                                 autocomplete="off"
-                                [typeaheadMinLength]="0" [minLength]="1" [typeaheadWaitMs]="200">
+                                [typeaheadMinLength]="0" [minLength]="1" [typeaheadWaitMs]="200"
+                                appFocusOnEnter tabIndex="2">
                         </td>
                     </ng-container>
 
@@ -126,7 +128,8 @@
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.hsnNo"
                                 [(ngModel)]="element.hsnNo"
-                                (input)="setToFormModel(element.text, 'hsnNo', element.hsnNo)" /> </td>
+                                (input)="setToFormModel(element.text, 'hsnNo', element.hsnNo)"
+                                appFocusOnEnter tabIndex="3" /> </td>
                     </ng-container>
 
 
@@ -135,7 +138,8 @@
                         <td mat-cell *matCellDef="let element;">
                             <input matInput [disabled]="element.text != 'obj'" [value]="element.unitName"
                                 [(ngModel)]="element.unitName"
-                                (input)="setToFormModel(element.text, 'unitName', element.unitName)" /> </td>
+                                (input)="setToFormModel(element.text, 'unitName', element.unitName)" 
+                                appFocusOnEnter tabIndex="4"/> </td>
                     </ng-container>
 
 
@@ -145,7 +149,8 @@
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.qty"
                                 (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
                                 [(ngModel)]="element.qty"
-                                (input)="setToFormModel(element.text, 'qty', element.qty); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty');" />
+                                (input)="setToFormModel(element.text, 'qty', element.qty); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty', element); setLiters(dataSource.filteredData.indexOf(element), element.qty, element.productCode, element);" 
+                                appFocusOnEnter tabIndex="5"/>
                         </td>
                     </ng-container>
 
@@ -157,7 +162,8 @@
                             <input *ngIf="dataSource.filteredData.indexOf(element) != 0" matInput type="number"
                                 [disabled]="element.text != 'obj'" [value]="element.fQty" [(ngModel)]="element.fQty"
                                 (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
-                                (input)="setToFormModel(element.text, 'fQty', element.fQty); clearQty(dataSource.filteredData.indexOf(element), element.fQty, 'fQty');" />
+                                (input)="setToFormModel(element.text, 'fQty', element.fQty); clearQty(dataSource.filteredData.indexOf(element), element.fQty, 'fQty', element); setLiters(dataSource.filteredData.indexOf(element), element.fQty, element.productCode, element);"
+                                appFocusOnEnter tabIndex="6" />
                         </td>
                     </ng-container>
 
@@ -180,7 +186,7 @@
                     <ng-container matColumnDef="rate">
                         <th mat-header-cell *matHeaderCellDef> {{ 'PURCHASE.rate' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
-                            <input matInput disabled [value]="element.rate" [(ngModel)]="element.rate"
+                            <input matInput appFocusOnEnter tabIndex="7" [value]="element.rate" [(ngModel)]="element.rate"
                                 (input)="setToFormModel(element.text, 'rate', element.rate)" />
                         </td>
                     </ng-container>
@@ -190,7 +196,8 @@
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.discount"
                                 [(ngModel)]="element.discount"
-                                (input)="setToFormModel(element.text, 'discount', element.discount)" /> </td>
+                                (input)="setToFormModel(element.text, 'discount', element.discount)"
+                                appFocusOnEnter tabIndex="8" /> </td>
                     </ng-container>
 
 
@@ -240,7 +247,7 @@
                         <div class="w-75">
                             <mat-form-field class="form-element">
                                 <input matInput placeholder="{{ 'SALESINVOICE.userName' | translate }}"
-                                    formControlName="userName" appFocusOnEnter tabIndex="10">
+                                    formControlName="userName" >
                             </mat-form-field>
         
                             <mat-form-field>

@@ -84,7 +84,7 @@
 
           <ng-container matColumnDef="journalVoucherDate">
             <th mat-header-cell *matHeaderCellDef>{{ "journalvoucher.journalVoucherDate" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.journalVoucherDate }}</td>
+            <td mat-cell *matCellDef="let element">{{ element.journalVoucherDate | date: 'dd/MM/yyyy'}}</td>
           </ng-container>
 
           <ng-container matColumnDef="branchCode">

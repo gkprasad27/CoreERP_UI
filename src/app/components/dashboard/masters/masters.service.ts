@@ -18,6 +18,8 @@ import { PumpComponent } from './pump/pump.component';
 import { ProductpackingComponent } from './productpacking/productpacking.component';
 import { TaxgroupsComponent } from './taxgroup/taxgroup.component';
 import { TaxstructuresComponent } from './taxstructure/taxstructure.component';
+import { MSHSDRatesComponent} from './mshsdrates/mshsdrates.component';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -212,6 +214,17 @@ export class MastersService {
         this.dynamicData.primaryKey = 'taxStructureId';
         return this.dynamicData;
         break;
+        case 'mshsdrates':
+          this.dynamicData.url = this.apiConfigService.getMshsdRateList;
+          this.dynamicData.component = MSHSDRatesComponent;
+          this.dynamicData.registerUrl = this.apiConfigService.registerMshsdRate;
+          this.dynamicData.updateUrl = this.apiConfigService.updateMshsdRate;
+          this.dynamicData.deleteUrl = this.apiConfigService.deleteMshsdRate;
+          this.dynamicData.listName = 'mshsdRateList';
+          this.dynamicData.primaryKey = 'id';
+          return this.dynamicData;
+          break;
+
      default:
     }
    }

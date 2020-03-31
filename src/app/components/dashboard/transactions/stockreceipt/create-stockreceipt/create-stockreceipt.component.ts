@@ -71,7 +71,7 @@ export class CreateStockreceiptsComponent implements OnInit {
       serverDateTime: [null],
       shiftId: [null],
         userId: '0',
-      operatorStockReceiptId: [null],
+      operatorStockReceiptId: '0',
       userName: [null],
       employeeId: [null],
       remarks: [null],
@@ -89,38 +89,111 @@ export class CreateStockreceiptsComponent implements OnInit {
         })
     }
   }
-
-
-  ngOnInit()
-  {
+  ngOnInit() {
     //debugger;
-    this.gettingtobranches();
+    //this.gettingtobranches();
+    //this.getBranchesList();
+    //this.formGroup();
+    //this.activatedRoute.params.subscribe(params => {
+    //  console.log(params.id1);
+    //  if (!isNullOrUndefined(params.id1)) {
+    //    this.routeUrl = params.id1;
+    //    //this.disableForm(params.id1);
+    //    this.getStockreceiptDeatilList(params.id1);
+    //    let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
+    //    this.branchFormData.setValue(billHeader);
+    //    console.log(billHeader);
+    //  } else {
+    //    //this.disableForm();
+    //    const user = JSON.parse(localStorage.getItem('user'));
+    //    if (!isNullOrUndefined(user.fromBranchCode)) {
+    //      //this.frombrnchcode = user.fromBranchCode;
+    //      this.branchFormData.patchValue({
+    //        voucherNo: user.fromBranchCode,
+    //      });
+    //      this.genaratereceiptNo(user.fromBranchCode);
+    //    }
+
+    //    this.addTableRow();
+    //  }
+    //});
+    this.loadData();
+  }
+
+  loadData() {
+    //debugger;
     this.getBranchesList();
-    this.formGroup();
     this.activatedRoute.params.subscribe(params => {
-      console.log(params.id1);
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         //this.disableForm(params.id1);
         this.getStockreceiptDeatilList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
         this.branchFormData.setValue(billHeader);
-        console.log(billHeader);
       } else {
         //this.disableForm();
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!isNullOrUndefined(user.fromBranchCode)) {
-          //this.frombrnchcode = user.fromBranchCode;
+        if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
-            voucherNo: user.fromBranchCode,
+            fromBranchCode: "2",
+            userId: user.seqId,
+            userName: user.userName
           });
-          this.genaratereceiptNo(user.fromBranchCode);
+          this.setBranchCode();
+          this.genaratereceiptNo("2");
+          this.formGroup();
+          this.gettingtobranches();
+          //this.gettingtobranches();
+          // this.settoBranchCode();
         }
-       
         this.addTableRow();
       }
     });
   }
+
+  setBranchCode() {
+    const bname = this.GetBranchesListArray.filter(fromBranchCode => {
+      if (fromBranchCode.id == this.branchFormData.get('fromBranchCode').value) {
+        return fromBranchCode;
+      }
+    });
+    if (bname.length) {
+      this.branchFormData.patchValue({
+        fromBranchName: !isNullOrUndefined(bname[0]) ? bname[0].text : null
+      });
+    }
+  }
+
+  //ngOnInit()
+  //{
+  //  //debugger;
+  //  this.gettingtobranches();
+  //  this.getBranchesList();
+  //  this.formGroup();
+  //  this.activatedRoute.params.subscribe(params => {
+  //    console.log(params.id1);
+  //    if (!isNullOrUndefined(params.id1)) {
+  //      this.routeUrl = params.id1;
+  //      //this.disableForm(params.id1);
+  //      this.getStockreceiptDeatilList(params.id1);
+  //      let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
+  //      this.branchFormData.setValue(billHeader);
+  //      console.log(billHeader);
+  //    } else {
+  //      //this.disableForm();
+  //      const user = JSON.parse(localStorage.getItem('user'));
+  //      if (!isNullOrUndefined(user.fromBranchCode)) {
+  //        //this.frombrnchcode = user.fromBranchCode;
+  //        this.branchFormData.patchValue({
+  //          voucherNo: user.fromBranchCode,
+  //        });
+  //        this.genaratereceiptNo(user.fromBranchCode);
+  //      }
+       
+  //      this.addTableRow();
+  //    }
+  //  });
+  //}
 
   getStockreceiptDeatilList(id)
   {
@@ -216,7 +289,7 @@ export class CreateStockreceiptsComponent implements OnInit {
     //      if (!isNullOrUndefined(res.response)) {
     //        if (!isNullOrUndefined(res.response['branch']) && res.response['branch'].length) {
     //          this.GettoBranchesListArray = res.response['branch'];
-    //          this.spinner.hide();
+    //          this.commonService.hideSpinner();
     //        }
     //      }
     //    }
@@ -454,10 +527,15 @@ export class CreateStockreceiptsComponent implements OnInit {
   }
 
   reset() {
-    console.log(this.branchFormData);
     this.branchFormData.reset();
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource();
+    this.formGroup();
+    this.branchFormData = this.formBuilder.group
+      ({
+        receiptDate: [(new Date()).toISOString()],
+      });
+
+    this.ngOnInit();
   }
 
 }

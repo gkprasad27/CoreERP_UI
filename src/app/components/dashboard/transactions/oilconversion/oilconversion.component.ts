@@ -11,6 +11,7 @@ import { SnackBar, StatusCodes } from '../../../../enums/common/common';
 import { Static } from '../../../../enums/common/static';
 import { AlertService } from '../../../../services/alert.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-oilconversion',
@@ -18,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./oilconversion.component.scss']
 })
 export class OilconversionComponent implements OnInit {
+  selectedDate = { start: moment().add(-1, 'day'), end: moment().add(0, 'day') };
 
   dateForm: FormGroup;
   // table
@@ -37,10 +39,9 @@ export class OilconversionComponent implements OnInit {
     private router: Router,
     private alertService: AlertService,
     private spinner: NgxSpinnerService,
-
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [null],
+      selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
       oilConversionVchNo : [null]
@@ -50,7 +51,7 @@ export class OilconversionComponent implements OnInit {
   ngOnInit()
   {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
-    this.oilConversionVchNo = JSON.parse(localStorage.getItem('user'));
+    this.search();
   }
 
 
@@ -63,20 +64,19 @@ export class OilconversionComponent implements OnInit {
 
 
   //Search and datadisplay code
-
-  //Search and datadisplay code
   search()
   {
     if (isNullOrUndefined(this.dateForm.value.oilConversionVchNo)) {
       if (isNullOrUndefined(this.dateForm.value.selected)) {
-        this.alertService.openSnackBar('Select Stockreceipt or Date', Static.Close, SnackBar.error);
+        this.alertService.openSnackBar('Select oilConversionVchNo or Date', Static.Close, SnackBar.error);
         return;
-      } else {
-        this.dateForm.patchValue
-          ({
-            fromDate: this.commonService.formatDate(this.dateForm.value.selected.start._d),
-            toDate: this.commonService.formatDate(this.dateForm.value.selected.end._d)
-          });
+      }
+      else {
+        this.dateForm.patchValue({
+          fromDate: this.commonService.formatDate(this.dateForm.value.selected.start._d),
+          toDate: this.commonService.formatDate(this.dateForm.value.selected.end._d),
+          oilConversionVchNo: this.dateForm.value.oilConversionVchNo
+        });
       }
     }
 
@@ -84,14 +84,9 @@ export class OilconversionComponent implements OnInit {
   }
   getOilconversionList()
   {
-    const getOilconversionListUrl = String.Join('/', this.apiConfigService.getOilconversionList);
+    const getOilconversionListUrl = String.Join('/', this.apiConfigService.getOilconversionList, this.branchCode.branchCode);
 
-    const date = {
-      'fromDate': '3/7/2020 1:10:57 PM',
-      'toDate': '1/7/2020 1:10:57 PM',
-      'oilConversionVchNo': null
-    }
-    this.apiService.apiPostRequest(getOilconversionListUrl, date).subscribe(
+    this.apiService.apiPostRequest(getOilconversionListUrl, this.dateForm.value).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {

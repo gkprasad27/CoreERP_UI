@@ -111,6 +111,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'feedback',
           route: 'pump'
         },
+        {
+        displayName: 'MSHSD Rates',
+        iconName: 'recent_actors',
+        route: 'mshsdrates'
+        }
       ]
     },
     {
@@ -415,9 +420,24 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'stockshort'
         },
         {
-          displayName: 'oil  Conversion',
+          displayName: 'Oil  Convertion',
           iconName: 'account_balance',
           route: 'oilconversion'
+        },
+       {
+          displayName: 'Package Conversion',
+          iconName: 'account_balance',
+          route: 'packageconversion'
+        },
+        {
+          displayName: 'Stock Excess',
+          iconName: 'account_balance',
+          route: 'stockexcess'
+        },
+        {
+          displayName: 'Meter Reading',
+          iconName: 'account_balance',
+          route: 'meterreading'
         }
       ]
     },

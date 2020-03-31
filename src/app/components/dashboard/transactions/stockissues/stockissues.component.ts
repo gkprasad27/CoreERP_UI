@@ -11,6 +11,7 @@ import { SnackBar, StatusCodes } from '../../../../enums/common/common';
 import { Static } from '../../../../enums/common/static';
 import { AlertService } from '../../../../services/alert.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-stockissues',
@@ -18,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./stockissues.component.scss']
 })
 export class StockissuesComponent implements OnInit {
+  selectedDate = { start: moment().add(-1, 'day'), end: moment().add(0, 'day') };
 
   dateForm: FormGroup;
   // table
@@ -28,6 +30,8 @@ export class StockissuesComponent implements OnInit {
   ];
     fromBranchCode: any;
     issueNo: any;
+  branchCode: any;
+  user1: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,7 +45,7 @@ export class StockissuesComponent implements OnInit {
   )
   {
     this.dateForm = this.formBuilder.group({
-      selected: [null],
+      selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
       issueNo: [null]
@@ -50,9 +54,9 @@ export class StockissuesComponent implements OnInit {
 
   ngOnInit()
   {
-   // debugger;
-    this.fromBranchCode = JSON.parse(localStorage.getItem('user'));
-    this.issueNo = JSON.parse(localStorage.getItem('user'));
+     //;
+    this.branchCode = JSON.parse(localStorage.getItem('user'));
+    this.search();
   }
 
   openStockissues(row)
@@ -62,7 +66,7 @@ export class StockissuesComponent implements OnInit {
     this.router.navigate(['dashboard/transactions/stockissues/CreateStockissues', row.issueNo]);
   }
 
-  returnSale() {
+  returnSdeale() {
     this.router.navigate(['dashboard/transactions/stockissues/CreateStockissues', 'return']);
   }
 
@@ -70,12 +74,14 @@ export class StockissuesComponent implements OnInit {
   search() {
     if (isNullOrUndefined(this.dateForm.value.issueNo)) {
       if (isNullOrUndefined(this.dateForm.value.selected)) {
-        this.alertService.openSnackBar('Select Invoice or Date', Static.Close, SnackBar.error);
+        this.alertService.openSnackBar('Select issueNo or Date', Static.Close, SnackBar.error);
         return;
-      } else {
+      }
+      else {
         this.dateForm.patchValue({
           fromDate: this.commonService.formatDate(this.dateForm.value.selected.start._d),
-          toDate: this.commonService.formatDate(this.dateForm.value.selected.end._d)
+          toDate: this.commonService.formatDate(this.dateForm.value.selected.end._d),
+          issueNo: this.dateForm.value.issueNo
         });
       }
     }
@@ -84,14 +90,9 @@ export class StockissuesComponent implements OnInit {
   }
   getStockIssueList()
   {
-    const getInvoiceListUrl = String.Join('/', this.apiConfigService.getStockissuesList);
-
-    const date = {
-      'fromDate': '3/7/2020 1:10:57 PM',
-      'toDate': '1/7/2020 1:10:57 PM',
-      'issueNo': null
-    }
-    this.apiService.apiPostRequest(getInvoiceListUrl, date).subscribe(
+   // debugger;
+    const getInvoiceListUrl = String.Join('/', this.apiConfigService.getStockissuesList, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getInvoiceListUrl, this.dateForm.value).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass)

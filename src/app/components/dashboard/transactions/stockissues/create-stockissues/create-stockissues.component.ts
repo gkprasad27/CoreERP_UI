@@ -73,7 +73,7 @@ export class CreateStockissuesComponent implements OnInit {
       userName: [null],
       employeeId: [null],
       remarks: [null],
-      operatorStockIssueId: [null],
+      operatorStockIssueId: '0',
      // printBill: [false],
 
     });
@@ -89,55 +89,112 @@ export class CreateStockissuesComponent implements OnInit {
         })
     }
   }
-   
 
-  ngOnInit()
+  loadData()
   {
     //debugger;
-    this.gettingtobranches();
     this.getCashPaymentBranchesList();
-   
-    this.formGroup();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
+        //this.disableForm(params.id1);
         this.getStockissuesDeatilList(params.id1);
-        const billHeader = JSON.parse(localStorage.getItem('selectedstockissues'));
+        let billHeader = JSON.parse(localStorage.getItem('selectedstockissues'));
         this.branchFormData.setValue(billHeader);
-       
-        if (this.routeUrl == 'return')
-        {
-          const user = JSON.parse(localStorage.getItem('user'));
-          this.genarateVoucherNo(user.branchCode);
-          
-        }
       } else {
         //this.disableForm();
-        this.addTableRow();
         const user = JSON.parse(localStorage.getItem('user'));
         if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
-            branchCode: user.branchCode,
+            fromBranchCode: "19",
             userId: user.seqId,
             userName: user.userName
           });
-          //this.setBranchCode();
+          this.setBranchCode();
+          this.genarateVoucherNo("19");
           this.formGroup();
+          this.gettingtobranches();
+         // this.settoBranchCode();
         }
+        this.addTableRow();
       }
     });
   }
 
-  getStockissuesDeatilList(id)
+  setBranchCode() {
+    const bname = this.GetBranchesListArray.filter(fromBranchCode => {
+      if (fromBranchCode.id == this.branchFormData.get('fromBranchCode').value) {
+        return fromBranchCode;
+      }
+    });
+    if (bname.length)
+    {
+      this.branchFormData.patchValue({
+        fromBranchName: !isNullOrUndefined(bname[0]) ? bname[0].text : null
+      });
+    }
+  }
+  //settoBranchCode() {
+  //  debugger;
+  //  const bname1 = this.GettoBranchesListArray.filter(fromBranchCode => {
+  //    if (fromBranchCode.id == this.branchFormData.get('fromBranchCode').value) {
+  //      return fromBranchCode;
+  //    }
+  //  });
+  //  if (bname1.length) {
+  //    this.branchFormData.patchValue({
+  //      toBranchName: !isNullOrUndefined(bname1[0]) ? bname1[0].text : null
+  //    });
+  //  }
+  //}
+  ngOnInit()
   {
     //debugger;
+    this.loadData();
+    //this.gettingtobranches();
+    //this.getCashPaymentBranchesList();
+   
+    //this.formGroup();
+    //this.activatedRoute.params.subscribe(params => {
+    //  if (!isNullOrUndefined(params.id1)) {
+    //    this.routeUrl = params.id1;
+    //    this.getStockissuesDeatilList(params.id1);
+    //    const billHeader = JSON.parse(localStorage.getItem('selectedstockissues'));
+    //    this.branchFormData.setValue(billHeader);
+       
+    //    if (this.routeUrl == 'return')
+    //    {
+    //      const user = JSON.parse(localStorage.getItem('user'));
+    //      this.genarateVoucherNo(user.branchCode);
+          
+    //    }
+    //  } else {
+    //    //this.disableForm();
+    //    this.addTableRow();
+    //    const user = JSON.parse(localStorage.getItem('user'));
+    //    if (!isNullOrUndefined(user.branchCode)) {
+    //      this.branchFormData.patchValue({
+    //        branchCode: user.branchCode,
+    //        userId: user.seqId,
+    //        userName: user.userName
+    //      });
+    //      //this.setBranchCode();
+    //      this.formGroup();
+    //    }
+    //  }
+    //});
+  }
+
+  getStockissuesDeatilList(id)
+  {
+   // debugger;
     const getInvoiceDeatilListUrl = String.Join('/', this.apiConfigService.getStockissuesDeatilList, id);
     this.apiService.apiGetRequest(getInvoiceDeatilListUrl).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['StockshortsDeatilList']) && res.response['StockshortsDeatilList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['StockshortsDeatilList']);
+          if (!isNullOrUndefined(res.response['StockissuesDeatilList']) && res.response['StockissuesDeatilList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['StockissuesDeatilList']);
             this.spinner.hide();
           }
         }
@@ -232,7 +289,7 @@ export class CreateStockissuesComponent implements OnInit {
     //        if (!isNullOrUndefined(res.response['branch']) && res.response['branch'].length)
     //        {
     //          this.GettoBranchesListArray = res.response['branch'];
-    //          this.spinner.hide();
+    //          this.commonService.hideSpinner();
     //        }
     //      }
     //    }
@@ -482,18 +539,35 @@ export class CreateStockissuesComponent implements OnInit {
             //this.branchFormData.reset();
           }
           this.reset();
+
           this.spinner.hide();
 
         }
       });
   }
 
-  reset()
-  {
-    console.log(this.branchFormData);
+  reset() {
     this.branchFormData.reset();
-    this.dataSource = new MatTableDataSource(this.dataSource.data);
-    this.dataSource.paginator = this.paginator;
+    this.dataSource = new MatTableDataSource();
+    this.formGroup();
+    this.branchFormData = this.formBuilder.group({
+      issueNo: [null],
+      issueDate: [(new Date()).toISOString()],
+      fromBranchCode: [null],
+      fromBranchName: [null],
+      toBranchCode: [null],
+      toBranchName: [null],
+      serverDateTime: [null],
+      shiftId: [null],
+      userId: '0',
+      userName: [null],
+      employeeId: [null],
+      remarks: [null],
+      operatorStockIssueId: '0',
+      // printBill: [false],
+
+    });
+   this.ngOnInit();
   }
 
 }

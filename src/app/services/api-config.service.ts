@@ -13,6 +13,7 @@ export class ApiConfigService {
    // login Url
    loginUrl = `${this.environment.runtimeConfig.serverUrl}Auth/login`;
    getMenuUrl = `${this.environment.runtimeConfig.serverUrl}Auth/getMenu/admin`;
+   getBranchesForUser = `${this.environment.runtimeConfig.serverUrl}Auth/GetBranchesForUser`;
 
 
 
@@ -35,6 +36,8 @@ export class ApiConfigService {
    getPupms = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetPupms`;
    generateSalesReturnInvNo = `${this.environment.runtimeConfig.serverUrl}transaction/SalesReturn/GenerateSalesReturnInvNo`;
    registerInvoiceReturn = `${this.environment.runtimeConfig.serverUrl}transaction/SalesReturn/RegisterInvoiceReturn`;
+   getmemberNamesByCode = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetmemberNamesByCode`;
+  
 
 
    //  stock Transfer
@@ -73,6 +76,7 @@ export class ApiConfigService {
    // getCashRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetAccountLedgerList`;
    getCashRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetAccountLedgerList`;
    registerCashReceipt = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/RegisterCashReceipt`;
+   getCashReceiptDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetCashReceiptDetailsList`;
    // registerCashPayment = `http://localhost:51414/api/transactions/CashPayment/RegisterCashPayment`;
 
    // Bank Payment
@@ -82,6 +86,7 @@ export class ApiConfigService {
    getBPAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetAccountLedgerList`;
    getBankPAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetAccountLedger`;
    registerBankPayment = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/RegisterBankPayment`;
+   getBankPaymentDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBankPaymentDetailsList`;
    //registerCashPayment = `http://localhost:51414/api/transactions/CashPayment/RegisterCashPayment`;
 
    // Bank Receipt
@@ -91,6 +96,7 @@ export class ApiConfigService {
    getBRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetAccountLedgerList`;
    getBankRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetAccountLedger`;
    registerBankReceipt = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/RegisterBankReceipt`;
+   getBankReceiptDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBankReceiptDetailsList`;
    //registerCashPayment = `http://localhost:51414/api/transactions/CashPayment/RegisterCashPayment`;
 
    // Journal Voucher
@@ -100,6 +106,7 @@ export class ApiConfigService {
    getJournalVoucherAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetAccountLedgerList`;
    getJVAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetAccountLedger`;
    registerJournalVoucher = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/RegisterJournalVoucher`;
+   getJournalVoucherDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalVoucherDetailsList`;
    // registerCashPayment = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/RegisterCashPayment`;
 
   //Stockissues
@@ -136,6 +143,38 @@ export class ApiConfigService {
   GetProductListsforoilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetProductLists`;
   registerOilconversion = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/RegisterOilconversion`;
   getOilconversionDeatilList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetOilconversionsDeatilList`;
+
+ //Packageconversion
+//   getPackageconversionList = `http://localhost:51414/api/Transactions/PackageConversion/GetPackageConversionList`;
+//   registerPackageconversion = `http://localhost:51414/api/Transactions/PackageConversion/RegisterPackageConversion`;
+//   updatePackageconversions = `http://localhost:51414/api/Transactions/PackageConversion/UpdatePackageConversionList`;
+//   deletePackageconversions = `http://localhost:51414/api/Transactions/PackageConversion/DeletePackageConversion`
+  GetproductNames = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/GetproductNames`;
+  getInputcodeproductList = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/GetInputcodeList`;
+  getPackageconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/GetPackageConversionList`;
+ registerPackageconversion = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/RegisterPackageConversion`;
+  updatePackageconversions = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/UpdatePackageConversionList`;
+ deletePackageconversions = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/DeletePackageConversion`;
+
+ // Stock Excess
+  getStockexcessList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetStockexcessList`;
+  getStockExcessBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetBranchesList`;
+  getstockexcessNo = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetstockexcessNo`;
+  getStockExcessCostCentersList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetCostCentersList`;
+  getProductListsforStockexcessList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetProductLists`;
+//  getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
+  registerStockexcess = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/RegisterStockexcess`;
+  getStockExcessDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetStockExcessDetailsList`;
+
+  // Meter Reading
+  getMeterReadingList = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetMeterReadingList`;
+  getMeterReadingBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetBranchesList`;
+  getPump = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetPump`;
+  getShift = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetShift`;
+  registerMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/RegisterMeterReading`;
+  updateMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/UpdateMeterReading`;
+  deleteMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/deleteMeterReading`;
+//   getStockExcessDetailsList = `http://localhost:51414/api/transactions/StockExcess/GetStockExcessDetailsList`;
 
    // *******************************  End Transaction *****************************************
 
@@ -403,6 +442,15 @@ export class ApiConfigService {
    registerTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/RegisterTaxStructure`;
    updateTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/UpdateTaxStructure`;
    deleteTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/DeleteTaxStructure`;
+
+    //MSHSD Rates
+    getMshsdRateList = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/GetMshsdRateList`;
+    getMshsdBranchesList = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/GetBranchesList`;
+    getProductList = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/GetProductList`;
+    registerMshsdRate = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/RegisterMshsdRate`;
+    updateMshsdRate = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/UpdateMshsdRate`;
+    deleteMshsdRate = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/DeleteMshsdRate`;
+
 
    // ******************************* End  master *****************************************
 

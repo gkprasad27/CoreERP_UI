@@ -8,7 +8,7 @@ import { SalesComponent, CreateBillComponent , SalesReturnViewComponent, CreateS
 import { MastersComponent } from './components/dashboard/masters/index';
 import { PayrollComponent } from './components/dashboard/payroll/index';
 // import { TransactionsComponent } from './components/dashboard/transactions';
-import { TransactionsComponent,CreateCashpaymentComponent,CreateCashreceiptComponent,CreateBankpaymentComponent,CreateStockissuesComponent, CreateStockreceiptsComponent, CreateStockshortsComponent, CreateOilconversionsComponent, } from './components/dashboard/transactions';
+import { TransactionsComponent,CreateCashpaymentComponent,CreateCashreceiptComponent,CreateBankpaymentComponent,CreateBankreceiptComponent,CreateJournalvoucherComponent,CreateStockissuesComponent, CreateStockreceiptsComponent, CreateStockshortsComponent, CreateOilconversionsComponent,CreateStockExcessComponent } from './components/dashboard/transactions';
 
 import {
   SettingsComponent
@@ -40,6 +40,10 @@ const routes: Routes = [
       { path: 'transactions/:id/createCashreceipt/:id1', component: CreateCashreceiptComponent, data: { title: 'Create CashReceipt' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/createBankpayment', component: CreateBankpaymentComponent, data: { title: 'Create BankPayment' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/createBankpayment/:id1', component: CreateBankpaymentComponent, data: { title: 'Create BankPayment' }, canActivate: [AuthGuard] },
+      { path: 'transactions/:id/createBankreceipt', component: CreateBankreceiptComponent, data: { title: 'Create BankReceipt' }, canActivate: [AuthGuard] },
+      { path: 'transactions/:id/createBankreceipt/:id1', component: CreateBankreceiptComponent, data: { title: 'Create BankReceipt' }, canActivate: [AuthGuard] },
+      { path: 'transactions/:id/createJournalvoucher', component: CreateJournalvoucherComponent, data: { title: 'Create Journal Voucher' }, canActivate: [AuthGuard] },
+      { path: 'transactions/:id/createJournalvoucher/:id1', component: CreateJournalvoucherComponent, data: { title: 'Create Journal Voucher' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/CreateStockissues', component: CreateStockissuesComponent, data: { title: 'Create Stockissues' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/CreateStockissues/:id1', component: CreateStockissuesComponent, data: { title: 'Create Stockissues' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/CreateStockreceipts', component: CreateStockreceiptsComponent, data: { title: 'Create Stockreceipt' }, canActivate: [AuthGuard] },
@@ -48,6 +52,8 @@ const routes: Routes = [
       { path: 'transactions/:id/CreateStocshorts/:id1', component: CreateStockshortsComponent, data: { title: 'Create Stockshort' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/CreateOilconversions', component: CreateOilconversionsComponent, data: { title: 'Create Oilconversions' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/CreateOilconversions/:id1', component: CreateOilconversionsComponent, data: { title: 'Create Oilconversions' }, canActivate: [AuthGuard] },
+      { path: 'transactions/:id/createStockExcess', component: CreateStockExcessComponent, data: { title: 'Create StockExcess' }, canActivate: [AuthGuard] },
+      { path: 'transactions/:id/createStockExcess/:id1', component: CreateStockExcessComponent, data: { title: 'Create StockExcess' }, canActivate: [AuthGuard] },
       { path: 'generalledger/:id', component: GeneralledgerComponent, data: { title: 'Generalledger' }, canActivate: [AuthGuard] },
       { path: 'inventory/:id', component: InventoryComponent, data: { title: 'Inventory' }, canActivate: [AuthGuard] },
       { path: 'payroll/:id', component: PayrollComponent, data: { title: 'Payroll' }, canActivate: [AuthGuard] },

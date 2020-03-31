@@ -11,6 +11,7 @@ import { SnackBar, StatusCodes } from '../../../../enums/common/common';
 import { Static } from '../../../../enums/common/static';
 import { AlertService } from '../../../../services/alert.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-cashreceipt',
@@ -18,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./cashreceipt.component.scss']
 })
 export class CashReceiptComponent implements OnInit {
+  selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
 
   dateForm: FormGroup;
   // table
@@ -38,7 +40,7 @@ branchCode:any;
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [null],
+      selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
       voucherNo: [null]
@@ -66,7 +68,7 @@ branchCode:any;
   }
   openSale(row) {
     localStorage.setItem('selectedBill', JSON.stringify(row));
-    this.router.navigate(['dashboard/transactions/cashreceipt/createCashreceipt', row.voucherNo]);
+    this.router.navigate(['dashboard/transactions/cashreceipt/createCashreceipt', row.cashReceiptMasterId]);
   }
 
   search() {
@@ -77,7 +79,8 @@ branchCode:any;
         } else {
           this.dateForm.patchValue({
             fromDate:  this.commonService.formatDate(this.dateForm.value.selected.start._d),
-            toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d)
+            toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d),
+            voucherNo:this.dateForm.value.voucherNo
           });
         }
     }

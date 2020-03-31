@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../../../services/common.service';
 import { ApiConfigService } from '../../../../../services/api-config.service';
@@ -36,7 +36,7 @@ export class CreateBillComponent implements OnInit {
   memberNamesList = [];
   branchesList = [];
   disableSlipList = [];
-
+  disablePump: any
   displayedColumns: string[] = ['SlNo', 'productCode', 'productName', 'hsnNo', 'pumpNo', 'qty', 'fQty',
     'slipNo', 'unitName', 'discount', 'taxGroupName', 'rate', 'grossAmount', 'availStock', 'delete'
   ];
@@ -58,9 +58,14 @@ export class CreateBillComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
 
     this.formDataGroup();
+  }
+
+  ngAfterViewChecked() {
+    this.cd.detectChanges();
   }
 
   formDataGroup() {
@@ -119,11 +124,14 @@ export class CreateBillComponent implements OnInit {
     this.getCashPartyAccountList("100");
     this.getStateList();
     this.getSlipDate();
+    this.getperchaseData();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        this.getInvoiceDeatilList(params.id1);
+        if (this.routeUrl != 'return') {
+          this.getInvoiceDeatilList(params.id1);
+        }
         const billHeader = JSON.parse(localStorage.getItem('selectedBill'));
         this.branchFormData.setValue(billHeader);
         if (this.routeUrl == 'return') {
@@ -151,6 +159,27 @@ export class CreateBillComponent implements OnInit {
     });
   }
 
+  getperchaseData() {
+    const getSlipListUrl = String.Join('/', '../../../../../../assets/settings/perchase.json');
+    this.apiService.apiGetRequest(getSlipListUrl).subscribe(
+      response => {
+        this.disablePump = response.body;
+        this.spinner.hide();
+      });
+  }
+
+  disabledPump(code) {
+    if (!isNullOrUndefined(this.disablePump)) {
+      for (let p = 0; p < this.disablePump.length; p++) {
+        if (this.disablePump[p] == code) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+
   generateSalesReturnInvNo(branchCode) {
     const generateSalesReturnInvNoUrl = String.Join('/', this.apiConfigService.generateSalesReturnInvNo, branchCode);
     this.apiService.apiGetRequest(generateSalesReturnInvNoUrl).subscribe(
@@ -160,6 +189,8 @@ export class CreateBillComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['SalesReturnInvNo'])) {
               this.isSalesReturnInvoice = res.response['SalesReturnInvNo'];
+              this.getInvoiceDeatilList(this.branchFormData.get('invoiceNo').value);
+
               this.spinner.hide();
             }
           }
@@ -186,7 +217,7 @@ export class CreateBillComponent implements OnInit {
       this.branchFormData.controls['ledgerCode'].disable();
       this.branchFormData.controls['branchCode'].disable();
       this.branchFormData.controls['invoiceDate'].disable();
-      this.branchFormData.controls['vehicleId'].disable();
+      this.branchFormData.controls['vehicleRegNo'].disable();
       this.branchFormData.controls['stateCode'].disable();
       this.branchFormData.controls['paymentMode'].disable();
       this.branchFormData.controls['memberName'].disable();
@@ -231,31 +262,48 @@ export class CreateBillComponent implements OnInit {
 
 
   genarateBillNo(branch?) {
-    let generateBillUrl;
-    if (!isNullOrUndefined(branch)) {
-      generateBillUrl = String.Join('/', this.apiConfigService.generateBillNo, branch);
-    } else {
-      generateBillUrl = String.Join('/', this.apiConfigService.generateBillNo, this.branchFormData.get('branchCode').value);
+    let flag = false;
+    const branchList = JSON.parse(localStorage.getItem('branchList'));
+    for (let b = 0; b < branchList.length; b++) {
+      if (this.branchFormData.get('branchCode').value == branchList[b]) {
+        flag = true;
+      }
     }
-    this.apiService.apiGetRequest(generateBillUrl).subscribe(
-      response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            if (!isNullOrUndefined(res.response['BillNo'])) {
-              this.branchFormData.patchValue({
-                invoiceNo: res.response['BillNo']
-              });
-              this.getAccountBalance();
-              this.spinner.hide();
-            }
-          }
-        } else if (res.status === StatusCodes.fail) {
-          this.branchFormData.patchValue({
-            invoiceNo: null
-          });
-        }
+    if (!flag) {
+      this.alertService.openSnackBar(`You are not eeligible to use this Branch(${this.branchFormData.get('branchCode').value}) code`, Static.Close, SnackBar.error);
+      this.branchFormData.patchValue({
+        branchCode: null,
+        branchName: null,
+        invoiceNo: null
       });
+    } else {
+      this.setBranchCode();
+      let generateBillUrl;
+      if (!isNullOrUndefined(branch)) {
+        generateBillUrl = String.Join('/', this.apiConfigService.generateBillNo, branch);
+      } else {
+        generateBillUrl = String.Join('/', this.apiConfigService.generateBillNo, this.branchFormData.get('branchCode').value);
+      }
+      this.apiService.apiGetRequest(generateBillUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['BillNo'])) {
+                this.branchFormData.patchValue({
+                  invoiceNo: res.response['BillNo']
+                });
+                // this.getAccountBalance();
+                this.spinner.hide();
+              }
+            }
+          } else if (res.status === StatusCodes.fail) {
+            this.branchFormData.patchValue({
+              invoiceNo: null
+            });
+          }
+        });
+    }
   }
 
   setBranchCode() {
@@ -441,6 +489,16 @@ export class CreateBillComponent implements OnInit {
     }
   }
 
+  disableSlipValData(column) {
+    if (this.disableSlipVal(column.productCode)) {
+      return true;
+    } else if (isNullOrUndefined(column.slipNo)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   getSelectedState() {
     const getSelectedStateUrl = String.Join('/', this.apiConfigService.getSelectedState,
       this.branchFormData.get('stateCode').value);
@@ -513,13 +571,13 @@ export class CreateBillComponent implements OnInit {
     });
   }
 
-  setToFormModel(text, column, value) {
+  setToFormModel(text, column, value, flag) {
     if (text == 'obj') {
       this.tableFormData.patchValue({
         [column]: value
       });
     }
-    if (this.tableFormData.valid) {
+    if (this.tableFormData.valid && flag) {
       if (this.dataSource.data.length < 6) {
         this.addTableRow();
         this.formGroup();
@@ -527,9 +585,13 @@ export class CreateBillComponent implements OnInit {
     }
   }
 
-  clearQty(index, value, column) {
+  clearQty(index, value, column, row) {
     this.dataSource.data[index].qty = null;
     this.dataSource.data[index].fQty = null;
+    if (row.availStock < value) {
+      this.alertService.openSnackBar(`This Product(${row.productCode}) qty or Fqty cannot be greater than available stock`, Static.Close, SnackBar.error);
+      return;
+    }
     this.dataSource.data[index][column] = value;
     this.dataSource = new MatTableDataSource(this.dataSource.data);
   }
@@ -564,11 +626,35 @@ export class CreateBillComponent implements OnInit {
     }
   }
 
+  getmemberNamesByCode(event) {
+    console.log(event);
+    const getmemberNamesByCodeUrl = String.Join('/', this.apiConfigService.getmemberNamesByCode, event.item.memberCode);
+    this.apiService.apiGetRequest(getmemberNamesByCodeUrl).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['Members'])) {
+              this.branchFormData.patchValue({
+                memberCode: res.response['Members']['memberCode'],
+                memberName: res.response['Members']['memberName'],
+                mobile: res.response['Members']['phoneNo'],
+                generalNo: res.response['Members']['generalNo'],
+                vehicleId: event.item.id
+              });
+              this.getAccountBalance();
+              this.spinner.hide();
+            }
+          }
+        }
+      });
+  }
+
   calculateAmount(row, index) {
     if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = row.qty * row.rate;
+      this.dataSource.data[index].grossAmount = Math.round(row.qty * row.rate);
     } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = row.fQty * row.rate;
+      this.dataSource.data[index].grossAmount = Math.round(row.fQty * row.rate);
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
@@ -588,36 +674,57 @@ export class CreateBillComponent implements OnInit {
     });
     this.branchFormData.patchValue({
       grandTotal: (this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value),
-      totalCgst: (this.taxPercentage) ? (totalTax / 2) : null,
-      totalSgst: (this.taxPercentage) ? (totalTax / 2) : null,
-      totalIgst: (this.taxPercentage) ? (totalTax) : null,
+      totalCgst: (this.taxPercentage) ? (totalTax / 2) : 0,
+      totalSgst: (this.taxPercentage) ? (totalTax / 2) : 0,
+      totalIgst: (!this.taxPercentage) ? (totalTax) : 0,
     });
     this.branchFormData.patchValue({
       amountInWords: curValue.lakhWord(this.branchFormData.get('grandTotal').value)[0],
     });
   }
 
-  getBillingDetailsRcd(productCode) {
-    if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
-      !isNullOrUndefined(productCode.value) && productCode.value != '') {
-      const getBillingDetailsRcdUrl = String.Join('/', this.apiConfigService.getBillingDetailsRcd, productCode.value,
-        this.branchFormData.get('branchCode').value);
-      this.apiService.apiGetRequest(getBillingDetailsRcdUrl).subscribe(
-        response => {
-          const res = response.body;
-          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-            if (!isNullOrUndefined(res.response)) {
-              if (!isNullOrUndefined(res.response['BillingDetailsSection'])) {
-                this.billingDetailsSection(res.response['BillingDetailsSection']);
-                this.spinner.hide();
+  getBillingDetailsRcd(productCode, index) {
+    if (this.checkProductCode(productCode, index)) {
+      if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
+        !isNullOrUndefined(productCode.value) && productCode.value != '') {
+        const getBillingDetailsRcdUrl = String.Join('/', this.apiConfigService.getBillingDetailsRcd, productCode.value,
+          this.branchFormData.get('branchCode').value);
+        this.apiService.apiGetRequest(getBillingDetailsRcdUrl).subscribe(
+          response => {
+            const res = response.body;
+            if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+              if (!isNullOrUndefined(res.response)) {
+                if (!isNullOrUndefined(res.response['BillingDetailsSection'])) {
+                  this.billingDetailsSection(res.response['BillingDetailsSection']);
+                  this.getProductByProductCodeArray = [];
+                  this.spinner.hide();
+                }
               }
             }
-          }
-        });
+          });
+      }
+    } else {
+      this.dataSource.data[index].productCode = null;
+      this.dataSource = new MatTableDataSource(this.dataSource.data);
+      this.alertService.openSnackBar(`Product Code( ${productCode.value} ) Allready Selected`, Static.Close, SnackBar.error);
+    }
+  }
+
+  checkProductCode(code, index) {
+    if (!isNullOrUndefined(code.value)) {
+      for (let c = 0; c < this.dataSource.data.length; c++) {
+        if ((this.dataSource.data[c].productCode == code.value) && c != index) {
+          return false;
+        }
+      }
+      return true;
     }
   }
 
   billingDetailsSection(obj) {
+    if (isNullOrUndefined(obj.availStock) || (obj.availStock == 0)) {
+      this.alertService.openSnackBar(`This Product(${obj.productCode}) available stock is 0`, Static.Close, SnackBar.error);
+    }
     this.dataSource.data = this.dataSource.data.map(val => {
       if (val.productCode == obj.productCode) {
         this.tableFormData.patchValue({
@@ -629,7 +736,9 @@ export class CreateBillComponent implements OnInit {
       val.text = 'obj';
       return val;
     });
-    this.setToFormModel(null, null, null);
+    if (this.disableSlipValData(obj)) {
+      this.setToFormModel(null, null, null, true);
+    }
   }
 
   getProductByProductName(value) {
@@ -679,11 +788,24 @@ export class CreateBillComponent implements OnInit {
     }
   }
 
-  setProductName(name) {
+  setProductName(name, column) {
     this.tableFormData.patchValue({
       productName: name.value
     });
-    this.setToFormModel(null, null, null);
+    if (this.disableSlipValData(column)) {
+      this.setToFormModel(null, null, null, true);
+    }
+  }
+
+  print() {
+    const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: this.dataSource.data };
+    if (this.printBill) {
+      this.dialog.open(PrintComponent, {
+        width: '1024px',
+        data: requestObj,
+        disableClose: true
+      });
+    }
   }
 
   save() {
@@ -694,8 +816,14 @@ export class CreateBillComponent implements OnInit {
     if (this.routeUrl != '' || this.dataSource.data.length == 0) {
       return;
     }
+    let tableData = [];
+    for (let d = 0; d < this.dataSource.data.length; d++) {
+      if (this.dataSource.data[d]['productCode'] != '') {
+        tableData.push(this.dataSource.data[d]);
+      }
+    }
     let content = '';
-    let availStock = this.dataSource.data.filter(stock => {
+    let availStock = tableData.filter(stock => {
       if (stock.availStock == 0) {
         content = '0 Availablilty Stock';
         return stock;
@@ -712,12 +840,6 @@ export class CreateBillComponent implements OnInit {
     if (availStock.length) {
       this.alertService.openSnackBar(`This Product(${availStock[0].productCode}) ${content}`, Static.Close, SnackBar.error);
       return;
-    }
-    let tableData = [];
-    for (let d = 0; d < this.dataSource.data.length; d++) {
-      if (this.dataSource.data[d]['productCode'] != '') {
-        tableData.push(this.dataSource.data[d]);
-      }
     }
     this.enableFileds();
     this.registerInvoice(tableData);
@@ -736,7 +858,6 @@ export class CreateBillComponent implements OnInit {
     this.branchFormData.controls['totalIgst'].enable();
     this.branchFormData.controls['amountInWords'].enable();
     this.branchFormData.controls['userName'].enable();
-
   }
 
   reset() {
@@ -758,7 +879,7 @@ export class CreateBillComponent implements OnInit {
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
             this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
-            if(this.printBill) {
+            if (this.printBill) {
               this.dialog.open(PrintComponent, {
                 width: '1024px',
                 data: requestObj,
