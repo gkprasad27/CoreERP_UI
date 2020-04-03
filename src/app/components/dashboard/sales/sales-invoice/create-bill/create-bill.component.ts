@@ -121,7 +121,6 @@ export class CreateBillComponent implements OnInit {
 
   loadData() {
     this.GetBranchesList();
-    this.getCashPartyAccountList("100");
     this.getStateList();
     this.getSlipDate();
     this.getperchaseData();
@@ -129,18 +128,17 @@ export class CreateBillComponent implements OnInit {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        if (this.routeUrl != 'return') {
-          this.getInvoiceDeatilList(params.id1);
-        }
         const billHeader = JSON.parse(localStorage.getItem('selectedBill'));
         this.branchFormData.setValue(billHeader);
+        this.getInvoiceDeatilList(params.id2);
         if (this.routeUrl == 'return') {
           const user = JSON.parse(localStorage.getItem('user'));
-          this.generateSalesReturnInvNo(user.branchCode);
+          this.generateSalesReturnInvNo(user.branchCode, params.id2);
         }
       } else {
         this.disableForm();
         this.addTableRow();
+        this.getCashPartyAccountList("100");
         const user = JSON.parse(localStorage.getItem('user'));
         if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
@@ -180,7 +178,7 @@ export class CreateBillComponent implements OnInit {
     return true;
   }
 
-  generateSalesReturnInvNo(branchCode) {
+  generateSalesReturnInvNo(branchCode, invoice) {
     const generateSalesReturnInvNoUrl = String.Join('/', this.apiConfigService.generateSalesReturnInvNo, branchCode);
     this.apiService.apiGetRequest(generateSalesReturnInvNoUrl).subscribe(
       response => {
@@ -189,8 +187,6 @@ export class CreateBillComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['SalesReturnInvNo'])) {
               this.isSalesReturnInvoice = res.response['SalesReturnInvNo'];
-              this.getInvoiceDeatilList(this.branchFormData.get('invoiceNo').value);
-
               this.spinner.hide();
             }
           }

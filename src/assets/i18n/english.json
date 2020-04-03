@@ -1094,5 +1094,28 @@
     "consumption":"Consumption",
     "variation":"Variation",
     "invoiceSales":"Saled Units"
+  },
+ "product":{
+    "title":"Product",
+    "productCode":"Product Code",
+    "hsnNo":"HSN No",
+    "productName":"Product Name",
+    "mrp":"MRP",
+    "purchaseRate":"Purchase Price",
+    "salesRate":"Sales Price",
+    "cgst":"CGST",
+    "sgst":"SGST",
+    "igst":"IGST",
+    "totalGst":"Total GST",
+    "supplierName":"Supplier Name",
+    "productGroupName":"Product Group Name",
+    "taxapplicableOn":"Tax Applicable On",
+    "packingName":"Packing Type",
+    "taxGroupName":"Tax Group",
+    "unitName":"Unit",
+    "taxStructureCode":"Tax Structure Code",
+    "packingSize":"Packing Size",
+    "totalPercentageGst":"Total % GST",
+    "narration":"Narration"
   }
 }

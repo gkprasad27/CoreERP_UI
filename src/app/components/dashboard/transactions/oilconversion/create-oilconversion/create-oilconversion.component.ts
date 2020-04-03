@@ -32,7 +32,7 @@ export class CreateOilconversionsComponent implements OnInit {
   branchesList = [];
   getmemberNamesArray = [];
 
-  displayedColumns: string[] = ['productCode', 'productName', 'hsnNo', 'unitName', 'qty', 'damageQty', 'newQty', 'batchNo', 'delete'
+  displayedColumns: string[] = ['productCode', 'productName', 'hsnNo', 'unitName', 'qty',  'damageQty', 'newQty', 'batchNo', 'delete'
   ];
 
   dataSource: MatTableDataSource<any>;
@@ -224,7 +224,7 @@ export class CreateOilconversionsComponent implements OnInit {
     //debugger;
     const tableObj =
     {
-      productCode: '', productName: '', hsnNo: '', unit: '', qty: '', damageqty: '', newqty: '',  batchNo: '', delete: '', text: 'obj'
+      productCode: '', productName: '', hsnNo: '', unit: '', qty: '',  damageqty: '', newqty: '',  batchNo: '', delete: '', text: 'obj'
     };
 
     if (!isNullOrUndefined(this.dataSource)) {
@@ -249,6 +249,7 @@ export class CreateOilconversionsComponent implements OnInit {
       hsnNo: '0',
       unit: [null],
       qty: [null],
+      availStock: [null],
       damageqty: [null],
       newqty: [null],
       delete: [null],
@@ -379,30 +380,41 @@ export class CreateOilconversionsComponent implements OnInit {
 
   //Calaculating code
   calculateAmount(row, index) {
-    //debugger;
+    //GetBranchesListArray
     let amount = 0;
-    for (let a = 0; a < this.dataSource.data.length; a++) {
-      if (this.dataSource.data[a].qty) {
-        amount = (this.dataSource.data[a].qty) * (this.dataSource.data[a].rate);
-        this.dataSource.data[a]['grossAmount'] = amount;
+    for (let a = 0; a < this.dataSource.data.length; a++)
+    {
+      if (this.dataSource.data[a].qty)
+      {
+        amount = (this.dataSource.data[a].qty)
+       // amount = (this.dataSource.data[a].qty) * (this.dataSource.data[a].rate);
+        this.dataSource.data[a]['newQty'] = amount;
       }
     }
     this.tableFormData.patchValue
       ({
-        grossAmount: amount
+        newqty: amount
 
       });
   }
 
   //Save Code
   save() {
+  // debugger;
     var index = this.dataSource.data.indexOf(1);
     this.dataSource.data.splice(index, 1);
-    if (this.routeUrl != '') {
+    if (this.routeUrl != '')
+    {
+      return;
+    }
+   let a = 0;
+    if (this.dataSource.data[a].grossAmount==0)
+    {
+      this.alertService.openSnackBar(`This Product("availStock") 0 Availablilty Stock`, Static.Close, SnackBar.error);
       return;
     }
     let availStock = this.dataSource.filteredData.filter(stock => {
-      if (stock.availStock == 0 || (isNullOrUndefined(stock.qty) && isNullOrUndefined(stock.rate)))
+      if (stock.availStock == 0 || (isNullOrUndefined(stock.qty) && isNullOrUndefined(stock.rate) && isNullOrUndefined(stock.grossAmount)))
       {
         return stock;
       }
@@ -434,6 +446,7 @@ export class CreateOilconversionsComponent implements OnInit {
           }
           this.reset();
           this.spinner.hide();
+          //location.reload();
         }
       });
   }
@@ -442,11 +455,12 @@ export class CreateOilconversionsComponent implements OnInit {
     this.branchFormData.reset();
     this.dataSource = new MatTableDataSource();
     this.formGroup();
+    const user = JSON.parse(localStorage.getItem('user'));
     this.branchFormData = this.formBuilder.group({
       oilConversionDate: [(new Date()).toISOString()],
+      branchCode: user.branchCode,
+      oilConversionVchNo: user.branchCode
     });
-    //this.reset();
-
     this.ngOnInit();
     this.loadData();
   }

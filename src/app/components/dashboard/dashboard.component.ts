@@ -115,6 +115,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         displayName: 'MSHSD Rates',
         iconName: 'recent_actors',
         route: 'mshsdrates'
+        },
+      {
+          displayName:'Product',
+          iconName:'recent_actors',
+          route:'product'
         }
       ]
     },

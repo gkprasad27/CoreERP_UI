@@ -24,7 +24,7 @@ const routes: Routes = [
       { path: 'master/:id', component: MastersComponent, data: { title: 'Master' }, canActivate: [AuthGuard] },
       { path: 'sales/:id', component: SalesComponent, data: { title: 'Sales' }, canActivate: [AuthGuard] },
       { path: 'sales/:id/createSale', component: CreateBillComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
-      { path: 'sales/:id/viewSaleInvoice/:id1', component: CreateBillComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
+      { path: 'sales/:id/viewSaleInvoice/:id1/:id2', component: CreateBillComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
       { path: 'sales/:id/salesReturnView', component: SalesReturnViewComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
       { path: 'sales/:id/salesReturnView/:id1', component: SalesReturnViewComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
       { path: 'sales/:id/createStockTransfer', component: CreateStockTransferComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },

@@ -490,7 +490,7 @@ export class CreateStockshortsComponent implements OnInit {
           }
           this.reset();
           this.spinner.hide();
-
+          //location.reload();
         }
       });
   }
@@ -499,9 +499,13 @@ export class CreateStockshortsComponent implements OnInit {
     this.branchFormData.reset();
     this.dataSource = new MatTableDataSource();
     this.formGroup();
+    const user = JSON.parse(localStorage.getItem('user'));
     this.branchFormData = this.formBuilder.group({
       stockshortDate: [(new Date()).toISOString()],
+      branchCode: user.branchCode,
+      stockshortNo: user.branchCode
     });
     this.ngOnInit();
+    //this.genaratestockshortvocherNo(1);
   }
 }

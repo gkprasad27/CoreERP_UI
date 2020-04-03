@@ -18,5 +18,6 @@ export { TaxgroupsComponent } from './taxgroup/taxgroup.component';
 export { TaxstructuresComponent } from './taxstructure/taxstructure.component';
 export { ProductpackingComponent } from './productpacking/productpacking.component';
 export { MSHSDRatesComponent} from './mshsdrates/mshsdrates.component';
+export { ProductComponent} from './product/product.component';
 
 

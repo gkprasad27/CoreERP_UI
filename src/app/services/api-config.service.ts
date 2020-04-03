@@ -13,6 +13,7 @@ export class ApiConfigService {
    // login Url
    loginUrl = `${this.environment.runtimeConfig.serverUrl}Auth/login`;
    getMenuUrl = `${this.environment.runtimeConfig.serverUrl}Auth/getMenu/admin`;
+   logoutUrl = `${this.environment.runtimeConfig.serverUrl}Auth/logout`;
    getBranchesForUser = `${this.environment.runtimeConfig.serverUrl}Auth/GetBranchesForUser`;
 
 
@@ -451,7 +452,18 @@ export class ApiConfigService {
     updateMshsdRate = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/UpdateMshsdRate`;
     deleteMshsdRate = `${this.environment.runtimeConfig.serverUrl}masters/MshsdRates/DeleteMshsdRate`;
 
-
+//Product
+    getProductMasterList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetProductList`;
+    getSupplierGroupList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetSupplierGroupList`;
+    getProductGroupList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetProductGroupList`;
+    getTaxApplicableList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxApplicableList`;
+    getProductPackingList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetProductPackingList`;
+    getTaxGrouplist = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxGrouplist`;
+    getUnitList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetUnitList`;
+    getTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxStructure`;
+    registerProduct = `${this.environment.runtimeConfig.serverUrl}masters/Product/RegisterProduct`;
+    updateProduct = `${this.environment.runtimeConfig.serverUrl}masters/Product/UpdateProduct`;
+    deleteProduct = `${this.environment.runtimeConfig.serverUrl}masters/Product/DeleteProduct`;
    // ******************************* End  master *****************************************
 
 

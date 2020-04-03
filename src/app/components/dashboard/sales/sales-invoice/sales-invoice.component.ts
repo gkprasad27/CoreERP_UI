@@ -72,11 +72,12 @@ export class SalesInvoiceComponent implements OnInit {
 
   openSale(row) {
     localStorage.setItem('selectedBill', JSON.stringify(row));
-    this.router.navigate(['dashboard/sales/salesInvoice/viewSaleInvoice', row.invoiceNo]);
+    this.router.navigate(['dashboard/sales/salesInvoice/viewSaleInvoice','create', row.invoiceNo ]);
   }
 
-  returnSale() {
-    this.router.navigate(['dashboard/sales/salesInvoice/viewSaleInvoice', 'return']);
+  returnSale(row) {
+    localStorage.setItem('selectedBill', JSON.stringify(row));
+    this.router.navigate(['dashboard/sales/salesInvoice/viewSaleInvoice', 'return',  row.invoiceNo]);
   }
 
   search() {

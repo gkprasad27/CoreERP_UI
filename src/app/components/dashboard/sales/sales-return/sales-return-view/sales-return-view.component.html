@@ -132,10 +132,6 @@
                 </div>
             </form>
 
-            <mat-form-field *ngIf="routeUrl == 'return'" class="form-element w-25 pr-4 mb-3">
-                <input matInput disabled placeholder="Sales Return Invoice Number" [(ngModel)]="isSalesReturnInvoice"
-                    >
-            </mat-form-field>
 
         </mat-card-content>
 
@@ -378,11 +374,8 @@
                     <mat-slide-toggle [(ngModel)]="printBill" [checked]="printBill">
                     </mat-slide-toggle>
                 </div>
-                <button *ngIf="(routeUrl != 'return' && routeUrl != '')" mat-raised-button type="submit" class="button-color-bule mr-3 text-white" (click)="print()">
+                <button  mat-raised-button type="submit" class="button-color-bule mr-3 text-white" (click)="print()">
                     {{ 'COMMON.PRINT' | translate }}
-                </button>
-                <button  *ngIf="(routeUrl == 'return' || routeUrl == '')" mat-raised-button type="submit" class="button-color-bule mr-3 text-white" (click)="save()">
-                    {{ 'COMMON.SAVE' | translate }}
                 </button>
                 <button mat-raised-button class="button-color-red text-white mr-3" [disabled]="routeUrl != ''"
                     (click)="reset();">

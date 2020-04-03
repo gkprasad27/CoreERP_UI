@@ -19,6 +19,7 @@ import { ProductpackingComponent } from './productpacking/productpacking.compone
 import { TaxgroupsComponent } from './taxgroup/taxgroup.component';
 import { TaxstructuresComponent } from './taxstructure/taxstructure.component';
 import { MSHSDRatesComponent} from './mshsdrates/mshsdrates.component';
+import { ProductComponent} from './product/product.component';
 
 @Injectable({
   providedIn: 'root'
@@ -224,7 +225,16 @@ export class MastersService {
           this.dynamicData.primaryKey = 'id';
           return this.dynamicData;
           break;
-
+        case 'product':
+            this.dynamicData.url = this.apiConfigService.getProductMasterList;
+            this.dynamicData.component = ProductComponent;
+            this.dynamicData.registerUrl = this.apiConfigService.registerProduct;
+            this.dynamicData.updateUrl = this.apiConfigService.updateProduct;
+            this.dynamicData.deleteUrl = this.apiConfigService.deleteProduct;
+            this.dynamicData.listName = 'ProductList';
+            this.dynamicData.primaryKey = 'productId';
+            return this.dynamicData;
+            break;
      default:
     }
    }

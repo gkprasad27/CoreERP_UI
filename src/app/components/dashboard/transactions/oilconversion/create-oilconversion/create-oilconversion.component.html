@@ -106,7 +106,6 @@
             </td>
           </ng-container>
 
-
           <ng-container matColumnDef="damageQty">
             <th mat-header-cell *matHeaderCellDef>{{ 'oilconversion.damageQty' | translate }}</th>
             <td mat-cell *matCellDef="let element">
@@ -132,6 +131,18 @@
                 " />
             </td>
           </ng-container>
+          <ng-container matColumnDef="grossAmount">
+            <th mat-header-cell *matHeaderCellDef>{{ 'oilconversion.grossAmount' | translate }}</th>
+            <td mat-cell *matCellDef="let element">
+              <input matInput [value]="element.grossAmount" [(ngModel)]="element.grossAmount" (input)="
+                  setToFormModel(
+                    element.text,
+                    'grossAmount',
+                    element.grossAmount
+                  )
+                " />
+            </td>
+          </ng-container>
           <ng-container matColumnDef="batchNo">
             <th mat-header-cell *matHeaderCellDef>{{ 'oilconversion.batchNo' | translate }}</th>
             <td mat-cell *matCellDef="let element">
@@ -146,13 +157,13 @@
           </ng-container>
 
           <!--<ng-container matColumnDef="grossAmount">
-            <th mat-header-cell *matHeaderCellDef> {{ 'stockissues.Amount' | translate }} </th>
-            <td mat-cell *matCellDef="let element;">
-              <input matInput [disabled]="element.text != 'obj'" type="number" matInput disabled [value]="element.grossAmount"
-                     [(ngModel)]="element.grossAmount"
-                     (input)="setToFormModel(element.text, 'grossAmount', element.grossAmount)" />
-            </td>
-          </ng-container>-->
+    <th mat-header-cell *matHeaderCellDef> {{ 'stockissues.Amount' | translate }} </th>
+    <td mat-cell *matCellDef="let element;">
+      <input matInput [disabled]="element.text != 'obj'" type="number" matInput disabled [value]="element.grossAmount"
+             [(ngModel)]="element.grossAmount"
+             (input)="setToFormModel(element.text, 'grossAmount', element.grossAmount)" />
+    </td>
+  </ng-container>-->
 
           <ng-container matColumnDef="delete">
             <th mat-header-cell *matHeaderCellDef>  </th>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../../../services/common.service';
 import { ApiConfigService } from '../../../../../services/api-config.service';
@@ -58,9 +58,14 @@ export class SalesReturnViewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
 
     this.formDataGroup();
+  }
+
+  ngAfterViewChecked() {
+    this.cd.detectChanges();
   }
 
   formDataGroup() {
@@ -116,7 +121,6 @@ export class SalesReturnViewComponent implements OnInit {
 
   loadData() {
     this.GetBranchesList();
-    this.getCashPartyAccountList("100");
     this.getStateList();
     this.getSlipDate();
     this.getperchaseData();
@@ -124,18 +128,13 @@ export class SalesReturnViewComponent implements OnInit {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        if (this.routeUrl != 'return') {
-          this.getInvoiceDeatilList(params.id1);
-        }
         const billHeader = JSON.parse(localStorage.getItem('selectedBill'));
         this.branchFormData.setValue(billHeader);
-        if (this.routeUrl == 'return') {
-          const user = JSON.parse(localStorage.getItem('user'));
-          this.generateSalesReturnInvNo(user.branchCode);
-        }
+        this.getInvoiceDeatilList(params.id1);
       } else {
         this.disableForm();
         this.addTableRow();
+        this.getCashPartyAccountList("100");
         const user = JSON.parse(localStorage.getItem('user'));
         if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
@@ -175,7 +174,7 @@ export class SalesReturnViewComponent implements OnInit {
     return true;
   }
 
-  generateSalesReturnInvNo(branchCode) {
+  generateSalesReturnInvNo(branchCode, invoice) {
     const generateSalesReturnInvNoUrl = String.Join('/', this.apiConfigService.generateSalesReturnInvNo, branchCode);
     this.apiService.apiGetRequest(generateSalesReturnInvNoUrl).subscribe(
       response => {
@@ -184,8 +183,6 @@ export class SalesReturnViewComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['SalesReturnInvNo'])) {
               this.isSalesReturnInvoice = res.response['SalesReturnInvNo'];
-              this.getInvoiceDeatilList(this.branchFormData.get('invoiceNo').value);
-
               this.spinner.hide();
             }
           }
@@ -804,10 +801,6 @@ export class SalesReturnViewComponent implements OnInit {
   }
 
   save() {
-    if (this.routeUrl == 'return') {
-      this.registerInvoiceReturn();
-      return;
-    }
     if (this.routeUrl != '' || this.dataSource.data.length == 0) {
       return;
     }
@@ -853,7 +846,6 @@ export class SalesReturnViewComponent implements OnInit {
     this.branchFormData.controls['totalIgst'].enable();
     this.branchFormData.controls['amountInWords'].enable();
     this.branchFormData.controls['userName'].enable();
-
   }
 
   reset() {

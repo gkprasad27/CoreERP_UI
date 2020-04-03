@@ -26,7 +26,7 @@ import {
   SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
   NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
   TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
-  TaxgroupsComponent, TaxstructuresComponent,MSHSDRatesComponent
+  TaxgroupsComponent, TaxstructuresComponent,MSHSDRatesComponent,ProductComponent
 } from './components/dashboard/masters/index';
 
 import {
@@ -106,7 +106,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent,
     CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
     ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent
   ],
   imports: [
     AppRoutingModule,
@@ -151,7 +151,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,
     JournalVoucherComponent,CreateJournalvoucherComponent,
     ReportsInnerTableComponent, SearchFilterTableComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent
   ]
 })
 export class AppModule { }
