@@ -19,7 +19,9 @@ export class ApiConfigService {
 
 
    // ******************************** sales *********************************
+   //getInvoiceList = `http://localhost:51414/api/sales/Billing/GetInvoiceList`;
    getInvoiceList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetInvoiceList`;
+   GetInvoiceDetails = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetInvoiceDetails`;
    getCashPartyAccountList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCashPartyAccountList`;
    getBillingBranchesList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetBranchesList`;
    getCashPartyAccount = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCashPartyAccount`;
