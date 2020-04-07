@@ -44,16 +44,33 @@ export class StockshortComponent  implements OnInit {
       selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
-      stockshortNo: [null]
+      stockshortNo: [null],
+      role: [null]
     });
   }
 
   ngOnInit()
   {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
-    this.search();
+    this.dateForm.patchValue({ role: this.branchCode.role })
+    this.getInvoiceDetails();
   }
 
+  getInvoiceDetails() {
+    //debugger;
+    const getInvoiceDetailstUrl = String.Join('/', this.apiConfigService.getStockshortDeatilListLoad, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getInvoiceDetailstUrl, this.dateForm.value).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response['StockshortsList']) && res.response['StockshortsList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['StockshortsList']);
+            this.dataSource.paginator = this.paginator;
+            this.spinner.hide();
+          }
+        }
+      });
+  }
 
 
   openStockissues(row)

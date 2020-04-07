@@ -410,12 +410,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'journalvoucher'
         },
 	  {
-          displayName: 'Stock Issues',
+          displayName: 'OP Stock Issues',
           iconName: 'account_balance',
           route: 'stockissues'
         },
         {
-          displayName: 'Stock Receipt',
+          displayName: 'OP Stock Receipt',
           iconName: 'account_balance',
           route: 'stockreceipt'
         },

@@ -19,9 +19,7 @@ export class ApiConfigService {
 
 
    // ******************************** sales *********************************
-   //getInvoiceList = `http://localhost:51414/api/sales/Billing/GetInvoiceList`;
    getInvoiceList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetInvoiceList`;
-   GetInvoiceDetails = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetInvoiceDetails`;
    getCashPartyAccountList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCashPartyAccountList`;
    getBillingBranchesList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetBranchesList`;
    getCashPartyAccount = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCashPartyAccount`;
@@ -64,6 +62,7 @@ export class ApiConfigService {
 
    // Cash Payment
    getCashPaymentList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetCashpaymentList`;
+   getCashPaymentMasterList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetCashPaymentMasterList`;
    getCashPaymentBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetBranchesList`;
    getCashPaymentVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetVoucherNo`;
    getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
@@ -73,6 +72,7 @@ export class ApiConfigService {
 
    // Cash Receipt
    getCashReceiptList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetCashreceiptList`;
+   getCashReceiptMasterList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetCashReceiptMasterList`;
    getCashReceiptBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetBranchesList`;
    getCashReceiptVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetVoucherNo`;
    // // getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
@@ -84,6 +84,7 @@ export class ApiConfigService {
 
    // Bank Payment
    getBankpaymentList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBankpaymentList`;
+   getBankPaymentMasterList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBankPaymentMasterList`;
    getBankPaymentBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBranchesList`;
    getBankPaymentVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetVoucherNo`;
    getBPAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetAccountLedgerList`;
@@ -94,6 +95,7 @@ export class ApiConfigService {
 
    // Bank Receipt
    getBankreceiptList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBankreceiptList`;
+   getBankReceiptMasterList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBankReceiptMasterList`;
    getBankReceiptBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBranchesList`;
    getBankReceiptVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetVoucherNo`;
    getBRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetAccountLedgerList`;
@@ -104,6 +106,7 @@ export class ApiConfigService {
 
    // Journal Voucher
    getJournalvoucherList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalvoucherList`;
+   getJournalVoucherMasterList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalVoucherMasterList`;
    getJournalVoucherBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetBranchesList`;
    getJournalVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetVoucherNo`;
    getJournalVoucherAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetAccountLedgerList`;
@@ -113,6 +116,9 @@ export class ApiConfigService {
    // registerCashPayment = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/RegisterCashPayment`;
 
   //Stockissues
+  getStockissuesDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetInvoiceDetails`;
+   // `http://localhost:51414/api/Transactions/Stockissues/GetInvoiceDetails`;
+  //getStockissuesList = `http://localhost:51414/api/Transactions/Stockissues/GetStockissuesList`;
   getStockissuesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetStockissuesList`;
   getStockissuesnosList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetStackissueNo`;
   gettingtobranchesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GettobranchesList`;
@@ -123,7 +129,9 @@ export class ApiConfigService {
   GetToBranchesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetToBranchesList`;
 
    //Stockreceipts
-
+  getStockreceiptsDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetInvoiceDetails`;
+  //`http://localhost:51414/api/Transactions/Stockreceipt/GetInvoiceDetails`;
+  //getStockreceiptsList = `http://localhost:51414/api/Transactions/Stockreceipt/GetStockreceiptsList`;
   getStockreceiptsList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetStockreceiptsList`;
   getStockissuesreceiptnosList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetReceiptNo`;
   GetProductListsforStockreceipts = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetProductLists`;
@@ -133,6 +141,8 @@ export class ApiConfigService {
   GetToBranchesStockreceiptsList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetToBranchesList`;
 
   //Stockshorts
+  getStockshortDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetInvoiceDetails`;
+  //`http://localhost:51414/api/Transactions/Stockshort/GetInvoiceDetails`;
   GetCostCentersList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetCostCentersList`;
   getstockshortvochernosList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetstockshortVoucherNo`;
   GetProductListsforStockshortsList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetProductLists`;
@@ -141,6 +151,8 @@ export class ApiConfigService {
   getStockshortsDeatilList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetStockshortsDeatilList`;
 
   //oilconversion
+  getoilcnvsnDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetInvoiceDetails`;
+    //`http://localhost:51414/api/Transactions/Oilconversion/GetInvoiceDetails`;
   getOilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetOilconversionList`;
   getoilconversionvocherNo = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetoilconversionVoucherNo`;
   GetProductListsforoilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetProductLists`;
@@ -177,6 +189,7 @@ export class ApiConfigService {
   registerMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/RegisterMeterReading`;
   updateMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/UpdateMeterReading`;
   deleteMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/deleteMeterReading`;
+  getOBFromPump = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetOBFromPump`;
 //   getStockExcessDetailsList = `http://localhost:51414/api/transactions/StockExcess/GetStockExcessDetailsList`;
 
    // *******************************  End Transaction *****************************************

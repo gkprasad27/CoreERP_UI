@@ -40,19 +40,35 @@ branchCode:any;
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
-      voucherNo: [null]
+      voucherNo: [null],
+      role:[null]
     });
   }
 
   ngOnInit() {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
-      this.search();
+      
+      this.dateForm.patchValue({role:this.branchCode.role})
+      this.getJournalVoucherMasterList();
   }
 
-
+  getJournalVoucherMasterList(){
+    const getJournalVoucherMasterListUrl = String.Join('/', this.apiConfigService.getJournalVoucherMasterList, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getJournalVoucherMasterListUrl, this.dateForm.value).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response['journalVoucherMasterList']) && res.response['journalVoucherMasterList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['journalVoucherMasterList']);
+            this.dataSource.paginator = this.paginator;
+            this.spinner.hide();
+          }
+        }
+      });
+  }
   getJournalvoucherList() {
     const getJournalvoucherListUrl = String.Join('/', this.apiConfigService.getJournalvoucherList, this.branchCode.branchCode);
     this.apiService.apiPostRequest(getJournalvoucherListUrl, this.dateForm.value).subscribe(
@@ -82,7 +98,8 @@ branchCode:any;
           this.dateForm.patchValue({
             fromDate:  this.commonService.formatDate(this.dateForm.value.selected.start._d),
             toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d),
-            voucherNo:this.dateForm.value.voucherNo
+            voucherNo:this.dateForm.value.voucherNo,
+            role:this.branchCode.role
           });
         }
     }

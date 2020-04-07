@@ -25,7 +25,7 @@
 
           <mat-form-field>
             <mat-label>{{'meterreading.pumpNo' | translate }}</mat-label>
-            <mat-select formControlName="pumpNo" >
+            <mat-select formControlName="pumpNo" (selectionChange)="getOBFromPump();">
               <mat-option *ngFor="let pump of getPumpList" [value]="pump.id">
                 {{pump.text}}
               </mat-option>

@@ -19,10 +19,10 @@ import * as moment from 'moment';
   styleUrls: ['./sales-invoice.component.scss']
 })
 export class SalesInvoiceComponent implements OnInit {
-    selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
+  selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
 
   dateForm: FormGroup;
-   table
+  // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   displayedColumns: string[] = ['invoiceNo', 'invoiceDate', 'branchCode', 'branchName', 'ledgerCode',
@@ -53,24 +53,10 @@ export class SalesInvoiceComponent implements OnInit {
 
   ngOnInit() {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
+    // this.search();
     this.dateForm.patchValue({role:this.branchCode.role})
-    this.getInvoiceDetails();
-
+    this.getInvoiceList();
   }
-getInvoiceDetails(){
-  const getInvoiceDetailstUrl = String.Join('/', this.apiConfigService.GetInvoiceDetails, this.branchCode.branchCode);
-  this.apiService.apiPostRequest(getInvoiceDetailstUrl, this.dateForm.value).subscribe(
-    response => {
-      const res = response.body;
-      if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-        if (!isNullOrUndefined(res.response['InvoiceList']) && res.response['InvoiceList'].length) {
-          this.dataSource = new MatTableDataSource(res.response['InvoiceList']);
-          this.dataSource.paginator = this.paginator;
-          this.spinner.hide();
-        }
-      }
-    });
-}
 
   getInvoiceList() {
     const getInvoiceListUrl = String.Join('/', this.apiConfigService.getInvoiceList, this.branchCode.branchCode);

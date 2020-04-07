@@ -136,6 +136,7 @@
                         <th mat-header-cell *matHeaderCellDef> {{ 'STOCKTRANSFER.rate' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput [value]="element.rate" [(ngModel)]="element.rate"
+                            (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
                                 (input)="setToFormModel(element.text, 'rate', element.rate)" appFocusOnEnter
                                 tabIndex="7" />
                         </td>

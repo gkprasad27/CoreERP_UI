@@ -485,15 +485,15 @@ export class CreateBillComponent implements OnInit {
     }
   }
 
-  disableSlipValData(column) {
-    if (this.disableSlipVal(column.productCode)) {
-      return true;
-    } else if (isNullOrUndefined(column.slipNo)) {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  // disableSlipValData(column) {
+  //   if (this.disableSlipVal(column.productCode)) {
+  //     return true;
+  //   } else if (isNullOrUndefined(column.slipNo)) {
+  //     return false;
+  //   } else {
+  //     return true;
+  //   }
+  // }
 
   getSelectedState() {
     const getSelectedStateUrl = String.Join('/', this.apiConfigService.getSelectedState,
@@ -515,6 +515,18 @@ export class CreateBillComponent implements OnInit {
           }
         }
       });
+  }
+
+  setBackGroundColor(value, disabled) {
+    if (disabled) {
+      return '';
+    } else if (value == 0) {
+      return '';
+    } else if (value == '' || isNullOrUndefined(value)) {
+      return 'flashLight';
+    } else {
+      return '';
+    }
   }
 
   addTableRow() {
@@ -567,13 +579,13 @@ export class CreateBillComponent implements OnInit {
     });
   }
 
-  setToFormModel(text, column, value, flag) {
+  setToFormModel(text, column, value) {
     if (text == 'obj') {
       this.tableFormData.patchValue({
         [column]: value
       });
     }
-    if (this.tableFormData.valid && flag) {
+    if (this.tableFormData.valid) {
       if (this.dataSource.data.length < 6) {
         this.addTableRow();
         this.formGroup();
@@ -648,9 +660,9 @@ export class CreateBillComponent implements OnInit {
 
   calculateAmount(row, index) {
     if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = Math.round(row.qty * row.rate);
+      this.dataSource.data[index].grossAmount = (this.disabledPump(row.productCode) ? Math.round(row.qty * row.rate) : (row.qty * row.rate));
     } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = Math.round(row.fQty * row.rate);
+      this.dataSource.data[index].grossAmount = (this.disabledPump(row.productCode) ? Math.round(0 * row.rate) : (0 * row.rate));
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
@@ -662,8 +674,8 @@ export class CreateBillComponent implements OnInit {
     }
     let tax = (this.taxPercentage) ? (this.dataSource.data[index].cgst + this.dataSource.data[index].sgst) : this.dataSource.data[index].igst;
     let amountTax = (amount * 100) / (tax + 100);
-    amountTax = Math.round(amountTax * 100) / 100;
-    totalTax = Math.round(amountTax * tax) / 100;
+    amountTax = (this.disabledPump(row.productCode) ? Math.round(amountTax * 100) / 100 : (amountTax * 100));
+    totalTax = (this.disabledPump(row.productCode) ? Math.round(amountTax * tax) / 100 : (amountTax * tax));
     this.branchFormData.patchValue({
       totalAmount: !isNullOrUndefined(amountTax) ? amountTax : null,
       totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax : null,
@@ -680,7 +692,7 @@ export class CreateBillComponent implements OnInit {
   }
 
   getBillingDetailsRcd(productCode, index) {
-    if (this.checkProductCode(productCode, index)) {
+    // if (this.checkProductCode(productCode, index)) {
       if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
         !isNullOrUndefined(productCode.value) && productCode.value != '') {
         const getBillingDetailsRcdUrl = String.Join('/', this.apiConfigService.getBillingDetailsRcd, productCode.value,
@@ -691,7 +703,7 @@ export class CreateBillComponent implements OnInit {
             if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
               if (!isNullOrUndefined(res.response)) {
                 if (!isNullOrUndefined(res.response['BillingDetailsSection'])) {
-                  this.billingDetailsSection(res.response['BillingDetailsSection']);
+                  this.billingDetailsSection(res.response['BillingDetailsSection'], index);
                   this.getProductByProductCodeArray = [];
                   this.spinner.hide();
                 }
@@ -699,42 +711,49 @@ export class CreateBillComponent implements OnInit {
             }
           });
       }
-    } else {
-      this.dataSource.data[index].productCode = null;
-      this.dataSource = new MatTableDataSource(this.dataSource.data);
-      this.alertService.openSnackBar(`Product Code( ${productCode.value} ) Allready Selected`, Static.Close, SnackBar.error);
-    }
+    // } else {
+    //   this.dataSource.data[index].productCode = null;
+    //   this.dataSource = new MatTableDataSource(this.dataSource.data);
+    //   this.alertService.openSnackBar(`Product Code( ${productCode.value} ) Allready Selected`, Static.Close, SnackBar.error);
+    // }
   }
 
-  checkProductCode(code, index) {
-    if (!isNullOrUndefined(code.value)) {
-      for (let c = 0; c < this.dataSource.data.length; c++) {
-        if ((this.dataSource.data[c].productCode == code.value) && c != index) {
-          return false;
-        }
-      }
-      return true;
-    }
-  }
+  // checkProductCode(code, index) {
+  //   if (!isNullOrUndefined(code.value)) {
+  //     for (let c = 0; c < this.dataSource.data.length; c++) {
+  //       if ((this.dataSource.data[c].productCode == code.value) && c != index) {
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }
+  // }
 
-  billingDetailsSection(obj) {
+  billingDetailsSection(obj, index) {
     if (isNullOrUndefined(obj.availStock) || (obj.availStock == 0)) {
       this.alertService.openSnackBar(`This Product(${obj.productCode}) available stock is 0`, Static.Close, SnackBar.error);
     }
-    this.dataSource.data = this.dataSource.data.map(val => {
-      if (val.productCode == obj.productCode) {
-        this.tableFormData.patchValue({
-          productCode: obj.productCode,
-          productName: obj.productName
-        });
-        val = obj;
-      }
-      val.text = 'obj';
-      return val;
+    obj.text = 'obj';
+    this.dataSource.data[index] = obj;
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.tableFormData.patchValue({
+      productCode: obj.productCode,
+      productName: obj.productName
     });
-    if (this.disableSlipValData(obj)) {
-      this.setToFormModel(null, null, null, true);
-    }
+    // this.dataSource.data = this.dataSource.data.map(val => {
+    //   if (val.productCode == obj.productCode) {
+    //     this.tableFormData.patchValue({
+    //       productCode: obj.productCode,
+    //       productName: obj.productName
+    //     });
+    //     val = obj;
+    //   }
+    //   val.text = 'obj';
+    //   return val;
+    // });
+    // if (this.disableSlipValData(obj)) {
+      this.setToFormModel(null, null, null);
+    // }
   }
 
   getProductByProductName(value) {
@@ -788,9 +807,9 @@ export class CreateBillComponent implements OnInit {
     this.tableFormData.patchValue({
       productName: name.value
     });
-    if (this.disableSlipValData(column)) {
-      this.setToFormModel(null, null, null, true);
-    }
+    // if (this.disableSlipValData(column)) {
+      this.setToFormModel(null, null, null);
+    // }
   }
 
   print() {

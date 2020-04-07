@@ -37,7 +37,7 @@ export class TransactionsComponent implements OnInit {
     activatedRoute.params.subscribe(params => {
       this.routeParams = params.id;
       this.tableUrl = transactionsService.getRouteUrls(params.id);
-      if (!isNullOrUndefined(this.tableUrl)) {
+      if (!isNullOrUndefined(this.tableUrl) && this.tableUrl.coustom) {
         this.getTableData();
         if (!isNullOrUndefined(this.tableComponent)) {
           this.tableComponent.defaultValues();

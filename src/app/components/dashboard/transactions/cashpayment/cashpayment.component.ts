@@ -40,18 +40,35 @@ branchCode: any;
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
-      voucherNo: [null]
+      voucherNo: [null],
+      role:[null]
     });
   }
 
   ngOnInit() {
       this.branchCode = JSON.parse(localStorage.getItem('user'));
-      this.search();
+      // this.search();
+      this.dateForm.patchValue({role:this.branchCode.role})
+      this.getCashPaymentMasterList();
   }
 
+  getCashPaymentMasterList(){
+    const getCashPaymentMasterListUrl = String.Join('/', this.apiConfigService.getCashPaymentMasterList, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getCashPaymentMasterListUrl, this.dateForm.value).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response['cashPaymentMasterList']) && res.response['cashPaymentMasterList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['cashPaymentMasterList']);
+            this.dataSource.paginator = this.paginator;
+            this.spinner.hide();
+          }
+        }
+      });
+  }
 
 
   getCashPaymentList() {
@@ -83,7 +100,8 @@ branchCode: any;
           this.dateForm.patchValue({
             fromDate:  this.commonService.formatDate(this.dateForm.value.selected.start._d),
             toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d),
-            voucherNo:this.dateForm.value.voucherNo
+            voucherNo:this.dateForm.value.voucherNo,
+            role:this.branchCode.role
           });
         }
     }

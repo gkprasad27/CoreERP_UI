@@ -502,9 +502,9 @@ export class PurchaseCreateComponent implements OnInit {
 
   calculateAmount(row, index) {
     if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = row.qty * row.rate;
+      this.dataSource.data[index].grossAmount = Math.round(row.qty * row.rate);
     } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = row.fQty * row.rate;
+      this.dataSource.data[index].grossAmount = Math.round(0 * row.rate);
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
@@ -534,59 +534,66 @@ export class PurchaseCreateComponent implements OnInit {
   }
 
   getProductDeatilsSectionRcd(productCode, index) {
-    if (this.checkProductCode(productCode, index)) {
-      if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
-        !isNullOrUndefined(productCode.value) && productCode.value != '') {
-        const getProductDeatilsSectionRcdUrl = String.Join('/', this.apiConfigService.getProductDeatilsSectionRcd,
-          this.branchFormData.get('branchCode').value, productCode.value);
-        this.apiService.apiGetRequest(getProductDeatilsSectionRcdUrl).subscribe(
-          response => {
-            const res = response.body;
-            if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-              if (!isNullOrUndefined(res.response)) {
-                if (!isNullOrUndefined(res.response['ProductDeatilsSectionRcd'])) {
-                  this.billingDetailsSection(res.response['ProductDeatilsSectionRcd']);
-                  this.getProductByProductCodeArray = [];
-                  this.spinner.hide();
-                }
+    // if (this.checkProductCode(productCode, index)) {
+    if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
+      !isNullOrUndefined(productCode.value) && productCode.value != '') {
+      const getProductDeatilsSectionRcdUrl = String.Join('/', this.apiConfigService.getProductDeatilsSectionRcd,
+        this.branchFormData.get('branchCode').value, productCode.value);
+      this.apiService.apiGetRequest(getProductDeatilsSectionRcdUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['ProductDeatilsSectionRcd'])) {
+                this.billingDetailsSection(res.response['ProductDeatilsSectionRcd'], index);
+                this.getProductByProductCodeArray = [];
+                this.spinner.hide();
               }
             }
-          });
-      }
-    } else {
-      this.dataSource.data[index].productCode = null;
-      this.dataSource = new MatTableDataSource(this.dataSource.data);
-      this.alertService.openSnackBar(`Product Code( ${productCode.value} ) Allready Selected`, Static.Close, SnackBar.error);
+          }
+        });
     }
+    // } else {
+    //   this.dataSource.data[index].productCode = null;
+    //   this.dataSource = new MatTableDataSource(this.dataSource.data);
+    //   this.alertService.openSnackBar(`Product Code( ${productCode.value} ) Allready Selected`, Static.Close, SnackBar.error);
+    // }
   }
 
-  checkProductCode(code, index) {
-    if (!isNullOrUndefined(code.value)) {
-      for (let c = 0; c < this.dataSource.data.length; c++) {
-        if ((this.dataSource.data[c].productCode == code.value) && c != index) {
-          return false;
-        }
-      }
-      return true;
-    }
-  }
+  // checkProductCode(code, index) {
+  //   if (!isNullOrUndefined(code.value)) {
+  //     for (let c = 0; c < this.dataSource.data.length; c++) {
+  //       if ((this.dataSource.data[c].productCode == code.value) && c != index) {
+  //         return false;
+  //       }
+  //     }
+  //     return true;
+  //   }
+  // }
 
 
-  billingDetailsSection(obj) {
+  billingDetailsSection(obj, index) {
     if (isNullOrUndefined(obj.availStock) || (obj.availStock == 0)) {
       this.alertService.openSnackBar(`This Product(${obj.productCode}) available stock is 0`, Static.Close, SnackBar.error);
     }
-    this.dataSource.data = this.dataSource.data.map(val => {
-      if (val.productCode == obj.productCode) {
-        this.tableFormData.patchValue({
-          productCode: obj.productCode,
-          productName: obj.productName
-        });
-        val = obj;
-      }
-      val.text = 'obj';
-      return val;
+    obj.text = 'obj';
+    this.dataSource.data[index] = obj;
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.tableFormData.patchValue({
+      productCode: obj.productCode,
+      productName: obj.productName
     });
+    // this.dataSource.data = this.dataSource.data.map(val => {
+    //   if (val.productCode == obj.productCode) {
+    //     this.tableFormData.patchValue({
+    //       productCode: obj.productCode,
+    //       productName: obj.productName
+    //     });
+    //     val = obj;
+    //   }
+    //   val.text = 'obj';
+    //   return val;
+    // });
     this.setToFormModel(null, null, null);
   }
 

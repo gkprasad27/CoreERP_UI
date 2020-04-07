@@ -19,7 +19,7 @@ import * as moment from 'moment';
   styleUrls: ['./cashreceipt.component.scss']
 })
 export class CashReceiptComponent implements OnInit {
-  selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
+  // selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
 
   dateForm: FormGroup;
   // table
@@ -40,16 +40,34 @@ branchCode:any;
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
-      voucherNo: [null]
+      voucherNo: [null],
+      role:[null]
     });
   }
 
   ngOnInit() {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
-    this.search();
+    
+    this.dateForm.patchValue({role:this.branchCode.role})
+    this.getCashReceiptMasterList();
+  }
+
+  getCashReceiptMasterList(){
+    const getCashReceiptMasterListUrl = String.Join('/', this.apiConfigService.getCashReceiptMasterList, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getCashReceiptMasterListUrl, this.dateForm.value).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response['cashReceiptMasterList']) && res.response['cashReceiptMasterList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['cashReceiptMasterList']);
+            this.dataSource.paginator = this.paginator;
+            this.spinner.hide();
+          }
+        }
+      });
   }
 
   getCashReceiptList() {
@@ -80,7 +98,8 @@ branchCode:any;
           this.dateForm.patchValue({
             fromDate:  this.commonService.formatDate(this.dateForm.value.selected.start._d),
             toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d),
-            voucherNo:this.dateForm.value.voucherNo
+            voucherNo:this.dateForm.value.voucherNo,
+            role:this.branchCode.role
           });
         }
     }

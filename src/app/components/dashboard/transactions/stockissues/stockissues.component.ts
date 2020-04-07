@@ -48,15 +48,33 @@ export class StockissuesComponent implements OnInit {
       selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
-      issueNo: [null]
+      issueNo: [null],
+      role: [null]
     });
   }
 
   ngOnInit()
   {
-     //;
     this.branchCode = JSON.parse(localStorage.getItem('user'));
-    this.search();
+    this.dateForm.patchValue({ role: this.branchCode.role })
+    this.getInvoiceDetails();
+  }
+
+  getInvoiceDetails()
+  {
+    //debugger;
+    const getInvoiceDetailstUrl = String.Join('/', this.apiConfigService.getStockissuesDeatilListLoad, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getInvoiceDetailstUrl, this.dateForm.value).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response['StockIssueList']) && res.response['StockIssueList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['StockIssueList']);
+            this.dataSource.paginator = this.paginator;
+            this.spinner.hide();
+          }
+        }
+      });
   }
 
   openStockissues(row)
@@ -69,6 +87,7 @@ export class StockissuesComponent implements OnInit {
   returnSdeale() {
     this.router.navigate(['dashboard/transactions/stockissues/CreateStockissues', 'return']);
   }
+
 
   //Search and datadisplay code
   search() {

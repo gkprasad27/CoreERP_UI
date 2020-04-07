@@ -181,7 +181,7 @@
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.hsnNo"
                                 [(ngModel)]="element.hsnNo"
-                                (input)="setToFormModel(element.text, 'hsnNo', element.hsnNo, disableSlipValData(element))" appFocusOnEnter
+                                (input)="setToFormModel(element.text, 'hsnNo', element.hsnNo)" appFocusOnEnter
                                 tabIndex="3" /> </td>
                     </ng-container>
 
@@ -203,7 +203,7 @@
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.qty"
                                 (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
                                 [(ngModel)]="element.qty" appFocusOnEnter tabIndex="5"
-                                (input)="setToFormModel(element.text, 'qty', element.qty,  disableSlipValData(element)); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty', element);" />
+                                (input)="setToFormModel(element.text, 'qty', element.qty); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty', element);" />
                         </td>
                     </ng-container>
 
@@ -216,7 +216,7 @@
                                 [disabled]="element.text != 'obj'" [value]="element.fQty" [(ngModel)]="element.fQty"
                                 (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
                                 appFocusOnEnter tabIndex="6"
-                                (input)="setToFormModel(element.text, 'fQty', element.fQty,  disableSlipValData(element)); clearQty(dataSource.filteredData.indexOf(element), element.fQty, 'fQty', element);" />
+                                (input)="setToFormModel(element.text, 'fQty', element.fQty); clearQty(dataSource.filteredData.indexOf(element), element.fQty, 'fQty', element);" />
                         </td>
                     </ng-container>
 
@@ -224,9 +224,10 @@
                         <th mat-header-cell *matHeaderCellDef> {{ 'SALESINVOICE.slipNo' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number"
+                            [ngClass]="setBackGroundColor(element.slipNo, disableSlipVal(element.productCode))"
                                 [disabled]="element.text != 'obj' || disableSlipVal(element.productCode)"
                                 [value]="element.slipNo" [(ngModel)]="element.slipNo" appFocusOnEnter tabIndex="7"
-                                (input)="setToFormModel(element.text, 'slipNo', element.slipNo,  disableSlipValData(element))" /> </td>
+                                (input)="setToFormModel(element.text, 'slipNo', element.slipNo)" /> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="unitName">
@@ -234,7 +235,7 @@
                         <td mat-cell *matCellDef="let element;">
                             <input matInput [disabled]="element.text != 'obj'" [value]="element.unitName"
                                 [(ngModel)]="element.unitName" appFocusOnEnter tabIndex="8"
-                                (input)="setToFormModel(element.text, 'unitName', element.unitName,  disableSlipValData(element))" /> </td>
+                                (input)="setToFormModel(element.text, 'unitName', element.unitName)" /> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="discount">
@@ -242,14 +243,14 @@
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.discount"
                                 [(ngModel)]="element.discount" appFocusOnEnter tabIndex="9"
-                                (input)="setToFormModel(element.text, 'discount', element.discount,  disableSlipValData(element))" /> </td>
+                                (input)="setToFormModel(element.text, 'discount', element.discount)" /> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="taxGroupName">
                         <th mat-header-cell *matHeaderCellDef> {{ 'SALESINVOICE.taxGroupName' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput disabled [value]="element.taxGroupName" [(ngModel)]="element.taxGroupName"
-                                (input)="setToFormModel(element.text, 'taxGroupName', element.taxGroupName,  disableSlipValData(element))" />
+                                (input)="setToFormModel(element.text, 'taxGroupName', element.taxGroupName)" />
                         </td>
                     </ng-container>
 
@@ -257,7 +258,8 @@
                         <th mat-header-cell *matHeaderCellDef> {{ 'SALESINVOICE.rate' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput appFocusOnEnter tabIndex="10" [value]="element.rate" [(ngModel)]="element.rate"
-                                (input)="setToFormModel(element.text, 'rate', element.rate,  disableSlipValData(element))" />
+                            (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
+                                (input)="setToFormModel(element.text, 'rate', element.rate)" />
                         </td>
                     </ng-container>
 
@@ -266,14 +268,14 @@
                         <td mat-cell *matCellDef="let element;">
                             <input type="number" matInput disabled [value]="element.grossAmount"
                                 [(ngModel)]="element.grossAmount"
-                                (input)="setToFormModel(element.text, 'grossAmount', element.grossAmount,  disableSlipValData(element))" /> </td>
+                                (input)="setToFormModel(element.text, 'grossAmount', element.grossAmount)" /> </td>
                     </ng-container>
 
                     <ng-container matColumnDef="availStock">
                         <th mat-header-cell *matHeaderCellDef> {{ 'SALESINVOICE.availStock' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput disabled [value]="element.availStock" [(ngModel)]="element.availStock"
-                                (input)="setToFormModel(element.text, 'availStock', element.availStock,  disableSlipValData(element));" />
+                                (input)="setToFormModel(element.text, 'availStock', element.availStock);" />
                         </td>
                     </ng-container>
 

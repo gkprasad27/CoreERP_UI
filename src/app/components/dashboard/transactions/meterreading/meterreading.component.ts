@@ -9,6 +9,7 @@ import { ApiConfigService } from '../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../services/api.service';
 import { CommonService } from '../../../../services/common.service';
+import { userInfo } from 'os';
 
 
 
@@ -26,8 +27,8 @@ export class MeterReadingComponent  implements OnInit {
   getMeterReadingBranches:any;
   getPumpList:any;
   getShiftList:any;
-
- 
+  getOBFromPumpList:any;
+  user : any;
 
   constructor(
     private alertService: AlertService,
@@ -83,25 +84,24 @@ export class MeterReadingComponent  implements OnInit {
 calculateAmount(){
   let amount =0;
   this.modelFormData.patchValue({
-    totalSales:(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
+    totalSales:Math.round(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
     -this.modelFormData.get('testing').value-this.modelFormData.get('density').value-this.modelFormData.get('consumption').value),
-    invoiceSales:(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
+    invoiceSales:Math.round(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
     -this.modelFormData.get('testing').value-this.modelFormData.get('density').value-this.modelFormData.get('consumption').value),
   });
 }
 
 calculateSales(){
   this.modelFormData.patchValue({
-    invoiceSales:(this.modelFormData.get('totalSales').value-this.modelFormData.get('variation').value),
+    invoiceSales:Math.round(this.modelFormData.get('totalSales').value-this.modelFormData.get('variation').value),
   });
 }
  
 
   ngOnInit() {
-  const user = JSON.parse(localStorage.getItem('user'));
-this.getMeterReadingBranchesList();
-// this.getPump(user.branchCode);
-this.getShift(user.userId);
+  this.user = JSON.parse(localStorage.getItem('user'));
+  this.getMeterReadingBranchesList();
+  this.getShift(this.user.userId);
   }
 
   getMeterReadingBranchesList() {
@@ -137,6 +137,26 @@ this.getShift(user.userId);
               this.getShiftList = res.response['ShiftList'];
               this.modelFormData.patchValue({
                 shiftId: this.getShiftList.shiftId
+              });
+              this.spinner.hide();
+          }
+          }
+        }
+      });
+  }
+
+  getOBFromPump() {
+    const getOBFromPumpUrl = String.Join('/', this.apiConfigService.getOBFromPump,this.user.branchCode,this.modelFormData.get('pumpNo').value);
+    this.apiService.apiPostRequest(getOBFromPumpUrl)
+      .subscribe(
+        response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['OBList'])) {
+              this.getOBFromPumpList = res.response['OBList'];
+              this.modelFormData.patchValue({
+                inMeterReading: this.getOBFromPumpList.outMeterReading
               });
               this.spinner.hide();
           }

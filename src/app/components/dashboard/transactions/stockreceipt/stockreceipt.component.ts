@@ -29,6 +29,7 @@ export class StockreceiptsComponent implements OnInit {
   ];
     receiptNo: any;
     fromBranchCode: any;
+    branchCode: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -45,16 +46,32 @@ export class StockreceiptsComponent implements OnInit {
       selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
-      receiptNo: [null]
+      receiptNo: [null],
+      role: [null]
     });
   }
 
   ngOnInit()
   {
-    this.fromBranchCode = JSON.parse(localStorage.getItem('user'));
-    this.search();
+    this.branchCode = JSON.parse(localStorage.getItem('user'));
+    this.dateForm.patchValue({ role: this.branchCode.role })
+    this.getInvoiceDetails();
   }
-
+  getInvoiceDetails() {
+    //debugger;
+    const getInvoiceDetailstUrl = String.Join('/', this.apiConfigService.getStockreceiptsDeatilListLoad, this.branchCode.branchCode);
+    this.apiService.apiPostRequest(getInvoiceDetailstUrl, this.dateForm.value).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response['StockIssueList']) && res.response['StockIssueList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['StockIssueList']);
+            this.dataSource.paginator = this.paginator;
+            this.spinner.hide();
+          }
+        }
+      });
+  }
 
 
   openStockreceipt(row)
@@ -88,7 +105,7 @@ export class StockreceiptsComponent implements OnInit {
   getStockreceiptList()
   {
     //debugger;
-    const getInvoiceListUrl = String.Join('/', this.apiConfigService.getStockreceiptsList, this.fromBranchCode.branchCode);
+    const getInvoiceListUrl = String.Join('/', this.apiConfigService.getStockreceiptsList, this.branchCode.branchCode);
 
     this.apiService.apiPostRequest(getInvoiceListUrl, this.dateForm.value).subscribe(
       response => {
