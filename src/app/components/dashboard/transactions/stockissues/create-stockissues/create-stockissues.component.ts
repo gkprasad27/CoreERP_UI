@@ -50,6 +50,7 @@ export class CreateStockissuesComponent implements OnInit {
   getProductByProductNameArray: any[];
   orders: any;
   GettoBranchesListArray: any;
+  toBranchCode:any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -272,28 +273,20 @@ export class CreateStockissuesComponent implements OnInit {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
-            if (!isNullOrUndefined(res.response['branch']) && res.response['branch'].length) {
-              this.GettoBranchesListArray = res.response['branch'];
+            if (!isNullOrUndefined(res.response['branch']) && res.response['branch'].length)
+            {
+              console.log(res.response['branch']);
+              this.toBranchCode = res.response['branch']
+              this.branchFormData.patchValue
+                ({
+                  toBranchCode: res.response['branch']
+                });
+              //this.GettoBranchesListArray = res.response['branch'];
               this.spinner.hide();
             }
           }
         }
       });
-   // debugger;
-    //const gettingtobranchesListUrl = String.Join('/', this.apiConfigService.gettingtobranchesList, this.branchFormData.get('fromBranchCode').value);
-    //this.apiService.apiGetRequest(gettingtobranchesListUrl).subscribe(
-    //  response => {
-    //    const res = response.body;
-    //    if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-    //      if (!isNullOrUndefined(res.response)) {
-    //        if (!isNullOrUndefined(res.response['branch']) && res.response['branch'].length)
-    //        {
-    //          this.GettoBranchesListArray = res.response['branch'];
-    //          this.commonService.hideSpinner();
-    //        }
-    //      }
-    //    }
-    //  });
   }
 
 
@@ -535,7 +528,7 @@ export class CreateStockissuesComponent implements OnInit {
         {
           if (!isNullOrUndefined(res.response))
           {
-            this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
+            this.alertService.openSnackBar('Stock Issues Created Successfully..', Static.Close, SnackBar.success);
             //this.branchFormData.reset();
           }
           this.reset();

@@ -52,24 +52,10 @@ branchCode:any;
     this.branchCode = JSON.parse(localStorage.getItem('user'));
     // this.search();
     this.dateForm.patchValue({role:this.branchCode.role})
-    this.getBankReceiptMasterList();
+    this.getBankreceiptList();
   }
   
-  getBankReceiptMasterList(){
-    const getBankReceiptMasterListUrl = String.Join('/', this.apiConfigService.getBankReceiptMasterList, this.branchCode.branchCode);
-    this.apiService.apiPostRequest(getBankReceiptMasterListUrl, this.dateForm.value).subscribe(
-      response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['bankReceiptMasterList']) && res.response['bankReceiptMasterList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['bankReceiptMasterList']);
-            this.dataSource.paginator = this.paginator;
-            this.spinner.hide();
-          }
-        }
-      });
-  }
-
+ 
   getBankreceiptList() {
     const getBankreceiptListUrl = String.Join('/', this.apiConfigService.getBankreceiptList, this.branchCode.branchCode);
     this.apiService.apiPostRequest(getBankreceiptListUrl, this.dateForm.value).subscribe(

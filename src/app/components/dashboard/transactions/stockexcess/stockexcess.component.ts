@@ -40,16 +40,18 @@ branchCode: any;
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
-      stockExcessNo: [null]
+      stockExcessNo: [null],
+      role:[null]
     });
   }
 
   ngOnInit() {
       this.branchCode = JSON.parse(localStorage.getItem('user'));
-      this.search();
+      this.dateForm.patchValue({role:this.branchCode.role})
+      this.getStockexcessList();
   }
 
 

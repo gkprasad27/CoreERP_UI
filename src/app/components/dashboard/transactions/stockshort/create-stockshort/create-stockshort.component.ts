@@ -485,7 +485,7 @@ export class CreateStockshortsComponent implements OnInit {
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response))
           {
-            this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
+            this.alertService.openSnackBar('Stock Short Created Successfully..', Static.Close, SnackBar.success);
             this.branchFormData.reset();
           }
           this.reset();

@@ -52,23 +52,10 @@ branchCode: any;
       this.branchCode = JSON.parse(localStorage.getItem('user'));
       // this.search();
       this.dateForm.patchValue({role:this.branchCode.role})
-      this.getCashPaymentMasterList();
+      this.getCashPaymentList();
   }
 
-  getCashPaymentMasterList(){
-    const getCashPaymentMasterListUrl = String.Join('/', this.apiConfigService.getCashPaymentMasterList, this.branchCode.branchCode);
-    this.apiService.apiPostRequest(getCashPaymentMasterListUrl, this.dateForm.value).subscribe(
-      response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['cashPaymentMasterList']) && res.response['cashPaymentMasterList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['cashPaymentMasterList']);
-            this.dataSource.paginator = this.paginator;
-            this.spinner.hide();
-          }
-        }
-      });
-  }
+  
 
 
   getCashPaymentList() {

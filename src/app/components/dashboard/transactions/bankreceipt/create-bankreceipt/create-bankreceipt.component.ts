@@ -440,7 +440,7 @@ export class CreateBankreceiptComponent implements OnInit {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
-            this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
+            this.alertService.openSnackBar('Bank Receipt Created Successfully..', Static.Close, SnackBar.success);
           }
           this.reset();
           this.spinner.hide();

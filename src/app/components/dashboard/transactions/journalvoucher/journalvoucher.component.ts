@@ -52,23 +52,10 @@ branchCode:any;
     this.branchCode = JSON.parse(localStorage.getItem('user'));
       
       this.dateForm.patchValue({role:this.branchCode.role})
-      this.getJournalVoucherMasterList();
+      this.getJournalvoucherList();
   }
 
-  getJournalVoucherMasterList(){
-    const getJournalVoucherMasterListUrl = String.Join('/', this.apiConfigService.getJournalVoucherMasterList, this.branchCode.branchCode);
-    this.apiService.apiPostRequest(getJournalVoucherMasterListUrl, this.dateForm.value).subscribe(
-      response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['journalVoucherMasterList']) && res.response['journalVoucherMasterList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['journalVoucherMasterList']);
-            this.dataSource.paginator = this.paginator;
-            this.spinner.hide();
-          }
-        }
-      });
-  }
+  
   getJournalvoucherList() {
     const getJournalvoucherListUrl = String.Join('/', this.apiConfigService.getJournalvoucherList, this.branchCode.branchCode);
     this.apiService.apiPostRequest(getJournalvoucherListUrl, this.dateForm.value).subscribe(

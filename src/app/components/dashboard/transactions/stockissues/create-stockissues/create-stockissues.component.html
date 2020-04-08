@@ -22,12 +22,8 @@
           </mat-form-field>
 
           <mat-form-field class="form-element">
-            <mat-label>{{ 'stockissues.toBranchCode' | translate }}</mat-label>
-            <mat-select formControlName="toBranchCode" appFocusOnEnter tabIndex="3">
-              <mat-option *ngFor="let branch of GettoBranchesListArray" [value]="branch.id">
-                {{ branch.id }} - {{branch.text}}
-              </mat-option>
-            </mat-select>
+            <input matInput placeholder="{{ 'stockissues.toBranchCode' | translate }}" formControlName="toBranchCode"
+                   appFocusOnEnter tabIndex="1">
           </mat-form-field>
 
           <mat-form-field class="form-element">

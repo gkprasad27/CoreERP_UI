@@ -681,7 +681,7 @@ export class CreateBillComponent implements OnInit {
       totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax : null,
     });
     this.branchFormData.patchValue({
-      grandTotal: (this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value),
+      grandTotal: (this.disabledPump(row.productCode) ? Math.round((this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value)) : (this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value)),
       totalCgst: (this.taxPercentage) ? (totalTax / 2) : 0,
       totalSgst: (this.taxPercentage) ? (totalTax / 2) : 0,
       totalIgst: (!this.taxPercentage) ? (totalTax) : 0,
@@ -893,7 +893,7 @@ export class CreateBillComponent implements OnInit {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
-            this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
+            this.alertService.openSnackBar('Billing Successfully..', Static.Close, SnackBar.success);
             if (this.printBill) {
               this.dialog.open(PrintComponent, {
                 width: '1024px',
@@ -915,7 +915,7 @@ export class CreateBillComponent implements OnInit {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
-            this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
+            this.alertService.openSnackBar('Billing Return Successfully..', Static.Close, SnackBar.success);
           }
           this.reset();
           this.spinner.hide();
