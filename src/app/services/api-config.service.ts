@@ -57,11 +57,19 @@ export class ApiConfigService {
    registerPurchase = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/RegisterPurchase`;
    getPurchaseInvoiceList = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetInvoiceList`;
    getPurchaseInvoiceDeatilList = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetInvoiceDeatilList`;
+   getPurchaseStateList = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GeStateList`;
+   getPurchaseSelectedState = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GeSelectedState`;
+   getPurchaseCashPartyAccount = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetCashPartyAccount`;
+   getPurchasePurchaseReturnInvNo = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GeneratePurchaseReturnInvNo`;
+   getPurchaseRegisterPurchaseReturn = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/RegisterPurchaseReturn`;
+
+   
 
    // *******************************   Transaction *****************************************
 
    // Cash Payment
    getCashPaymentList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetCashpaymentList`;
+   getAccountLedgerListByName = `http://localhost:51414/api/transactions/CashPayment/GetAccountLedgerListByName`;
    getCashPaymentBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetBranchesList`;
    getCashPaymentVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetVoucherNo`;
    getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
@@ -71,6 +79,7 @@ export class ApiConfigService {
 
    // Cash Receipt
    getCashReceiptList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetCashreceiptList`;
+   getCRAccountLedgerListByName = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetAccountLedgerListByName`;
    getCashReceiptBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetBranchesList`;
    getCashReceiptVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetVoucherNo`;
    // // getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
@@ -82,6 +91,7 @@ export class ApiConfigService {
 
    // Bank Payment
    getBankpaymentList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBankpaymentList`;
+   getBPAccountLedgerListByName = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetAccountLedgerListByName`;
    getBankPaymentBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBranchesList`;
    getBankPaymentVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetVoucherNo`;
    getBPAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetAccountLedgerList`;
@@ -92,6 +102,7 @@ export class ApiConfigService {
 
    // Bank Receipt
    getBankreceiptList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBankreceiptList`;
+   getBRAccountLedgerListByName = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetAccountLedgerListByName`;
    getBankReceiptBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBranchesList`;
    getBankReceiptVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetVoucherNo`;
    getBRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetAccountLedgerList`;
@@ -102,6 +113,7 @@ export class ApiConfigService {
 
    // Journal Voucher
    getJournalvoucherList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalvoucherList`;
+   getJVAccountLedgerListByName = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetAccountLedgerListByName`;
    getJournalVoucherBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetBranchesList`;
    getJournalVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetVoucherNo`;
    getJournalVoucherAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetAccountLedgerList`;

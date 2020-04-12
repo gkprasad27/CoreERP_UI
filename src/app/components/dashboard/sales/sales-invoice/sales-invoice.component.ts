@@ -47,14 +47,15 @@ export class SalesInvoiceComponent implements OnInit {
       fromDate: [null],
       toDate: [null],
       invoiceNo: [null],
-      role:[null]
+      Role:[null]
     });
   }
 
   ngOnInit() {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
-    // this.search();
-    this.dateForm.patchValue({role:this.branchCode.role})
+    this.dateForm.patchValue({
+      Role: this.branchCode.role
+    })
     this.getInvoiceList();
   }
 

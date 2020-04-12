@@ -43,12 +43,16 @@ export class PurchaseComponent implements OnInit {
       selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
-      invoiceNo: [null]
+      invoiceNo: [null],
+      Role: [null]
     });
   }
 
   ngOnInit() {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
+    this.dateForm.patchValue({
+      Role: this.branchCode.role
+    })
     this.search();
   }
 

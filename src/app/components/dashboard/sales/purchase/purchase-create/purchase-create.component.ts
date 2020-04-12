@@ -190,6 +190,7 @@ export class PurchaseCreateComponent implements OnInit {
     this.branchFormData.controls['totalIgst'].disable();
     this.branchFormData.controls['amountInWords'].disable();
     this.branchFormData.controls['userName'].disable();
+    this.branchFormData.controls['ledgerName'].disable();
   }
 
 
@@ -255,7 +256,7 @@ export class PurchaseCreateComponent implements OnInit {
       }
     }
     if (!flag) {
-      this.alertService.openSnackBar(`You are not eeligible to use this Branch(${this.branchFormData.get('branchCode').value}) code`, Static.Close, SnackBar.error);
+      this.alertService.openSnackBar(`You are not eligible to use this Branch(${this.branchFormData.get('branchCode').value}) code`, Static.Close, SnackBar.error);
       this.branchFormData.patchValue({
         branchCode: null,
         branchName: null,
@@ -313,10 +314,11 @@ export class PurchaseCreateComponent implements OnInit {
     this.branchFormData.patchValue({
       ledgerName: !isNullOrUndefined(lname[0]) ? lname[0].text : null
     });
+    this.getCashPartyAccount();
   }
 
   getCashPartyAccount() {
-    const getCashPartyAccountUrl = String.Join('/', this.apiConfigService.getCashPartyAccount,
+    const getCashPartyAccountUrl = String.Join('/', this.apiConfigService.getPurchaseCashPartyAccount,
       this.branchFormData.get('ledgerCode').value);
     this.apiService.apiGetRequest(getCashPartyAccountUrl).subscribe(
       response => {
@@ -326,7 +328,9 @@ export class PurchaseCreateComponent implements OnInit {
             if (!isNullOrUndefined(res.response['CashPartyAccount'])) {
               this.branchFormData.patchValue({
                 ledgerName: res.response['CashPartyAccount']['ledgerName'],
-                paymentMode: res.response['CashPartyAccount']['crOrDr']
+                ledgerId: res.response['CashPartyAccount']['ledgerId'],
+                paymentMode: res.response['CashPartyAccount']['crOrDr'],
+                gstin: res.response['CashPartyAccount']['tin']
               });
               this.spinner.hide();
             }
@@ -336,7 +340,7 @@ export class PurchaseCreateComponent implements OnInit {
   }
 
   getStateList() {
-    const getStateListUrl = String.Join('/', this.apiConfigService.getStateList);
+    const getStateListUrl = String.Join('/', this.apiConfigService.getPurchaseStateList);
     this.apiService.apiGetRequest(getStateListUrl).subscribe(
       response => {
         const res = response.body;
@@ -345,7 +349,8 @@ export class PurchaseCreateComponent implements OnInit {
             if (!isNullOrUndefined(res.response['StateList']) && res.response['StateList'].length) {
               this.getStateListArray = res.response['StateList'];
               this.branchFormData.patchValue({
-                stateCode: '37'
+                stateCode: '37',
+                stateName: 'ANDHRA PRADESH'
               });
               this.getSelectedState();
               this.spinner.hide();
@@ -356,7 +361,7 @@ export class PurchaseCreateComponent implements OnInit {
   }
 
   getSelectedState() {
-    const getSelectedStateUrl = String.Join('/', this.apiConfigService.getSelectedState,
+    const getSelectedStateUrl = String.Join('/', this.apiConfigService.getPurchaseSelectedState,
       this.branchFormData.get('stateCode').value);
     this.apiService.apiGetRequest(getSelectedStateUrl).subscribe(
       response => {
@@ -365,6 +370,10 @@ export class PurchaseCreateComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['StateList']) && res.response['StateList'].length) {
               const taxP = res.response['StateList'][0];
+              this.branchFormData.patchValue({
+                stateCode: taxP.stateCode,
+                StateName: taxP.stateName
+              });
               if (taxP.igst == 0) {
                 this.taxPercentage = true;
               } else {
@@ -376,11 +385,6 @@ export class PurchaseCreateComponent implements OnInit {
         }
       });
   }
-
-
-
-
-
 
 
   addTableRow() {
@@ -501,32 +505,35 @@ export class PurchaseCreateComponent implements OnInit {
   }
 
   calculateAmount(row, index) {
-    if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = Math.round(row.qty * row.rate);
-    } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = Math.round(0 * row.rate);
+    if (!isNullOrUndefined(row.totalLiters) && row.totalLiters != '') {
+      this.dataSource.data[index].grossAmount = (row.totalLiters * row.rate).toFixed(2);
+    } else {
+      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+        this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
+      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+        this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
     let totalTax = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].grossAmount) {
-        amount = amount + this.dataSource.data[a].grossAmount;
+        amount = amount + (+this.dataSource.data[a].grossAmount);
       }
     }
     let tax = (this.taxPercentage) ? (this.dataSource.data[index].cgst + this.dataSource.data[index].sgst) : this.dataSource.data[index].igst;
     let amountTax = (amount * 100) / (tax + 100);
-    amountTax = Math.round(amountTax * 100) / 100;
-    totalTax = Math.round(amountTax * tax) / 100;
+    totalTax = (amount - amountTax);
     this.branchFormData.patchValue({
-      totalAmount: !isNullOrUndefined(amountTax) ? amountTax : null,
-      totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax : null,
+      totalAmount: !isNullOrUndefined(amountTax) ? amountTax.toFixed(2) : null,
+      totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax.toFixed(2) : null,
     });
     this.branchFormData.patchValue({
-      grandTotal: (this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value),
-      totalCgst: (this.taxPercentage) ? (totalTax / 2) : 0,
-      totalSgst: (this.taxPercentage) ? (totalTax / 2) : 0,
-      totalIgst: (!this.taxPercentage) ? (totalTax) : 0,
+      grandTotal: (amountTax + totalTax).toFixed(2),
+      totalCgst: (this.taxPercentage) ? (totalTax / 2).toFixed(2) : 0,
+      totalSgst: (this.taxPercentage) ? (totalTax / 2).toFixed(2) : 0,
+      totalIgst: (!this.taxPercentage) ? (totalTax).toFixed(2) : 0,
     })
     this.branchFormData.patchValue({
       amountInWords: curValue.lakhWord(this.branchFormData.get('grandTotal').value)[0],
@@ -670,6 +677,7 @@ export class PurchaseCreateComponent implements OnInit {
     this.branchFormData.controls['paymentMode'].enable();
     this.branchFormData.controls['amountInWords'].enable();
     this.branchFormData.controls['userName'].enable();
+    this.branchFormData.controls['ledgerName'].enable();
   }
 
   reset() {

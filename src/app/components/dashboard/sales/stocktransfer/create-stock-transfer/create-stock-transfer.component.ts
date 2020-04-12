@@ -155,7 +155,7 @@ export class CreateStockTransferComponent implements OnInit {
       }
     }
     if (!flag) {
-      this.alertService.openSnackBar(`You are not eeligible to use this Branch(${this.formData.get('fromBranchCode').value}) code`, Static.Close, SnackBar.error);
+      this.alertService.openSnackBar(`You are not eligible to use this Branch(${this.formData.get('fromBranchCode').value}) code`, Static.Close, SnackBar.error);
       this.formData.patchValue({
         fromBranchCode: null,
         fromBranchName: null,
@@ -375,16 +375,16 @@ export class CreateStockTransferComponent implements OnInit {
 
   calculateAmount(row, index) {
     if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].totalAmount = Math.round(row.qty * row.rate);
+      this.dataSource.data[index].totalAmount = (row.qty * row.rate).toFixed(2);
     } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].totalAmount = Math.round(0 * row.rate);
+      this.dataSource.data[index].totalAmount = (0 * row.rate).toFixed(2);
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
     let qty = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].totalAmount) {
-        amount = amount + this.dataSource.data[a].totalAmount;
+        amount = amount + (+this.dataSource.data[a].totalAmount);
       }
       if (!isNullOrUndefined(this.dataSource.data[a].qty)) {
         qty = qty + this.dataSource.data[a].qty;
@@ -395,7 +395,7 @@ export class CreateStockTransferComponent implements OnInit {
     this.totalQty = qty;
     this.totalAmount = !isNullOrUndefined(amount) ? amount : null
     this.formData.patchValue({
-      totalAmount: !isNullOrUndefined(amount) ? amount : null,
+      totalAmount: !isNullOrUndefined(amount) ? amount.toFixed(2) : null,
     });
   }
 

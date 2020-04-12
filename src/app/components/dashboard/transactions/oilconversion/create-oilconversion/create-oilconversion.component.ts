@@ -188,9 +188,13 @@ export class CreateOilconversionsComponent implements OnInit {
   }
 
 
-  //issueno code;
-  genarateVoucherNo(branch?) {
+   //issueno code;
+   genarateVoucherNo(branch?) {
     //debugger;
+    this.branchFormData.patchValue
+      ({
+        oilConversionVchNo: String.Empty
+      });
     let genarateVoucherNoUrl;
     if (!isNullOrUndefined(branch)) {
       genarateVoucherNoUrl = String.Join('/', this.apiConfigService.getoilconversionvocherNo, branch);

@@ -104,13 +104,17 @@
             <th mat-header-cell *matHeaderCellDef>{{ 'bankpayment.toLedgerName' | translate }}</th>
             <td mat-cell *matCellDef="let element">
               <!-- <span >{{ element.name }} </span> -->
-              <input matInput [value]="element.toLedgerName" [(ngModel)]="element.toLedgerName" (input)="
+              <!-- <input matInput [value]="element.toLedgerName" [(ngModel)]="element.toLedgerName" (input)="
                   setToFormModel(
                     element.text,
                     'toLedgerName',
                     element.toLedgerName
                   )
-                " />
+                " /> -->
+                <input class="typeAhead" [(ngModel)]="element.toLedgerName" type="search"
+                [disabled]="element.text != 'obj'" (typeaheadOnSelect)="setAccountCode($event)"
+                (input)="getAccountByAccountName($event.target.value)"
+                [typeahead]="getAccountLedgerListArray" typeaheadOptionField='text'>
             </td>
           </ng-container>
 

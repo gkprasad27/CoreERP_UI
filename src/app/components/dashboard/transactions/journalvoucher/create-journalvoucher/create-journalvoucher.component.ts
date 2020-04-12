@@ -214,6 +214,26 @@ export class CreateJournalvoucherComponent implements OnInit {
     }
   }
 
+  getAccountByAccountName(value) {
+    if (!isNullOrUndefined(value) && value != '') {
+      const getAccountLedgerListUrl = String.Join('/', this.apiConfigService.getAccountLedgerListByName, value);
+      this.apiService.apiGetRequest(getAccountLedgerListUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['AccountLedgerList'])) {
+                this.getAccountLedgerListArray = res.response['AccountLedgerList'];
+                this.spinner.hide();
+              }
+            }
+          }
+        });
+    } else {
+      this.getAccountLedgerListArray = [];
+    }
+  }
+
   setLedgerName(value) {
     const lname = this.GetJournalVoucherListArray.filter(lCode => {
       if (lCode.id == this.branchFormData.get('fromLedgerCode').value) {
@@ -223,6 +243,43 @@ export class CreateJournalvoucherComponent implements OnInit {
     this.branchFormData.patchValue({
       fromLedgerName: !isNullOrUndefined(lname[0]) ? lname[0].text : null
     });
+  }
+
+  setAccountCode(value) {
+    let flag = true;
+    for (let t = 0; t < this.getAccountLedgerListArray.length; t++) {
+      if (this.getAccountLedgerListArray[t]['text'] == value.value) {
+        for (let d = 0; d < this.dataSource.data.length; d++) {
+          if (this.dataSource.data[d]['toLedgerName'] == this.getAccountLedgerListArray[t]['text']) {
+            this.dataSource.data[d]['toLedgerCode'] = this.getAccountLedgerListArray[t]['id'];
+            this.tableFormData.patchValue({
+              toLedgerCode : this.getAccountLedgerListArray[t].id,
+              toLedgerName : this.getAccountLedgerListArray[t].text
+            });
+            flag = false;
+            break;
+          }
+        }
+      }
+    }
+    if(flag) {
+        this.dataSource.data[this.dataSource.data.length - 1].toLedgerName = value.value;
+        for (let t = 0; t < this.getAccountLedgerListArray.length; t++) {
+          if (this.getAccountLedgerListArray[t]['text'] == value.value) {
+            for (let d = 0; d < this.dataSource.data.length; d++) {
+              if (this.dataSource.data[d]['toLedgerName'] == this.getAccountLedgerListArray[t]['text']) {
+                this.dataSource.data[d]['toLedgerCode'] = this.getAccountLedgerListArray[t]['id'];
+                this.tableFormData.patchValue({
+                  toLedgerCode : this.getAccountLedgerListArray[t].id,
+                  toLedgerName : this.getAccountLedgerListArray[t].text
+                        });
+                break;
+              }
+            }
+          }
+        }
+    }
+    this.dataSource = new MatTableDataSource(this.dataSource.data);
   }
 
   genarateVoucherNo(branch?) {

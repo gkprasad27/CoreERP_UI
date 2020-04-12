@@ -43,12 +43,16 @@ selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
       selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
-      invoiceNo: [null]
+      invoiceNo: [null],
+      Role: [null]
     });
   }
 
   ngOnInit() {
     this.branchCode = JSON.parse(localStorage.getItem('user'));
+    this.dateForm.patchValue({
+      Role: this.branchCode.role
+    })
     this.search();
   }
 

@@ -46,6 +46,7 @@ export class PurchaseReturnViewComponent implements OnInit {
   routeUrl = '';
   taxPercentage: any;
   tableLength = 6;
+  isPurchaseReturnInvoice: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -134,6 +135,9 @@ export class PurchaseReturnViewComponent implements OnInit {
         this.getPurchaseInvoiceDeatilList(params.id1);
         const billHeader = JSON.parse(localStorage.getItem('purchase'));
         this.branchFormData.setValue(billHeader);
+        const user = JSON.parse(localStorage.getItem('user'));
+        this.genarateBillNo(user.branchCode);
+
       } else {
         this.disableForm();
         this.addTableRow();
@@ -190,6 +194,7 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.branchFormData.controls['totalIgst'].disable();
     this.branchFormData.controls['amountInWords'].disable();
     this.branchFormData.controls['userName'].disable();
+    this.branchFormData.controls['ledgerName'].disable();
   }
 
 
@@ -255,7 +260,7 @@ export class PurchaseReturnViewComponent implements OnInit {
       }
     }
     if (!flag) {
-      this.alertService.openSnackBar(`You are not eeligible to use this Branch(${this.branchFormData.get('branchCode').value}) code`, Static.Close, SnackBar.error);
+      this.alertService.openSnackBar(`You are not eligible to use this Branch(${this.branchFormData.get('branchCode').value}) code`, Static.Close, SnackBar.error);
       this.branchFormData.patchValue({
         branchCode: null,
         branchName: null,
@@ -266,9 +271,9 @@ export class PurchaseReturnViewComponent implements OnInit {
       this.setBranchLenght();
       let generateBillUrl;
       if (!isNullOrUndefined(branch)) {
-        generateBillUrl = String.Join('/', this.apiConfigService.generatePurchaseInvNo, branch);
+        generateBillUrl = String.Join('/', this.apiConfigService.getPurchasePurchaseReturnInvNo, branch);
       } else {
-        generateBillUrl = String.Join('/', this.apiConfigService.generatePurchaseInvNo, this.branchFormData.get('branchCode').value);
+        generateBillUrl = String.Join('/', this.apiConfigService.getPurchasePurchaseReturnInvNo, this.branchFormData.get('branchCode').value);
       }
       this.apiService.apiGetRequest(generateBillUrl).subscribe(
         response => {
@@ -276,9 +281,10 @@ export class PurchaseReturnViewComponent implements OnInit {
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
             if (!isNullOrUndefined(res.response)) {
               if (!isNullOrUndefined(res.response['PurchaseInvoiceNo'])) {
-                this.branchFormData.patchValue({
-                  purchaseInvNo: res.response['PurchaseInvoiceNo']
-                });
+                // this.branchFormData.patchValue({
+                //   purchaseInvNo: res.response['PurchaseInvoiceNo']
+                // });
+                this.isPurchaseReturnInvoice = res.response['PurchaseInvoiceNo'];
                 this.spinner.hide();
               }
             }
@@ -313,6 +319,7 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.branchFormData.patchValue({
       ledgerName: !isNullOrUndefined(lname[0]) ? lname[0].text : null
     });
+    this.getCashPartyAccount();
   }
 
   getCashPartyAccount() {
@@ -326,7 +333,9 @@ export class PurchaseReturnViewComponent implements OnInit {
             if (!isNullOrUndefined(res.response['CashPartyAccount'])) {
               this.branchFormData.patchValue({
                 ledgerName: res.response['CashPartyAccount']['ledgerName'],
-                paymentMode: res.response['CashPartyAccount']['crOrDr']
+                ledgerId: res.response['CashPartyAccount']['ledgerId'],
+                paymentMode: res.response['CashPartyAccount']['crOrDr'],
+                gstin: res.response['CashPartyAccount']['tin']
               });
               this.spinner.hide();
             }
@@ -345,7 +354,8 @@ export class PurchaseReturnViewComponent implements OnInit {
             if (!isNullOrUndefined(res.response['StateList']) && res.response['StateList'].length) {
               this.getStateListArray = res.response['StateList'];
               this.branchFormData.patchValue({
-                stateCode: '37'
+                stateCode: '37',
+                stateName: 'ANDHRA PRADESH'
               });
               this.getSelectedState();
               this.spinner.hide();
@@ -365,6 +375,10 @@ export class PurchaseReturnViewComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['StateList']) && res.response['StateList'].length) {
               const taxP = res.response['StateList'][0];
+              this.branchFormData.patchValue({
+                stateCode: taxP.stateCode,
+                StateName: taxP.stateName
+              });
               if (taxP.igst == 0) {
                 this.taxPercentage = true;
               } else {
@@ -376,11 +390,6 @@ export class PurchaseReturnViewComponent implements OnInit {
         }
       });
   }
-
-
-
-
-
 
 
   addTableRow() {
@@ -501,32 +510,35 @@ export class PurchaseReturnViewComponent implements OnInit {
   }
 
   calculateAmount(row, index) {
-    if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = Math.round(row.qty * row.rate);
-    } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = Math.round(0 * row.rate);
+    if (!isNullOrUndefined(row.totalLiters) && row.totalLiters != '') {
+      this.dataSource.data[index].grossAmount = (row.totalLiters * row.rate).toFixed(2);
+    } else {
+      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+        this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
+      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+        this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
     let totalTax = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].grossAmount) {
-        amount = amount + this.dataSource.data[a].grossAmount;
+        amount = amount + (+this.dataSource.data[a].grossAmount);
       }
     }
     let tax = (this.taxPercentage) ? (this.dataSource.data[index].cgst + this.dataSource.data[index].sgst) : this.dataSource.data[index].igst;
     let amountTax = (amount * 100) / (tax + 100);
-    amountTax = Math.round(amountTax * 100) / 100;
-    totalTax = Math.round(amountTax * tax) / 100;
+    totalTax = (amount - amountTax);
     this.branchFormData.patchValue({
-      totalAmount: !isNullOrUndefined(amountTax) ? amountTax : null,
-      totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax : null,
+      totalAmount: !isNullOrUndefined(amountTax) ? amountTax.toFixed(2) : null,
+      totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax.toFixed(2) : null,
     });
     this.branchFormData.patchValue({
-      grandTotal: (this.branchFormData.get('totalAmount').value + this.branchFormData.get('totaltaxAmount').value),
-      totalCgst: (this.taxPercentage) ? (totalTax / 2) : 0,
-      totalSgst: (this.taxPercentage) ? (totalTax / 2) : 0,
-      totalIgst: (!this.taxPercentage) ? (totalTax) : 0,
+      grandTotal: (amountTax + totalTax).toFixed(2),
+      totalCgst: (this.taxPercentage) ? (totalTax / 2).toFixed(2) : 0,
+      totalSgst: (this.taxPercentage) ? (totalTax / 2).toFixed(2) : 0,
+      totalIgst: (!this.taxPercentage) ? (totalTax).toFixed(2) : 0,
     })
     this.branchFormData.patchValue({
       amountInWords: curValue.lakhWord(this.branchFormData.get('grandTotal').value)[0],
@@ -627,36 +639,36 @@ export class PurchaseReturnViewComponent implements OnInit {
   }
 
   save() {
-    if (this.routeUrl != '' || this.dataSource.data.length == 0) {
-      return;
-    }
-    let tableData = [];
-    for (let d = 0; d < this.dataSource.data.length; d++) {
-      if (this.dataSource.data[d]['productCode'] != '') {
-        tableData.push(this.dataSource.data[d]);
-      }
-    }
-    let content = '';
-    let availStock = tableData.filter(stock => {
-      if (stock.availStock == 0) {
-        content = '0 Availablilty Stock';
-        return stock;
-      }
-      if (isNullOrUndefined(stock.qty) && isNullOrUndefined(stock.fQty)) {
-        content = 'qty or Fqty is null';
-        return stock;
-      }
-      if ((stock.qty > stock.availStock) || (stock.fQty > stock.availStock)) {
-        content = 'qty or Fqty cannot be greater than available stock';
-        return stock;
-      }
-    });
-    if (availStock.length) {
-      this.alertService.openSnackBar(`This Product(${availStock[0].productCode}) ${content}`, Static.Close, SnackBar.error);
-      return;
-    }
+    // if (this.routeUrl != '' || this.dataSource.data.length == 0) {
+    //   return;
+    // }
+    // let tableData = [];
+    // for (let d = 0; d < this.dataSource.data.length; d++) {
+    //   if (this.dataSource.data[d]['productCode'] != '') {
+    //     tableData.push(this.dataSource.data[d]);
+    //   }
+    // }
+    // let content = '';
+    // let availStock = tableData.filter(stock => {
+    //   if (stock.availStock == 0) {
+    //     content = '0 Availablilty Stock';
+    //     return stock;
+    //   }
+    //   if (isNullOrUndefined(stock.qty) && isNullOrUndefined(stock.fQty)) {
+    //     content = 'qty or Fqty is null';
+    //     return stock;
+    //   }
+    //   if ((stock.qty > stock.availStock) || (stock.fQty > stock.availStock)) {
+    //     content = 'qty or Fqty cannot be greater than available stock';
+    //     return stock;
+    //   }
+    // });
+    // if (availStock.length) {
+    //   this.alertService.openSnackBar(`This Product(${availStock[0].productCode}) ${content}`, Static.Close, SnackBar.error);
+    //   return;
+    // }
     this.enableFileds();
-    this.registerPurchase(tableData);
+    this.registerPurchase();
   }
 
   enableFileds() {
@@ -670,6 +682,7 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.branchFormData.controls['paymentMode'].enable();
     this.branchFormData.controls['amountInWords'].enable();
     this.branchFormData.controls['userName'].enable();
+    this.branchFormData.controls['ledgerName'].enable();
   }
 
   reset() {
@@ -679,13 +692,12 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.loadData();
   }
 
-  registerPurchase(data) {
+  registerPurchase() {
     this.branchFormData.patchValue({
       paymentMode: 0
     });
-    const registerPurchaseUrl = String.Join('/', this.apiConfigService.registerPurchase);
-    const requestObj = { purchaseHdr: this.branchFormData.value, purchaseDetail: data };
-    this.apiService.apiPostRequest(registerPurchaseUrl, requestObj).subscribe(
+    const registerPurchaseUrl = String.Join('/', this.apiConfigService.getPurchaseRegisterPurchaseReturn, this.isPurchaseReturnInvoice, this.branchFormData.get('purchaseInvId').value);
+    this.apiService.apiGetRequest(registerPurchaseUrl).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {

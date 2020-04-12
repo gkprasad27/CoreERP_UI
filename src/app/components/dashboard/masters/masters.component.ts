@@ -38,6 +38,9 @@ export class MastersComponent implements OnInit {
     private alertService: AlertService,
 
   ) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.mastersService.branchCode = user.branchCode;
+    this.mastersService.role = user.role;
     activatedRoute.params.subscribe(params => {
       this.tableUrl = mastersService.getRouteUrls(params.id);
       if (!isNullOrUndefined(this.tableUrl)) {

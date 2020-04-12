@@ -15,6 +15,7 @@ import {
 } from './components/dashboard/settings/index';
 
 import { ReportsComponent } from './components/dashboard/reports/index';
+import { PurchaseReturnViewComponent } from './components/dashboard/sales/purchase-return/purchase-return-view/purchase-return-view.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { title: 'Login' } },
@@ -31,8 +32,8 @@ const routes: Routes = [
       { path: 'sales/:id/createStockTransfer/:id1', component: CreateStockTransferComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
       { path: 'sales/:id/CreatePurchase', component: PurchaseCreateComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
       { path: 'sales/:id/CreatePurchase/:id1', component: PurchaseCreateComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
-      { path: 'sales/:id/purchaseReturnView', component: PurchaseCreateComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
-      { path: 'sales/:id/purchaseReturnView/:id1', component: PurchaseCreateComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
+      { path: 'sales/:id/purchaseReturnView', component: PurchaseReturnViewComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
+      { path: 'sales/:id/purchaseReturnView/:id1', component: PurchaseReturnViewComponent, data: { title: 'Create Sale' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id', component: TransactionsComponent, data: { title: 'Transactions' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/createCashpayment', component: CreateCashpaymentComponent, data: { title: 'Create CashPayment' }, canActivate: [AuthGuard] },
       { path: 'transactions/:id/createCashpayment/:id1', component: CreateCashpaymentComponent, data: { title: 'Create CashPayment' }, canActivate: [AuthGuard] },

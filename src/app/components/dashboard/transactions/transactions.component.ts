@@ -34,6 +34,9 @@ export class TransactionsComponent implements OnInit {
     private alertService: AlertService,
     private transactionsService: TransactionsService
   ) {
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.transactionsService.branchCode = user.branchCode;
+    this.transactionsService.role = user.role;
     activatedRoute.params.subscribe(params => {
       this.routeParams = params.id;
       this.tableUrl = transactionsService.getRouteUrls(params.id);

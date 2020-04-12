@@ -26,7 +26,8 @@ import { ProductComponent} from './product/product.component';
 })
 export class MastersService {
   dynamicData = { url: '', component: null, registerUrl: '', listName: '', updateUrl: '' , primaryKey: '', deleteUrl: ''};
-
+  branchCode: any;
+  role:any;
 
   constructor(
     private apiConfigService: ApiConfigService
@@ -216,7 +217,7 @@ export class MastersService {
         return this.dynamicData;
         break;
         case 'mshsdrates':
-          this.dynamicData.url = this.apiConfigService.getMshsdRateList;
+          this.dynamicData.url = `${this.apiConfigService.getMshsdRateList}/${this.branchCode}/${this.role}`;
           this.dynamicData.component = MSHSDRatesComponent;
           this.dynamicData.registerUrl = this.apiConfigService.registerMshsdRate;
           this.dynamicData.updateUrl = this.apiConfigService.updateMshsdRate;

@@ -7,7 +7,8 @@ import { MeterReadingComponent} from './meterreading/meterreading.component';
 })
 export class TransactionsService {
   dynamicData = { url: '', component: null, registerUrl: '', listName: '', updateUrl: '' , primaryKey: '', deleteUrl: '', coustom: true};
-
+  branchCode: any;
+  role:any;
   constructor(
     private apiConfigService: ApiConfigService
 
@@ -67,7 +68,7 @@ export class TransactionsService {
         return this.dynamicData;
         break;
         case 'meterreading':
-            this.dynamicData.url = this.apiConfigService.getMeterReadingList;
+            this.dynamicData.url = `${this.apiConfigService.getMeterReadingList}/${this.branchCode}/${this.role}`;
             this.dynamicData.component = MeterReadingComponent;
             this.dynamicData.registerUrl = this.apiConfigService.registerMeterReading;
             this.dynamicData.updateUrl = this.apiConfigService.updateMeterReading;
