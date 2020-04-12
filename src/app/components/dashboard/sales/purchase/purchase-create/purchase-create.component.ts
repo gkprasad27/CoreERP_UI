@@ -505,35 +505,32 @@ export class PurchaseCreateComponent implements OnInit {
   }
 
   calculateAmount(row, index) {
-    if (!isNullOrUndefined(row.totalLiters) && row.totalLiters != '') {
-      this.dataSource.data[index].grossAmount = (row.totalLiters * row.rate).toFixed(2);
-    } else {
-      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-        this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
-      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-        this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
-      }
+    if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+      this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
+    } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+      this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
-    let amount = 0;
-    let totalTax = 0;
+    let totaltaxAmount = 0;
+    let totalAmount = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].grossAmount) {
-        amount = amount + (+this.dataSource.data[a].grossAmount);
+        let tax = (this.taxPercentage) ? (this.dataSource.data[a].cgst + this.dataSource.data[a].sgst) : this.dataSource.data[a].igst;
+        let amountTax = (+this.dataSource.data[a].grossAmount * 100) / (tax + 100);
+        let totalTax = (+this.dataSource.data[a].grossAmount - amountTax);
+        totalAmount = totalAmount + amountTax;
+        totaltaxAmount = totaltaxAmount + totalTax;
       }
     }
-    let tax = (this.taxPercentage) ? (this.dataSource.data[index].cgst + this.dataSource.data[index].sgst) : this.dataSource.data[index].igst;
-    let amountTax = (amount * 100) / (tax + 100);
-    totalTax = (amount - amountTax);
     this.branchFormData.patchValue({
-      totalAmount: !isNullOrUndefined(amountTax) ? amountTax.toFixed(2) : null,
-      totaltaxAmount: !isNullOrUndefined(totalTax) ? totalTax.toFixed(2) : null,
+      totalAmount: !isNullOrUndefined(totalAmount) ? totalAmount.toFixed(2) : null,
+      totaltaxAmount: !isNullOrUndefined(totaltaxAmount) ? totaltaxAmount.toFixed(2) : null,
     });
     this.branchFormData.patchValue({
-      grandTotal: (amountTax + totalTax).toFixed(2),
-      totalCgst: (this.taxPercentage) ? (totalTax / 2).toFixed(2) : 0,
-      totalSgst: (this.taxPercentage) ? (totalTax / 2).toFixed(2) : 0,
-      totalIgst: (!this.taxPercentage) ? (totalTax).toFixed(2) : 0,
+      grandTotal: (totalAmount + totaltaxAmount).toFixed(2),
+      totalCgst: (this.taxPercentage) ? (totaltaxAmount / 2).toFixed(2) : 0,
+      totalSgst: (this.taxPercentage) ? (totaltaxAmount / 2).toFixed(2) : 0,
+      totalIgst: (!this.taxPercentage) ? (totaltaxAmount).toFixed(2) : 0,
     })
     this.branchFormData.patchValue({
       amountInWords: curValue.lakhWord(this.branchFormData.get('grandTotal').value)[0],
