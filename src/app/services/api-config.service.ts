@@ -69,7 +69,7 @@ export class ApiConfigService {
 
    // Cash Payment
    getCashPaymentList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetCashpaymentList`;
-   getAccountLedgerListByName = `http://localhost:51414/api/transactions/CashPayment/GetAccountLedgerListByName`;
+   getAccountLedgerListByName = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerListByName`;
    getCashPaymentBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetBranchesList`;
    getCashPaymentVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetVoucherNo`;
    getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
