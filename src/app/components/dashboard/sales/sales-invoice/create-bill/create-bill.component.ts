@@ -49,6 +49,7 @@ export class CreateBillComponent implements OnInit {
   routeUrl = '';
   taxPercentage: any;
   isSalesReturnInvoice: any;
+  setFocus: any;
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -144,11 +145,10 @@ export class CreateBillComponent implements OnInit {
           this.branchFormData.patchValue({
             branchCode: user.branchCode,
             userId: user.seqId,
-            userName: user.userName
-          });
-          this.branchFormData.patchValue({
+            userName: user.userName,
             ledgerCode: "100"
           });
+          this.getCashPartyAccount();
           this.setBranchCode();
           this.genarateBillNo(user.branchCode);
           this.formGroup();
@@ -325,6 +325,7 @@ export class CreateBillComponent implements OnInit {
       ledgerName: !isNullOrUndefined(lname[0]) ? lname[0].text : null
     });
     this.getCashPartyAccount();
+    this.commonService.setFocus('productCode0');
   }
 
   getAccountBalance() {
@@ -403,7 +404,6 @@ export class CreateBillComponent implements OnInit {
             if (!isNullOrUndefined(res.response)) {
               if (!isNullOrUndefined(res.response['CashPartyAccountList']) && res.response['CashPartyAccountList'].length) {
                 this.getCashPartyAccountListArray = res.response['CashPartyAccountList'];
-                this.getCashPartyAccount();
               } else {
                 this.getCashPartyAccountListArray = [];
               }
@@ -545,6 +545,7 @@ export class CreateBillComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource([tableObj]);
     }
+    this.commonService.setFocus(this.setFocus);
   }
 
   formGroup() {
@@ -592,7 +593,9 @@ export class CreateBillComponent implements OnInit {
     }
     if (this.tableFormData.valid) {
       if (this.dataSource.data.length < 6) {
-        this.addTableRow();
+        if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
+          this.addTableRow();
+        }
         this.formGroup();
       }
     }
@@ -696,7 +699,9 @@ export class CreateBillComponent implements OnInit {
     });
   }
 
-  getBillingDetailsRcd(productCode, index) {
+  getBillingDetailsRcd(productCode, index, id) {
+    this.setFocus = id + index;
+    this.commonService.setFocus(id + index);
     // if (this.checkProductCode(productCode, index)) {
     if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {

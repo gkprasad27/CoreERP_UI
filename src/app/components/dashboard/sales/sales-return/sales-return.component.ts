@@ -43,7 +43,7 @@ export class SalesReturnComponent implements OnInit {
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [null],
+      selected: [this.selectedDate],
       fromDate: [null],
       toDate: [null],
       invoiceNo: [null],
@@ -56,17 +56,17 @@ export class SalesReturnComponent implements OnInit {
     this.dateForm.patchValue({
       Role: this.branchCode.role
     })
-    this.getInvoiceList();
+    this.search();
   }
 
   getInvoiceList() {
-    const getInvoiceListUrl = String.Join('/', this.apiConfigService.getInvoiceList, this.branchCode.branchCode);
+    const getInvoiceListUrl = String.Join('/', this.apiConfigService.getInvoiceGetInvoiceReturnList, this.branchCode.branchCode);
     this.apiService.apiPostRequest(getInvoiceListUrl, this.dateForm.value).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['InvoiceList']) && res.response['InvoiceList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['InvoiceList']);
+          if (!isNullOrUndefined(res.response['InvoiceReturnList']) && res.response['InvoiceReturnList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['InvoiceReturnList']);
             this.dataSource.paginator = this.paginator;
             this.spinner.hide();
           }
@@ -75,7 +75,7 @@ export class SalesReturnComponent implements OnInit {
   }
 
   openSale(row) {
-    localStorage.setItem('selectedBill', JSON.stringify(row));
+    localStorage.setItem('selectedRetunBill', JSON.stringify(row));
     this.router.navigate(['dashboard/sales/salesReturn/salesReturnView', row.invoiceNo]);
   }
 

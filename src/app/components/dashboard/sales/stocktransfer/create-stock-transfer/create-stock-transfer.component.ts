@@ -30,6 +30,7 @@ export class CreateStockTransferComponent implements OnInit {
   getProductByProductCodeArray = [];
   getProductByProductNameArray = [];
   printBill = false;
+  setFocus: any;
 
   displayedColumns: string[] = ['SlNo', 'productCode', 'productName', 'hsnNo', 'qty', 'fQty', 'unitId', 'rate', 'totalAmount', 'availStock', 'batchNo', 'delete'];
   dataSource: MatTableDataSource<any>;
@@ -190,6 +191,7 @@ export class CreateStockTransferComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource([tableObj]);
     }
+    this.commonService.setFocus(this.setFocus);
   }
 
   clearQty(index, value, column, row) {
@@ -244,7 +246,9 @@ export class CreateStockTransferComponent implements OnInit {
     }
     if (this.tableFormData.valid) {
       if (this.dataSource.data.length < 6) {
-        this.addTableRow();
+        if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
+          this.addTableRow();
+        }
         this.formGroup();
       }
     }
@@ -290,7 +294,9 @@ export class CreateStockTransferComponent implements OnInit {
   }
 
 
-  getStockTransferDetailsSection(productCode, index) {
+  getStockTransferDetailsSection(productCode, index, id) {
+    this.setFocus = id + index;
+    this.commonService.setFocus(id + index)
     // if (this.checkProductCode(productCode, index)) {
     if (!isNullOrUndefined(this.formData.get('fromBranchCode').value) && this.formData.get('fromBranchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {

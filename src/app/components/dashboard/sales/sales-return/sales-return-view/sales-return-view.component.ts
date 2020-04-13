@@ -74,6 +74,9 @@ export class SalesReturnViewComponent implements OnInit {
       branchName: [null],
       invoiceDate: [(new Date()).toISOString()],
       invoiceNo: [null],
+      invoiceMasterReturnId: [null],
+      invoiceReturnNo: [null],
+      invoiceReturnDate: [null],
       ledgerCode: [null],
       vehicleRegNo: [null],
       stateCode: [null],
@@ -109,7 +112,7 @@ export class SalesReturnViewComponent implements OnInit {
       roundOffPlus: [null],
       roundOffMinus: [null],
       serverDateTime: [null],
-      isSalesReturned: [null],
+      // isSalesReturned: [null],
       isManualEntry: [null],
       manualInvoiceNo: [null],
     });
@@ -128,9 +131,9 @@ export class SalesReturnViewComponent implements OnInit {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        const billHeader = JSON.parse(localStorage.getItem('selectedBill'));
+        const billHeader = JSON.parse(localStorage.getItem('selectedRetunBill'));
         this.branchFormData.setValue(billHeader);
-        this.getInvoiceDeatilList(params.id1);
+        this.getInvoiceDeatilList(billHeader.invoiceMasterReturnId);
       } else {
         this.disableForm();
         this.addTableRow();
@@ -191,13 +194,13 @@ export class SalesReturnViewComponent implements OnInit {
   }
 
   getInvoiceDeatilList(id) {
-    const getInvoiceDeatilListUrl = String.Join('/', this.apiConfigService.getInvoiceDeatilList, id);
+    const getInvoiceDeatilListUrl = String.Join('/', this.apiConfigService.getInvoiceReturnDetail, id);
     this.apiService.apiGetRequest(getInvoiceDeatilListUrl).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['InvoiceDetailList']) && res.response['InvoiceDetailList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['InvoiceDetailList']);
+          if (!isNullOrUndefined(res.response['InvoiceReturnDtlsList']) && res.response['InvoiceReturnDtlsList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['InvoiceReturnDtlsList']);
             this.spinner.hide();
           }
         }

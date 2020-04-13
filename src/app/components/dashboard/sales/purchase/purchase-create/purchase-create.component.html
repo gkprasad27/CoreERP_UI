@@ -106,8 +106,9 @@
                         <th mat-header-cell *matHeaderCellDef> {{ 'PURCHASE.productCode' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input class="typeAhead" [(ngModel)]="element.productCode" type="search"
+                            id="productCode{{ dataSource.filteredData.indexOf(element) }}"
                                 [disabled]="element.text != 'obj'"
-                                (typeaheadOnSelect)="getProductDeatilsSectionRcd($event, dataSource.filteredData.indexOf(element))"
+                                (typeaheadOnSelect)="getProductDeatilsSectionRcd($event, dataSource.filteredData.indexOf(element), 'qty')"
                                 (input)="getProductByProductCode($event.target.value)"
                                 [typeahead]="getProductByProductCodeArray" typeaheadOptionField='text'
                                 autocomplete="off"
@@ -149,6 +150,7 @@
                         <th mat-header-cell *matHeaderCellDef> {{ 'PURCHASE.qty' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.qty"
+                            id="qty{{ dataSource.filteredData.indexOf(element) }}"
                                 (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
                                 [(ngModel)]="element.qty"
                                 (input)="setToFormModel(element.text, 'qty', element.qty); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty', element); setLiters(dataSource.filteredData.indexOf(element), element.qty, element.productCode, element);" />
@@ -178,7 +180,7 @@
                     <ng-container matColumnDef="tankNo">
                         <th mat-header-cell *matHeaderCellDef> {{ 'PURCHASE.tankNo' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
-                            <input matInput disabled [value]="element.tankNo" [(ngModel)]="element.tankNo"
+                            <input matInput [value]="element.tankNo" [(ngModel)]="element.tankNo"
                                 (input)="setToFormModel(element.text, 'tankNo', element.tankNo)" />
                         </td>
                     </ng-container>

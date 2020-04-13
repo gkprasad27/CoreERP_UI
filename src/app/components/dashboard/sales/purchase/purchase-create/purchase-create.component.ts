@@ -20,7 +20,7 @@ var curValue = require("multilingual-number-to-words");
   styleUrls: ['./purchase-create.component.scss']
 })
 export class PurchaseCreateComponent implements OnInit {
-
+  setFocus: any;
   branchFormData: FormGroup;
   GetBranchesListArray = [];
   getCashPartyAccountListArray = [];
@@ -142,11 +142,10 @@ export class PurchaseCreateComponent implements OnInit {
           this.branchFormData.patchValue({
             branchCode: user.branchCode,
             userId: user.seqId,
-            userName: user.userName
-          });
-          this.branchFormData.patchValue({
+            userName: user.userName,
             ledgerCode: "100"
           });
+          this.getCashPartyAccount();
           this.setBranchCode();
           this.genarateBillNo(user.branchCode);
           this.formGroup();
@@ -220,7 +219,6 @@ export class PurchaseCreateComponent implements OnInit {
             if (!isNullOrUndefined(res.response)) {
               if (!isNullOrUndefined(res.response['CashPartyAccountList']) && res.response['CashPartyAccountList'].length) {
                 this.getCashPartyAccountListArray = res.response['CashPartyAccountList'];
-                this.getCashPartyAccount();
               } else {
                 this.getCashPartyAccountListArray = [];
               }
@@ -315,6 +313,7 @@ export class PurchaseCreateComponent implements OnInit {
       ledgerName: !isNullOrUndefined(lname[0]) ? lname[0].text : null
     });
     this.getCashPartyAccount();
+    this.commonService.setFocus('productCode0');
   }
 
   getCashPartyAccount() {
@@ -398,6 +397,7 @@ export class PurchaseCreateComponent implements OnInit {
     } else {
       this.dataSource = new MatTableDataSource([tableObj]);
     }
+    this.commonService.setFocus(this.setFocus);
   }
 
   formGroup() {
@@ -449,7 +449,9 @@ export class PurchaseCreateComponent implements OnInit {
     if (this.tableFormData.valid) {
 
       if (this.dataSource.data.length < this.tableLength) {
-        this.addTableRow();
+        if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
+          this.addTableRow();
+        }
         this.formGroup();
       }
     }
@@ -537,7 +539,9 @@ export class PurchaseCreateComponent implements OnInit {
     });
   }
 
-  getProductDeatilsSectionRcd(productCode, index) {
+  getProductDeatilsSectionRcd(productCode, index, id) {
+    this.setFocus = id + index;
+    this.commonService.setFocus(id + index)
     // if (this.checkProductCode(productCode, index)) {
     if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
