@@ -53,13 +53,13 @@ export class GeneralledgerService {
           return this.dynamicData;
           break;
           case 'glaccounts':
-          this.dynamicData.url = this.apiConfigService.getGLAccountList;
+          this.dynamicData.url = this.apiConfigService.getTblAccountLedgerList;
           this.dynamicData.component = GlAccountsComponent;
-          this.dynamicData.registerUrl = this.apiConfigService.registerGlaccounts;
-          this.dynamicData.updateUrl = this.apiConfigService.updateGLAccounts;
-          this.dynamicData.deleteUrl = this.apiConfigService.deleteGlAccount;
-          this.dynamicData.listName = 'GLAccountsList';
-          this.dynamicData.primaryKey = 'glcode';
+          this.dynamicData.registerUrl = this.apiConfigService.registerTblAccLedger;
+          this.dynamicData.updateUrl = this.apiConfigService.updateTblAccountLedger;
+          this.dynamicData.deleteUrl = this.apiConfigService.deleteTblAccountLedger;
+          this.dynamicData.listName = 'AccountLedgerList';
+          this.dynamicData.primaryKey = 'ledgerId';
           return this.dynamicData;
           break;
           case 'glsubcode':

@@ -90,39 +90,14 @@ export class CreateStockreceiptsComponent implements OnInit {
         })
     }
   }
-  ngOnInit() {
-    //debugger;
-    //this.gettingtobranches();
-    //this.getBranchesList();
-    //this.formGroup();
-    //this.activatedRoute.params.subscribe(params => {
-    //  console.log(params.id1);
-    //  if (!isNullOrUndefined(params.id1)) {
-    //    this.routeUrl = params.id1;
-    //    //this.disableForm(params.id1);
-    //    this.getStockreceiptDeatilList(params.id1);
-    //    let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
-    //    this.branchFormData.setValue(billHeader);
-    //    console.log(billHeader);
-    //  } else {
-    //    //this.disableForm();
-    //    const user = JSON.parse(localStorage.getItem('user'));
-    //    if (!isNullOrUndefined(user.fromBranchCode)) {
-    //      //this.frombrnchcode = user.fromBranchCode;
-    //      this.branchFormData.patchValue({
-    //        voucherNo: user.fromBranchCode,
-    //      });
-    //      this.genaratereceiptNo(user.fromBranchCode);
-    //    }
-
-    //    this.addTableRow();
-    //  }
-    //});
+  ngOnInit()
+  {
     this.loadData();
   }
 
   loadData() {
     //debugger;
+    const user = JSON.parse(localStorage.getItem('user'));
     this.getBranchesList();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
@@ -131,17 +106,17 @@ export class CreateStockreceiptsComponent implements OnInit {
         this.getStockreceiptDeatilList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
         this.branchFormData.setValue(billHeader);
-      } else {
+      } else
+      {
         //this.disableForm();
-        const user = JSON.parse(localStorage.getItem('user'));
         if (!isNullOrUndefined(user.branchCode)) {
           this.branchFormData.patchValue({
-            fromBranchCode: "2",
+            fromBranchCode: user.branchCode,
             userId: user.seqId,
             userName: user.userName
           });
           this.setBranchCode();
-          this.genaratereceiptNo("2");
+          this.genaratereceiptNo(user.branchCode);
           this.formGroup();
           this.gettingtobranches();
           //this.gettingtobranches();
@@ -165,36 +140,7 @@ export class CreateStockreceiptsComponent implements OnInit {
     }
   }
 
-  //ngOnInit()
-  //{
-  //  //debugger;
-  //  this.gettingtobranches();
-  //  this.getBranchesList();
-  //  this.formGroup();
-  //  this.activatedRoute.params.subscribe(params => {
-  //    console.log(params.id1);
-  //    if (!isNullOrUndefined(params.id1)) {
-  //      this.routeUrl = params.id1;
-  //      //this.disableForm(params.id1);
-  //      this.getStockreceiptDeatilList(params.id1);
-  //      let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
-  //      this.branchFormData.setValue(billHeader);
-  //      console.log(billHeader);
-  //    } else {
-  //      //this.disableForm();
-  //      const user = JSON.parse(localStorage.getItem('user'));
-  //      if (!isNullOrUndefined(user.fromBranchCode)) {
-  //        //this.frombrnchcode = user.fromBranchCode;
-  //        this.branchFormData.patchValue({
-  //          voucherNo: user.fromBranchCode,
-  //        });
-  //        this.genaratereceiptNo(user.fromBranchCode);
-  //      }
-       
-  //      this.addTableRow();
-  //    }
-  //  });
-  //}
+
 
   getStockreceiptDeatilList(id)
   {
@@ -527,11 +473,18 @@ export class CreateStockreceiptsComponent implements OnInit {
     this.branchFormData.reset();
     this.dataSource = new MatTableDataSource();
     this.formGroup();
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.genaratereceiptNo(user.branchCode);
+    this.gettingtobranches();
     this.branchFormData = this.formBuilder.group
       ({
         receiptDate: [(new Date()).toISOString()],
+        fromBranchCode: !isNullOrUndefined(user.branchCode) ? user.branchCode : user.branchCode,
+        receiptNo: [null],
+        toBranchCode: [null]
+        
       });
-
+    
     this.ngOnInit();
   }
 

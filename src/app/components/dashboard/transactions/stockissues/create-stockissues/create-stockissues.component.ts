@@ -31,6 +31,7 @@ export class CreateStockissuesComponent implements OnInit {
   getSalesBranchListArray = [];
   branchesList = [];
   getmemberNamesArray = [];
+  fromBranchCode= null;
 
   displayedColumns: string[] = ['productCode', 'productName', 'hsnNo', 'unitName', 'qty', 'rate', 'grossAmount', 'availStock', 'batchNo', 'delete'
   ];
@@ -51,6 +52,7 @@ export class CreateStockissuesComponent implements OnInit {
   orders: any;
   GettoBranchesListArray: any;
   toBranchCode:any;
+  
 
   constructor(
     private formBuilder: FormBuilder,
@@ -78,6 +80,7 @@ export class CreateStockissuesComponent implements OnInit {
      // printBill: [false],
 
     });
+    //String data= null;
     const user = JSON.parse(localStorage.getItem('user'));
     if (!isNullOrUndefined(user))
     {
@@ -105,16 +108,19 @@ export class CreateStockissuesComponent implements OnInit {
       } else {
         //this.disableForm();
         const user = JSON.parse(localStorage.getItem('user'));
-        if (!isNullOrUndefined(user.branchCode)) {
-          this.branchFormData.patchValue({
-            fromBranchCode: "19",
+        if (!isNullOrUndefined(user.branchCode))
+        {
+          this.branchFormData.patchValue
+          ({
+            fromBranchCode: user.branchCode,
             userId: user.seqId,
             userName: user.userName
           });
-          this.setBranchCode();
-          this.genarateVoucherNo("19");
-          this.formGroup();
-          this.gettingtobranches();
+          this.genaratebranchcode();
+          ////this.setBranchCode();
+          ////this.genarateVoucherNo(user.branchCode);
+          ////this.formGroup();
+          ////this.gettingtobranches();
          // this.settoBranchCode();
         }
         this.addTableRow();
@@ -122,7 +128,9 @@ export class CreateStockissuesComponent implements OnInit {
     });
   }
 
-  setBranchCode() {
+  setBranchCode()
+  {
+    //debugger;
     const bname = this.GetBranchesListArray.filter(fromBranchCode => {
       if (fromBranchCode.id == this.branchFormData.get('fromBranchCode').value) {
         return fromBranchCode;
@@ -135,55 +143,51 @@ export class CreateStockissuesComponent implements OnInit {
       });
     }
   }
-  //settoBranchCode() {
-  //  debugger;
-  //  const bname1 = this.GettoBranchesListArray.filter(fromBranchCode => {
-  //    if (fromBranchCode.id == this.branchFormData.get('fromBranchCode').value) {
-  //      return fromBranchCode;
-  //    }
-  //  });
-  //  if (bname1.length) {
-  //    this.branchFormData.patchValue({
-  //      toBranchName: !isNullOrUndefined(bname1[0]) ? bname1[0].text : null
-  //    });
-  //  }
-  //}
+
+
+  //issueno code;
+  genaratebranchcode(branch?) {
+   //debugger;
+      let genaratebranchNoUrl;
+    if (!isNullOrUndefined(branch))
+    {
+      genaratebranchNoUrl = String.Join('/', this.apiConfigService.getbranchesnosList, branch);
+    }
+    else
+    {
+      genaratebranchNoUrl = String.Join('/', this.apiConfigService.getbranchesnosList, this.branchFormData.get('fromBranchCode').value);
+    }
+    this.apiService.apiGetRequest(genaratebranchNoUrl).subscribe(
+      response =>
+      {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['branchno'])) {
+              this.fromBranchCode = res.response['branchno']
+              console.log(res.response['branchno']);
+              this.branchFormData.patchValue
+                ({
+                  fromBranchCode: res.response['branchno']
+                });
+              this.setBranchCode();
+              this.genarateVoucherNo(this.fromBranchCode);
+              this.formGroup();
+              this.gettingtobranches();
+              this.spinner.hide();
+             
+            }
+          }
+        }
+      });
+   
+    //this.gettingtobranches();
+  }
+
   ngOnInit()
   {
     //debugger;
     this.loadData();
-    //this.gettingtobranches();
-    //this.getCashPaymentBranchesList();
-   
-    //this.formGroup();
-    //this.activatedRoute.params.subscribe(params => {
-    //  if (!isNullOrUndefined(params.id1)) {
-    //    this.routeUrl = params.id1;
-    //    this.getStockissuesDeatilList(params.id1);
-    //    const billHeader = JSON.parse(localStorage.getItem('selectedstockissues'));
-    //    this.branchFormData.setValue(billHeader);
-       
-    //    if (this.routeUrl == 'return')
-    //    {
-    //      const user = JSON.parse(localStorage.getItem('user'));
-    //      this.genarateVoucherNo(user.branchCode);
-          
-    //    }
-    //  } else {
-    //    //this.disableForm();
-    //    this.addTableRow();
-    //    const user = JSON.parse(localStorage.getItem('user'));
-    //    if (!isNullOrUndefined(user.branchCode)) {
-    //      this.branchFormData.patchValue({
-    //        branchCode: user.branchCode,
-    //        userId: user.seqId,
-    //        userName: user.userName
-    //      });
-    //      //this.setBranchCode();
-    //      this.formGroup();
-    //    }
-    //  }
-    //});
   }
 
   getStockissuesDeatilList(id)

@@ -124,7 +124,11 @@ export class ApiConfigService {
    getJournalVoucherDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalVoucherDetailsList`;
    // registerCashPayment = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/RegisterCashPayment`;
 
+
   //Stockissues
+  //getbranchesnosList = `http://localhost:51414/api/Transactions/Stockissues/GetbranchesnosList`;
+  getbranchesnosList=`${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetbranchesnosList`;
+  //registerStockissues = `http://localhost:51414/api/Transactions/Stockissues/RegisterStockissues`;
   getStockissuesDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetInvoiceDetails`;
   gettingtobranchesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GettobranchesList`;
   //getStockissuesList = `http://localhost:51414/api/Transactions/Stockissues/GetStockissuesList`;
@@ -161,7 +165,8 @@ export class ApiConfigService {
 
   //oilconversion
   getoilcnvsnDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetInvoiceDetails`;
-    //`http://localhost:51414/api/Transactions/Oilconversion/GetInvoiceDetails`;
+  //registerOilconversion = `http://localhost:51414/api/Transactions/Oilconversion/RegisterOilconversion`;
+ // getOilconversionList = `http://localhost:51414/api/Transactions/Oilconversion/GetOilconversionList`;
   getOilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetOilconversionList`;
   getoilconversionvocherNo = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetoilconversionVoucherNo`;
   GetProductListsforoilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetProductLists`;
@@ -229,14 +234,14 @@ export class ApiConfigService {
    getAccountSubGrouplist = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetAccountSubGrouplist`;
 
    // GL Accounts //
-   getGLAccountList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/GetGLAccountsList`;
-   registerGlaccounts = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/RegisterGlaccounts`;
-   updateGLAccounts = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/UpdateGLAccounts`;
-   deleteGlAccount = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/DeleteGlAccount`;
-   getStatementTypes = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/GetStatementTypes`;
-   getNaturesOfAcountsList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/GetNaturesOfAcountsList`;
-   getGLAccBalanceTypes = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/GetBalanceTypes`;
-   getAccountGroupList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccounts/GetAccountGroupList`;
+   getTblAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/GetTblAccountLedgerList`;
+   registerTblAccLedger = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/RegisterTblAccLedger`;
+   updateTblAccountLedger = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/UpdateTblAccountLedger`;
+   deleteTblAccountLedger = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/DeleteTblAccountLedger`;
+   getAccountGrouplist = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/GetAccountGrouplist`;
+   getAccountTypelist = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/GetAccountTypelist`;
+   getPaymentTypelist = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/GetPaymentTypelist`;
+   getPricingLevellist = `${this.environment.runtimeConfig.serverUrl}gl/AccountLedger/GetPricingLevellist`;
 
    // GL Subcode //
    getGLSubCodeList = `${this.environment.runtimeConfig.serverUrl}gl/GLSubCode/GetGLSubCodeList`;

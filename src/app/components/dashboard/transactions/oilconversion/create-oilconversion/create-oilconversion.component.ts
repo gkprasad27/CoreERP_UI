@@ -91,31 +91,6 @@ export class CreateOilconversionsComponent implements OnInit {
   ngOnInit()
   {
     this.loadData();
-    //debugger;
-    //this.getCashPaymentBranchesList();
-    //this.formGroup();
-    //this.activatedRoute.params.subscribe(params => {
-    //  console.log(params.id1);
-    //  if (!isNullOrUndefined(params.id1)) {
-    //    this.routeUrl = params.id1;
-    //    //this.disableForm(params.id1);
-    //    this.getOilconversionDeatilList(params.id1);
-    //    let billHeader = JSON.parse(localStorage.getItem('selectedOilconversion'));
-    //    this.branchFormData.setValue(billHeader);
-    //    console.log(billHeader);
-    //  } else {
-    //    //this.disableForm();
-    //    const user = JSON.parse(localStorage.getItem('user'));
-    //    if (!isNullOrUndefined(user.fromBranchCode)) {
-    //      this.branchFormData.patchValue({
-    //        voucherNo: user.fromBranchCode,
-    //      });
-    //      this.genarateVoucherNo(user.fromBranchCode);
-    //    }
-     
-    //    this.addTableRow();
-    //  }
-    //});
   }
   loadData() {
     this.getCashPaymentBranchesList();
@@ -412,11 +387,11 @@ export class CreateOilconversionsComponent implements OnInit {
       return;
     }
    let a = 0;
-    if (this.dataSource.data[a].grossAmount==0)
-    {
-      this.alertService.openSnackBar(`This Product("availStock") 0 Availablilty Stock`, Static.Close, SnackBar.error);
-      return;
-    }
+    //if (this.dataSource.data[a].grossAmount==0)
+    //{
+    //  this.alertService.openSnackBar(`This Product("availStock") 0 Availablilty Stock`, Static.Close, SnackBar.error);
+    //  return;
+    //}
     let availStock = this.dataSource.filteredData.filter(stock => {
       if (stock.availStock == 0 || (isNullOrUndefined(stock.qty) && isNullOrUndefined(stock.rate) && isNullOrUndefined(stock.grossAmount)))
       {

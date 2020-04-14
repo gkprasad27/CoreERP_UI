@@ -134,44 +134,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'accountsgroup'
         },
         {
-          displayName: 'SubGroup',
-          iconName: 'group',
-          route: 'subgroup'
-        },
-        {
           displayName: 'GL',
           iconName: 'group',
           route: 'undersubgroup'
         },
         {
-          displayName: 'GLAccounts',
+          displayName: 'Account Ledger',
           iconName: 'group',
           route: 'glaccounts'
-        },
-        {
-          displayName: 'GLSubcode',
-          iconName: 'group',
-          route: 'glsubcode'
-        },
-        {
-          displayName: 'TaxIntegration',
-          iconName: 'group',
-          route: 'taxintegration'
-        },
-        {
-          displayName: 'CashAccToBranches',
-          iconName: 'group',
-          route: 'cashacctobranches'
-        },
-        {
-          displayName: 'AccToAccClass',
-          iconName: 'group',
-          route: 'acctoaccclass'
-        },
-        {
-          displayName: 'VoucherTypes',
-          iconName: 'group',
-          route: 'vouchertypes'
         }
       ]
     },
