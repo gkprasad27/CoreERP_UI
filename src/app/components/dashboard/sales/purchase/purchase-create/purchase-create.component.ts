@@ -316,6 +316,53 @@ export class PurchaseCreateComponent implements OnInit {
     this.commonService.setFocus('productCode0');
   }
 
+
+  setBackGroundColor(value, prop) {
+    if (isNullOrUndefined(value) && this.calculateLiters.length) {
+      let flag = true;
+      for (let s = 0; s < this.calculateLiters.length; s++) {
+        if (this.calculateLiters[s] == prop) {
+          flag = false;
+        }
+      }
+      if (flag) {
+        return '';
+      } else {
+        return 'flashLight';
+      }
+    } else {
+      return '';
+    }
+  }
+
+  getTankas(no, index) {
+    if (!isNullOrUndefined(no)) {
+      const getTankasUrl = String.Join('/', this.apiConfigService.getTankas, no, this.branchFormData.get('branchCode').value);
+      this.apiService.apiGetRequest(getTankasUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['TankList']) && res.response['TankList'].length) {
+                this.dataSource.data[index].TankId = res.response['TankList'][0].id;
+                this.dataSource.data[index].TankNo = res.response['TankList'][0].text;
+                this.dataSource = new MatTableDataSource(this.dataSource.data);
+              } else {
+                // this.dataSource.data[index].TankId = null;
+                this.dataSource.data[index].TankNo = null;
+                this.dataSource = new MatTableDataSource(this.dataSource.data);
+              }
+            }
+          }
+          this.spinner.hide();
+        });
+    } else {
+      this.dataSource.data[index].TankId = null;
+      this.dataSource.data[index].TankNo = null;
+      this.dataSource = new MatTableDataSource(this.dataSource.data);
+    }
+  }
+
   getCashPartyAccount() {
     const getCashPartyAccountUrl = String.Join('/', this.apiConfigService.getPurchaseCashPartyAccount,
       this.branchFormData.get('ledgerCode').value);
@@ -352,10 +399,10 @@ export class PurchaseCreateComponent implements OnInit {
                 stateName: 'ANDHRA PRADESH'
               });
               this.getSelectedState();
-              this.spinner.hide();
             }
           }
         }
+        this.spinner.hide();
       });
   }
 
@@ -378,17 +425,17 @@ export class PurchaseCreateComponent implements OnInit {
               } else {
                 this.taxPercentage = false;
               }
-              this.spinner.hide();
             }
           }
         }
+        this.spinner.hide();
       });
   }
 
 
   addTableRow() {
     const tableObj = {
-      productCode: '', productName: '', hsnNo: '', unitName: '', qty: '', fQty: '', totalLiters: '', tankNo: '',
+      productCode: '', productName: '', hsnNo: '', unitName: '', qty: '', fQty: '', totalLiters: '', tankNo: null,
       rate: '', discount: 0.00, grossAmount: '', delete: '', text: 'obj'
     };
     if (!isNullOrUndefined(this.dataSource)) {

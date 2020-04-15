@@ -764,6 +764,7 @@ export class CreateBillComponent implements OnInit {
     // if (this.disableSlipValData(obj)) {
     this.setToFormModel(null, null, null);
     // }
+    this.commonService.setFocus(this.setFocus);
   }
 
   getProductByProductName(value) {

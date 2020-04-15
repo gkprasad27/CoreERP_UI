@@ -32,13 +32,13 @@
                 <button mat-raised-button
                         class="button-color-bule text-white m-2"
                         (click)="search()">
-                  <mat-icon>search</mat-icon>
+                  <!-- <mat-icon>search</mat-icon> -->
                   {{ "COMMON.SEARCH" | translate }}
                 </button>
                 <button mat-raised-button
                         class="button-color-red text-white m-2"
                         (click)="reset()">
-                  <mat-icon>clear</mat-icon>
+                  <!-- <mat-icon>clear</mat-icon> -->
                   {{ "COMMON.RESET" | translate }}
                 </button>
               </div>
@@ -96,7 +96,7 @@
 
             <ng-container matColumnDef="receiptDate">
               <th mat-header-cell *matHeaderCellDef> ReceiptDate </th>
-              <td mat-cell *matCellDef="let element;"> {{element.receiptDate}} </td>
+              <td mat-cell *matCellDef="let element;"> {{element.receiptDate | date:'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

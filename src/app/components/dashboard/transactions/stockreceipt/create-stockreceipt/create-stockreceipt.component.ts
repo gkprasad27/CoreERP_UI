@@ -106,6 +106,7 @@ export class CreateStockreceiptsComponent implements OnInit {
         this.getStockreceiptDeatilList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
         this.branchFormData.setValue(billHeader);
+        this.gettingtobranches();
       } else
       {
         //this.disableForm();

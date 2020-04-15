@@ -62,6 +62,7 @@ export class ApiConfigService {
    getPurchaseStateList = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GeStateList`;
    getPurchaseSelectedState = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GeSelectedState`;
    getPurchaseCashPartyAccount = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetCashPartyAccount`;
+   getTankas = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetTankas`;
    getPurchasePurchaseReturnInvNo = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GeneratePurchaseReturnInvNo`;
    getPurchaseRegisterPurchaseReturn = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/RegisterPurchaseReturn`;
 

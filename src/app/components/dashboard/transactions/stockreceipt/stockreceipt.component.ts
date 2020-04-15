@@ -43,7 +43,7 @@ export class StockreceiptsComponent implements OnInit {
   {
    
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
       receiptNo: [null],
@@ -64,8 +64,8 @@ export class StockreceiptsComponent implements OnInit {
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['StockIssueList']) && res.response['StockIssueList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['StockIssueList']);
+          if (!isNullOrUndefined(res.response['StockreceiptList']) && res.response['StockreceiptList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['StockreceiptList']);
             this.dataSource.paginator = this.paginator;
             this.spinner.hide();
           }
@@ -78,7 +78,7 @@ export class StockreceiptsComponent implements OnInit {
   {
     //debugger;
     localStorage.setItem('selectedStockreceipt', JSON.stringify(row));
-    this.router.navigate(['dashboard/transactions/stockreceipt/CreateStockreceipts', row.receiptNo]);
+    this.router.navigate(['dashboard/transactions/stockreceipt/CreateStockreceipts', row.operatorStockReceiptId]);
   }
 
   //Search and datadisplay code
