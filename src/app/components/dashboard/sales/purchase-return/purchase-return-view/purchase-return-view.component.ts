@@ -68,7 +68,10 @@ export class PurchaseReturnViewComponent implements OnInit {
 
   formDataGroup() {
     this.branchFormData = this.formBuilder.group({
-      purchaseInvId: [null],
+      purchaseReturnId: [null],
+      purchaseReturnInvNo: [null],
+      purchaseReturnInvDate: [null],
+      purchaseMasterInvId: [null],
       branchCode: [null],
       branchName: [null],
       voucherNo: [null],
@@ -100,8 +103,7 @@ export class PurchaseReturnViewComponent implements OnInit {
       roundOffMinus: [null],
       totalAmount: [null],
       amountInWords: [null],
-      narration: [null],
-      isPurchaseReturned: [null]
+      narration: [null]
     });
   }
 
@@ -137,8 +139,8 @@ export class PurchaseReturnViewComponent implements OnInit {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        this.getPurchaseInvoiceDeatilList(params.id1);
-        const billHeader = JSON.parse(localStorage.getItem('purchase'));
+        const billHeader = JSON.parse(localStorage.getItem('purchaseReturn'));
+        this.getPurchaseReturnsDetails(billHeader.purchaseReturnId);
         this.branchFormData.setValue(billHeader);
         const user = JSON.parse(localStorage.getItem('user'));
         this.genarateBillNo(user.branchCode);
@@ -164,14 +166,14 @@ export class PurchaseReturnViewComponent implements OnInit {
     });
   }
 
-  getPurchaseInvoiceDeatilList(id) {
-    const getPurchaseInvoiceDeatilListUrl = String.Join('/', this.apiConfigService.getPurchaseInvoiceDeatilList, id);
-    this.apiService.apiGetRequest(getPurchaseInvoiceDeatilListUrl).subscribe(
+  getPurchaseReturnsDetails(id) {
+    const getPurchaseReturnsDetailsUrl = String.Join('/', this.apiConfigService.getPurchaseReturnsDetails, id);
+    this.apiService.apiGetRequest(getPurchaseReturnsDetailsUrl).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['InvoiceDetailList']) && res.response['InvoiceDetailList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['InvoiceDetailList']);
+          if (!isNullOrUndefined(res.response['PurchaseReturnDetails']) && res.response['PurchaseReturnDetails'].length) {
+            this.dataSource = new MatTableDataSource(res.response['PurchaseReturnDetails']);
             this.spinner.hide();
           }
         }
@@ -640,6 +642,10 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.setToFormModel(null, null, null);
   }
 
+  print() {
+
+  }
+  
   save() {
     // if (this.routeUrl != '' || this.dataSource.data.length == 0) {
     //   return;
@@ -670,7 +676,6 @@ export class PurchaseReturnViewComponent implements OnInit {
     //   return;
     // }
     this.enableFileds();
-    this.registerPurchase();
   }
 
   enableFileds() {
@@ -694,23 +699,7 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.loadData();
   }
 
-  registerPurchase() {
-    this.branchFormData.patchValue({
-      paymentMode: 0
-    });
-    const registerPurchaseUrl = String.Join('/', this.apiConfigService.getPurchaseRegisterPurchaseReturn, this.isPurchaseReturnInvoice, this.branchFormData.get('purchaseInvId').value);
-    this.apiService.apiGetRequest(registerPurchaseUrl).subscribe(
-      response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            this.alertService.openSnackBar('Purchase Created Successfully..', Static.Close, SnackBar.success);
-          }
-          this.reset();
-          this.spinner.hide();
-        }
-      });
-  }
+
 
 }
 

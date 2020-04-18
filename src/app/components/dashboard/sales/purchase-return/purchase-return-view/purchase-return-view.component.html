@@ -1,8 +1,8 @@
 <div class="pt-1 d-flex">
     <h5 [routerLink]="['/dashboard/sales/purchaseReturn']"> <u class="cursor--pointer">
-            {{ 'PURCHASE.TITLE' | translate }} </u> </h5>
+        Purchase Return   </u> </h5>
     &nbsp; &nbsp; <h5> / </h5> &nbsp;
-    <h6 class="p-1"> {{ 'PURCHASE.NEWPURCHASE' | translate }} </h6>
+    <h6 class="p-1"> Purchase Return View  </h6>
 </div>
 
 <div class="">
@@ -58,7 +58,7 @@
                         <mat-label>{{ 'PURCHASE.stateCode' | translate }}</mat-label>
                         <mat-select formControlName="stateCode" (selectionChange)="getSelectedState()">
                             <mat-option *ngFor="let state of getStateListArray" [value]="state.id">
-                                {{state.text}}
+                                {{state.id}} - {{state.text}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -315,9 +315,9 @@
                     <mat-slide-toggle [(ngModel)]="printBill" [checked]="printBill">
                     </mat-slide-toggle>
                 </div>
-                <button mat-raised-button type="submit" class="button-color-bule mr-3 text-white" (click)="save()">
+                <button mat-raised-button type="submit" class="button-color-bule mr-3 text-white" (click)="print()">
 
-                    {{ 'COMMON.SAVE' | translate }}
+                    {{ 'COMMON.PRINT' | translate }}
                 </button>
                 <button mat-raised-button class="button-color-red text-white mr-3" [disabled]="routeUrl != ''"
                     (click)="reset();">

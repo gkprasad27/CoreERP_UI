@@ -20,8 +20,8 @@ import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/form
   templateUrl: './purchase-create.component.html',
   styleUrls: ['./purchase-create.component.scss'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
   ]
 })
 export class PurchaseCreateComponent implements OnInit {
@@ -51,6 +51,7 @@ export class PurchaseCreateComponent implements OnInit {
   routeUrl = '';
   taxPercentage: any;
   // tableLength = 6;
+  isPurchaseReturnInvoice: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -136,9 +137,13 @@ export class PurchaseCreateComponent implements OnInit {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
         this.disableForm(params.id1);
-        this.getPurchaseInvoiceDeatilList(params.id1);
+        this.getPurchaseInvoiceDeatilList(params.id2);
         const billHeader = JSON.parse(localStorage.getItem('purchase'));
         this.branchFormData.setValue(billHeader);
+        if (this.routeUrl == 'return') {
+          const user = JSON.parse(localStorage.getItem('user'));
+          this.getPurchasePurchaseReturnInvNo(user.branchCode);
+        }
       } else {
         this.disableForm();
         this.addTableRow();
@@ -158,6 +163,7 @@ export class PurchaseCreateComponent implements OnInit {
       }
     });
   }
+
 
   getPurchaseInvoiceDeatilList(id) {
     const getPurchaseInvoiceDeatilListUrl = String.Join('/', this.apiConfigService.getPurchaseInvoiceDeatilList, id);
@@ -183,6 +189,8 @@ export class PurchaseCreateComponent implements OnInit {
       this.branchFormData.controls['supplierInvNo'].disable();
       this.branchFormData.controls['gstin'].disable();
       this.branchFormData.controls['narration'].disable();
+      this.branchFormData.controls['roundOffPlus'].disable();
+      this.branchFormData.controls['roundOffMinus'].disable();
     }
     this.branchFormData.controls['paymentMode'].disable();
     this.branchFormData.controls['purchaseInvNo'].disable();
@@ -197,6 +205,25 @@ export class PurchaseCreateComponent implements OnInit {
     this.branchFormData.controls['ledgerName'].disable();
   }
 
+  getPurchasePurchaseReturnInvNo(branch) {
+    const generateBillUrl = String.Join('/', this.apiConfigService.getPurchasePurchaseReturnInvNo, branch)
+    this.apiService.apiGetRequest(generateBillUrl).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['PurchaseInvoiceNo'])) {
+              this.isPurchaseReturnInvoice = res.response['PurchaseInvoiceNo'];
+              this.spinner.hide();
+            }
+          }
+        } else if (res.status === StatusCodes.fail) {
+          this.branchFormData.patchValue({
+            purchaseInvNo: null
+          });
+        }
+      });
+  }
 
   GetBranchesList() {
     const getBranchesListUrl = String.Join('/', this.apiConfigService.getBillingBranchesList);
@@ -207,6 +234,7 @@ export class PurchaseCreateComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['BranchesList']) && res.response['BranchesList'].length) {
               this.GetBranchesListArray = res.response['BranchesList'];
+              this.setBranchCode();
               this.spinner.hide();
             }
           }
@@ -502,10 +530,10 @@ export class PurchaseCreateComponent implements OnInit {
     }
     if (this.tableFormData.valid) {
       // if (this.dataSource.data.length) {
-        if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
-          this.addTableRow();
-        }
-        this.formGroup();
+      if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
+        this.addTableRow();
+      }
+      this.formGroup();
       // }
     }
   }
@@ -689,7 +717,32 @@ export class PurchaseCreateComponent implements OnInit {
     this.setToFormModel(null, null, null);
   }
 
+  roundOff(prop) {
+    if (!isNullOrUndefined(this.branchFormData.get('totalAmount').value) && this.branchFormData.get('totalAmount').value > 0) {
+      if (prop == 'roundOffPlus') {
+        this.branchFormData.patchValue({
+          grandTotal: ((+this.branchFormData.get('totalAmount').value) + (+this.branchFormData.get('roundOffPlus').value)).toFixed(2),
+          roundOffMinus: null
+        })
+      } else if (prop == 'roundOffMinus') {
+        this.branchFormData.patchValue({
+          grandTotal: ((+this.branchFormData.get('totalAmount').value) - (+this.branchFormData.get('roundOffMinus').value)).toFixed(2),
+          roundOffPlus: null
+        })
+      }
+    }
+  }
+
+  print() {
+
+  }
+
+
   save() {
+    if (this.routeUrl == 'return') {
+      this.registerReturnPurchase();
+      return;
+    }
     if (this.routeUrl != '' || this.dataSource.data.length == 0) {
       return;
     }
@@ -720,6 +773,24 @@ export class PurchaseCreateComponent implements OnInit {
     }
     this.enableFileds();
     this.registerPurchase(tableData);
+  }
+
+  registerReturnPurchase() {
+    this.branchFormData.patchValue({
+      paymentMode: 0
+    });
+    const registerPurchaseUrl = String.Join('/', this.apiConfigService.getPurchaseRegisterPurchaseReturn, this.isPurchaseReturnInvoice, this.branchFormData.get('purchaseInvId').value);
+    this.apiService.apiGetRequest(registerPurchaseUrl).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            this.alertService.openSnackBar('Purchase Created Successfully..', Static.Close, SnackBar.success);
+          }
+          this.reset();
+          this.spinner.hide();
+        }
+      });
   }
 
   enableFileds() {

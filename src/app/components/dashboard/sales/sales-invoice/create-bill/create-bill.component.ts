@@ -281,6 +281,7 @@ export class CreateBillComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['BranchesList']) && res.response['BranchesList'].length) {
               this.GetBranchesListArray = res.response['BranchesList'];
+              this.setBranchCode();
               this.spinner.hide();
             }
           }

@@ -24,7 +24,7 @@ export class PurchaseComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   displayedColumns: string[] = ['purchaseInvNo', 'purchaseInvDate', 'ledgerCode',
-  'ledgerName', 'totalAmount', 'stateCode',
+  'ledgerName', 'totalAmount', 'purchaseReturn', 'stateCode',
   'userId', 'shiftId'];
   branchCode: any;
 
@@ -73,7 +73,12 @@ export class PurchaseComponent implements OnInit {
 
   openPurchase(row) {
     localStorage.setItem('purchase', JSON.stringify(row));
-    this.router.navigate(['dashboard/sales/purchaseInvoice/CreatePurchase', row.purchaseInvNo]);
+    this.router.navigate(['dashboard/sales/purchaseInvoice/viewPurchaseInvoice', 'create', row.purchaseInvNo]);
+  }
+
+  returnPurchase(row) {
+    localStorage.setItem('purchase', JSON.stringify(row));
+    this.router.navigate(['dashboard/sales/salesInvoice/viewPurchaseInvoice', 'return',  row.purchaseInvNo]);
   }
 
   search() {

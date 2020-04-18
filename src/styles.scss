@@ -18,6 +18,12 @@ body {
 }
 
 
+ .mat-form-field  {
+  & .mat-select-value {
+  color: rgba(0,0,0,.87) !important;
+  }
+}
+
 .mat-raised-button {
   box-shadow: none !important;
   padding: 0 8px !important;

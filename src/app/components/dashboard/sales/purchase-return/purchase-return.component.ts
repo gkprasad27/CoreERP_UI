@@ -57,13 +57,13 @@ selectedDate = {start : moment().add(0, 'day'), end: moment().add(0, 'day')};
   }
 
   getPurchaseInvoiceList() {
-    const getPurchaseInvoiceListUrl = String.Join('/', this.apiConfigService.getPurchaseInvoiceList, this.branchCode.branchCode);
+    const getPurchaseInvoiceListUrl = String.Join('/', this.apiConfigService.getPurchaseReturns, this.branchCode.branchCode);
     this.apiService.apiPostRequest(getPurchaseInvoiceListUrl, this.dateForm.value).subscribe(
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-        if (!isNullOrUndefined(res.response['InvoiceList']) && res.response['InvoiceList'].length) {
-          this.dataSource = new MatTableDataSource( res.response['InvoiceList']);
+        if (!isNullOrUndefined(res.response['PurchaseReturnHdr']) && res.response['PurchaseReturnHdr'].length) {
+          this.dataSource = new MatTableDataSource( res.response['PurchaseReturnHdr']);
           this.dataSource.paginator = this.paginator;
           this.spinner.hide();
         }
@@ -72,7 +72,7 @@ selectedDate = {start : moment().add(0, 'day'), end: moment().add(0, 'day')};
   }
 
   openPurchase(row) {
-    localStorage.setItem('purchase', JSON.stringify(row));
+    localStorage.setItem('purchaseReturn', JSON.stringify(row));
     this.router.navigate(['dashboard/sales/purchaseReturn/purchaseReturnView', row.purchaseInvNo]);
   }
 

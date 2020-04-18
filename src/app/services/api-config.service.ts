@@ -65,6 +65,8 @@ export class ApiConfigService {
    getTankas = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetTankas`;
    getPurchasePurchaseReturnInvNo = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GeneratePurchaseReturnInvNo`;
    getPurchaseRegisterPurchaseReturn = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/RegisterPurchaseReturn`;
+   getPurchaseReturns = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GetPurchaseReturns`;
+   getPurchaseReturnsDetails = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GetPurchaseReturnsDetails`;
 
    
 

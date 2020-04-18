@@ -59,7 +59,7 @@
                         <mat-label>{{ 'PURCHASE.stateCode' | translate }}</mat-label>
                         <mat-select formControlName="stateCode" (selectionChange)="getSelectedState()">
                             <mat-option *ngFor="let state of getStateListArray" [value]="state.id">
-                                {{state.id}} -  {{state.text}}
+                                {{state.id}} - {{state.text}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -177,7 +177,7 @@
                         <th mat-header-cell *matHeaderCellDef> {{ 'PURCHASE.tankNo' | translate }} </th>
                         <td mat-cell *matCellDef="let element;">
                             <input matInput type="number" [disabled]="element.text != 'obj'" [value]="element.tankNo"
-                            [ngClass]="setBackGroundColor(element.tankNo, element.productCode)"
+                                [ngClass]="setBackGroundColor(element.tankNo, element.productCode)"
                                 [(ngModel)]="element.tankNo"
                                 (input)="setToFormModel(element.text, 'tankNo', element.tankNo); getTankas(element.tankNo, dataSource.filteredData.indexOf(element))" />
                         </td>
@@ -290,6 +290,21 @@
                     <div class="d-flex justify-content-end">
                         <div class="w-75">
                             <mat-form-field class="form-element">
+                                <input matInput type="number" (input)="roundOff('roundOffPlus')" placeholder="Round Off(+)"
+                                    formControlName="roundOffPlus">
+                            </mat-form-field>
+
+                            <mat-form-field class="form-element">
+                                <input matInput type="number" (input)="roundOff('roundOffMinus')" placeholder="Round Off(-)"
+                                    formControlName="roundOffMinus">
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <div class="w-75">
+                            <mat-form-field class="form-element">
                                 <input matInput placeholder="{{ 'SALESINVOICE.totalAmount' | translate }}"
                                     formControlName="totalAmount">
                             </mat-form-field>
@@ -316,8 +331,13 @@
                     <mat-slide-toggle [(ngModel)]="printBill" [checked]="printBill">
                     </mat-slide-toggle>
                 </div>
-                <button mat-raised-button type="submit" class="button-color-bule mr-3 text-white" (click)="save()">
 
+                <button *ngIf="(routeUrl != 'return' && routeUrl != '')" mat-raised-button type="submit"
+                    class="button-color-bule mr-3 text-white" (click)="print()">
+                    {{ 'COMMON.PRINT' | translate }}
+                </button>
+                <button *ngIf="(routeUrl == 'return' || routeUrl == '')" mat-raised-button type="submit"
+                    class="button-color-bule mr-3 text-white" (click)="save()">
                     {{ 'COMMON.SAVE' | translate }}
                 </button>
                 <button mat-raised-button class="button-color-red text-white mr-3" [disabled]="routeUrl != ''"
