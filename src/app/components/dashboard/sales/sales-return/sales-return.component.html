@@ -9,7 +9,7 @@
       <div class="d-flex justify-content-between">
         <div class="d-flex p-2">
           <div class="range-picker p-2">
-            <input type="text" ngxDaterangepickerMd startKey="start" endKey="end" placeholder="Choose date"
+            <input type="text" ngxDaterangepickerMd [locale]="{applyLabel: 'ok', format: 'DD-MM-YYYY'}" startKey="start" endKey="end" placeholder="Choose date"
               formControlName="selected" class="form-control" />
           </div>
           <div>

@@ -112,7 +112,7 @@
                     element.toLedgerName
                   )
                 " /> -->
-                <input class="typeAhead" [(ngModel)]="element.toLedgerName" type="search"
+                <input class="typeAhead" id="LedgerName" [(ngModel)]="element.toLedgerName" type="search"
                 [disabled]="element.text != 'obj'" (typeaheadOnSelect)="setAccountCode($event)"
                 (input)="getAccountByAccountName($event.target.value)"
                 [typeahead]="getAccountLedgerListArray" typeaheadOptionField='text'>
@@ -140,7 +140,7 @@
         </tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
 </div>
 
 

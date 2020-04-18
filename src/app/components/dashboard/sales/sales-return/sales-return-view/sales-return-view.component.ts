@@ -14,11 +14,16 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PrintComponent } from '../../../../../reuse-components/print/print.component';
 var curValue = require("multilingual-number-to-words");
-
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 @Component({
   selector: 'app-sales-return-view',
   templateUrl: './sales-return-view.component.html',
-  styleUrls: ['./sales-return-view.component.scss']
+  styleUrls: ['./sales-return-view.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
 export class SalesReturnViewComponent implements OnInit {
 

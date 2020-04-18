@@ -19,7 +19,7 @@ import * as moment from 'moment';
   styleUrls: ['./sales-return.component.scss']
 })
 export class SalesReturnComponent implements OnInit {
-  selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
+  selectedDate = {start : moment().add(0, 'day'), end: moment().add(0, 'day')};
 
   dateForm: FormGroup;
   // table
@@ -43,7 +43,7 @@ export class SalesReturnComponent implements OnInit {
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
       invoiceNo: [null],

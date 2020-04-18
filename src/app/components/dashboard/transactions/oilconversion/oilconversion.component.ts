@@ -72,12 +72,15 @@ export class OilconversionComponent implements OnInit {
   }
 
 
+
   openOilconversion(row) {
     //debugger;
     localStorage.setItem('selectedOilconversion', JSON.stringify(row));
-    this.router.navigate(['dashboard/transactions/oilconversion/CreateOilconversions', row.oilConversionVchNo]);
+    this.router.navigate(['dashboard/transactions/oilconversion/CreateOilconversions', row.oilConversionMasterId]);
   }
-
+  returnSdeale() {
+    this.router.navigate(['dashboard/transactions/oilconversion/CreateOilconversions', 'return']);
+  }
 
   //Search and datadisplay code
   search()

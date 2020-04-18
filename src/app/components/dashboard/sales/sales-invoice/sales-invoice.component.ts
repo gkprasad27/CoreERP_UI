@@ -19,7 +19,7 @@ import * as moment from 'moment';
   styleUrls: ['./sales-invoice.component.scss']
 })
 export class SalesInvoiceComponent implements OnInit {
-  selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
+  selectedDate = {start : moment().add(0, 'day'), end: moment().add(0, 'day')};
 
   dateForm: FormGroup;
   // table

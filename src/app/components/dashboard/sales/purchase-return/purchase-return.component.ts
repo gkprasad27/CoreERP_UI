@@ -18,7 +18,7 @@ import * as moment from 'moment';
   styleUrls: ['./purchase-return.component.scss']
 })
 export class PurchaseReturnComponent implements OnInit {
-selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
+selectedDate = {start : moment().add(0, 'day'), end: moment().add(0, 'day')};
   dateForm: FormGroup;
   // table
   dataSource: MatTableDataSource<any>;
@@ -40,7 +40,7 @@ selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
 
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
       invoiceNo: [null],

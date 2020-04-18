@@ -72,13 +72,16 @@ export class StockreceiptsComponent implements OnInit {
         }
       });
   }
+  
 
-
-  openStockreceipt(row)
-  {
-    //debugger;
-    localStorage.setItem('selectedStockreceipt', JSON.stringify(row));
+  openStockreceipt(row) {
+    // debugger;
+    localStorage.setItem('selectedstockissues', JSON.stringify(row));
     this.router.navigate(['dashboard/transactions/stockreceipt/CreateStockreceipts', row.operatorStockReceiptId]);
+  }
+
+  returnSdeale() {
+    this.router.navigate(['dashboard/transactions/stockreceipt/CreateStockreceipts', 'return']);
   }
 
   //Search and datadisplay code

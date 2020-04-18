@@ -14,11 +14,17 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 
 @Component({
   selector: 'app-create-cashpayment',
   templateUrl: './create-cashpayment.component.html',
-  styleUrls: ['./create-cashpayment.component.scss']
+  styleUrls: ['./create-cashpayment.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
 export class CreateCashpaymentComponent implements OnInit {
 

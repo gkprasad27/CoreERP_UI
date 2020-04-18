@@ -72,17 +72,17 @@ export class StockshortComponent  implements OnInit {
       });
   }
 
-
-  openStockissues(row)
-  {
-    //debugger;
+  openStockissues(row) {
+    // debugger;
     localStorage.setItem('selectedStockshort', JSON.stringify(row));
-    this.router.navigate(['dashboard/transactions/stockshort/CreateStocshorts', row.stockshortNo]);
+    this.router.navigate(['dashboard/transactions/stockshort/CreateStocshorts', row.stockshortMasterId]);
   }
 
+  returnSdeale() {
+    this.router.navigate(['dashboard/transactions/stockshort/CreateStocshorts', 'return']);
+  }
 
-  //Search and datadisplay code
-
+  
   //Search and datadisplay code
   search() {
     if (isNullOrUndefined(this.dateForm.value.stockshortNo)) {

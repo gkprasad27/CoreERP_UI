@@ -14,11 +14,16 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PrintComponent } from '../../../../../reuse-components/print/print.component';
 var curValue = require("multilingual-number-to-words");
-
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 @Component({
   selector: 'app-create-bill',
   templateUrl: './create-bill.component.html',
-  styleUrls: ['./create-bill.component.scss']
+  styleUrls: ['./create-bill.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
 export class CreateBillComponent implements OnInit {
 
@@ -50,6 +55,9 @@ export class CreateBillComponent implements OnInit {
   taxPercentage: any;
   isSalesReturnInvoice: any;
   setFocus: any;
+  tableLength = 6;
+  itemsLength = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -118,6 +126,7 @@ export class CreateBillComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.getperchaseBranchData();
   }
 
   loadData() {
@@ -155,6 +164,29 @@ export class CreateBillComponent implements OnInit {
         }
       }
     });
+  }
+
+  getperchaseBranchData() {
+    const getSlipListUrl = String.Join('/', '../../../../../../assets/settings/perchase-branch.json');
+    this.apiService.apiGetRequest(getSlipListUrl).subscribe(
+      response => {
+        this.itemsLength = response.body;
+        this.spinner.hide();
+      });
+  }
+
+  setBranchLenght() {
+    let flag = true;
+    for (let b = 0; b < this.itemsLength.length; b++) {
+      if (this.branchFormData.get('branchCode').value == this.itemsLength[b]) {
+        this.tableLength = 3;
+        flag = false;
+        break;
+      }
+    }
+    if (flag) {
+      this.tableLength = 6;
+    }
   }
 
   getperchaseData() {
@@ -274,6 +306,7 @@ export class CreateBillComponent implements OnInit {
       });
     } else {
       this.setBranchCode();
+      this.setBranchLenght();
       let generateBillUrl;
       if (!isNullOrUndefined(branch)) {
         generateBillUrl = String.Join('/', this.apiConfigService.generateBillNo, branch);
@@ -592,7 +625,7 @@ export class CreateBillComponent implements OnInit {
       });
     }
     if (this.tableFormData.valid) {
-      if (this.dataSource.data.length < 6) {
+      if (this.dataSource.data.length < this.tableLength) {
         if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
           this.addTableRow();
         }
@@ -624,8 +657,8 @@ export class CreateBillComponent implements OnInit {
 
   getProductByProductCode(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode, value);
-      this.apiService.apiGetRequest(getProductByProductCodeUrl).subscribe(
+      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode);
+      this.apiService.apiPostRequest(getProductByProductCodeUrl, { productCode: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -705,9 +738,8 @@ export class CreateBillComponent implements OnInit {
     // if (this.checkProductCode(productCode, index)) {
     if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
-      const getBillingDetailsRcdUrl = String.Join('/', this.apiConfigService.getBillingDetailsRcd, productCode.value,
-        this.branchFormData.get('branchCode').value);
-      this.apiService.apiGetRequest(getBillingDetailsRcdUrl).subscribe(
+      const getBillingDetailsRcdUrl = String.Join('/', this.apiConfigService.getBillingDetailsRcd);
+      this.apiService.apiPostRequest(getBillingDetailsRcdUrl, { productCode: productCode.value, branchCode: this.branchFormData.get('branchCode').value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -769,8 +801,8 @@ export class CreateBillComponent implements OnInit {
 
   getProductByProductName(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName, value);
-      this.apiService.apiGetRequest(getProductByProductNameUrl).subscribe(
+      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName);
+      this.apiService.apiPostRequest(getProductByProductNameUrl, { productName: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {

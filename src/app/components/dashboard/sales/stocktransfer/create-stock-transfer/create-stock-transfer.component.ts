@@ -14,11 +14,17 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 
 @Component({
   selector: 'app-create-stock-transfer',
   templateUrl: './create-stock-transfer.component.html',
-  styleUrls: ['./create-stock-transfer.component.scss']
+  styleUrls: ['./create-stock-transfer.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
 export class CreateStockTransferComponent implements OnInit {
   formData: FormGroup;
@@ -245,12 +251,12 @@ export class CreateStockTransferComponent implements OnInit {
       });
     }
     if (this.tableFormData.valid) {
-      if (this.dataSource.data.length < 6) {
+      // if (this.dataSource.data.length) {
         if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
           this.addTableRow();
         }
         this.formGroup();
-      }
+      // }
     }
   }
 
@@ -275,8 +281,8 @@ export class CreateStockTransferComponent implements OnInit {
 
   getProductByProductCode(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode, value);
-      this.apiService.apiGetRequest(getProductByProductCodeUrl).subscribe(
+      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode);
+      this.apiService.apiPostRequest(getProductByProductCodeUrl, { productCode: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -300,8 +306,9 @@ export class CreateStockTransferComponent implements OnInit {
     // if (this.checkProductCode(productCode, index)) {
     if (!isNullOrUndefined(this.formData.get('fromBranchCode').value) && this.formData.get('fromBranchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
-      const getStockTransferDetailsSectionUrl = String.Join('/', this.apiConfigService.getStockTransferDetailsSection, this.formData.get('fromBranchCode').value, productCode.value);
-      this.apiService.apiGetRequest(getStockTransferDetailsSectionUrl).subscribe(
+      const getStockTransferDetailsSectionUrl = String.Join('/', this.apiConfigService.getStockTransferDetailsSection);
+      this.apiService.apiPostRequest(getStockTransferDetailsSectionUrl, {branchCode: this.formData.get('fromBranchCode').value, productCode : productCode.value
+    }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -361,8 +368,8 @@ export class CreateStockTransferComponent implements OnInit {
 
   getProductByProductName(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName, value);
-      this.apiService.apiGetRequest(getProductByProductNameUrl).subscribe(
+      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName);
+      this.apiService.apiPostRequest(getProductByProductNameUrl, { productName: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {

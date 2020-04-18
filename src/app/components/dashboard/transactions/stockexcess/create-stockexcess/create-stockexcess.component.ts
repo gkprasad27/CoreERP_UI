@@ -14,11 +14,17 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 
 @Component({
   selector: 'app-create-stockexcess',
   templateUrl: './create-stockexcess.component.html',
-  styleUrls: ['./create-stockexcess.component.scss']
+  styleUrls: ['./create-stockexcess.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
 export class CreateStockExcessComponent implements OnInit {
 
@@ -265,8 +271,8 @@ export class CreateStockExcessComponent implements OnInit {
 
   getProductByProductCode(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode, value);
-      this.apiService.apiGetRequest(getProductByProductCodeUrl).subscribe(
+      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode);
+      this.apiService.apiPostRequest(getProductByProductCodeUrl, { productCode: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -298,25 +304,25 @@ export class CreateStockExcessComponent implements OnInit {
     });
 }
 
-  getProductByProductName(value) {
-    if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName, value);
-      this.apiService.apiGetRequest(getProductByProductNameUrl).subscribe(
-        response => {
-          const res = response.body;
-          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-            if (!isNullOrUndefined(res.response)) {
-              if (!isNullOrUndefined(res.response['Products'])) {
-                this.getProductByProductNameArray = res.response['Products'];
-                this.spinner.hide();
-              }
+getProductByProductName(value) {
+  if (!isNullOrUndefined(value) && value != '') {
+    const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName);
+    this.apiService.apiPostRequest(getProductByProductNameUrl, { productName: value }).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['Products'])) {
+              this.getProductByProductNameArray = res.response['Products'];
+              this.spinner.hide();
             }
           }
-        });
-    } else {
-      this.getProductByProductNameArray = [];
-    }
+        }
+      });
+  } else {
+    this.getProductByProductNameArray = [];
   }
+}
 
   getdata(productCode) {
     //debugger;

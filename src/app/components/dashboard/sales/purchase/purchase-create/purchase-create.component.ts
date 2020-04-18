@@ -13,11 +13,16 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 var curValue = require("multilingual-number-to-words");
-
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 @Component({
   selector: 'app-purchase-create',
   templateUrl: './purchase-create.component.html',
-  styleUrls: ['./purchase-create.component.scss']
+  styleUrls: ['./purchase-create.component.scss'],
+  providers: [
+    {provide: DateAdapter, useClass: AppDateAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+  ]
 })
 export class PurchaseCreateComponent implements OnInit {
   setFocus: any;
@@ -45,7 +50,7 @@ export class PurchaseCreateComponent implements OnInit {
   printBill = false;
   routeUrl = '';
   taxPercentage: any;
-  tableLength = 6;
+  // tableLength = 6;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -102,7 +107,7 @@ export class PurchaseCreateComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.getperchaseData();
-    this.getperchaseBranchData();
+    // this.getperchaseBranchData();
   }
 
   getperchaseBranchData() {
@@ -231,19 +236,19 @@ export class PurchaseCreateComponent implements OnInit {
     }
   }
 
-  setBranchLenght() {
-    let flag = true;
-    for (let b = 0; b < this.itemsLength.length; b++) {
-      if (this.branchFormData.get('branchCode').value == this.itemsLength[b]) {
-        this.tableLength = 3;
-        flag = false;
-        break;
-      }
-    }
-    if (flag) {
-      this.tableLength = 6;
-    }
-  }
+  // setBranchLenght() {
+  //   let flag = true;
+  //   for (let b = 0; b < this.itemsLength.length; b++) {
+  //     if (this.branchFormData.get('branchCode').value == this.itemsLength[b]) {
+  //       this.tableLength = 3;
+  //       flag = false;
+  //       break;
+  //     }
+  //   }
+  //   if (flag) {
+  //     this.tableLength = 6;
+  //   }
+  // }
 
   genarateBillNo(branch?) {
     let flag = false;
@@ -262,7 +267,7 @@ export class PurchaseCreateComponent implements OnInit {
       });
     } else {
       this.setBranchCode();
-      this.setBranchLenght();
+      // this.setBranchLenght();
       let generateBillUrl;
       if (!isNullOrUndefined(branch)) {
         generateBillUrl = String.Join('/', this.apiConfigService.generatePurchaseInvNo, branch);
@@ -318,20 +323,22 @@ export class PurchaseCreateComponent implements OnInit {
 
 
   setBackGroundColor(value, prop) {
-    if (isNullOrUndefined(value) && this.calculateLiters.length) {
-      let flag = true;
-      for (let s = 0; s < this.calculateLiters.length; s++) {
-        if (this.calculateLiters[s] == prop) {
-          flag = false;
+    if (!isNullOrUndefined(this.calculateLiters)) {
+      if (isNullOrUndefined(value) && this.calculateLiters.length) {
+        let flag = true;
+        for (let s = 0; s < this.calculateLiters.length; s++) {
+          if (this.calculateLiters[s] == prop) {
+            flag = false;
+          }
         }
-      }
-      if (flag) {
-        return '';
+        if (flag) {
+          return '';
+        } else {
+          return 'flashLight';
+        }
       } else {
-        return 'flashLight';
+        return '';
       }
-    } else {
-      return '';
     }
   }
 
@@ -418,7 +425,7 @@ export class PurchaseCreateComponent implements OnInit {
               const taxP = res.response['StateList'][0];
               this.branchFormData.patchValue({
                 stateCode: taxP.stateCode,
-                StateName: taxP.stateName
+                stateName: taxP.stateName
               });
               if (taxP.igst == 0) {
                 this.taxPercentage = true;
@@ -494,13 +501,12 @@ export class PurchaseCreateComponent implements OnInit {
       });
     }
     if (this.tableFormData.valid) {
-
-      if (this.dataSource.data.length < this.tableLength) {
+      // if (this.dataSource.data.length) {
         if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
           this.addTableRow();
         }
         this.formGroup();
-      }
+      // }
     }
   }
 
@@ -535,8 +541,8 @@ export class PurchaseCreateComponent implements OnInit {
 
   getProductByProductCode(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode, value);
-      this.apiService.apiGetRequest(getProductByProductCodeUrl).subscribe(
+      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode);
+      this.apiService.apiPostRequest(getProductByProductCodeUrl, { productCode: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -565,9 +571,9 @@ export class PurchaseCreateComponent implements OnInit {
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].grossAmount) {
         let tax = (this.taxPercentage) ? (this.dataSource.data[a].cgst + this.dataSource.data[a].sgst) : this.dataSource.data[a].igst;
-        let amountTax = (+this.dataSource.data[a].grossAmount * 100) / (tax + 100);
-        let totalTax = (+this.dataSource.data[a].grossAmount - amountTax);
-        totalAmount = totalAmount + amountTax;
+        let amountTax = (+this.dataSource.data[a].grossAmount * (tax + 100)) / 100;
+        let totalTax = (amountTax - (+this.dataSource.data[a].grossAmount));
+        totalAmount = totalAmount + (+this.dataSource.data[a].grossAmount);
         totaltaxAmount = totaltaxAmount + totalTax;
       }
     }
@@ -592,9 +598,11 @@ export class PurchaseCreateComponent implements OnInit {
     // if (this.checkProductCode(productCode, index)) {
     if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
-      const getProductDeatilsSectionRcdUrl = String.Join('/', this.apiConfigService.getProductDeatilsSectionRcd,
-        this.branchFormData.get('branchCode').value, productCode.value);
-      this.apiService.apiGetRequest(getProductDeatilsSectionRcdUrl).subscribe(
+      const getProductDeatilsSectionRcdUrl = String.Join('/', this.apiConfigService.getProductDeatilsSectionRcd);
+      this.apiService.apiPostRequest(getProductDeatilsSectionRcdUrl, {
+        branchCode:
+          this.branchFormData.get('branchCode').value, productCode: productCode.value
+      }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -628,9 +636,9 @@ export class PurchaseCreateComponent implements OnInit {
 
 
   billingDetailsSection(obj, index) {
-    if (isNullOrUndefined(obj.availStock) || (obj.availStock == 0)) {
-      this.alertService.openSnackBar(`This Product(${obj.productCode}) available stock is 0`, Static.Close, SnackBar.error);
-    }
+    // if (isNullOrUndefined(obj.availStock) || (obj.availStock == 0)) {
+    //   this.alertService.openSnackBar(`This Product(${obj.productCode}) available stock is 0`, Static.Close, SnackBar.error);
+    // }
     obj.text = 'obj';
     this.dataSource.data[index] = obj;
     this.dataSource = new MatTableDataSource(this.dataSource.data);
@@ -656,8 +664,8 @@ export class PurchaseCreateComponent implements OnInit {
 
   getProductByProductName(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName, value);
-      this.apiService.apiGetRequest(getProductByProductNameUrl).subscribe(
+      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName);
+      this.apiService.apiPostRequest(getProductByProductNameUrl, { productName: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -693,10 +701,10 @@ export class PurchaseCreateComponent implements OnInit {
     }
     let content = '';
     let availStock = tableData.filter(stock => {
-      if (stock.availStock == 0) {
-        content = '0 Availablilty Stock';
-        return stock;
-      }
+      // if (stock.availStock == 0) {
+      //   content = '0 Availablilty Stock';
+      //   return stock;
+      // }
       if (isNullOrUndefined(stock.qty) && isNullOrUndefined(stock.fQty)) {
         content = 'qty or Fqty is null';
         return stock;

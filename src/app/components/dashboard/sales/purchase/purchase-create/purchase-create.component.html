@@ -59,7 +59,7 @@
                         <mat-label>{{ 'PURCHASE.stateCode' | translate }}</mat-label>
                         <mat-select formControlName="stateCode" (selectionChange)="getSelectedState()">
                             <mat-option *ngFor="let state of getStateListArray" [value]="state.id">
-                                {{state.text}}
+                                {{state.id}} -  {{state.text}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

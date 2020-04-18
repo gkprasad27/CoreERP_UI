@@ -315,10 +315,11 @@ export class CreateStockreceiptsComponent implements OnInit {
     console.log(this.dataSource);
   }
 
+
   getProductByProductCode(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode, value);
-      this.apiService.apiGetRequest(getProductByProductCodeUrl).subscribe(
+      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode);
+      this.apiService.apiPostRequest(getProductByProductCodeUrl, { productCode: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -334,12 +335,14 @@ export class CreateStockreceiptsComponent implements OnInit {
       this.getProductByProductCodeArray = [];
     }
   }
-
+  
   //Autocomplete code
-  getProductByProductName(value) {
+  getProductByProductName(value)
+  {
+    //debugger;
     if (!isNullOrUndefined(value) && value != '') {
-      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName, value);
-      this.apiService.apiGetRequest(getProductByProductNameUrl).subscribe(
+      const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName);
+      this.apiService.apiPostRequest(getProductByProductNameUrl, { productName: value }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
@@ -355,6 +358,27 @@ export class CreateStockreceiptsComponent implements OnInit {
       this.getProductByProductNameArray = [];
     }
   }
+
+  //getProductByProductName(value) {
+  //  debugger;
+  //  if (!isNullOrUndefined(value) && value != '') {
+  //    const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName, value);
+  //    this.apiService.apiGetRequest(getProductByProductNameUrl).subscribe(
+  //      response => {
+  //        const res = response.body;
+  //        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+  //          if (!isNullOrUndefined(res.response)) {
+  //            if (!isNullOrUndefined(res.response['Products'])) {
+  //              this.getProductByProductNameArray = res.response['Products'];
+  //              this.spinner.hide();
+  //            }
+  //          }
+  //        }
+  //      });
+  //  } else {
+  //    this.getProductByProductNameArray = [];
+  //  }
+  //}
 
   //Code based getting data
   getdata(productCode) {
