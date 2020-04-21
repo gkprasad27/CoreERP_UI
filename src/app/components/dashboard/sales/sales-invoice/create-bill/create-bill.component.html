@@ -161,7 +161,7 @@
                             <input class="typeAhead" [(ngModel)]="element.productCode"
                                 id="productCode{{ dataSource.filteredData.indexOf(element) }}"
                                 [disabled]="element.text != 'obj'"
-                                (typeaheadOnSelect)="getBillingDetailsRcd($event, dataSource.filteredData.indexOf(element), (disableSlipVal(element.productCode) ? 'qty' : 'pumpNo'))"
+                                (typeaheadOnSelect)="getBillingDetailsRcd($event, dataSource.filteredData.indexOf(element), (disabledPump(element.productCode) ? 'qty' : 'pumpNo'))"
                                 (input)="getProductByProductCode($event.target.value)"
                                 [typeahead]="getProductByProductCodeArray" typeaheadOptionField='text'
                                 autocomplete="off" [typeaheadMinLength]="0" [minLength]="1" [typeaheadWaitMs]="200">

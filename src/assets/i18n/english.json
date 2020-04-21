@@ -325,7 +325,7 @@
     "addDate": "AddDate"
   },
   "stockreceipts": {
-    "title": "StackReceipts List",
+    "title": "Stock Receipts List",
     "receiptNo": "ReceiptNo",
     "receiptDate": "ReceiptDate",
     "newstockreceipts": "New StockReceipts",

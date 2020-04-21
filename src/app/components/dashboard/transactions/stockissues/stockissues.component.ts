@@ -45,7 +45,7 @@ export class StockissuesComponent implements OnInit {
   )
   {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
       issueNo: [null],
@@ -79,7 +79,7 @@ export class StockissuesComponent implements OnInit {
 
   openStockissues(row)
   {
-  // debugger;
+  //ebugger;
     localStorage.setItem('selectedstockissues', JSON.stringify(row));
     this.router.navigate(['dashboard/transactions/stockissues/CreateStockissues', row.operatorStockIssueId]);
   }

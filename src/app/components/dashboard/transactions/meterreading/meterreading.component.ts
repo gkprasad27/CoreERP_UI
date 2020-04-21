@@ -84,16 +84,16 @@ export class MeterReadingComponent  implements OnInit {
 calculateAmount(){
   let amount =0;
   this.modelFormData.patchValue({
-    totalSales:Math.round(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
-    -this.modelFormData.get('testing').value-this.modelFormData.get('density').value-this.modelFormData.get('consumption').value),
-    invoiceSales:Math.round(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
-    -this.modelFormData.get('testing').value-this.modelFormData.get('density').value-this.modelFormData.get('consumption').value),
+    totalSales:(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
+    -this.modelFormData.get('testing').value-this.modelFormData.get('density').value-this.modelFormData.get('consumption').value).toFixed(2),
+    invoiceSales:(this.modelFormData.get('outMeterReading').value-this.modelFormData.get('inMeterReading').value
+    -this.modelFormData.get('testing').value-this.modelFormData.get('density').value-this.modelFormData.get('consumption').value).toFixed(2),
   });
 }
 
 calculateSales(){
   this.modelFormData.patchValue({
-    invoiceSales:Math.round(this.modelFormData.get('totalSales').value-this.modelFormData.get('variation').value),
+    invoiceSales:(this.modelFormData.get('totalSales').value-this.modelFormData.get('variation').value).toFixed(2),
   });
 }
  
