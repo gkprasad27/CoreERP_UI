@@ -20,6 +20,8 @@ import { TaxgroupsComponent } from './taxgroup/taxgroup.component';
 import { TaxstructuresComponent } from './taxstructure/taxstructure.component';
 import { MSHSDRatesComponent} from './mshsdrates/mshsdrates.component';
 import { ProductComponent} from './product/product.component';
+import { MemberMasterComponent } from './member-master/member-master.component';
+import { VehicleComponent } from './member-master/vehicle/vehicle.component';
 
 @Injectable({
   providedIn: 'root'
@@ -236,6 +238,26 @@ export class MastersService {
             this.dynamicData.primaryKey = 'productId';
             return this.dynamicData;
             break;
+	    case 'membermaster':
+        this.dynamicData.url = this.apiConfigService.getMembersList;
+        this.dynamicData.component = MemberMasterComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerMemberMaster;
+        this.dynamicData.updateUrl = this.apiConfigService.updateMemberMaster;
+        this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxStructure;
+        this.dynamicData.listName = 'MembersList';
+        this.dynamicData.primaryKey = 'MemberId';
+        return this.dynamicData;
+        break;
+	case 'vehicle':
+        this.dynamicData.url = this.apiConfigService.getVehicles;
+        this.dynamicData.component = VehicleComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerMemberMaster;
+        this.dynamicData.updateUrl = this.apiConfigService.updateVehicle;
+        // this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxStructure;
+        this.dynamicData.listName = 'VehicleList';
+        this.dynamicData.primaryKey = 'VehicleId';
+        return this.dynamicData;
+        break;
      default:
     }
    }

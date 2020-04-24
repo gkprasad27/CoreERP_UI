@@ -66,6 +66,15 @@
               <input matInput placeholder="{{ 'journalvoucher.referenceNo' | translate }}"
                   formControlName="referenceNo" appFocusOnEnter tabIndex="2">
           </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>{{'journalvoucher.transactionType' | translate }}</mat-label>
+            <mat-select formControlName="transactionType" placeholder="transactionType" >
+              <mat-option *ngFor="let transaction of transaction" [value]="transaction.value">
+                {{transaction.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
             </div>
         </form>
     </mat-card-content>

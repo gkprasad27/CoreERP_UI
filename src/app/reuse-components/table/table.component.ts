@@ -36,6 +36,9 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   @Input() tableData: any;
   @Output() addOrUpdateEvent = new EventEmitter();
   @Input() addOrUpdateData: any;
+  @Input() isVehicle: boolean;
+  @Output() searchEvent = new EventEmitter();
+  @Output() addEvent = new EventEmitter();
 
 
   @ViewChild(MatTable, { static: true }) table: MatTable<any>;
@@ -52,6 +55,15 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   user: User;
   routeParam: any;
 
+  searchMemberObj = {
+    fromDate: null,
+    toDate: null,
+    invoiceNo: '',
+    Name: null,
+    Role: "1"
+  }
+
+
   constructor(
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
@@ -60,7 +72,12 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
     activatedRoute.params.subscribe(params => {
-      this.routeParam = params.id;
+      if(this.isVehicle) {
+        this.routeParam = 'vehicle';
+      }
+      else {
+        this.routeParam = params.id;
+      }
     });
   }
 
@@ -91,15 +108,18 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
     if (!isNullOrUndefined(row)) {
       data = { action: val, item: row };
       this.highlightedRows = [row];
-    } else {
+    }
+    else {
       data = { action: val, item: this.highlightedRows[0] };
     }
 
     if (data.action === 'Delete' && this.highlightedRows.length) {
       this.addOrUpdateEvent.emit(data);
-    } else if (data.action === 'Edit' && this.highlightedRows.length && this.user.canEdit !== 'Edit') {
+    }
+    else if (data.action === 'Edit' && this.highlightedRows.length && this.user.canEdit !== 'Edit') {
       this.addOrUpdateEvent.emit(data);
-    } else if (data.action === 'Add') {
+    }
+    else if (data.action === 'Add') {
       data.item = null;
       this.addOrUpdateEvent.emit(data);
     }
@@ -108,20 +128,28 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
 
 
   ngOnChanges() {
-    this.highlightedRows = [];
+    // this.highlightedRows = [];
+    // debugger
+    // this.columnDefinitions = [];
 
-      if (!isNullOrUndefined(this.tableData)) {
-        if (this.tableData.length > 0) {
-          this.showDataNotFound = false;
-          this.dataSource = new MatTableDataSource(this.tableData);
-        } else {
-          this.showDataNotFound = true;
-        }
+    this.defaultValues();
+
+    if(this.isVehicle){
+      this.routeParam = 'vehicle';
+    }
+    
+    if (!isNullOrUndefined(this.tableData)) {
+      if (this.tableData.length > 0) {
+        this.showDataNotFound = false;
+        this.dataSource = new MatTableDataSource(this.tableData);
+      } else {
+        this.showDataNotFound = true;
       }
-      if (!isNullOrUndefined(this.dataSource)) {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      }
+    }
+    if (!isNullOrUndefined(this.dataSource)) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
 
       if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
         // tslint:disable-next-line:forin
@@ -227,6 +255,19 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
     if (!isNullOrUndefined(this.tableData)) {
       return this.columnDefinitions.filter(cd => cd.hide).map(cd => cd.def);
     }
+  }
+
+  searchMember() {
+    if(this.searchMemberObj.Name || this.searchMemberObj.invoiceNo) {
+      this.searchEvent.emit(this.searchMemberObj);
+    }
+    else {
+      this.searchEvent.emit(null);
+    }
+  }
+
+  addMember() {
+    this.addEvent.emit();
   }
 
   ngOnDestroy() {

@@ -496,6 +496,18 @@ export class ApiConfigService {
     registerProduct = `${this.environment.runtimeConfig.serverUrl}masters/Product/RegisterProduct`;
     updateProduct = `${this.environment.runtimeConfig.serverUrl}masters/Product/UpdateProduct`;
     deleteProduct = `${this.environment.runtimeConfig.serverUrl}masters/Product/DeleteProduct`;
+    
+    //MemberMaster
+   getTitles = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetTitles`;
+   getVehicles = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetVehicles`;
+   getStates = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetStates`;
+   getPassbookStatuses = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetPassbookStatuses`;
+   getRelations = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetRelations`;
+   getVehicleTypes = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetVehicleTypes`;
+   getMembersList = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetMembersList`;
+   registerMemberMaster = `${this.environment.runtimeConfig.serverUrl}MemberMaster/RegisterMemberMaster`;
+   updateMemberMaster = `${this.environment.runtimeConfig.serverUrl}MemberMaster/UpdateMemberMaster`;
+   updateVehicle = `${this.environment.runtimeConfig.serverUrl}MemberMaster/UpdateVehicle`;
    // ******************************* End  master *****************************************
 
 

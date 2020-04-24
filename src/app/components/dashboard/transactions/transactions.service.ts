@@ -75,6 +75,7 @@ export class TransactionsService {
             this.dynamicData.deleteUrl = this.apiConfigService.deleteMeterReading;
             this.dynamicData.listName = 'MeterReadingList';
             this.dynamicData.primaryKey = 'meterReadingId';
+            this.dynamicData.coustom = true;
             return this.dynamicData;
             break;
      default:

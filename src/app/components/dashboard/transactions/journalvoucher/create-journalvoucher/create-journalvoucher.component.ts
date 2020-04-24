@@ -17,6 +17,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 
+interface Transaction {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-create-journalvoucher',
   templateUrl: './create-journalvoucher.component.html',
@@ -44,6 +49,13 @@ export class CreateJournalvoucherComponent implements OnInit {
   ];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  transaction : Transaction[]=
+  [
+    { value: 'Debit', viewValue: 'Debit' },
+    { value: 'Credit', viewValue: 'Credit' }
+   
+  ];
 
   date = new Date((new Date().getTime() - 3888000000));
   modelFormData: FormGroup;
@@ -79,10 +91,10 @@ export class CreateJournalvoucherComponent implements OnInit {
       fromLedgerCode:[null],
       fromLedgerName:[null],
       fromLedgerId:[null],
-      //toLedgerCode: [null],
       referenceNo:[null],
       journalVchNo:[null],
-      serverDate:[null]
+      serverDate:[null],
+      transactionType:"Debit"
     });
 
   }

@@ -120,6 +120,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName:'Product',
           iconName:'recent_actors',
           route:'product'
+        },
+	{
+          displayName: 'MemberMaster',
+          iconName: 'feedback',
+          route: 'membermaster'
         }
       ]
     },

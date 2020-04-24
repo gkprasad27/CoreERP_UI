@@ -67,6 +67,8 @@ import { PurchaseReturnComponent } from './components/dashboard/sales/purchase-r
 import { PurchaseReturnViewComponent } from './components/dashboard/sales/purchase-return/purchase-return-view/purchase-return-view.component';
 
 import { ReportsComponent } from './components/dashboard/reports/index';
+import { MemberMasterComponent } from './components/dashboard/masters/member-master/member-master.component';
+import { VehicleComponent } from './components/dashboard/masters/member-master/vehicle/vehicle.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -106,7 +108,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent,
     CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
     ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent,MemberMasterComponent, VehicleComponent
   ],
   imports: [
     AppRoutingModule,
@@ -151,7 +153,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,
     JournalVoucherComponent,CreateJournalvoucherComponent,
     ReportsInnerTableComponent, SearchFilterTableComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent,
+    // MemberMasterComponent, VehicleComponent
   ]
 })
 export class AppModule { }

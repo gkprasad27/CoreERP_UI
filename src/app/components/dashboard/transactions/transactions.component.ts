@@ -38,13 +38,14 @@ export class TransactionsComponent implements OnInit {
     this.transactionsService.branchCode = user.branchCode;
     this.transactionsService.role = user.role;
     activatedRoute.params.subscribe(params => {
+    if (!isNullOrUndefined(this.tableComponent)) {
+      this.tableComponent.defaultValues();
+    }
       this.routeParams = params.id;
       this.tableUrl = transactionsService.getRouteUrls(params.id);
       if (!isNullOrUndefined(this.tableUrl) && this.tableUrl.coustom) {
+        this.tableData = null;
         this.getTableData();
-        if (!isNullOrUndefined(this.tableComponent)) {
-          this.tableComponent.defaultValues();
-        }
       }
     });
   }
@@ -70,7 +71,7 @@ export class TransactionsComponent implements OnInit {
               if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
                 if (!isNullOrUndefined(res.response)) {
                   this.tableComponent.defaultValues();
-                      this.getTableData();
+                  this.getTableData();
                   this.alertService.openSnackBar('Delected Record...', 'close', SnackBar.success);
                 }
               }
@@ -131,6 +132,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   getTableData() {
+    this.tableData = null;
     const getUrl = String.Join('/', this.tableUrl.url);
     this.apiService.apiGetRequest(getUrl)
       .subscribe(
