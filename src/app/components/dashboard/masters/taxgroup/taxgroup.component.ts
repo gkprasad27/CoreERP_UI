@@ -47,8 +47,6 @@ export class TaxgroupsComponent implements OnInit {
       narration: [null],
       productLedgerId: [null],
       productLedgerName: [null]
-      //pumpId: "0"
-
     });
 
 

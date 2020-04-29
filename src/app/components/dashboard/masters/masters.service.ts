@@ -45,7 +45,7 @@ export class MastersService {
       this.dynamicData.updateUrl = this.apiConfigService.updateCompany;
       this.dynamicData.deleteUrl = this.apiConfigService.deleteCompany;
       this.dynamicData.listName = 'companiesList';
-      this.dynamicData.primaryKey = 'companyCode';
+        this.dynamicData.primaryKey = 'companyId';
       return this.dynamicData;
       break;
      case 'branches':
@@ -144,8 +144,8 @@ export class MastersService {
       this.dynamicData.registerUrl = this.apiConfigService.registerEmployee;
       this.dynamicData.updateUrl = this.apiConfigService.updateEmployee;
       this.dynamicData.deleteUrl = this.apiConfigService.deleteEmployee;
-      this.dynamicData.listName = 'employeesList';
-      this.dynamicData.primaryKey = 'code';
+        this.dynamicData.listName = 'employeesList';
+        this.dynamicData.primaryKey = 'employeeId';
       return this.dynamicData;
       break;
      case 'taxMaster':

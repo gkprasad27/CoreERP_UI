@@ -23,7 +23,7 @@
 
         <mat-form-field>
           <mat-label>Product Code</mat-label>
-          <mat-select placeholder="{{'pump.productCode' | translate }}" formControlName="productCode" (selectionChange)="getGetProductGroupsNamesList()" >
+          <mat-select placeholder="{{'pump.productCode' | translate }}" formControlName="productId" (selectionChange)="getGetProductGroupsNamesList()" >
             <mat-option *ngFor="let pglist of ProductGroupsList" [value]="pglist.id">
               {{pglist.id}}
             </mat-option>

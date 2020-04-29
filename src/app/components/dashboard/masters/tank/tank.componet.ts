@@ -23,6 +23,7 @@ export class TanksComponent implements OnInit {
   formData: any;
     BranchesList: any;
     getCashPaymentBranchesListArray: any;
+    GetBranchesListArray: any;
 
   constructor(
     private apiService: ApiService,
@@ -60,7 +61,8 @@ export class TanksComponent implements OnInit {
 
   ngOnInit()
   {
-    this.GetBranchesList();
+    //this.GetBranchesList();
+    this.getBranchesList();
   }
   
   GetBranchesList() {
@@ -78,10 +80,28 @@ export class TanksComponent implements OnInit {
       });
   }
 
-  getproductCodeList() {
-    
+
+  getBranchesList() {
+    const getCashPaymentBranchesListUrl = String.Join('/', this.apiConfigService.getCashPaymentBranchesList);
+    this.apiService.apiGetRequest(getCashPaymentBranchesListUrl).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['BranchesList']) && res.response['BranchesList'].length) {
+              this.GetBranchesListArray = res.response['BranchesList'];
+              this.spinner.hide();
+            }
+          }
+        }
+      });
   }
 
+
+  getproductCodeList()
+  {
+    
+  }
 
   getbranchCodeList() {
     this.spinner.show();

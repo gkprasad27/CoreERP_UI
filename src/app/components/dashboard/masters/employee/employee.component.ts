@@ -12,6 +12,15 @@ import { ApiConfigService } from '../../../../services/api-config.service';
 import { StatusCodes } from '../../../../enums/common/common';
 import { CommonService } from '../../../../services/common.service';
 
+interface GENDER {
+  value: string;
+  viewValue: string;
+}
+interface BloodGroup
+{
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -24,6 +33,24 @@ export class EmployeeComponent implements OnInit {
   isSubmitted  =  false;
   formData: any;
   companyList: any;
+  branchesList: any;
+  gender: GENDER[] =
+    [
+      { value: 'Male', viewValue: 'Male' },
+      { value: 'Female', viewValue: 'Female' }
+    ];
+  
+  blood: BloodGroup[] =
+    [
+    { value: 'A +', viewValue: 'A +' },
+    { value: 'A-', viewValue: 'A-' },
+    { value: 'B+', viewValue: 'B+' },
+    { value: 'B-', viewValue: 'B-' },
+    { value: 'AB +', viewValue: ' AB +' },
+    { value: 'AB-', viewValue: 'AB-' },
+    { value: 'O+', viewValue: 'O+' },
+    { value: 'O-', viewValue: 'O-' }
+    ];
 
 
   constructor(
@@ -37,54 +64,92 @@ export class EmployeeComponent implements OnInit {
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
-      this.modelFormData  =  this.formBuilder.group({
-        code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
-        name: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-        ext1: [null],
-        ext2: [null],
-        phone1: [null],
-        phone2: [null],
-        aadhar: [null],
-        accessCard: [null],
-        address1: [null],
-        address2: [null],
-        approvedBy: [null],
-        bloodGroup: [null],
-        compCode: [null],
-        branchCode: [null],
-        dob: [null],
-        designation: [null],
-        email: [null],
-        fatherName: [null],
-        joinDate: [null],
-        pan: [null],
-        recommendedBy: [null],
-        relDate: [null],
-        role: [null],
-        shift: [null],
-        status: [null],
-        bankAccNo: [null],
-        bankBranch: [null],
-        bankName: [null],
-        esinumber: [null],
-        ifsccode: [null],
-        pfnumber: [null],
-        reportingTo: [null],
-        uannumber: [null],
-        active: ['Y']
+    this.modelFormData = this.formBuilder.group({
+      employeeId: 0,
+      branchId: [null],
+      branchCode: [null],
+      branchName: [null],
+      designationId: [null],
+      employeeName: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      employeeCode: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
+      dob: [null],
+      maritalStatus: [null],
+      gender: [null],
+      qualification: [null],
+      address: [null],
+      phoneNumber: [null],
+      mobileNumber: [null],
+      email: [null],
+      joiningDate: [null],
+      terminationDate: [null],
+      isActive: [null],
+      narration: [null],
+      bloodGroup: [null],
+      passportNo: [null],
+      passportExpiryDate: [null],
+      labourCardNumber: [null],
+      labourCardExpiryDate: [null],
+      salaryType: [null],
+      bankName: [null],
+      bankbranchName: [null],
+      bankAccountNumber: [null],
+      bankbranchCode: [null],
+      panNumber: [null],
+      pfNumber: [null],
+      esiNumber: [null],
+      extraDate: [null],
+      extra1: [null],
+      extra2: [null],
+      defaultPackageId: [null],
+      aadharNumber: [null]
+        //code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
+        //name: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+        //ext1: [null],
+        //ext2: [null],
+        //phone1: [null],
+        //phone2: [null],
+        //aadhar: [null],
+        //accessCard: [null],
+        //address1: [null],
+        //address2: [null],
+        //approvedBy: [null],
+        //bloodGroup: [null],
+        //compCode: [null],
+        //branchCode: [null],
+        //dob: [null],
+        //designation: [null],
+        //email: [null],
+        //fatherName: [null],
+        //joinDate: [null],
+        //pan: [null],
+        //recommendedBy: [null],
+        //relDate: [null],
+        //role: [null],
+        //shift: [null],
+        //status: [null],
+        //bankAccNo: [null],
+        //bankBranch: [null],
+        //bankName: [null],
+        //esinumber: [null],
+        //ifsccode: [null],
+        //pfnumber: [null],
+        //reportingTo: [null],
+        //uannumber: [null],
+        //active: ['Y']
 
       });
 
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-       this.modelFormData.controls['code'].disable();
+       //this.modelFormData.controls['code'].disable();
       }
 
   }
 
   ngOnInit() {
     this.getTableData();
+    this.getTableData1();
   }
 
   getTableData() {
@@ -101,6 +166,21 @@ export class EmployeeComponent implements OnInit {
         }
           this.spinner.hide();
       });
+  }
+  getTableData1() {
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getBranchesList);
+    this.apiService.apiGetRequest(getCompanyUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              console.log(res);
+              this.branchesList = res.response['branchesList'];
+            }
+          }
+          this.spinner.hide();
+        });
   }
 
   get formControls() { return this.modelFormData.controls; }

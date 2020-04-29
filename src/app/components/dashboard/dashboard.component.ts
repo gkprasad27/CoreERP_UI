@@ -31,56 +31,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'branches'
         },
         {
-          displayName: 'Division',
-          iconName: 'feedback',
-          route: 'division'
-        },
-        {
-          displayName: 'Segment',
-          iconName: 'feedback',
-          route: 'segment'
-        },
-        {
-          displayName: 'ProfitCenter',
-          iconName: 'feedback',
-          route: 'profitCenter'
-        },
-        {
-          displayName: 'PartnerCreation',
-          iconName: 'feedback',
-          route: 'partnerCreation'
-        },
-        {
-          displayName: 'CostCenter',
-          iconName: 'feedback',
-          route: 'costCenter'
-        },
-        {
-          displayName: 'NoSeries',
-          iconName: 'feedback',
-          route: 'noSeries'
-        },
-        {
-          displayName: 'PartnerType',
-          iconName: 'feedback',
-          route: 'partnerType'
-        },
-        {
-          displayName: 'EmployeeInBranch',
-          iconName: 'feedback',
-          route: 'employeeInBranch'
-        },
-        {
           displayName: 'Employee',
           iconName: 'feedback',
           route: 'employee'
         },
-        {
-          displayName: 'TaxMaster',
-          iconName: 'feedback',
-          route: 'taxMaster'
-        },
-
         {
           displayName: 'ProductPacking',
           iconName: 'feedback',
@@ -116,12 +70,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         iconName: 'recent_actors',
         route: 'mshsdrates'
         },
-      {
+        {
           displayName:'Product',
           iconName:'recent_actors',
           route:'product'
         },
-	{
+     	 {
           displayName: 'MemberMaster',
           iconName: 'feedback',
           route: 'membermaster'

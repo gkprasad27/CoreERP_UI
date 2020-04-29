@@ -176,3 +176,9 @@ mat-option  {
   outline: none;
   text-align: center;
 }
+
+table {
+  & input:focus {
+    background: #f6ff0091;
+  }
+}

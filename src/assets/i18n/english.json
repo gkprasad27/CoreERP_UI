@@ -362,7 +362,7 @@
     "ShiftId": "ShiftId",
     "costCenter": "Cost Center",
     "remarks": "Remarks",
-
+    "stockshortNo":"Stock ShortNo",
     "productCode": "Product Code",
     "productName": "Product Name",
     "hsnNo": "HsnNo",

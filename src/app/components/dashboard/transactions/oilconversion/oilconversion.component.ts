@@ -62,8 +62,8 @@ export class OilconversionComponent implements OnInit {
       response => {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response['StockshortsList']) && res.response['StockshortsList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['StockshortsList']);
+          if (!isNullOrUndefined(res.response['OilconversionsDeatilList']) && res.response['OilconversionsDeatilList'].length) {
+            this.dataSource = new MatTableDataSource(res.response['OilconversionsDeatilList']);
             this.dataSource.paginator = this.paginator;
             this.spinner.hide();
           }

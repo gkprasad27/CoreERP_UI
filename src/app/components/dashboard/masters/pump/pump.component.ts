@@ -46,7 +46,6 @@ export class PumpComponent implements OnInit {
       productName: [null],
       tankId: [null],
       tankNo: [null],
-      //pumpId: [null],
       pumpNo: [null],
       pumpCapacityinLtrs: [null],
       meterReading: [null],
@@ -69,7 +68,7 @@ export class PumpComponent implements OnInit {
   }
 
   GetBranchesList() {
-    const getBranchesListUrl = String.Join('/', this.apiConfigService.GetBranches);
+    const getBranchesListUrl = String.Join('/', this.apiConfigService.getCashPaymentBranchesList);
     this.apiService.apiGetRequest(getBranchesListUrl)
       .subscribe(
         response => {
