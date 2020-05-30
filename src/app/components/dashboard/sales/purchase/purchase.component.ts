@@ -53,7 +53,8 @@ export class PurchaseComponent implements OnInit {
     this.dateForm.patchValue({
       Role: this.branchCode.role
     })
-    this.search();
+    // this.search();
+    this.getPurchaseInvoiceList();
   }
 
   getPurchaseInvoiceList() {

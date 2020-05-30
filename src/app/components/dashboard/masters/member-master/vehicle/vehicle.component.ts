@@ -42,7 +42,7 @@ export class VehicleComponent implements OnInit, OnChanges {
     // @Optional() is used to prevent error if no data is passed
     // @Optional() @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    debugger
+    
     this.modelFormData = this.formBuilder.group({
       vehicleId: [null],
       memberId: [null],
@@ -133,7 +133,7 @@ export class VehicleComponent implements OnInit, OnChanges {
   }
 
   save() {
-    debugger
+  
     if (this.modelFormData.invalid) {
       return;
     }

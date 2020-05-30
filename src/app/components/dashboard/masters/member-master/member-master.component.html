@@ -47,7 +47,11 @@
             <mat-form-field class="form-element">
               <input matInput placeholder="{{'membermaster.city' | translate }}" formControlName="city" appFocusOnEnter>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field class="form-element">
+              <input matInput placeholder="{{'membermaster.state' | translate }}" formControlName="state"
+                appFocusOnEnter>
+            </mat-form-field>
+            <!-- <mat-form-field>
               <mat-label [translate]="'membermaster.state'"></mat-label>
               <select matNativeControl id="state" placeholder="{{'membermaster.state' | translate }}"
                 formControlName="state">
@@ -55,7 +59,7 @@
                   [selected]="stateName.isDefualtSelected">
                   {{stateName.text}}</option>
               </select>
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field class="form-element">
               <input matInput placeholder="{{'membermaster.country' | translate }}" formControlName="country"
                 appFocusOnEnter>
@@ -82,13 +86,14 @@
                 appFocusOnEnter>
             </mat-form-field>
             <mat-form-field class="form-element">
-              <input matInput placeholder="{{'membermaster.govtIdentityType' | translate }}"
-                formControlName="govtIdentityType" appFocusOnEnter>
+              <input matInput placeholder="{{'membermaster.aadharNumber' | translate }}"
+                formControlName="aadharNumber" appFocusOnEnter maxlength="12">
             </mat-form-field>
-
-            <mat-form-field class="form-element">
-              <input matInput placeholder="{{'membermaster.govtIdentity' | translate }}" formControlName="govtIdentity"
-                appFocusOnEnter>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker3" placeholder="{{'membermaster.dob' | translate }}"
+                formControlName="dob">
+              <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+              <mat-datepicker #picker3></mat-datepicker>
             </mat-form-field>
             <mat-form-field class="form-element">
               <input matInput placeholder="{{'membermaster.occupation' | translate }}" formControlName="occupation"
@@ -150,7 +155,20 @@
               <input matInput placeholder="{{'membermaster.totalShares' | translate }}" formControlName="totalShares"
                 appFocusOnEnter>
             </mat-form-field>
-
+            <mat-form-field>
+              <mat-label [translate]="'membermaster.giftIssued'"></mat-label>
+              <mat-select formControlName="giftIssued" placeholder="giftIssued">
+                <mat-option *ngFor="let giftissued of giftIssued" [value]="giftissued.value">
+                  {{giftissued.viewValue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker4" placeholder="{{'membermaster.giftIssuedDate' | translate }}"
+                formControlName="giftIssuedDate">
+              <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+              <mat-datepicker #picker4></mat-datepicker>
+            </mat-form-field>
           </div>
           <mat-divider></mat-divider>
 

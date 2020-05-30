@@ -255,7 +255,7 @@ export class CreateCashpaymentComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
-    console.log(this.dataSource);
+    this.calculateAmount();
   }
 
   getAccountByAccountCode(value) {
@@ -298,7 +298,7 @@ export class CreateCashpaymentComponent implements OnInit {
     }
   }
 
-  calculateAmount(row, index) {
+  calculateAmount(row?, index?) {
     let amount = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].amount) {
@@ -422,7 +422,8 @@ export class CreateCashpaymentComponent implements OnInit {
 
   registerCashPayment(data) {
     this.branchFormData.patchValue({
-      cashPaymentMasterId: 0
+      cashPaymentMasterId: 0,
+      cashPaymentDate:this.commonService.formatDate(this.branchFormData.get('cashPaymentDate').value)
     });
     const registerCashPaymentUrl = String.Join('/', this.apiConfigService.registerCashPayment);
     const requestObj = { CashpaymentHdr: this.branchFormData.value, CashpaymentDetail: data };

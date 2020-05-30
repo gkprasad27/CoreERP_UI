@@ -428,9 +428,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route:'Shift'
         },
         {
-          displayName:"Vehical Report",
+          displayName:"Vehical Enquiry Report",
           iconName:'commute',
-          route:'Vehical'
+          route:'Vehical Enquiry'
         },
         {
           displayName:"Intimate Sale Report",
@@ -466,6 +466,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName:"Product Wise Monthly Purchase",
           iconName:"category",
           route:"Product Wise Monthly Purchase"
+        },
+        {
+          displayName:"Daily Sales",
+          iconName:"category",
+          route:"Daily Sales"
         }
       ]
     }

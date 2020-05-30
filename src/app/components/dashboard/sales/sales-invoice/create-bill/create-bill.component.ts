@@ -654,6 +654,8 @@ export class CreateBillComponent implements OnInit {
       return index !== i;
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.calculateAmount();
+
   }
 
   getProductByProductCode(value) {
@@ -700,11 +702,13 @@ export class CreateBillComponent implements OnInit {
       });
   }
 
-  calculateAmount(row, index) {
-    if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
-    } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
+  calculateAmount(row?, index?) {
+    if(!isNullOrUndefined(row)) {
+      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+        this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
+      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+        this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let totaltaxAmount = 0;
@@ -858,7 +862,10 @@ export class CreateBillComponent implements OnInit {
 
   print() {
     const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: this.dataSource.data };
+   if(requestObj.InvoiceDetail || requestObj.InvoiceHdr)
+    this.printBill=true;
     if (this.printBill) {
+
       this.dialog.open(PrintComponent, {
         width: '1024px',
         data: requestObj,
@@ -928,7 +935,8 @@ export class CreateBillComponent implements OnInit {
 
   registerInvoice(data) {
     this.branchFormData.patchValue({
-      paymentMode: 0
+      paymentMode: 0,
+      invoiceDate:this.commonService.formatDate(this.branchFormData.get('invoiceDate').value)
     });
     const registerInvoiceUrl = String.Join('/', this.apiConfigService.registerInvoice);
     const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: data };

@@ -10,6 +10,7 @@ import { isNullOrUndefined } from 'util';
 import { ActivatedRoute } from '@angular/router';
 import { DeleteItemComponent } from '../delete-item/delete-item.component';
 import { SearchFilterTableComponent } from '../search-filter-table/search-filter-table.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 // search
 
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
@@ -29,13 +30,15 @@ import { ApiConfigService } from 'src/app/services/api-config.service';
 import { runInThisContext } from 'vm';
 import { ReportsService } from 'src/app/components/dashboard/reports/reports.service';
 import { StatusCodes } from 'src/app/enums/common/common';
+import * as moment from 'moment';
 @Component({
   selector: 'app-report-table',
   templateUrl: './report-table.component.html',
   styleUrls: ['./report-table.component.scss']
 })
 export class ReportTableComponent implements OnInit, OnChanges {
-
+  selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
+  GetBankPAccountLedgerListArray=[];
   public tableMultiCtrl: FormControl = new FormControl();
   public filteredTableMulti: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -87,16 +90,19 @@ export class ReportTableComponent implements OnInit, OnChanges {
     private apiService: ApiService,
     private apiConfigService: ApiConfigService,
     private reportsService: ReportsService,
+    private spinner: NgxSpinnerService,
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
 
     this.dateForm = this.formBuilder.group({
+      selected:[null],
       formDate: ['', Validators.required],
       toDate: ['', Validators.required],
       selectedReport: [''],
       selectedAccountLedger: [''],
       selectedBranch: [],
-      selectedProduct: []
+      selectedProduct: [],
+      vehicleRegNo:[null]
     }, { validator: this.checkDates });
 
     activatedRoute.params.subscribe(params => {
@@ -192,14 +198,49 @@ export class ReportTableComponent implements OnInit, OnChanges {
         });
   }
 
+  getBankPAccountLedgerList(value) {
+    if (!isNullOrUndefined(value) && value != '') {
+      const getBankPAccountLedgerListUrl = String.Join('/', this.apiConfigService.getBPAccountLedgerList, value);
+      this.apiService.apiGetRequest(getBankPAccountLedgerListUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['AccountLedgerList']) && res.response['AccountLedgerList'].length) {
+                this.GetBankPAccountLedgerListArray = res.response['AccountLedgerList'];
+                //this.getCashPartyAccount();
+              } else {
+                this.GetBankPAccountLedgerListArray = [];
+              }
+            }
+            this.spinner.hide();
+          }
+        });
+    } else {
+      this.GetBankPAccountLedgerListArray = [];
+    }
+  }
+
+  setLedgerName(value) {
+    const lname = this.GetBankPAccountLedgerListArray.filter(lCode => {
+      if (lCode.id == this.dateForm.get('selectedAccountLedger').value) {
+        return lCode;
+      }
+    });
+    this.dateForm.patchValue({
+      selectedAccountLedger: !isNullOrUndefined(lname[0]) ? lname[0].id : null
+    });
+  }
+
   GenerateReport() {
     this.dateForm.patchValue({
-      formDate: this.commonService.formatReportDate(this.dateForm.get('formDate').value),
-      toDate: this.commonService.formatReportDate(this.dateForm.get('toDate').value),
+      formDate: this.commonService.formatReportDate(this.dateForm.value.selected.start._d),
+      toDate: this.commonService.formatReportDate(this.dateForm.value.selected.end._d),
       selectedReport: this.dateForm.get('selectedReport').value,
       selectedAccountLedger: this.dateForm.get('selectedAccountLedger').value,
       selectedBranch: this.dateForm.get('selectedBranch').value,
-      selectedProduct: this.dateForm.get('selectedProduct').value
+      selectedProduct: this.dateForm.get('selectedProduct').value,
+      vehicleRegNo:this.dateForm.get('vehicleRegNo').value
     })
     this.params = new HttpParams();
     this.params = this.params.append('UserID', 'admin');//this.user.userName);
@@ -209,6 +250,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
     this.params = this.params.append('ledgerCode', this.dateForm.value.selectedAccountLedger);
     this.params = this.params.append('branchCode', this.dateForm.value.selectedBranch);
     this.params = this.params.append('productCode', this.dateForm.value.selectedProduct);
+    this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);
     this.generateTable.emit(this.params);
 
     this.dateForm.controls['formDate'].setValue(new Date(this.dateForm.controls['formDate'].value));
@@ -344,7 +386,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
 
     headerRows = headerRows.filter(arr => arr != "");
 
-    debugger
+    
 
     doc.autoTable({
       margin: { top: 10 },

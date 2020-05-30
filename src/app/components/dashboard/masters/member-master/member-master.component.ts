@@ -16,6 +16,11 @@ import { TableComponent, DeleteItemComponent } from 'src/app/reuse-components';
 import { SnackBar } from '../../../../enums/common/common';
 import { VehicleComponent } from './vehicle/vehicle.component';
 
+interface giftIssued {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-member-master',
   templateUrl: './member-master.component.html',
@@ -44,6 +49,12 @@ export class MemberMasterComponent implements OnInit {
 
   @ViewChild(TableComponent, { static: false }) tableComponent: TableComponent;
 
+  giftIssued : giftIssued[]=
+  [
+    { value: 'Yes', viewValue: 'Yes' },
+    { value: 'No', viewValue: 'No' }
+  ];
+
   constructor(
     private apiService: ApiService,
     private apiConfigService: ApiConfigService,
@@ -61,15 +72,15 @@ export class MemberMasterComponent implements OnInit {
     this.modelFormData = this.formBuilder.group({
 
       memberId: [null],
-      memberCode: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
+      memberCode: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(7)]],
       title: [null],
       memberName: [null],
       fatherOrHusbandName: [null],
       memberAge: [null],
       address: [null],
       city: [null],
-      state: [null],
-      country: [null],
+      state: "ANDHRA PRADESH",
+      country: "INDIA",
       pinCode: [null],
       phone: [null],
       mobile: [null],
@@ -89,6 +100,10 @@ export class MemberMasterComponent implements OnInit {
       totalShares: [null],
       createdDate: [null],
       isActive: [0],
+      aadharNumber:[null],
+      dob:[null],
+      giftIssued:[null],
+      giftIssuedDate:[null]
 
     });
 
@@ -112,7 +127,6 @@ export class MemberMasterComponent implements OnInit {
     if(event == null) {
       event = {}
     }
-    debugger
     localStorage.setItem('memberObj', JSON.stringify(event));
 
     this.apiService.apiPostRequest(this.tableUrl.url, event)
@@ -214,7 +228,6 @@ export class MemberMasterComponent implements OnInit {
   }
 
   addOrUpdateEvent(value) {
-    debugger
     if (value.action == 'Edit') {
       this.formData = value.item;
       if (!isNullOrUndefined(this.formData)) {
@@ -232,12 +245,16 @@ export class MemberMasterComponent implements OnInit {
   get formControls() { return this.modelFormData.controls; }
 
   save() {
-    debugger
     if (this.modelFormData.invalid) {
       return;
     }
 
     if (!this.isFormEdit) {
+      this.modelFormData.patchValue({
+        giftIssuedDate:this.commonService.formatDate(this.modelFormData.get('giftIssuedDate').value),
+        dob:this.commonService.formatDate(this.modelFormData.get('dob').value),
+        joinDate:this.commonService.formatDate(this.modelFormData.get('joinDate').value)
+      });
       this.apiService.apiPostRequest(this.tableUrl.registerUrl, this.modelFormData.value)
         .subscribe(
           response => {
@@ -256,6 +273,11 @@ export class MemberMasterComponent implements OnInit {
     }
 
     else if (this.isFormEdit) {
+      this.modelFormData.patchValue({
+        giftIssuedDate:this.commonService.formatDate(this.modelFormData.get('giftIssuedDate').value),
+        dob:this.commonService.formatDate(this.modelFormData.get('dob').value),
+        joinDate:this.commonService.formatDate(this.modelFormData.get('joinDate').value)
+      });
       this.modelFormData.controls['memberCode'].enable();
 
       this.apiService.apiUpdateRequest(this.tableUrl.updateUrl, this.modelFormData.value)

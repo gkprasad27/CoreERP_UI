@@ -328,7 +328,7 @@ export class CreateBankreceiptComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
-    console.log(this.dataSource);
+    this.calculateAmount();
   }
 
   getAccountByAccountCode(value) {
@@ -371,7 +371,7 @@ export class CreateBankreceiptComponent implements OnInit {
     }
   }
 
-  calculateAmount(row, index) {
+  calculateAmount(row?, index?) {
     let amount = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].amount) {
@@ -495,7 +495,9 @@ export class CreateBankreceiptComponent implements OnInit {
 
   registerBankReceipt(data) {
     this.branchFormData.patchValue({
-      bankReceiptMasterId: 0
+      bankReceiptMasterId: 0,
+      bankReceiptDate: this.commonService.formatDate(this.branchFormData.get('bankReceiptDate').value),
+      postingDate: this.commonService.formatDate(this.branchFormData.get('postingDate').value),
     });
     const registerBankReceiptUrl = String.Join('/', this.apiConfigService.registerBankReceipt);
     const requestObj = { BankreceiptHdr: this.branchFormData.value, BankreceiptDetail: data };

@@ -393,7 +393,7 @@ export class CreateJournalvoucherComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
-    console.log(this.dataSource);
+   this.calculateAmount();
   }
 
   getAccountByAccountCode(value) {
@@ -416,7 +416,7 @@ export class CreateJournalvoucherComponent implements OnInit {
     }
   }
 
-  calculateAmount(row, index) {
+  calculateAmount(row?, index?) {
     let amount = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].amount) {
@@ -502,7 +502,8 @@ export class CreateJournalvoucherComponent implements OnInit {
 
   registerJournalVoucher(data) {
     this.branchFormData.patchValue({
-      journalVoucherMasterId: 0
+      journalVoucherMasterId: 0,
+      journalVoucherDate:this.commonService.formatDate(this.branchFormData.get('journalVoucherDate').value)
     });
     const registerJournalVoucherUrl = String.Join('/', this.apiConfigService.registerJournalVoucher);
     const requestObj = { JournalVoucherHdr: this.branchFormData.value, JournalVoucherDetail: data };

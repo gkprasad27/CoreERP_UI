@@ -23,7 +23,7 @@ selectedDate = {start : moment().add(0, 'day'), end: moment().add(0, 'day')};
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['purchaseInvNo', 'purchaseInvDate', 'ledgerCode',
+  displayedColumns: string[] = ['purchaseReturnInvNo','purchaseInvNo', 'purchaseInvDate', 'ledgerCode',
   'ledgerName', 'totalAmount', 'stateCode',
   'userId', 'shiftId'];
   branchCode: any;

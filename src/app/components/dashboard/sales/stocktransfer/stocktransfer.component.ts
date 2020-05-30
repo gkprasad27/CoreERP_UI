@@ -75,7 +75,7 @@ export class StocktransferComponent implements OnInit {
 
   openStock(row) {
     localStorage.setItem('stockTransfer', JSON.stringify(row));
-    this.router.navigate(['dashboard/sales/stockTransfer/createStockTransfer', row.fromBranchCode]);
+    this.router.navigate(['dashboard/sales/stockTransfer/createStockTransfer', row.stockTransferMasterId]);
   }
 
   search() {

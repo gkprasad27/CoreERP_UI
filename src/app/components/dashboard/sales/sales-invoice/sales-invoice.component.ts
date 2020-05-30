@@ -26,7 +26,7 @@ export class SalesInvoiceComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   displayedColumns: string[] = ['invoiceNo', 'invoiceDate', 'branchCode', 'branchName', 'ledgerCode',
-    'ledgerName', 'totalAmount', 'stateCode', 'vehicleRegNo', 'userId', 'salesInvoice', 'isManualEntry', 'shiftId',
+    'ledgerName', 'grandTotal', 'stateCode', 'vehicleRegNo', 'userId', 'salesInvoice', 'isManualEntry', 'shiftId',
     'customerGstin', 
   ];
   branchCode: any;

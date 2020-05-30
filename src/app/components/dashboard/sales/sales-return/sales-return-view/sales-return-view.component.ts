@@ -889,7 +889,8 @@ export class SalesReturnViewComponent implements OnInit {
 
   registerInvoice(data) {
     this.branchFormData.patchValue({
-      paymentMode: 0
+      paymentMode: 0,
+      invoiceDate:this.commonService.formatDate(this.branchFormData.get('invoiceDate').value)
     });
     const registerInvoiceUrl = String.Join('/', this.apiConfigService.registerInvoice);
     const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: data };

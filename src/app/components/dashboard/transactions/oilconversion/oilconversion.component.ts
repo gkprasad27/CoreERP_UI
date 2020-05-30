@@ -41,7 +41,7 @@ export class OilconversionComponent implements OnInit {
     private spinner: NgxSpinnerService,
   ) {
     this.dateForm = this.formBuilder.group({
-      selected: [this.selectedDate],
+      selected: [null],
       fromDate: [null],
       toDate: [null],
       oilConversionVchNo: [null],

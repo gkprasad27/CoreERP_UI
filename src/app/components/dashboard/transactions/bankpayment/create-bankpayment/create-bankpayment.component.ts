@@ -332,7 +332,7 @@ export class CreateBankpaymentComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
-    console.log(this.dataSource);
+    this.calculateAmount();
   }
 
   getAccountByAccountCode(value) {
@@ -375,7 +375,7 @@ export class CreateBankpaymentComponent implements OnInit {
     }
   }
 
-  calculateAmount(row, index) {
+  calculateAmount(row?, index?) {
     let amount = 0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].amount) {
@@ -499,7 +499,9 @@ export class CreateBankpaymentComponent implements OnInit {
 
   registerBankPayment(data) {
     this.branchFormData.patchValue({
-      bankPaymentMasterId: 0
+      bankPaymentMasterId: 0,
+      bankPaymentDate: this.commonService.formatDate(this.branchFormData.get('bankPaymentDate').value),
+      postingDate: this.commonService.formatDate(this.branchFormData.get('postingDate').value),
     });
     const registerBankPaymentUrl = String.Join('/', this.apiConfigService.registerBankPayment);
     const requestObj = { BankpaymentHdr: this.branchFormData.value, BankpaymentDetail: data };

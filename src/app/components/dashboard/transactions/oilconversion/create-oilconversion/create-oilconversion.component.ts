@@ -265,7 +265,7 @@ export class CreateOilconversionsComponent implements OnInit {
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
-    console.log(this.dataSource);
+    this.calculateAmount();
   }
 
   getProductByProductCode(value) {
@@ -400,7 +400,7 @@ export class CreateOilconversionsComponent implements OnInit {
 
 
   //Calaculating code
-  calculateAmount(row, index) {
+  calculateAmount(row?, index?) {
     //GetBranchesListArray
     let amount = 0;
     for (let a = 0; a < this.dataSource.data.length; a++)

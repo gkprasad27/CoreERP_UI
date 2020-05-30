@@ -565,6 +565,7 @@ export class PurchaseCreateComponent implements OnInit {
       return index !== i;
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.calculateAmount();
   }
 
   getProductByProductCode(value) {
@@ -586,12 +587,26 @@ export class PurchaseCreateComponent implements OnInit {
       this.getProductByProductCodeArray = [];
     }
   }
-
-  calculateAmount(row, index) {
-    if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
-    } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].grossAmount = (0 * row.rate).toFixed(2);
+  
+  calculateLiter(code) {
+    if (!isNullOrUndefined(this.calculateLiters)) {
+      for (let p = 0; p < this.calculateLiters.length; p++) {
+        if (this.calculateLiters[p] == code) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return true;
+  }
+  
+  calculateAmount(row?, index?) {
+    if(!isNullOrUndefined(row)) {
+      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+        this.dataSource.data[index].grossAmount = (this.calculateLiter(row.productCode)) ? (row.qty * row.rate).toFixed(2) : (row.rate * row.qty).toFixed(2);
+      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+        this.dataSource.data[index].grossAmount = (this.calculateLiter(row.productCode)) ? (0 * row.rate).toFixed(2) : (0 * row.rate).toFixed(2);
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let totaltaxAmount = 0;
@@ -721,12 +736,12 @@ export class PurchaseCreateComponent implements OnInit {
     if (!isNullOrUndefined(this.branchFormData.get('totalAmount').value) && this.branchFormData.get('totalAmount').value > 0) {
       if (prop == 'roundOffPlus') {
         this.branchFormData.patchValue({
-          grandTotal: ((+this.branchFormData.get('totalAmount').value) + (+this.branchFormData.get('roundOffPlus').value)).toFixed(2),
+          grandTotal: ((+this.branchFormData.get('totalAmount').value) + (+this.branchFormData.get('totaltaxAmount').value) + (+this.branchFormData.get('roundOffPlus').value)).toFixed(2),
           roundOffMinus: null
         })
       } else if (prop == 'roundOffMinus') {
         this.branchFormData.patchValue({
-          grandTotal: ((+this.branchFormData.get('totalAmount').value) - (+this.branchFormData.get('roundOffMinus').value)).toFixed(2),
+          grandTotal: ((+this.branchFormData.get('totalAmount').value) + (+this.branchFormData.get('totaltaxAmount').value) - (+this.branchFormData.get('roundOffMinus').value)).toFixed(2),
           roundOffPlus: null
         })
       }
@@ -777,7 +792,8 @@ export class PurchaseCreateComponent implements OnInit {
 
   registerReturnPurchase() {
     this.branchFormData.patchValue({
-      paymentMode: 0
+      paymentMode: 0,
+      purchaseInvDate:this.commonService.formatDate(this.branchFormData.get('purchaseInvDate').value)
     });
     const registerPurchaseUrl = String.Join('/', this.apiConfigService.getPurchaseRegisterPurchaseReturn, this.isPurchaseReturnInvoice, this.branchFormData.get('purchaseInvId').value);
     this.apiService.apiGetRequest(registerPurchaseUrl).subscribe(

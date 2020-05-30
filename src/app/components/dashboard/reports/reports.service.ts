@@ -46,7 +46,7 @@ export class ReportsService {
         this.dynamicData.url = this.apiConfigService.getShiftViewReport;
         this.dynamicData.listName = 'shiftViewList';
         return this.dynamicData;
-      case 'Vehical':
+      case 'Vehical Enquiry':
         this.dynamicData.url = this.apiConfigService.getVehicalReport;
         this.dynamicData.listName = 'VehicalList';
         return this.dynamicData;
@@ -60,7 +60,7 @@ export class ReportsService {
         return this.dynamicData;
       case 'Daily Sales':
         this.dynamicData.url = this.apiConfigService.getDailySalesReport;
-        this.dynamicData.listName = 'DailySalesList';
+        this.dynamicData.listName = 'dailySalesList';
         return this.dynamicData;
       case 'Stock Verification':
         this.dynamicData.url = this.apiConfigService.getStockVerificationReport;

@@ -219,6 +219,7 @@ export class CreateStockTransferComponent implements OnInit {
       return index !== i;
     });
     this.dataSource = new MatTableDataSource(this.dataSource.data);
+    this.calculateAmount();
   }
 
   formGroup() {
@@ -386,11 +387,13 @@ export class CreateStockTransferComponent implements OnInit {
     }
   }
 
-  calculateAmount(row, index) {
-    if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
-      this.dataSource.data[index].totalAmount = (row.qty * row.rate).toFixed(2);
-    } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
-      this.dataSource.data[index].totalAmount = (0 * row.rate).toFixed(2);
+  calculateAmount(row?, index?) {
+    if(!isNullOrUndefined(row)) {
+      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+        this.dataSource.data[index].totalAmount = (row.qty * row.rate).toFixed(2);
+      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+        this.dataSource.data[index].totalAmount = (0 * row.rate).toFixed(2);
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;

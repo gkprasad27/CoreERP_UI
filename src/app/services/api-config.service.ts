@@ -471,7 +471,7 @@ export class ApiConfigService {
    //TaxStructure
    getTaxStructureList = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/GetTaxStructureList`;
    TaxGroupsLists = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/GetTaxGroups`;
-   PurchaseAccountsList = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/GetPurchaseAccounts`;
+   PurchaseAccountsList = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/GetPurchaseAccountss`;
    registerTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/RegisterTaxStructure`;
    updateTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/UpdateTaxStructure`;
    deleteTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/TaxStructure/DeleteTaxStructure`;
@@ -590,7 +590,7 @@ export class ApiConfigService {
 
    getSalesGSTReport=`${this.environment.runtimeConfig.serverUrl}Reports/SalesGSTReport/GetSalesGSTReportData`;
 
-   getDailySalesReport=`${this.environment.runtimeConfig.serverUrl}Reports/DailySalesReport/GetDailySalesReportData`;
+   getDailySalesReport=`${this.environment.runtimeConfig.serverUrl}Reports/DailySalesReport/GetDailySalesReport`;
 
    getStockVerificationReport=`${this.environment.runtimeConfig.serverUrl}Reports/StockVerificationReport/GetStockVerificationReportData`;
 

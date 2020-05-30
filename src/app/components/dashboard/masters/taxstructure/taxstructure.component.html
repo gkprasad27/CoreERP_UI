@@ -26,7 +26,7 @@
           <mat-label>Purchase Account</mat-label>
           <mat-select placeholder="{{'taxstructure.purchaseAccount' | translate }}" formControlName="purchaseAccount" >
             <mat-option *ngFor="let pglist of PSGroupsList" [value]="pglist.id">
-              {{pglist.text}}
+              {{pglist.id}}-{{pglist.text}}
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -35,7 +35,7 @@
           <mat-label>Sales Account</mat-label>
           <mat-select placeholder="{{'taxstructure.salesAccount' | translate }}" formControlName="salesAccount">
             <mat-option *ngFor="let pglist of PSGroupsList" [value]="pglist.id">
-              {{pglist.text}}
+              {{pglist.id}}-{{pglist.text}}
             </mat-option>
           </mat-select>
         </mat-form-field>

@@ -70,7 +70,12 @@
                 {{ dataSource.filteredData.indexOf(element) + 1 }}
               </td>
             </ng-container> -->
-
+            
+            <ng-container matColumnDef="purchaseReturnInvNo">
+              <th mat-header-cell *matHeaderCellDef>{{ "PURCHASE.purchaseReturnInvNo" | translate }}</th>
+              <td mat-cell *matCellDef="let element">{{ element.purchaseReturnInvNo }}</td>
+            </ng-container>
+            
             <ng-container matColumnDef="purchaseInvNo">
               <th mat-header-cell *matHeaderCellDef>{{ "PURCHASE.purchaseInvNo" | translate }}</th>
               <td mat-cell *matCellDef="let element">{{ element.purchaseInvNo }}</td>
