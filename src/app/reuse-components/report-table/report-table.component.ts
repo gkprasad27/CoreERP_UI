@@ -491,6 +491,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
                   }, error => {
 
                   });
+                  this.spinner.hide();
             }
           }
         }

@@ -861,6 +861,7 @@ export class CreateBillComponent implements OnInit {
   }
 
   print() {
+    this.enableFileds();
     const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: this.dataSource.data };
    if(requestObj.InvoiceDetail || requestObj.InvoiceHdr)
     this.printBill=true;

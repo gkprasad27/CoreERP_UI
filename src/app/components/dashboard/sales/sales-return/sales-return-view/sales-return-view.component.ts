@@ -822,6 +822,7 @@ export class SalesReturnViewComponent implements OnInit {
   }
 
   print() {
+    this.enableFileds();
     const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: this.dataSource.data };
     if (this.printBill) {
       this.dialog.open(PrintComponent, {
