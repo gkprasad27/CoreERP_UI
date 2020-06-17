@@ -30,6 +30,8 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'employee.designationId' | translate }}" formControlName="designationId" appFocusOnEnter tabIndex="3">
         </mat-form-field>
@@ -136,7 +138,7 @@
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'employee.esiNumber' | translate }}" formControlName="esiNumber" appFocusOnEnter tabIndex="25">
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
           <input matInput [matDatepicker]="picker6" placeholder="{{'employee.extraDate' | translate }}" formControlName="extraDate" appFocusOnEnter tabIndex="26">
           <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
           <mat-datepicker #picker6></mat-datepicker>
@@ -146,14 +148,27 @@
         </mat-form-field>
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'employee.extra2' | translate }}" formControlName="extra2" appFocusOnEnter tabIndex="27">
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'employee.defaultPackageId' | translate }}" formControlName="defaultPackageId" appFocusOnEnter tabIndex="28">
         </mat-form-field>
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'employee.aadharNumber' | translate }}" formControlName="aadharNumber" appFocusOnEnter tabIndex="29">
         </mat-form-field>
-
+        <mat-form-field class="form-element">
+          <input matInput placeholder="{{'employee.recomendedBy' | translate }}"
+                 (typeaheadOnSelect)="onSearchChange($event)"
+                 (input)="getEmployeeCode($event.target.value)"
+                     [typeahead]="getEmployeeCodeList" typeaheadOptionField='id'
+                 formControlName="recomendedBy" appFocusOnEnter tabIndex="30">
+        </mat-form-field>
+        <mat-form-field class="form-element">
+          <input matInput placeholder="{{'employee.approvedBy' | translate }}"
+                 (typeaheadOnSelect)="onSearchChange($event)"
+                 (input)="getEmployeeCode($event.target.value)"
+                     [typeahead]="getEmployeeCodeList" typeaheadOptionField='id'
+                 formControlName="approvedBy" appFocusOnEnter tabIndex="30">
+        </mat-form-field>
       </div>
       <mat-divider></mat-divider>
     </form>

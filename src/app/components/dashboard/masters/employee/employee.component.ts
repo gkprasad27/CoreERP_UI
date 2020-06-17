@@ -51,7 +51,7 @@ export class EmployeeComponent implements OnInit {
     { value: 'O+', viewValue: 'O+' },
     { value: 'O-', viewValue: 'O-' }
     ];
-
+    getEmployeeCodeList = [];
 
   constructor(
     private apiService: ApiService,
@@ -101,7 +101,9 @@ export class EmployeeComponent implements OnInit {
       extra1: [null],
       extra2: [null],
       defaultPackageId: [null],
-      aadharNumber: [null]
+      aadharNumber: [null],
+      recomendedBy: [null],
+      approvedBy: [null]
         //code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
         //name: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
         //ext1: [null],
@@ -142,31 +144,31 @@ export class EmployeeComponent implements OnInit {
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-       //this.modelFormData.controls['code'].disable();
+       this.modelFormData.controls['employeeCode'].disable();
       }
 
   }
 
   ngOnInit() {
-    this.getTableData();
+   // this.getTableData();
     this.getTableData1();
   }
 
-  getTableData() {
-    const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
-    this.apiService.apiGetRequest(getCompanyUrl)
-      .subscribe(
-        response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            console.log(res);
-            this.companyList = res.response['companiesList'];
-          }
-        }
-          this.spinner.hide();
-      });
-  }
+  // getTableData() {
+  //   const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
+  //   this.apiService.apiGetRequest(getCompanyUrl)
+  //     .subscribe(
+  //       response => {
+  //       const res = response.body;
+  //       if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+  //         if (!isNullOrUndefined(res.response)) {
+  //           console.log(res);
+  //           this.companyList = res.response['companiesList'];
+  //         }
+  //       }
+  //         this.spinner.hide();
+  //     });
+  // }
   getTableData1() {
     const getCompanyUrl = String.Join('/', this.apiConfigService.getBranchesList);
     this.apiService.apiGetRequest(getCompanyUrl)
@@ -192,11 +194,34 @@ export class EmployeeComponent implements OnInit {
     }
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
+    this.modelFormData.controls['employeeCode'].enable();
   }
 
   cancel() {
     this.dialogRef.close();
   }
+
+//Get the Employee list data
+getEmployeeCode(value) {
+ // debugger;
+  if (!isNullOrUndefined(value) && value != '') {
+    const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getEmpCode);
+    this.apiService.apiPostRequest(getProductByProductCodeUrl, { Code: value }).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['Empcodes'])) {
+              this.getEmployeeCodeList = res.response['Empcodes'];
+              this.spinner.hide();
+            }
+          }
+        }
+      });
+  } else {
+    this.getEmployeeCodeList = [];
+  }
+}
 
 }
 
