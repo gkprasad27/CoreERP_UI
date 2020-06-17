@@ -5,9 +5,12 @@ import { String } from 'typescript-string-operations';
 import { ApiConfigService } from '../../../../services/api-config.service';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { isNullOrUndefined } from 'util';
-import { StatusCodes } from '../../../../enums/common/common';
+import { SnackBar, StatusCodes } from '../../../../enums/common/common';
+//import { StatusCodes, SnackBar } from '../../../../enums/common/common';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from '../../../../services/api.service';
+import { AlertService } from '../../../../services/alert.service';
+import { Static } from '../../../../enums/common/static';
 
 @Component({
   selector: 'app-leaveapproval',
@@ -31,11 +34,13 @@ export class LeaveApprovalComponent implements OnInit {
     private commonService: CommonService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
-    private spinner: NgxSpinnerService,  ) {
+    private alertService: AlertService,
+    private spinner: NgxSpinnerService, ) {
 
     this.leaveRequestForm = this.formBuilder.group({
       accept: [null],
       reject: [null],
+      chkAcceptReject: [null],
       reason: [null]
     });
 
@@ -46,32 +51,44 @@ export class LeaveApprovalComponent implements OnInit {
   }
 
   approveOrReject(event) {
+    //debugger;
     if (event) {
       this.leaveRequestForm.patchValue({
-        accept: "Accept",
+        ChkAcceptReject: "Accept",
         reject: null
       });
     } else {
       this.leaveRequestForm.patchValue({
-        accept: null,
+        ChkAcceptReject: null,
         reject: "Reject"
       });
     }
   }
 
   singleChecked(flag, column, row) {
+    // debugger;
     console.log(flag, row, column)
-    this.leaveRequestForm
-    if (this.leaveApprovalList.length == 0) {
-      this.leaveApprovalList.push(row);
-    } else {
+    // this.leaveRequestForm
+
+    //this.leaveApprovalList = [];
+    //this.leaveApprovalList.push(row);
+
+    // for (var i = 0; i < this.leaveApprovalList.length; i++) {
+    //  if (this.leaveApprovalList[i].isSelected)
+    //   this.leaveApprovalList.push(this.leaveApprovalList[i]);
+    // }
+    let statusFlag = true;
+    if (this.leaveApprovalList.length) {
       for (let l = 0; l < this.leaveApprovalList.length; l++) {
         if (this.leaveApprovalList[l]['sno'] == column) {
+          statusFlag = false;
           if (!flag) {
             if (this.leaveApprovalList.length == 1) {
               this.leaveApprovalList = [];
-            } else {
-              delete this.leaveApprovalList[l];
+            }
+            else {
+              //delete this.leaveApprovalList[l];
+              this.leaveApprovalList.splice(0, l);
             }
           }
           if (flag) {
@@ -80,6 +97,10 @@ export class LeaveApprovalComponent implements OnInit {
         }
       }
     }
+    if (this.leaveApprovalList.length == 0 || statusFlag) {
+      this.leaveApprovalList.push(row);
+    }
+    //console.log(this.leaveApprovalList)
   }
 
   checkAll(flag, checkAll?) {
@@ -96,24 +117,56 @@ export class LeaveApprovalComponent implements OnInit {
   }
 
   getLeaveApplDetailsList() {
-    const getLeaveApplDetailsListUrl = String.Join('/', this.apiConfigService.getLeaveApplDetailsList);
+    //debugger;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const getLeaveApplDetailsListUrl = String.Join('/', this.apiConfigService.getLeaveApplDetailsList, user.userName);
     this.apiService.apiGetRequest(getLeaveApplDetailsListUrl)
       .subscribe(
         response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            this.dataSource = new MatTableDataSource(res.response['LeaveApplDetailsList']);
-            this.dataSource.paginator = this.paginator;
-            this.checkAll(false);
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.dataSource = new MatTableDataSource(res.response['LeaveApplDetailsList']);
+              this.dataSource.paginator = this.paginator;
+              this.checkAll(false);
+            }
           }
-        }
-        this.spinner.hide();
-      });
+          this.spinner.hide();
+        });
   }
 
   save() {
+    // alert("hi");
+    //this.leaveApprovalList = [];
+    //debugger;
     console.log(this.leaveApprovalList);
+    //this.dataSource = new MatTableDataSource(res.response['StockissuesDeatilList']);
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    const registerInvoiceUrl = String.Join('/', this.apiConfigService.RegisterLeaveApprovalDetails);
+    const requestObj = { StockissueHdr: this.leaveRequestForm.value, code: user.userName, StockissueDtl: this.leaveApprovalList };
+    this.apiService.apiPostRequest(registerInvoiceUrl, requestObj).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            this.alertService.openSnackBar('Leave Approval  Successfully..', Static.Close, SnackBar.success);
+            //this.branchFormData.reset();
+          }
+          this.reset();
+
+          this.spinner.hide();
+
+        }
+      });
+  }
+
+
+
+  reset() {
+    this.leaveRequestForm.reset();
+    this.dataSource = new MatTableDataSource();
+    this.ngOnInit();
   }
 
 

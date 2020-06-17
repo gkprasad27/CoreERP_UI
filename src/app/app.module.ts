@@ -30,11 +30,18 @@ import {
 } from './components/dashboard/masters/index';
 
 import {
-  PayrollComponent, LeaveopeningbalancesComponent, LeavetypesComponent,
-  LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
-  StructureCreationComponent, LeaveApprovalComponent,
+  PayrollComponent,
+  LeaveopeningbalancesComponent,
+  LeavetypesComponent,
+  StructureCreationComponent, 
+  PTMasterComponent, ComponentMasterComponent,
   PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent
 } from './components/dashboard/payroll/index';
+
+import {
+  SelfserviceComponent, LeavetypeComponent,LeaveRequestComponent,LeaveopeningbalanceComponent,LeaveApprovalComponent
+  
+} from './components/dashboard/selfservice/index';
 
 import {
   SalesComponent, SalesInvoiceComponent, SalesReturnComponent,StocktransferComponent , SalesReturnViewComponent, CreateBillComponent, CreateStockTransferComponent, PurchaseComponent, PurchaseCreateComponent
@@ -96,7 +103,14 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
     TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
     TaxgroupsComponent, TaxstructuresComponent,
-    PayrollComponent, LeaveopeningbalancesComponent, LeavetypesComponent,
+    PayrollComponent,
+    LeaveopeningbalancesComponent,
+    //LeaveopeningbalanceComponent,
+    //selfserviceComponent,
+    SelfserviceComponent,
+    LeavetypeComponent,
+    LeaveopeningbalanceComponent,
+    LeavetypesComponent,
     LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
     StructureCreationComponent, LeaveApprovalComponent,
     PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,
@@ -146,8 +160,13 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
     TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
     TaxgroupsComponent, TaxstructuresComponent,
-    LeaveopeningbalancesComponent, LeavetypesComponent,
-    LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
+    LeaveopeningbalancesComponent,
+   // LeaveopeningbalanceComponent,
+    LeavetypeComponent,
+    LeaveopeningbalanceComponent,
+    LeavetypesComponent,
+    LeaveRequestComponent,
+    PTMasterComponent, ComponentMasterComponent,
     StructureCreationComponent, LeaveApprovalComponent,
     PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,

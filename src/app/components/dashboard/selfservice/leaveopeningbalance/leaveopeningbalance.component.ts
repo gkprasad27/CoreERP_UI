@@ -13,11 +13,11 @@ import { CommonService } from '../../../../services/common.service';
 import { StatusCodes } from '../../../../enums/common/common';
 
 @Component({
-  selector: 'app-leaveopeningbalances',
-  templateUrl: './leaveopeningbalances.component.html',
-  styleUrls: ['./leaveopeningbalances.component.scss']
+  selector: 'app-leaveopeningbalance',
+  templateUrl: './leaveopeningbalance.component.html',
+  styleUrls: ['./leaveopeningbalance.component.scss']
 })
-export class LeaveopeningbalancesComponent implements OnInit {
+export class LeaveopeningbalanceComponent implements OnInit {
 
   modelFormData: FormGroup;
   isSubmitted = false;
@@ -30,7 +30,7 @@ export class LeaveopeningbalancesComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<LeaveopeningbalancesComponent>,
+    public dialogRef: MatDialogRef<LeaveopeningbalanceComponent>,
     private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {

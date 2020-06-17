@@ -217,6 +217,73 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
       ]
     },
+
+    {
+      displayName: 'SelfServices',
+      iconName: 'recent_actors',
+      route: 'selfservice',
+      children: [
+        {
+          displayName: 'Leaveopeningbalances',
+          iconName: 'speaker_notes',
+          route: 'leaveopeningbalance'
+        },
+        {
+          displayName: 'LeaveType',
+          iconName: 'speaker_notes',
+          route: 'leavetype'
+        },
+        {
+          displayName: 'LeaveRequest',
+          iconName: 'speaker_notes',
+          route: 'Leaverequest'
+        },
+        {
+          displayName: 'Leave Approval',
+          iconName: 'account_balance',
+          route: 'leaveApproval'
+        },
+        //{
+        //  displayName: 'Component Master',
+        //  iconName: 'speaker_notes',
+        //  route: 'componentmaster'
+        //},
+        //{
+        //  displayName: 'PT Master',
+        //  iconName: 'speaker_notes',
+        //  route: 'ptmaster'
+
+        //},
+        //{
+        //  displayName: 'CTCBreakup',
+        //  iconName: 'account_balance',
+        //  route: 'CTCBreakup'
+        //},
+        //{
+        //  displayName: 'Structure Creation',
+        //  iconName: 'account_balance',
+        //  route: 'structureCreation'
+        //},
+        //{
+        //  displayName: 'Leave Approval',
+        //  iconName: 'account_balance',
+        //  route: 'leaveApproval'
+        //},
+        //{
+        //  displayName: 'PF Master',
+        //  iconName: 'account_balance',
+        //  route: 'pfmaster'
+        //},
+        //{
+        //  displayName: 'Salary Process',
+        //  iconName: 'account_balance',
+        //  route: 'salaryprocess'
+        //}
+
+      ]
+    },
+
+
     {
       displayName: 'Payroll',
       iconName: 'recent_actors',
@@ -276,6 +343,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
       ]
     },
+
+
+
+
     {
       displayName: 'Sales',
       iconName: 'videocam',

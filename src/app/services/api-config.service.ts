@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { RuntimeConfigService } from './runtime-config.service';
 
+
+const user = JSON.parse(localStorage.getItem('user'))
+
 @Injectable({
    providedIn: 'root'
 })
@@ -514,21 +517,42 @@ export class ApiConfigService {
    // ******************************* start  Payroll *****************************************
 
    //Leaveopeningbalance
+  
+  //getLeaveopeningbalanceList = `http://localhost:51414/api/masters/LeaveBalances/GetLeaveBalancesList`;
+  //registerLeaveopeningbalance = `http://localhost:51414/api/masters/LeaveBalances/RegisterLeaveBalancesList`;
+  //updateLeaveopeningbalance = `http://localhost:51414/api/masters/LeaveBalances/UpdateLeaveBalancesList`;
+  //deleteLeaveopeningbalance = `http://localhost:51414/api/masters/LeaveBalances/DeleteLeaveBalancesList`;
    getLeaveopeningbalanceList = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/GetLeaveBalancesList`;
-   registerLeaveopeningbalance = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/RegisterLeaveBalancesList`;
+  registerLeaveopeningbalance = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/RegisterLeaveBalancesList`;
    updateLeaveopeningbalance = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/UpdateLeaveBalancesList`;
    deleteLeaveopeningbalance = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/DeleteLeaveBalancesList`;
 
    //LeaveTypes
-   getLeaveTypesList = `${this.environment.runtimeConfig.serverUrl}masters/LeaveTypeMasters/GetLeaveTypesList`;
-   registerLeaveTypes = `${this.environment.runtimeConfig.serverUrl}masters/LeaveTypeMasters/RegisterLeaveTypeMaster`;
-   updateLeaveTypes = `${this.environment.runtimeConfig.serverUrl}masters/LeaveTypeMasters/UpdateLeaveTypeMaster`;
-   deleteLeaveTypes = `${this.environment.runtimeConfig.serverUrl}masters/LeaveTypeMasters/DeleteLeaveTypeMaster`;
+  //getLeaveTypeatLists = `http://localhost:51414/api/Selfservice/LeaveType/GetLeaveTypeList`;
+  //registerLeaveTypes = `http://localhost:51414/api/Selfservice/LeaveType/RegisterLeaveType`;
+  //updateLeaveTypes = `http://localhost:51414/api/Selfservice/LeaveType/UpdateLeaveType`;
+  //deleteLeaveTypes = `http://localhost:51414/api/Selfservice/LeaveType/DeleteLeaveType`;
+  getLeaveTypeatLists = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveType/GetLeaveTypeList`;
+   registerLeaveTypes = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveType/RegisterLeaveType`;
+   updateLeaveTypes = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveType/UpdateLeaveType`;
+   deleteLeaveTypes = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveType/DeleteLeaveType`;
 
    //LeaveRequest
-   getLeaveTypeatList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetLeavetpesList`;
-   getLeaveRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetLeaveApplDetailsList`;
-   registerLeaveRequests = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/RegisterLeaveapplying`;
+  
+  //getLeaveTypeatList = `http://localhost:51414/api/Selfservice/LeaveRequest/GetLeavetpesList`;
+  //getLeaveRequestList = `http://localhost:51414/api/Selfservice/LeaveRequest/GetLeaveApplDetailsList`;
+  //registerLeaveRequests = `http://localhost:51414/api/Selfservice/LeaveRequest/RegisterLeaveapplying`;
+  //updateLeaveRequests = `http://localhost:51414/api/Selfservice/LeaveRequest/UpdateLeaveapplying`;
+  //getEmpCode = `http://localhost:51414/api/Selfservice/LeaveRequest/GetEmployeeCode`;
+ // getEmpName = `http://localhost:51414/api/Selfservice/LeaveRequest/GetEmpName`;
+
+  getEmpCode = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetEmployeeCode`;
+  getEmpName = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetEmpName`;
+  updateLeaveRequests = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/UpdateLeaveapplying`;
+  getLeaveTypeatList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetLeavetpesList`;
+  getLeaveRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetLeaveApplDetailsList`;
+ //getLeaveRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetLeaveApplDetailsList`;
+  registerLeaveRequests = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/RegisterLeaveapplying`;
 
    //PT Master
    getPTList = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/GetPTList`;
@@ -565,8 +589,10 @@ export class ApiConfigService {
 
 
    // Leave Approval
-
-   getLeaveApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/GetLeaveApplDetailsList`;
+  //getLeaveApplDetailsList = 'http://localhost:51414/api/Selfservice/LeaveApproval/GetLeaveApplDetailsList';
+  //RegisterLeaveApprovalDetails = 'http://localhost:51414/api/Selfservice/LeaveApproval/RegisterLeaveApprovalDetails';
+  getLeaveApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/GetLeaveApplDetailsList`;
+  RegisterLeaveApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/RegisterLeaveApprovalDetails`;
    // ******************************* End  master *****************************************
 
 

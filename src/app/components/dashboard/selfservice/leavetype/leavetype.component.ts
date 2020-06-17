@@ -13,11 +13,11 @@ import { CommonService } from '../../../../services/common.service';
 import { StatusCodes } from '../../../../enums/common/common';
 
 @Component({
-  selector: 'app-leaveopeningbalances',
-  templateUrl: './leaveopeningbalances.component.html',
-  styleUrls: ['./leaveopeningbalances.component.scss']
+  selector: 'app-leavetype',
+  templateUrl: './leavetype.component.html',
+  styleUrls: ['./leavetype.component.scss']
 })
-export class LeaveopeningbalancesComponent implements OnInit {
+export class LeavetypeComponent implements OnInit {
 
   modelFormData: FormGroup;
   isSubmitted = false;
@@ -30,35 +30,41 @@ export class LeaveopeningbalancesComponent implements OnInit {
   constructor(
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<LeaveopeningbalancesComponent>,
+    public dialogRef: MatDialogRef<LeavetypeComponent>,
     private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.modelFormData = this.formBuilder.group({
-      empCode: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
-      year: ['', [Validators.required, Validators.minLength(2)]],
-      leaveCode: ['', [Validators.required, Validators.minLength(2)]],
-      opbal: [null],
-      used: [null],
-      userId: [null],
-      timeStamp: [null],
-      balance: [null],
-      remarks: [null],
-      compCode: [null]
+      leaveCode: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+      companyCode: [null],
+      companyName: [null],
+      id: 0,
+      leaveMaxLimit: [null],
+      leaveName: [null]
     });
 
-
+    //leaveCode: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+    //leaveName: ['', [Validators.required, Validators.minLength(2)]],
+    //leaveMaxLimit: [null],
+    //ext1: [null],
+    //leaveMinLimit: [null],
+    //companyCode: [null],
+    //active: [null],
+    //addDate: [null],
+    //branchCode: [null],
+    //remarks: [null],
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
-      this.modelFormData.controls['empCode'].disable();
     }
 
   }
 
   ngOnInit() {
   }
+
+
 
   get formControls() { return this.modelFormData.controls; }
 
@@ -67,7 +73,6 @@ export class LeaveopeningbalancesComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['empCode'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }
