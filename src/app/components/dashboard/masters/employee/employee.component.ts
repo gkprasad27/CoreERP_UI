@@ -203,7 +203,6 @@ export class EmployeeComponent implements OnInit {
 
 //Get the Employee list data
 getEmployeeCode(value) {
- // debugger;
   if (!isNullOrUndefined(value) && value != '') {
     const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getEmpCode);
     this.apiService.apiPostRequest(getProductByProductCodeUrl, { Code: value }).subscribe(

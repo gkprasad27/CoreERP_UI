@@ -6,11 +6,13 @@ import { LeaveopeningbalanceComponent } from './leaveopeningbalance/leaveopening
 import { LeaveRequestComponent } from './leaverequest/leaverequest.component';
 import { LeaveApprovalComponent } from './leaveapproval/leaveapproval.component';
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class selfService {
   dynamicData = { url: '', component: null, registerUrl: '', listName: '', updateUrl: '', primaryKey: '', deleteUrl: '', coustom: true };
+    apiService: any;
 
 
   constructor(
@@ -18,9 +20,12 @@ export class selfService {
   ) { }
 
   getRouteUrls(data) {
-    debugger;
+    //debugger;
+    //alert("hi");
+    const user = JSON.parse(localStorage.getItem('user'));
     switch (data) {
       case 'leaveopeningbalance':
+        
         this.dynamicData.url = this.apiConfigService.getLeaveopeningbalanceList;
         this.dynamicData.component = LeaveopeningbalanceComponent;
         this.dynamicData.registerUrl = this.apiConfigService.registerLeaveopeningbalance;
@@ -32,8 +37,8 @@ export class selfService {
         return this.dynamicData;
         break;
       case 'Leaverequest':
-        const user = JSON.parse(localStorage.getItem('user'));
-        this.dynamicData.url = String.Join('/', this.apiConfigService.getLeaveRequestList, user.userName);
+        //const user = JSON.parse(localStorage.getItem('user'));
+        this.dynamicData.url = String.Join('/', this.apiConfigService.getLeaveRequestList,user.userName);
         //this.dynamicData.url = this.apiConfigService.getLeaveRequestList,user.userName;
         this.dynamicData.component = LeaveRequestComponent;
         this.dynamicData.registerUrl = this.apiConfigService.registerLeaveRequests;
@@ -57,12 +62,14 @@ export class selfService {
       case 'leavetype':
         this.dynamicData.url = this.apiConfigService.getLeaveTypeatLists;
         this.dynamicData.component = LeavetypeComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerLeaveTypes;
-        this.dynamicData.updateUrl = this.apiConfigService.updateLeaveTypes;
+        this.dynamicData.registerUrl = String.Join('/', this.apiConfigService.registerLeaveTypes, user.companyCode ? user.companyCode : "0");
+        this.dynamicData.updateUrl = String.Join('/', this.apiConfigService.updateLeaveTypes, user.companyCode ? user.companyCode : "0");
+        //this.dynamicData.updateUrl = this.apiConfigService.updateLeaveTypes;
         this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveTypes;
         this.dynamicData.listName = 'leavetypeList';
         this.dynamicData.primaryKey = 'leaveCode';
         this.dynamicData.coustom = true;
+        
         return this.dynamicData;
         break;
       default:

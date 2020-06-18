@@ -54,8 +54,6 @@ export class LeaveRequestComponent implements OnInit {
      { value: 'SecondHalf', viewValue: 'SecondHalf' }
    ];
     EmpName: any;
-    // datePipe: any;
-
 
   constructor(
     private apiService: ApiService,
@@ -65,7 +63,6 @@ export class LeaveRequestComponent implements OnInit {
     public dialogRef: MatDialogRef<LeaveRequestComponent>,
     private commonService: CommonService,
     private apiConfigService: ApiConfigService,
-
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any)
   {
@@ -78,12 +75,12 @@ export class LeaveRequestComponent implements OnInit {
       leaveCode: [null],
       leaveFrom: [null],
       leaveTo: [null],
-      leaveDays: [null],
+      leaveDays: [{ value: '', disabled: true }],
       leaveRemarks: [null],
       status: [null],
       approvedId: [null],
       approveName: [null],
-      reason: [null],
+      reason: ['', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+'), Validators.minLength(2), Validators.maxLength(40)]],
       authorizedStatus: [null],
       authorizedId: [null],
       formno: [null],
@@ -106,33 +103,6 @@ export class LeaveRequestComponent implements OnInit {
       chkAcceptReject: [null],
       session1: [null],
       session2: null
-      //empCode: [null],
-      //empName: [null],
-      //applDate: [null],
-      //leaveCode: [null],
-      //leaveFrom: [null],
-      //leaveTo: [null],
-      //leaveDays: [null],
-      //leaveRemarks: [null],
-      //status: [null],
-      //ext1: [null],
-      //ext2: [null],
-      //sno: ['0'],
-      //countofLeaves: [null],
-      //approvedID: [null],
-      //approveName: [null],
-      //reason: [null],
-      //chkAcceptReject: [null],
-      //reportID: [null],
-      //reportName: [null],
-      //appr_date: [null],
-      //acceptedRemarks: [null],
-      //companyCode: null,
-      //rejectedId: null,
-      //rejectedName: null,
-      //loPdays: null,
-      //Session1: null,
-      //Session2:null
     });
 
     
@@ -141,20 +111,27 @@ export class LeaveRequestComponent implements OnInit {
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
       //this.modelFormData.controls['empCode'].disable();
+      //this.modelFormData.controls['leaveDays'].disable();
     }
 
   }
 
   ngOnInit()
   {
-    //this.getLeaveApplDetailsList();
+    const user = JSON.parse(localStorage.getItem('user'));
     this.getTableData();
+    this.modelFormData.patchValue
+      ({
+        empCode: user.userName
+      });
+    this.getProductByProductCode(user.userName);
+    this.onSearchChange(null);
   }
 
 
   //load data
   getLeaveApplDetailsList() {
-    debugger;
+   // debugger;
     const user = JSON.parse(localStorage.getItem('user'));
     const getLeaveApplDetailsListUrl = String.Join('/', this.apiConfigService.getLeaveRequestList, user.userName);
     this.apiService.apiGetRequest(getLeaveApplDetailsListUrl)
@@ -316,6 +293,28 @@ export class LeaveRequestComponent implements OnInit {
         leaveDays: (Difference_In_Days + countdays)
       });
   }
+
+  getTableDataonempcodechangevent()
+  {
+
+    this.spinner.show();
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getLeaveTypeatList, this.modelFormData.get('empCode').value);
+    this.apiService.apiGetRequest(getCompanyUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              console.log(res);
+              this.LeaveTypeatList = res.response['leavetypesList'];
+            }
+          }
+          this.spinner.hide();
+        }, error => {
+
+        });
+  }
+
   getTableData() {
     //debugger;
     const user = JSON.parse(localStorage.getItem('user'));
@@ -341,6 +340,7 @@ export class LeaveRequestComponent implements OnInit {
 
   getProductByProductCode(value) {
     //debugger;
+    
     if (!isNullOrUndefined(value) && value != '') {
       const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getEmpCode);
       this.apiService.apiPostRequest(getProductByProductCodeUrl, { Code: value }).subscribe(
@@ -354,6 +354,7 @@ export class LeaveRequestComponent implements OnInit {
               }
             }
           }
+          
         });
     } else {
       this.getProductByProductCodeArray = [];
@@ -362,7 +363,6 @@ export class LeaveRequestComponent implements OnInit {
   
   onSearchChange(code) {
     //debugger;
-    
     let genarateVoucherNoUrl;
     if (!isNullOrUndefined(code)) {
       genarateVoucherNoUrl = String.Join('/', this.apiConfigService.getEmpName,code.value);
@@ -384,6 +384,7 @@ export class LeaveRequestComponent implements OnInit {
             }
           }
         }
+        this.getTableDataonempcodechangevent();
       });
   }
 

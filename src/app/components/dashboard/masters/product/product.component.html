@@ -99,7 +99,7 @@
 
         <mat-form-field>
           <mat-label [translate]="'product.taxStructureCode'"></mat-label>
-          <mat-select formControlName="taxStructureCode" >
+          <mat-select formControlName="taxStructureCode" (selectionChange)="getTaxList()">
             <mat-option *ngFor="let taxStructure of getTaxStructureList" [value]="taxStructure.text">
               {{taxStructure.text}}
             </mat-option>

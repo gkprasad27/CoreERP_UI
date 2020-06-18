@@ -33,6 +33,7 @@ export class ProductComponent implements OnInit {
     getTaxGroup:any;
     getUnit:any;
     getTaxStructureList:any;
+    getTaxListListArray:any;
     // isActive=true;
 
 
@@ -112,6 +113,31 @@ export class ProductComponent implements OnInit {
         this.spinner.hide();
       });
   }
+
+        getTaxList() {
+          const getTaxListUrl = String.Join('/', this.apiConfigService.getTaxList,
+            this.modelFormData.get('taxStructureCode').value);
+          this.apiService.apiGetRequest(getTaxListUrl).subscribe(
+            response => {
+              const res = response.body;
+              if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+                if (!isNullOrUndefined(res.response)) {
+                  if (!isNullOrUndefined(res.response['TaxList'])) {
+                    this.modelFormData.patchValue({
+                      cgst: res.response['TaxList'][0]['cgst'],
+                      sgst: res.response['TaxList'][0]['sgst'],
+                      igst: res.response['TaxList'][0]['igst'],
+                      totalGst:res.response['TaxList'][0]['totalGst'],
+                      totalPercentageGst:res.response['TaxList'][0]['totalPercentageGst']
+                    });
+                    this.spinner.hide();
+                  }
+                }
+              }
+            });
+        }
+    
+  
 
   getProductGroupList() {
     const getProductGroupList = String.Join('/', this.apiConfigService.getProductGroupList);

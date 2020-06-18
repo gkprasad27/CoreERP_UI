@@ -493,6 +493,7 @@ export class ApiConfigService {
     getProductGroupList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetProductGroupList`;
     getTaxApplicableList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxApplicableList`;
     getProductPackingList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetProductPackingList`;
+    getTaxList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxList`;
     getTaxGrouplist = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxGrouplist`;
     getUnitList = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetUnitList`;
     getTaxStructure = `${this.environment.runtimeConfig.serverUrl}masters/Product/GetTaxStructure`;
@@ -522,6 +523,7 @@ export class ApiConfigService {
   //registerLeaveopeningbalance = `http://localhost:51414/api/masters/LeaveBalances/RegisterLeaveBalancesList`;
   //updateLeaveopeningbalance = `http://localhost:51414/api/masters/LeaveBalances/UpdateLeaveBalancesList`;
   //deleteLeaveopeningbalance = `http://localhost:51414/api/masters/LeaveBalances/DeleteLeaveBalancesList`;
+   getLeaveTypeatListforlop = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/GetLeavetpeList`;
    getLeaveopeningbalanceList = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/GetLeaveBalancesList`;
   registerLeaveopeningbalance = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/RegisterLeaveBalancesList`;
    updateLeaveopeningbalance = `${this.environment.runtimeConfig.serverUrl}masters/LeaveBalances/UpdateLeaveBalancesList`;

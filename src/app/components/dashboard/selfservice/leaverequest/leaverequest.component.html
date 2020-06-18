@@ -11,45 +11,36 @@
           <input matInput placeholder="{{'Leaverequest.empCode' | translate }}"
                  (typeaheadOnSelect)="onSearchChange($event)"
                  (input)="getProductByProductCode($event.target.value)"
-                     [typeahead]="getProductByProductCodeArray" typeaheadOptionField='id'
+                 [typeahead]="getProductByProductCodeArray" typeaheadOptionField='id'
                  formControlName="empCode" appFocusOnEnter tabIndex="1">
         </mat-form-field>
 
         <mat-form-field class="form-element">
           <input matInput placeholder=" {{'Leaverequest.empName' | translate }} "
-                 formControlName="empName"[typeahead]="getProductByProductNameArray" typeaheadOptionField='text'
+                 formControlName="empName" [typeahead]="getProductByProductNameArray" typeaheadOptionField='text'
                  appFocusOnEnter tabIndex="2">
 
         </mat-form-field>
 
         <mat-form-field>
           <input matInput [matDatepicker]="picker1" placeholder="{{'Leaverequest.applDate' | translate }}"
-                [formControl]="applDate">
+                 [formControl]="applDate">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
-        <!--<mat-form-field class="form-element">
-          <mat-label>{{ 'Leaverequest.leaveCode' | translate }}</mat-label>
-          <mat-select formControlName="leaveCode" appFocusOnEnter tabIndex="3" (selectionChange)="genarateVoucherNo(); setBranchCode();">
-            <mat-option *ngFor="let branch of LeaveTypeatList" [value]="branch.id">
-              {{ branch.empCode }} - {{branch.text}}
+        <mat-form-field>
+          <mat-label>Leave Type</mat-label>
+          <mat-select placeholder="{{'Leaverequest.leaveCode' | translate }}" formControlName="leaveCode">
+            <mat-option *ngFor="let ptlist of LeaveTypeatList" [value]="ptlist.empCode">
+              {{ptlist.empCode}}
             </mat-option>
           </mat-select>
-        </mat-form-field>-->
-
-      <mat-form-field>
-        <mat-label>Leave Type</mat-label>
-        <mat-select placeholder="{{'Leaverequest.leaveCode' | translate }}" formControlName="leaveCode">
-          <mat-option *ngFor="let ptlist of LeaveTypeatList" [value]="ptlist.empCode">
-            {{ptlist.empCode}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        </mat-form-field>
 
         <mat-form-field>
           <input matInput [matDatepicker]="picker2" placeholder="{{'Leaverequest.leaveFrom' | translate }}"
-                 (dateChange)="leaveToValueChange()" formControlName="leaveFrom">
+                 (dateChange)="orgValueChange()" formControlName="leaveFrom">
           <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
@@ -80,13 +71,21 @@
         </mat-form-field>
 
         <mat-form-field class="form-element">
-          <input matInput placeholder="{{'Leaverequest.leaveDays' | translate }}" formControlName="leaveDays" type="number" appFocusOnEnter tabIndex="3">
+          <input matInput placeholder="{{'Leaverequest.leaveDays' | translate }}" formControlName="leaveDays"   type="number" appFocusOnEnter tabIndex="3">
         </mat-form-field>
 
 
-        <mat-form-field class="form-element">
+
+        <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.reason.valid }">
+          <input matInput placeholder=" {{'Leaverequest.reason' | translate }}" formControlName="reason" appFocusOnEnter
+                 tabIndex="1">
+          <mat-error *ngIf="formControls.reason.errors" class="help-block">
+            <div *ngIf="formControls.reason.errors.required">Reason is required </div>
+          </mat-error>
+        </mat-form-field>
+        <!--<mat-form-field class="form-element">
           <input matInput placeholder="{{'Leaverequest.reason' | translate }}" formControlName="reason" appFocusOnEnter tabIndex="4">
-        </mat-form-field>
+        </mat-form-field>-->
       </div>
       <mat-divider></mat-divider>
 

@@ -40,8 +40,10 @@ export class LeavetypeComponent implements OnInit {
       companyCode: [null],
       companyName: [null],
       id: 0,
-      leaveMaxLimit: [null],
-      leaveName: [null]
+      LeaveMinLimit: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2), Validators.maxLength(4)]],
+      leaveMaxLimit: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2), Validators.maxLength(4)]],
+      leaveName: ['', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+'), Validators.minLength(2), Validators.maxLength(40)]],
+
     });
 
     //leaveCode: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
@@ -64,7 +66,7 @@ export class LeavetypeComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  
 
   get formControls() { return this.modelFormData.controls; }
 
@@ -74,6 +76,7 @@ export class LeavetypeComponent implements OnInit {
       return;
     }
     this.formData.item = this.modelFormData.value;
+  
     this.dialogRef.close(this.formData);
   }
 
