@@ -211,7 +211,7 @@ export class CreateBillComponent implements OnInit {
   }
 
   generateSalesReturnInvNo(branchCode, invoice) {
-    const generateSalesReturnInvNoUrl = String.Join('/', this.apiConfigService.generateSalesReturnInvNo, branchCode);
+    const generateSalesReturnInvNoUrl = String.Join('/', this.apiConfigService.generateSalesReturnInvNo, this.branchFormData.get('branchCode').value);
     this.apiService.apiGetRequest(generateSalesReturnInvNoUrl).subscribe(
       response => {
         const res = response.body;

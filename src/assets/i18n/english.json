@@ -736,7 +736,8 @@
     "leaveCode": "LeaveCode",
     "companyCode": "companyCode",
     "companyName": "companyName",
-    "id": "id",
+    "id": "Id",
+    "leaveMinLimit": "LeaveMinLimit",
     "leaveMaxLimit": "leaveMaxLimit",
     "leaveName": "leaveName"
   },

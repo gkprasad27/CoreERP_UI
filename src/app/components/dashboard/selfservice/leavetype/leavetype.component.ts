@@ -40,8 +40,8 @@ export class LeavetypeComponent implements OnInit {
       companyCode: [null],
       companyName: [null],
       id: 0,
-      LeaveMinLimit: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2), Validators.maxLength(4)]],
-      leaveMaxLimit: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2), Validators.maxLength(4)]],
+      leaveMinLimit: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(4)]],
+      leaveMaxLimit: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(1), Validators.maxLength(4)]],
       leaveName: ['', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+'), Validators.minLength(2), Validators.maxLength(40)]],
 
     });
