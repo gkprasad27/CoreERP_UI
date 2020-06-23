@@ -53,40 +53,14 @@ export class CompanyComponent  implements OnInit {
       extra1: [null],
       extra2: [null],
       extraDate: [null],
-      city: [null],
-
-        //companyCode: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
-        //name: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
-        //address1: [null],
-        //address2: [null],
-        //address3: [null],
-        //address4: [null],
-        //email: [null],
-        //ext1: [null],  // hide
-        //ext2: [null], // hide
-        //ext3: [null], // hide
-        //ext4: [null], // hide
-        //finacialYear: ['2020'],  // current year
-        //fromMonth: ['1'],  // currnet month
-        //gstNo: [null],
-        //active: ['Y'],
-        //place: [null],
-        //state: [null],
-        //pinCode: [null],
-        //phone1: [null],
-        //phone2: [null],
-        //phone3: [null],
-        //panNo: [null],
-        //tanNo: [null],
-        //natureOfBusiness: [null],
-        //toMonth: ['1'] // currnet month
+      city: [null],       
       });
 
 
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-        //this.modelFormData.controls['companyId'].disable();
+        this.modelFormData.controls['companyId'].disable();
       }
 
   }
@@ -102,7 +76,8 @@ export class CompanyComponent  implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
-    //this.modelFormData.controls['companyId'].enable();
+    
+    this.modelFormData.controls['companyId'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

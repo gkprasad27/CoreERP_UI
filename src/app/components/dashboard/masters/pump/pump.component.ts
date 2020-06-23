@@ -58,6 +58,7 @@ export class PumpComponent implements OnInit {
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
+      this.modelFormData.controls['pumpNo'].disable();
     }
 
   }
@@ -146,6 +147,7 @@ export class PumpComponent implements OnInit {
     }
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
+    this.modelFormData.controls['pumpNo'].enable();
   }
 
   cancel() {

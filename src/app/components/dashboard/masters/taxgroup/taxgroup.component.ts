@@ -53,6 +53,7 @@ export class TaxgroupsComponent implements OnInit {
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
+      this.modelFormData.controls['taxGroupCode'].disable();
     }
 
   }
@@ -86,6 +87,7 @@ export class TaxgroupsComponent implements OnInit {
     }
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
+    this.modelFormData.controls['taxGroupCode'].enable();
   }
 
   cancel() {

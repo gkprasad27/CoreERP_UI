@@ -85,6 +85,7 @@ export class ProductComponent implements OnInit {
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
+        this.modelFormData.controls['productCode'].disable();
       }
 
   }
@@ -250,6 +251,7 @@ export class ProductComponent implements OnInit {
     this.modelFormData.controls['productId'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
+    this.modelFormData.controls['productCode'].enable();
   }
 
   cancel() {

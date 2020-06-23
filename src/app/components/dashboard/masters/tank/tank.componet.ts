@@ -55,6 +55,7 @@ export class TanksComponent implements OnInit {
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
+      this.modelFormData.controls['tankNo'].disable();
     }
 
   }
@@ -134,6 +135,7 @@ export class TanksComponent implements OnInit {
     }
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
+    this.modelFormData.controls['tankNo'].enable();
   }
 
   cancel() {

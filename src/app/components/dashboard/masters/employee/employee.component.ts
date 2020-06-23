@@ -104,41 +104,7 @@ export class EmployeeComponent implements OnInit {
       aadharNumber: [null],
       recomendedBy: [null],
       approvedBy: [null]
-        //code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
-        //name: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-        //ext1: [null],
-        //ext2: [null],
-        //phone1: [null],
-        //phone2: [null],
-        //aadhar: [null],
-        //accessCard: [null],
-        //address1: [null],
-        //address2: [null],
-        //approvedBy: [null],
-        //bloodGroup: [null],
-        //compCode: [null],
-        //branchCode: [null],
-        //dob: [null],
-        //designation: [null],
-        //email: [null],
-        //fatherName: [null],
-        //joinDate: [null],
-        //pan: [null],
-        //recommendedBy: [null],
-        //relDate: [null],
-        //role: [null],
-        //shift: [null],
-        //status: [null],
-        //bankAccNo: [null],
-        //bankBranch: [null],
-        //bankName: [null],
-        //esinumber: [null],
-        //ifsccode: [null],
-        //pfnumber: [null],
-        //reportingTo: [null],
-        //uannumber: [null],
-        //active: ['Y']
-
+        
       });
 
       this.formData = {...data};

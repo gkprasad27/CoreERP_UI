@@ -9,12 +9,12 @@
     <form [formGroup]="modelFormData" autocomplete="off">
 
       <div class="d--flex">
-        <!--<mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.companyId.valid }">
+        <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.companyId.valid }">
           <input matInput placeholder="{{'company.companyId' | translate }}" disabled formControlName="companyId" appFocusOnEnter tabIndex="1">
           <mat-error *ngIf="formControls.companyId.errors" class="help-block">
             <div *ngIf="formControls.companyId.errors.required">Code is required</div>
           </mat-error>
-        </mat-form-field>-->
+        </mat-form-field>
 
         <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.companyName.valid }">
           <input matInput placeholder="{{'company.companyName' | translate }}" formControlName="companyName" appFocusOnEnter tabIndex="2">
@@ -64,32 +64,7 @@
 
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'company.gstin' | translate }}" formControlName="gstin" appFocusOnEnter tabIndex="14">
-        </mat-form-field>
-        <mat-form-field class="form-element">
-          <input matInput placeholder="{{'company.cst' | translate }}" formControlName="cst" appFocusOnEnter tabIndex="15">
-              
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [matDatepicker]="picker3" placeholder="{{'company.currentDate' | translate }}" formControlName="currentDate" tabIndex="16">
-          <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-          <mat-datepicker #picker3></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field class="form-element">
-          <input matInput placeholder="{{'company.logo' | translate }}" formControlName="logo" appFocusOnEnter tabIndex="17">
-        </mat-form-field>
-        <mat-form-field class="form-element">
-          <input matInput placeholder="{{'company.extra1' | translate }}" formControlName="extra1" appFocusOnEnter tabIndex="18">
-        </mat-form-field>
-        <mat-form-field class="form-element">
-          <input matInput placeholder="{{'company.extra2' | translate }}" formControlName="extra2" appFocusOnEnter tabIndex="19">
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput [matDatepicker]="picker4" placeholder="{{'company.extraDate' | translate }}" formControlName="extraDate" tabIndex="20">
-          <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-          <mat-datepicker #picker4></mat-datepicker>
-        </mat-form-field>
-     
+        </mat-form-field>              
         <mat-form-field class="form-element">
           <input matInput placeholder="{{'company.city' | translate }}" formControlName="city" appFocusOnEnter tabIndex="20">
         </mat-form-field>
