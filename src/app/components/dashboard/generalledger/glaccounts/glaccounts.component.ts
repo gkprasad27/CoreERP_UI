@@ -64,7 +64,7 @@ export class GlAccountsComponent  implements OnInit {
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-        this.modelFormData.controls['ledgerId'].disable();
+        this.modelFormData.controls['ledgerCode'].disable();
       }
 
   }
@@ -153,7 +153,7 @@ this.getPricingLevellist();
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['ledgerId'].enable();
+    this.modelFormData.controls['ledgerCode'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }
