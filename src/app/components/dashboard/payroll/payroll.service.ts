@@ -23,42 +23,8 @@ export class PayrollService {
 
   getRouteUrls(data) {
     //debugger;
+    const user = JSON.parse(localStorage.getItem('user'));
     switch (data) {
-      case 'leaveopeningbalances':
-        this.dynamicData.url = this.apiConfigService.getLeaveopeningbalanceList;
-        this.dynamicData.component = LeaveopeningbalancesComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerLeaveopeningbalance;
-        this.dynamicData.updateUrl = this.apiConfigService.updateLeaveopeningbalance;
-        this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveopeningbalance;
-        this.dynamicData.listName = 'lopList';
-        this.dynamicData.primaryKey = 'empCode';
-        this.dynamicData.coustom = true;
-        return this.dynamicData;
-        break;
-      case 'leavetype':
-        this.dynamicData.url = this.apiConfigService.getLeaveTypeatLists;
-        this.dynamicData.component = LeavetypesComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerLeaveTypes;
-        this.dynamicData.updateUrl = this.apiConfigService.updateLeaveTypes;
-        this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveTypes;
-        this.dynamicData.listName = 'leavetypeList';
-        this.dynamicData.primaryKey = 'leaveCode';
-        this.dynamicData.coustom = true;
-        return this.dynamicData;
-        break;
-      case 'Leaverequest':
-        const user = JSON.parse(localStorage.getItem('user'));
-        this.dynamicData.url = String.Join('/', this.apiConfigService.getLeaveRequestList, user.userName);
-        //this.dynamicData.url = this.apiConfigService.getLeaveRequestList,user.userName;
-        //this.dynamicData.component = LeaveRequestComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerLeaveRequests;
-        this.dynamicData.updateUrl = this.apiConfigService.updateLeaveRequests;
-        //this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveTypes;
-        this.dynamicData.listName = 'LeaveApplDetailsList';
-        this.dynamicData.primaryKey = 'empCode';
-        this.dynamicData.coustom = true;
-        return this.dynamicData;
-        break;
       case 'ptmaster':
         this.dynamicData.url = this.apiConfigService.getPTList;
         this.dynamicData.component = PTMasterComponent;
@@ -73,8 +39,8 @@ export class PayrollService {
       case 'componentmaster':
         this.dynamicData.url = this.apiConfigService.getComponentsList;
         this.dynamicData.component = ComponentMasterComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerComponent;
-        this.dynamicData.updateUrl = this.apiConfigService.updateComponent;
+        this.dynamicData.registerUrl = String.Join('/', this.apiConfigService.registerComponent, user.companyCode ? user.companyCode : "0");
+        this.dynamicData.updateUrl = String.Join('/', this.apiConfigService.updateComponent, user.companyCode ? user.companyCode : "0");
         this.dynamicData.deleteUrl = this.apiConfigService.deleteComponent;
         this.dynamicData.listName = 'componentsList';
         this.dynamicData.primaryKey = 'componentCode';
@@ -93,17 +59,17 @@ export class PayrollService {
         return this.dynamicData;
         break;
         case 'pfmaster':
-          this.dynamicData.url = this.apiConfigService.getPfList;
-          this.dynamicData.component = PFMasterComponent;
-          this.dynamicData.registerUrl = this.apiConfigService.registerPF;
-          this.dynamicData.updateUrl = this.apiConfigService.updatePF;
-          this.dynamicData.deleteUrl = this.apiConfigService.deletePF;
-          this.dynamicData.listName = 'pfList';
-          this.dynamicData.primaryKey = 'id';
-          this.dynamicData.coustom = true;
-          return this.dynamicData;
-          break;
-          case 'CTCBreakup':
+        this.dynamicData.url = this.apiConfigService.getPfList;
+        this.dynamicData.component = PFMasterComponent;
+        this.dynamicData.registerUrl = String.Join('/', this.apiConfigService.registerPF, user.companyCode ? user.companyCode : "0");
+        this.dynamicData.updateUrl = String.Join('/', this.apiConfigService.updatePF, user.companyCode ? user.companyCode : "0");
+        this.dynamicData.deleteUrl = this.apiConfigService.deletePF;
+        this.dynamicData.listName = 'pfList';
+        this.dynamicData.primaryKey = 'id';
+        this.dynamicData.coustom = true;
+        return this.dynamicData;
+        break;
+        case 'CTCBreakup':
         this.dynamicData.url = this.apiConfigService.getCTCList;
         this.dynamicData.component = CTCBreakupComponent;
         this.dynamicData.listName = 'structuresList';

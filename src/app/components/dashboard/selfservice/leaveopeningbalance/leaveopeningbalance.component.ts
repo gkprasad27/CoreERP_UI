@@ -41,24 +41,31 @@ export class LeaveopeningbalanceComponent implements OnInit {
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
+
+    const user = JSON.parse(localStorage.getItem('user'));
+    let username = user.userName;
     this.modelFormData = this.formBuilder.group({
-      empCode: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2), Validators.maxLength(4)]],
+      empCode: [username],
+       // '', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(0), Validators.maxLength(4)]],
       year: [(new Date()).getFullYear()],
       leaveCode: ['', [Validators.required, Validators.minLength(2)]],
-      opbal: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2),Validators.maxLength(3)]],
+      opbal: ['', [Validators.required, Validators.pattern("^[0-9\.]*$"), Validators.minLength(0),Validators.maxLength(3)]],
       used: [null],
       userId: [null],
       timeStamp: [null],
-      balance: ['', [Validators.required, Validators.pattern("^[0-9]*$"), Validators.minLength(2),Validators.maxLength(3)]],
+      balance: ['', [Validators.required, Validators.pattern("^[0-9\.]*$"), Validators.minLength(0),Validators.maxLength(3)]],
       remarks: [null],
       compCode: [null]
     });
 
 
     this.formData = { ...data };
-    if (!isNullOrUndefined(this.formData.item)) {
+    if (!isNullOrUndefined(this.formData.item))
+    {
+      
+     
       this.modelFormData.patchValue(this.formData.item);
-      this.modelFormData.controls['empCode'].disable();
+      //this.modelFormData.controls['empCode'].disable();
       
     }
 
@@ -66,13 +73,12 @@ export class LeaveopeningbalanceComponent implements OnInit {
 
   ngOnInit()
   {
-    debugger;
-    const user = JSON.parse(localStorage.getItem('user'));
-    let username = user.userName;
+    //debugger;
+    
     this.getTableData();
     this.modelFormData.patchValue
       ({
-        empCode: username
+        //empCode: username
       });
     //this.getProductByProductCode(username);
   }

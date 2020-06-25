@@ -22,7 +22,7 @@ import {
   from './components/dashboard/Inventory/index';
 
 import {
-  CompanyComponent, MastersComponent, BranchesComponent, DivisionComponent,
+  CompanyComponent, MastersComponent, BranchesComponent, DivisionComponent,DesignationComponent,
   SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
   NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
   TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
@@ -39,7 +39,7 @@ import {
 } from './components/dashboard/payroll/index';
 
 import {
-  SelfserviceComponent, LeavetypeComponent,LeaveRequestComponent,LeaveopeningbalanceComponent,LeaveApprovalComponent
+  SelfserviceComponent, LeavetypeComponent,ApplyodComponent,LeaveRequestComponent,LeaveopeningbalanceComponent,LeaveApprovalComponent
   
 } from './components/dashboard/selfservice/index';
 
@@ -98,7 +98,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AccToAccClassComponent, VoucherTypesComponent,
     InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
     BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,
-    CompanyComponent, MastersComponent, BranchesComponent, DivisionComponent,
+    CompanyComponent, MastersComponent, BranchesComponent, DivisionComponent,DesignationComponent,
     SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
     NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
     TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
@@ -110,7 +110,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SelfserviceComponent,
     LeavetypeComponent,
     LeaveopeningbalanceComponent,
-    LeavetypesComponent,
+    LeavetypesComponent, ApplyodComponent,
     LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
     StructureCreationComponent, LeaveApprovalComponent,
     PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,
@@ -155,7 +155,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AccToAccClassComponent, VoucherTypesComponent,
     DeleteItemComponent, InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
     BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,
-    CompanyComponent, BranchesComponent, DivisionComponent,
+    CompanyComponent, BranchesComponent, DivisionComponent,DesignationComponent,
     SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
     NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
     TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
@@ -165,6 +165,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     LeavetypeComponent,
     LeaveopeningbalanceComponent,
     LeavetypesComponent,
+    ApplyodComponent,
     LeaveRequestComponent,
     PTMasterComponent, ComponentMasterComponent,
     StructureCreationComponent, LeaveApprovalComponent,

@@ -68,15 +68,6 @@ export class LeaveApprovalComponent implements OnInit {
   singleChecked(flag, column, row) {
     // debugger;
     console.log(flag, row, column)
-    // this.leaveRequestForm
-
-    //this.leaveApprovalList = [];
-    //this.leaveApprovalList.push(row);
-
-    // for (var i = 0; i < this.leaveApprovalList.length; i++) {
-    //  if (this.leaveApprovalList[i].isSelected)
-    //   this.leaveApprovalList.push(this.leaveApprovalList[i]);
-    // }
     let statusFlag = true;
     if (this.leaveApprovalList.length) {
       for (let l = 0; l < this.leaveApprovalList.length; l++) {
@@ -136,9 +127,6 @@ export class LeaveApprovalComponent implements OnInit {
   }
 
   save() {
-    // alert("hi");
-    //this.leaveApprovalList = [];
-    //debugger;
     console.log(this.leaveApprovalList);
     //this.dataSource = new MatTableDataSource(res.response['StockissuesDeatilList']);
 

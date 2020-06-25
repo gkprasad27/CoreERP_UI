@@ -353,13 +353,19 @@ export class ApiConfigService {
    registerBranch = `${this.environment.runtimeConfig.serverUrl}masters/Branches/RegisterBranch`;
    updateBranch = `${this.environment.runtimeConfig.serverUrl}masters/Branches/UpdateBranch`;
    deleteBranches = `${this.environment.runtimeConfig.serverUrl}masters/Branches/DeleteBranches`;
+  // --- designation
 
+  getDesignationsList = `${this.environment.runtimeConfig.serverUrl}masters/Designation/GetDesignationsList`;
+  registerDesignations = `${this.environment.runtimeConfig.serverUrl}masters/Designation/RegisterDesignation`;
+  updateDesignations = `${this.environment.runtimeConfig.serverUrl}masters/Designation/UpdateDesignation`;
+  deleteDesignations = `${this.environment.runtimeConfig.serverUrl}masters/Designation/DeleteDesignation`;
 
    // --- division
-   getDivisionsList = `${this.environment.runtimeConfig.serverUrl}masters/Division/GetDivisionsList`;
-   registerDivision = `${this.environment.runtimeConfig.serverUrl}masters/Division/RegisterDivision`;
-   updateDivision = `${this.environment.runtimeConfig.serverUrl}masters/Division/UpdateDivision`;
-   deleteDivision = `${this.environment.runtimeConfig.serverUrl}masters/Division/DeleteDivision`;
+  getDivisionsList = `${this.environment.runtimeConfig.serverUrl}masters/Division/GetDivisionsList`;
+  registerDivision = `${this.environment.runtimeConfig.serverUrl}masters/Division/RegisterDivision`;
+  updateDivision = `${this.environment.runtimeConfig.serverUrl}masters/Division/UpdateDivision`;
+  deleteDivision = `${this.environment.runtimeConfig.serverUrl}masters/Division/DeleteDivision`;
+  
 
    // --- Tax Master
    GetTaxTypes = `${this.environment.runtimeConfig.serverUrl}masters/TaxMaster/GetTaxTypes`;
@@ -403,10 +409,14 @@ export class ApiConfigService {
 
 
    // --- CostCenter
-   GetCostCenterList = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/GetCostCenterList`;
-   registerCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/RegisterCostCenter`;
-   updateCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/UpdateCostCenter`;
-   deleteCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/DeleteCostCenter`;
+  GetCostCenterList = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/GetCostCenterList`;
+  registerCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/RegisterCostCenter`;
+  updateCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/UpdateCostCenter`;
+  deleteCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/DeleteCostCenter`;
+   //GetCostCenterList = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/GetCostCenterList`;
+   //registerCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/RegisterCostCenter`;
+   //updateCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/UpdateCostCenter`;
+   //deleteCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/DeleteCostCenter`;
 
 
    // --- PartnerCreation
@@ -424,17 +434,25 @@ export class ApiConfigService {
    deletePartnerCreation = `${this.environment.runtimeConfig.serverUrl}masters/PartnerCreation/DeletePartnerCreation`;
 
    // --- ProfitCenter
-   getProfitCenterList = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/GetProfitCenterList`;
-   registerProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/RegisterProfitCenters`;
-   updateProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/UpdateProfitCenters`;
-   deleteProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/DeleteProfitCenters`;
+  getProfitCenterList = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/GetProfitCenterList`;
+  registerProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/RegisterProfitCenters`;
+  updateProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/UpdateProfitCenters`;
+  deleteProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/DeleteProfitCenters`;
+   //getProfitCenterList = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/GetProfitCenterList`;
+   //registerProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/RegisterProfitCenters`;
+   //updateProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/UpdateProfitCenters`;
+   //deleteProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/DeleteProfitCenters`;
 
 
    // --- Segment
-   getSegmentList = `${this.environment.runtimeConfig.serverUrl}masters/Segment/GetSegmentList`;
-   registerSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/RegisterSegment`;
-   updateSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/UpdateSegment`;
-   deleteSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/DeleteSegment`;
+  getSegmentList = `${this.environment.runtimeConfig.serverUrl}masters/Segment/GetSegmentList`;
+  registerSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/RegisterSegment`;
+  updateSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/UpdateSegment`;
+  deleteSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/DeleteSegment`;
+   //getSegmentList = `${this.environment.runtimeConfig.serverUrl}masters/Segment/GetSegmentList`;
+   //registerSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/RegisterSegment`;
+   //updateSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/UpdateSegment`;
+   //deleteSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/DeleteSegment`;
 
    // --- unit
    getunitList = `${this.environment.runtimeConfig.serverUrl}masters/Unit/GetUnitList`;
@@ -547,7 +565,7 @@ export class ApiConfigService {
   //updateLeaveRequests = `http://localhost:51414/api/Selfservice/LeaveRequest/UpdateLeaveapplying`;
   //getEmpCode = `http://localhost:51414/api/Selfservice/LeaveRequest/GetEmployeeCode`;
  // getEmpName = `http://localhost:51414/api/Selfservice/LeaveRequest/GetEmpName`;
-
+  getnoofdayscount = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/Getnoofdayscount`;
   getEmpCode = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetEmployeeCode`;
   getEmpName = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetEmpName`;
   updateLeaveRequests = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/UpdateLeaveapplying`;
@@ -556,25 +574,47 @@ export class ApiConfigService {
  //getLeaveRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/GetLeaveApplDetailsList`;
   registerLeaveRequests = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveRequest/RegisterLeaveapplying`;
 
+
+  //Applyod
+  applyodRequestList = `http://localhost:51414/api/Selfservice/Applyod/GetApplyodDetailsList`;
+  registerodRequest = `http://localhost:51414/api/Selfservice/Applyod/RegisterApplyOddataDetails`;
+  updateapplyodRequest = `http://localhost:51414/api/Selfservice/Applyod/GetApplyodDetailsList`;
+
+
+
    //PT Master
-   getPTList = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/GetPTList`;
-   registerPT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/RegisterPT`;
-   updatePT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/UpdatePT`;
-   deletePT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/DeletePT`;
+  getPTList = `http://localhost:51414/api/payroll/PTMaster/GetPTList`;
+  registerPT = `http://localhost:51414/api/payroll/PTMaster/RegisterPT`;
+  updatePT = `http://localhost:51414/api/payroll/PTMaster/UpdatePT`;
+  deletePT = `http://localhost:51414/api/payroll/PTMaster/DeletePT`;
+   //getPTList = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/GetPTList`;
+   //registerPT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/RegisterPT`;
+   //updatePT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/UpdatePT`;
+   //deletePT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/DeletePT`;
 
    // Component Master
-   getComponentsList = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/GetComponentsList`;
-   registerComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/RegisterComponent`;
-   updateComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/UpdateComponent`;
-   deleteComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/DeleteComponent`;
-   getConfigurationList = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/GetConfigurationList`;
+    getComponentsList = `http://localhost:51414/api/payroll/ComponentMaster/GetComponentsList`;
+  registerComponent = `http://localhost:51414/api/payroll/ComponentMaster/RegisterComponent`;
+  getConfigurationList = `http://localhost:51414/api/payroll/ComponentMaster/GetConfigurationList`;
+  updateComponent = `http://localhost:51414/api/payroll/ComponentMaster/UpdateComponent`;
+  deleteComponent = `http://localhost:51414/api/payroll/ComponentMaster/DeleteComponent`;
+   //getComponentsList = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/GetComponentsList`;
+   //registerComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/RegisterComponent`;
+   //updateComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/UpdateComponent`;
+   //deleteComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/DeleteComponent`;
+  // getConfigurationList = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/GetConfigurationList`;
 
    //PF Master
-   getPfList = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/GetPFList`;
-   registerPF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/RegisterPF`;
-   updatePF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/UpdatePF`;
-   deletePF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/DeletePF`;
-   getPfComponentsList = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/GetComponentsList`;
+  getPfComponentsList = `http://localhost:51414/api/payroll/PFMaster/GetComponentsList`;
+  getPfList = `http://localhost:51414/api/payroll/PFMaster/GetPFList`;
+  registerPF = `http://localhost:51414/api/payroll/PFMaster/RegisterPF`;
+  updatePF = `http://localhost:51414/api/payroll/PFMaster/UpdatePF`;
+  deletePF = `http://localhost:51414/api/payroll/PFMaster/DeletePF`;
+   //getPfList = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/GetPFList`;
+   //registerPF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/RegisterPF`;
+   //updatePF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/UpdatePF`;
+   //deletePF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/DeletePF`;
+   //getPfComponentsList = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/GetComponentsList`;
 
    //CTC Breakup
    getCTCList = `${this.environment.runtimeConfig.serverUrl}payroll/CTCBreakup/GetCTCList`;

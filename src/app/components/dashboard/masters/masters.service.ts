@@ -22,6 +22,7 @@ import { MSHSDRatesComponent} from './mshsdrates/mshsdrates.component';
 import { ProductComponent} from './product/product.component';
 import { MemberMasterComponent } from './member-master/member-master.component';
 import { VehicleComponent } from './member-master/vehicle/vehicle.component';
+import { DesignationComponent } from './designation/designation.component';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +58,17 @@ export class MastersService {
       this.dynamicData.listName = 'branchesList';
         this.dynamicData.primaryKey = 'branchCode';
       return this.dynamicData;
-      break;
+        break;
+      case 'designation':
+        this.dynamicData.url = this.apiConfigService.getDesignationsList;
+        this.dynamicData.component = DesignationComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerDesignations;
+        this.dynamicData.updateUrl = this.apiConfigService.updateDesignations;
+        this.dynamicData.deleteUrl = this.apiConfigService.deleteDesignations;
+        this.dynamicData.listName = 'designationsList';
+        this.dynamicData.primaryKey = 'designationId';
+        return this.dynamicData;
+        break;
      case 'division':
       this.dynamicData.url = this.apiConfigService.getDivisionsList;
       this.dynamicData.component = DivisionComponent;
@@ -78,7 +89,7 @@ export class MastersService {
       this.dynamicData.primaryKey = 'seqId';
       return this.dynamicData;
       break;
-     case 'profitCenter':
+      case 'profitCenter':
       this.dynamicData.url = this.apiConfigService.getProfitCenterList;
       this.dynamicData.component = ProfitCenterComponent;
       this.dynamicData.registerUrl = this.apiConfigService.registerProfitCenters;
@@ -98,7 +109,7 @@ export class MastersService {
       this.dynamicData.primaryKey = 'code';
       return this.dynamicData;
       break;
-     case 'costCenter':
+     case 'costcenter':
       this.dynamicData.url = this.apiConfigService.GetCostCenterList;
       this.dynamicData.component = CostCenterComponent;
       this.dynamicData.registerUrl = this.apiConfigService.registerCostCenter;

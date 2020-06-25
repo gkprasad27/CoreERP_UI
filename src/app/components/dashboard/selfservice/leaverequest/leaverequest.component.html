@@ -38,12 +38,19 @@
           </mat-select>
         </mat-form-field>
 
+        <!--<mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="{{'Leaverequest.leaveFrom' | translate }}"
+                 formControlName="leaveFrom" appFocusOnEnter tabIndex="4" (click)="picker.open()" readonly>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>-->
+
         <mat-form-field>
-          <input matInput [matDatepicker]="picker2" placeholder="{{'Leaverequest.leaveFrom' | translate }}"
-                 (dateChange)="orgValueChange()" formControlName="leaveFrom">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
+    <input matInput [matDatepicker]="picker2" placeholder="{{'Leaverequest.leaveFrom' | translate }}"
+           (dateChange)="orgValueChange()" formControlName="leaveFrom">
+    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+    <mat-datepicker #picker2></mat-datepicker>
+  </mat-form-field>
 
         <mat-form-field>
           <mat-label>Session</mat-label>
@@ -54,12 +61,18 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field>
+        <!--<mat-form-field>
           <input matInput [matDatepicker]="picker3" placeholder="{{'Leaverequest.leaveTo' | translate }}"
-                 (dateChange)="leaveToValueChange()" formControlName="leaveTo">
+                 formControlName="leaveTo" appFocusOnEnter tabIndex="4" (click)="picker3.open()" readonly>
           <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
           <mat-datepicker #picker3></mat-datepicker>
-        </mat-form-field>
+        </mat-form-field>-->
+        <mat-form-field>
+    <input matInput [matDatepicker]="picker3" placeholder="{{'Leaverequest.leaveTo' | translate }}"
+           (dateChange)="leaveToValueChange()" formControlName="leaveTo">
+    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+    <mat-datepicker #picker3></mat-datepicker>
+  </mat-form-field>
 
         <mat-form-field>
           <mat-label>Session</mat-label>
@@ -71,7 +84,7 @@
         </mat-form-field>
 
         <mat-form-field class="form-element">
-          <input matInput placeholder="{{'Leaverequest.leaveDays' | translate }}" formControlName="leaveDays"   type="number" appFocusOnEnter tabIndex="3">
+          <input matInput placeholder="{{'Leaverequest.leaveDays' | translate }}" formControlName="leaveDays" readonly="readonly" type="number" appFocusOnEnter tabIndex="3">
         </mat-form-field>
 
 
@@ -83,9 +96,6 @@
             <div *ngIf="formControls.reason.errors.required">Reason is required </div>
           </mat-error>
         </mat-form-field>
-        <!--<mat-form-field class="form-element">
-          <input matInput placeholder="{{'Leaverequest.reason' | translate }}" formControlName="reason" appFocusOnEnter tabIndex="4">
-        </mat-form-field>-->
       </div>
       <mat-divider></mat-divider>
 

@@ -16,20 +16,20 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 interface Session {
- value: string;
- viewValue: string;
+  value: string;
+  viewValue: string;
 }
 //interface NumberType {
 //  value: string;
 //  viewValue: string;
 //}
 @Component({
-  selector: 'app-leaverequest',
-  templateUrl: './leaverequest.component.html',
-  styleUrls: ['./leaverequest.component.scss']
+  selector: 'app-applyod',
+  templateUrl: './applyod.component.html',
+  styleUrls: ['./applyod.component.scss']
 })
 
-export class LeaveRequestComponent implements OnInit {
+export class ApplyodComponent implements OnInit {
 
 
   dataSource: MatTableDataSource<any>;
@@ -42,16 +42,19 @@ export class LeaveRequestComponent implements OnInit {
   companyList: any;
   brandList: any;
   MaterialGroupsList: any;
-  SizesList: any; 
+  SizesList: any;
   getProductByProductCodeArray = [];
   getProductByProductNameArray: any[];
   applDate = new FormControl(new Date());
 
   sessions: Session[] =
-   [
-     { value: 'FirstHalf', viewValue: 'FirstHalf' },
-     { value: 'SecondHalf', viewValue: 'SecondHalf' }
-   ];
+    [
+      { value: 'Train', viewValue: 'Train' },
+      { value: 'Bus', viewValue: 'Bus' },
+      { value: 'Air', viewValue: 'Air' },
+      { value: 'Car', viewValue: 'Car' },
+      { value: 'Own Vechile', viewValue: 'Own Vechile' },
+    ];
   EmpName: any;
   pipe = new DatePipe('en-US');
   now = Date.now();
@@ -61,53 +64,51 @@ export class LeaveRequestComponent implements OnInit {
     private alertService: AlertService,
     private formBuilder: FormBuilder,
     private spinner: NgxSpinnerService,
-    public dialogRef: MatDialogRef<LeaveRequestComponent>,
+    public dialogRef: MatDialogRef<ApplyodComponent>,
     private commonService: CommonService,
     private apiConfigService: ApiConfigService,
     // @Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any)
-  {
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.modelFormData = this.formBuilder.group({
-      empCode: [null],
-      empName: [null],
       sno: ['0'],
+      empCode: [null],
       applDate: [null],
-      leaveCode: [null],
-      leaveFrom: [null],
-      leaveTo: [null],
-      leaveDays: [null],
-      leaveRemarks: [null],
+      fromDate: [null],
+      toDate: [null],
+      fromTime: [null],
+      toTime: [null],
+      remarks: [null],
+      recBy: [null],
+      recStatus: [null],
+      recDate: [null],
+      apprBy: [null],
+      apprStatus: [null],
+      apprDate: [null],
+      reason: [null],
+      acceptedBy: [null],
+      timeStamp: [null],
+      skip: [null],
+      transport: [null],
+      visitingPlace: [null],
+      empName: [null],
+      visitingPlacePurpus: [null],
+      type: [null],
       status: [null],
       approvedId: [null],
       approveName: [null],
-      reason: ['', [Validators.required, Validators.pattern('^[a-zA-Z \-\']+'), Validators.minLength(2), Validators.maxLength(40)]],
-      authorizedStatus: [null],
-      authorizedId: [null],
-      formno: [null],
-      trmno: [null],
-      apprDate: [null],
-      authDate: [null],
-      accptedId: [null],
-      accDate: [null],
-      acceptedRemarks: [null],
-      skip: [null],
-      lopdays: [null],
       reportId: [null],
       reportName: [null],
-      recomendedby: [null],
-      companyCode: [null],
-      companyName: [null],
+      code: [null],
+      name: [null],
       rejectedId: [null],
       rejectedName: [null],
-      countofLeaves: [null],
-      chkAcceptReject: [null],
-      session1: [null],
-      session2: null
+      noOfDays: [null],
+      department: [null]
     });
 
-    
-    
+
+
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
@@ -116,8 +117,7 @@ export class LeaveRequestComponent implements OnInit {
 
   }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     const user = JSON.parse(localStorage.getItem('user'));
     this.getTableData();
     this.modelFormData.patchValue
@@ -131,7 +131,7 @@ export class LeaveRequestComponent implements OnInit {
 
   //load data
   getLeaveApplDetailsList() {
-   // debugger;
+    // debugger;
     const user = JSON.parse(localStorage.getItem('user'));
     const getLeaveApplDetailsListUrl = String.Join('/', this.apiConfigService.getLeaveRequestList, user.userName);
     this.apiService.apiGetRequest(getLeaveApplDetailsListUrl)
@@ -151,15 +151,13 @@ export class LeaveRequestComponent implements OnInit {
 
 
   ///gettting NoofdaysCount code
-  NoofdaysCount()
-  {
+  NoofdaysCount() {
     //debugger;
-    var date1 = this.pipe.transform(this.modelFormData.get('leaveFrom').value, 'dd-MM-yyyy');
-    var date2 = this.pipe.transform(this.modelFormData.get('leaveTo').value, 'dd-MM-yyyy');
+    var date1 = this.pipe.transform(this.modelFormData.get('fromDate').value, 'dd-MM-yyyy');
+    var date2 = this.pipe.transform(this.modelFormData.get('toDate').value, 'dd-MM-yyyy');
 
-    var session1 = this.modelFormData.get('session1').value
-    var session2 = this.modelFormData.get('session2').value
-
+    var session1 = null;
+    var session2 = null;
     if (!isNullOrUndefined(date1)) {
       const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getnoofdayscount);
       this.apiService.apiPostRequest(getProductByProductCodeUrl, { Code: date1, date2, session1, session2 }).subscribe(
@@ -171,7 +169,7 @@ export class LeaveRequestComponent implements OnInit {
                 this.EmpName = res.response['days']
                 this.modelFormData.patchValue
                   ({
-                    leaveDays: res.response['days']
+                    noOfDays: res.response['days']
                   });
                 this.spinner.hide();
               }
@@ -183,174 +181,17 @@ export class LeaveRequestComponent implements OnInit {
     }
   }
 
-  sessionevent()
-  {
-    this.NoofdaysCount();
-  }
-  orgValueChange()
-  {
-    //debugger;
-    this.NoofdaysCount();
-  }
-  leaveToValueChange()
-  {
-    this.NoofdaysCount();
-  }
   
-  sessionevent2()
-  {
+  orgValueChange() {
     //debugger;
-   //const user = JSON.parse(localStorage.getItem('user'));
-    //let username = user.userName;
-    //var date1 = this.modelFormData.get('leaveFrom').value
-    //var date2 = this.modelFormData.get('leaveTo').value
-    //let da1 = new Date(date1);
-    //var da2 = new Date(date2);
-    //var date = new Date(date1);
-
-    var date1 = this.pipe.transform(this.modelFormData.get('leaveFrom').value, 'dd-MM-yyyy');
-    var date2 = this.pipe.transform(this.modelFormData.get('leaveTo').value, 'dd-MM-yyyy');
-    //var momentVariable = moment(date, 'MM-DD-YYYY');  
-    //let str = date.toDateString();  
-    var session1 = this.modelFormData.get('session1').value
-    var session2 = this.modelFormData.get('session2').value
-
-    if (!isNullOrUndefined(date1))
-    {
-      const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getnoofdayscount);
-      this.apiService.apiPostRequest(getProductByProductCodeUrl, { Code: date1, date2,session1,session2 }).subscribe(
-        response => {
-          const res = response.body;
-          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-            if (!isNullOrUndefined(res.response)) {
-              if (!isNullOrUndefined(res.response['days'])) {
-                this.EmpName = res.response['days']
-                this.modelFormData.patchValue
-                  ({
-                    leaveDays: res.response['days']
-                  });
-                this.spinner.hide();
-              }
-            }
-          }
-        });
-    } else {
-      this.getProductByProductCodeArray = [];
-    }
+    this.NoofdaysCount();
+  }
+  leaveToValueChange() {
+    this.NoofdaysCount();
   }
 
 
-  //sessionevents() {
-  //  let countdays = 0;
-  //  let Difference_In_Days = 0;
-  //  //debugger;
-  //  var date1 = this.modelFormData.get('leaveFrom').value
-  //  var date2 = this.modelFormData.get('leaveTo').value
-
-  //  //var date1 = this.modelFormData.get('leaveFrom').value
-  //  //var date2 = this.modelFormData.get('leaveTo').value
-  //  var da1 = new Date(date1);
-  //  var da2 = new Date(date2);
-  //  var session1 = this.modelFormData.get('session1').value
-  //  var session2 = this.modelFormData.get('session2').value
-  //  if ((session1 == "FirstHalf") && (session2 == "FirstHalf") && (da1 == da2)) {
-  //    countdays = 0.5;
-  //  }
-  //  if ((session1 == "FirstHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 1.5;
-  //  }
-  //  if ((session1 == "SecondHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 2.0;
-  //  }
-  //  var Difference_In_Time = (da2.getTime() - da1.getTime());
-  //  // To calculate the no. of days between two dates 
-  //  Difference_In_Days = Difference_In_Time / (24 * 60 * 60 * 1000);
-  //  //if (Difference_In_Days == 0)
-  //  //{
-  //  //  Difference_In_Days = 1;
-  //  //}
-  //  this.modelFormData.patchValue
-  //    ({
-  //      leaveDays: (Difference_In_Days + countdays)
-  //    });
-  //}
-  //orgValueChanges()
-  //{
-  //  let countdays = 0;
-  //  let Difference_In_Days = 0;
-  //  //debugger;
-  //  var date1 = this.modelFormData.get('leaveFrom').value
-  //  var date2 = this.modelFormData.get('leaveTo').value
-  //  var da1 = new Date(date1);
-  //  var da2 = new Date(date2);
-   
-  //  var session1 = this.modelFormData.get('session1').value
-  //  var session2 = this.modelFormData.get('session2').value
-  //  if ((session1 == "FirstHalf") && (session2 == "FirstHalf") && (da1 == da2))
-  //  {
-  //     countdays = 0.5;
-  //  }
-  //  if ((session1 == "FirstHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 1.5;
-  //  }
-  //  if ((session1 == "SecondHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 2.0;
-  //  }
-  //  var Difference_In_Time = (da2.getTime() - da1.getTime());
-  //  // To calculate the no. of days between two dates 
-  //   Difference_In_Days = Difference_In_Time / (24 * 60 * 60 * 1000);
-  //  //if (Difference_In_Days == 0)
-  //  //{
-  //  //  Difference_In_Days = 1;
-  //  //}
-  //  this.modelFormData.patchValue
-  //    ({
-  //      leaveDays: (Difference_In_Days + countdays)
-  //    });
-  //}
-  //leaveToValueChanges()
-  //{
-  //  //debugger;
-  //  let countdays = 0;
-  //  let Difference_In_Days = 0;
-
-  //  var date11 = this.modelFormData.get('leaveFrom').value
-  //  var date12 = this.modelFormData.get('leaveTo').value
-  //  var da1 = new Date(date11);
-  //  var da2 = new Date(date12); 
-
-  //  var session1 = this.modelFormData.get('session1').value
-  //  var session2 = this.modelFormData.get('session2').value
-  //  if (session1 != null && session2 != null)
-  //  {
-  //    if ((session1 == "FirstHalf") && (session2 == "FirstHalf") && (da1 == da2)) {
-  //      countdays = 0.5;
-  //    }
-  //    if ((session1 == "FirstHalf") && (session2 == "SecondHalf")) {
-  //      countdays = 1.5;
-  //    }
-  //    if ((session1 == "SecondHalf") && (session2 == "SecondHalf")) {
-  //      countdays = 2.0;
-  //    }
-  //  }
-   
-
-  //  var Difference_In_Time = da2.getTime() - da1.getTime();
-  //  Difference_In_Days = Difference_In_Time / (1000 * 3600  *24/*24 * 60 * 60 * 1000*/);
-  //  //if (Difference_In_Days == 0)
-  //  //{
-  //  //  Difference_In_Days = 1;
-  //  //}
-  //  this.modelFormData.patchValue
-  //    ({
-  //      leaveDays: (Difference_In_Days + countdays)
-  //    });
-  //}
-
-
-
-  getTableDataonempcodechangevent()
-  {
+  getTableDataonempcodechangevent() {
 
     this.spinner.show();
     const getCompanyUrl = String.Join('/', this.apiConfigService.getLeaveTypeatList, this.modelFormData.get('empCode').value);
@@ -375,7 +216,7 @@ export class LeaveRequestComponent implements OnInit {
     const user = JSON.parse(localStorage.getItem('user'));
     let username = user.userName;
     this.spinner.show();
-    const getCompanyUrl = String.Join('/', this.apiConfigService.getLeaveTypeatList,username);
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getLeaveTypeatList, username);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
         response => {
@@ -395,7 +236,7 @@ export class LeaveRequestComponent implements OnInit {
 
   getProductByProductCode(value) {
     //debugger;
-    
+
     if (!isNullOrUndefined(value) && value != '') {
       const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getEmpCode);
       this.apiService.apiPostRequest(getProductByProductCodeUrl, { Code: value }).subscribe(
@@ -409,18 +250,18 @@ export class LeaveRequestComponent implements OnInit {
               }
             }
           }
-          
+
         });
     } else {
       this.getProductByProductCodeArray = [];
     }
   }
-  
+
   onSearchChange(code) {
     //debugger;
     let genarateVoucherNoUrl;
     if (!isNullOrUndefined(code)) {
-      genarateVoucherNoUrl = String.Join('/', this.apiConfigService.getEmpName,code.value);
+      genarateVoucherNoUrl = String.Join('/', this.apiConfigService.getEmpName, code.value);
     } else {
       genarateVoucherNoUrl = String.Join('/', this.apiConfigService.getEmpName, this.modelFormData.get('empCode').value);
     }
@@ -443,7 +284,7 @@ export class LeaveRequestComponent implements OnInit {
       });
   }
 
-  
+
 
   showErrorAlert(caption: string, message: string) {
     // this.alertService.openSnackBar(caption, message);
@@ -452,17 +293,15 @@ export class LeaveRequestComponent implements OnInit {
   get formControls() { return this.modelFormData.controls; }
 
 
-  save()
-  {
-   // debugger;
-    if (this.modelFormData.invalid)
-    {
+  save() {
+    // debugger;
+    if (this.modelFormData.invalid) {
       return;
     }
 
     this.modelFormData.patchValue({
-     leaveTo: this.commonService.formatDate(this.modelFormData.get('leaveTo').value),
-     leaveFrom: this.commonService.formatDate(this.modelFormData.get('leaveFrom').value)
+      leaveTo: this.commonService.formatDate(this.modelFormData.get('toDate').value),
+      leaveFrom: this.commonService.formatDate(this.modelFormData.get('fromDate').value)
     });
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);

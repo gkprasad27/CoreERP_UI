@@ -31,6 +31,31 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'branches'
         },
         {
+          displayName: 'Designation',
+          iconName: 'speaker_notes',
+          route: 'designation'
+        },
+        {
+          displayName: 'Division',
+          iconName: 'speaker_notes',
+          route: 'division'
+        },
+        {
+          displayName: 'Segment',
+          iconName: 'speaker_notes',
+          route: 'segment'
+        },
+        {
+          displayName: 'CostCenter',
+          iconName: 'speaker_notes',
+          route: 'costcenter'
+        },
+        {
+          displayName: 'ProfitCenter',
+          iconName: 'speaker_notes',
+          route: 'profitCenter'
+        },
+        {
           displayName: 'Employee',
           iconName: 'feedback',
           route: 'employee'
@@ -139,82 +164,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'speaker_notes',
           route: 'materialgroups'
         },
-        {
-          displayName: 'Payroll',
-          iconName: 'recent_actors',
-          route: 'payroll',
-          children: [
-            {
-              displayName: 'Leavebalances',
-              iconName: 'speaker_notes',
-              route: 'leaveopeningbalances'
-            },
-            {
-              displayName: 'LeaveType',
-              iconName: 'speaker_notes',
-              route: 'leavetype'
-            },
-            {
-              displayName: 'LeaveRequest',
-              iconName: 'speaker_notes',
-              route: 'Leaverequest'
-            },
-            {
-              displayName: 'Component Master',
-              iconName: 'speaker_notes',
-              route: 'componentmaster'
-            },
-            {
-              displayName: 'PT Master',
-              iconName: 'speaker_notes',
-              route: 'ptmaster'
-
-            },
-            {
-              displayName: 'CTCBreakup',
-              iconName: 'account_balance',
-              route: 'CTCBreakup'
-            },
-            {
-              displayName: 'Structure Creation',
-              iconName: 'account_balance',
-              route: 'structureCreation'
-            },
-            {
-              displayName: 'Leave Approval',
-              iconName: 'account_balance',
-              route: 'leaveApproval'
-            },
-            {
-              displayName: 'PF Master',
-              iconName: 'account_balance',
-              route: 'pfmaster'
-            },
-            {
-              displayName: 'Salary Process',
-              iconName: 'account_balance',
-              route: 'salaryprocess'
-            }
-
-          ]
-        },
-        {
-          displayName: 'Sales',
-          iconName: 'videocam',
-          route: 'sales',
-          children: [
-            {
-              displayName: 'Sales Invoice',
-              iconName: 'videocam',
-              route: 'salesInvoice',
-            },
-            {
-              displayName: 'Sales Return',
-              iconName: 'videocam',
-              route: 'salesReturn',
-            }
-          ]
-        },
       ]
     },
 
@@ -234,6 +183,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'leavetype'
         },
         {
+          displayName: 'Applyod',
+          iconName: 'speaker_notes',
+          route: 'applyod'
+        },
+        {
           displayName: 'LeaveRequest',
           iconName: 'speaker_notes',
           route: 'Leaverequest'
@@ -242,68 +196,14 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Leave Approval',
           iconName: 'account_balance',
           route: 'leaveApproval'
-        },
-        //{
-        //  displayName: 'Component Master',
-        //  iconName: 'speaker_notes',
-        //  route: 'componentmaster'
-        //},
-        //{
-        //  displayName: 'PT Master',
-        //  iconName: 'speaker_notes',
-        //  route: 'ptmaster'
-
-        //},
-        //{
-        //  displayName: 'CTCBreakup',
-        //  iconName: 'account_balance',
-        //  route: 'CTCBreakup'
-        //},
-        //{
-        //  displayName: 'Structure Creation',
-        //  iconName: 'account_balance',
-        //  route: 'structureCreation'
-        //},
-        //{
-        //  displayName: 'Leave Approval',
-        //  iconName: 'account_balance',
-        //  route: 'leaveApproval'
-        //},
-        //{
-        //  displayName: 'PF Master',
-        //  iconName: 'account_balance',
-        //  route: 'pfmaster'
-        //},
-        //{
-        //  displayName: 'Salary Process',
-        //  iconName: 'account_balance',
-        //  route: 'salaryprocess'
-        //}
-
+        }
       ]
     },
-
-
     {
       displayName: 'Payroll',
       iconName: 'recent_actors',
       route: 'payroll',
       children: [
-        {
-          displayName: 'Leavebalances',
-          iconName: 'speaker_notes',
-          route: 'leaveopeningbalances'
-        },
-        {
-          displayName: 'LeaveType',
-          iconName: 'speaker_notes',
-          route: 'leavetype'
-        },
-        {
-          displayName: 'LeaveRequest',
-          iconName: 'speaker_notes',
-          route: 'Leaverequest'
-        },
         {
           displayName: 'Component Master',
           iconName: 'speaker_notes',
@@ -326,11 +226,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'structureCreation'
         },
         {
-          displayName: 'Leave Approval',
-          iconName: 'account_balance',
-          route: 'leaveApproval'
-        },
-        {
           displayName: 'PF Master',
           iconName: 'account_balance',
           route: 'pfmaster'
@@ -343,9 +238,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
       ]
     },
-
-
-
 
     {
       displayName: 'Sales',

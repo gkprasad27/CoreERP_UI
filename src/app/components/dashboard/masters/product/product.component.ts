@@ -128,8 +128,7 @@ export class ProductComponent implements OnInit {
                       cgst: res.response['TaxList'][0]['cgst'],
                       sgst: res.response['TaxList'][0]['sgst'],
                       igst: res.response['TaxList'][0]['igst'],
-                      totalGst:res.response['TaxList'][0]['totalGst'],
-                      totalPercentageGst:res.response['TaxList'][0]['totalPercentageGst']
+                      totalGst:res.response['TaxList'][0]['totalGst']
                     });
                     this.spinner.hide();
                   }

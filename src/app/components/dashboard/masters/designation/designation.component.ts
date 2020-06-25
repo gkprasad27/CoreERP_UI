@@ -6,50 +6,52 @@ import { MatDialog } from '@angular/material';
 
 import { AlertService } from '../../../../services/alert.service';
 
-
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiConfigService } from '../../../../services/api-config.service';
+import { CommonService } from '../../../../services/common.service';
 import { StatusCodes } from '../../../../enums/common/common';
 
 @Component({
-  selector: 'app-segment',
-  templateUrl: './segment.component.html',
-  styleUrls: ['./segment.component.scss']
+  selector: 'app-designation',
+  templateUrl: './designation.component.html',
+  styleUrls: ['./designation.component.scss']
 })
-export class SegmentComponent implements OnInit {
-
+export class DesignationComponent implements OnInit {
 
   modelFormData: FormGroup;
-  isSubmitted  =  false;
+  isSubmitted = false;
   formData: any;
+  apiConfigService: any;
+  apiService: any;
+  companyList: any;
 
 
   constructor(
-    private apiService: ApiService,
-    private apiConfigService: ApiConfigService,
-    private spinner: NgxSpinnerService,
     private alertService: AlertService,
     private formBuilder: FormBuilder,
-    public dialogRef: MatDialogRef<SegmentComponent>,
+    public dialogRef: MatDialogRef<DesignationComponent>,
+    private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      this.modelFormData  =  this.formBuilder.group({
-       
-        id: [null, [Validators.required, Validators.minLength(1)]],
-        name: [null, [Validators.required, Validators.minLength(0), Validators.maxLength(40)]],
-        seqId: ['0'],
-        active: [null]
-      });
+    this.modelFormData = this.formBuilder.group({
+      designationId: ['0'],
+      designationName: ['', [Validators.required, Validators.minLength(2)]],
+      leaveDays: [null],
+      advanceAmount: [null],
+      narration: [null],
+      extraDate: [null],
+      extra1: [null],
+      extra2: [null]
+    });
 
-      this.formData = {...data};
-      if (!isNullOrUndefined(this.formData.item)) {
-        this.modelFormData.patchValue(this.formData.item);
-       this.modelFormData.controls['id'].disable();
-      }
+
+    this.formData = { ...data };
+    if (!isNullOrUndefined(this.formData.item)) {
+      this.modelFormData.patchValue(this.formData.item);
+      //this.modelFormData.controls['code'].disable();
+    }
 
   }
 
@@ -63,7 +65,7 @@ export class SegmentComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['id'].enable();
+    //this.modelFormData.controls['code'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

@@ -226,9 +226,46 @@
     "phone":"Phone",
     "email":"Email",
     "gstin":"GST"
-    
+  }, 
+  "applyod": {
+    "title": "Applyod",
+      "sno": "Sno",
+      "empCode": "EmpCode",
+      "applDate": "ApplDate",
+      "fromDate": "FromDate",
+      "toDate": "ToDate",
+      "fromTime": "FromTime",
+      "toTime": "ToTime",
+      "remarks": "Remarks",
+      "recBy": "recBy",
+      "recStatus": "recStatus",
+      "recDate": "recDate",
+      "apprBy": "ApprBy",
+      "apprStatus": "ApprStatus",
+      "apprDate": "apprDate",
+      "reason": "Reason",
+      "acceptedBy": "AcceptedBy",
+      "timeStamp": "timeStamp",
+      "skip": "skip",
+      "transport": "Transport",
+      "visitingPlace": "VisitingPlace",
+      "empName": "EmpName",
+      "visitingPlacePurpus": "VisitingPlacePurpus",
+      "type": "Type",
+      "status": "Status",
+      "approvedId": "ApprovedId",
+      "approveName": "ApproveName",
+      "reportId": "ReportId",
+      "reportName": "ReportName",
+      "code": "code",
+      "name": "name",
+      "rejectedId": "RejectedId",
+      "rejectedName": "RejectedName",
+      "noOfDays": "NoOfDays",
+      "department": "Department"
   },
-  "costCenter": {
+
+  "costcenter": {
     "title": "CostCenter",
     "code": "Code",
     "name": "Name",
@@ -1105,3 +1142,4 @@
     "narration":"Narration"
   }
 }
+

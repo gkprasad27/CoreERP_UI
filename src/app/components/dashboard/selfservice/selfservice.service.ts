@@ -5,6 +5,7 @@ import { LeavetypeComponent } from './leavetype/leavetype.component';
 import { LeaveopeningbalanceComponent } from './leaveopeningbalance/leaveopeningbalance.component';
 import { LeaveRequestComponent } from './leaverequest/leaverequest.component';
 import { LeaveApprovalComponent } from './leaveapproval/leaveapproval.component';
+import { ApplyodComponent } from './applyod/applyod.component';
 
 
 @Injectable({
@@ -28,8 +29,10 @@ export class selfService {
         
         this.dynamicData.url = this.apiConfigService.getLeaveopeningbalanceList;
         this.dynamicData.component = LeaveopeningbalanceComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerLeaveopeningbalance;
-        this.dynamicData.updateUrl = this.apiConfigService.updateLeaveopeningbalance;
+        this.dynamicData.registerUrl = String.Join('/', this.apiConfigService.registerLeaveopeningbalance, user.userName, user.companyCode ? user.companyCode : "0");
+        this.dynamicData.updateUrl = String.Join('/', this.apiConfigService.updateLeaveopeningbalance, user.userName, user.companyCode ? user.companyCode : "0");
+        //this.dynamicData.registerUrl = this.apiConfigService.registerLeaveopeningbalance;
+        //this.dynamicData.updateUrl = this.apiConfigService.updateLeaveopeningbalance;
         this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveopeningbalance;
         this.dynamicData.listName = 'lopList';
         this.dynamicData.primaryKey = 'empCode';
@@ -37,14 +40,23 @@ export class selfService {
         return this.dynamicData;
         break;
       case 'Leaverequest':
-        //const user = JSON.parse(localStorage.getItem('user'));
         this.dynamicData.url = String.Join('/', this.apiConfigService.getLeaveRequestList,user.userName);
-        //this.dynamicData.url = this.apiConfigService.getLeaveRequestList,user.userName;
         this.dynamicData.component = LeaveRequestComponent;
         this.dynamicData.registerUrl = this.apiConfigService.registerLeaveRequests;
         this.dynamicData.updateUrl = this.apiConfigService.updateLeaveRequests;
         //this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveTypes;
         this.dynamicData.listName = 'LeaveApplDetailsList';
+        this.dynamicData.primaryKey = 'empCode';
+        this.dynamicData.coustom = true;
+        return this.dynamicData;
+        break;
+      case 'applyod':
+        this.dynamicData.url = String.Join('/', this.apiConfigService.applyodRequestList, user.userName);
+        this.dynamicData.component = ApplyodComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerodRequest;
+        this.dynamicData.updateUrl = this.apiConfigService.updateapplyodRequest;
+        //this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveTypes;
+        this.dynamicData.listName = 'ApplyodDetailsList';
         this.dynamicData.primaryKey = 'empCode';
         this.dynamicData.coustom = true;
         return this.dynamicData;
@@ -67,7 +79,7 @@ export class selfService {
         //this.dynamicData.updateUrl = this.apiConfigService.updateLeaveTypes;
         this.dynamicData.deleteUrl = this.apiConfigService.deleteLeaveTypes;
         this.dynamicData.listName = 'leavetypeList';
-        this.dynamicData.primaryKey = 'leaveCode';
+        this.dynamicData.primaryKey = 'id';
         this.dynamicData.coustom = true;
         
         return this.dynamicData;

@@ -25,10 +25,10 @@
           <input matInput placeholder="leaveMinLimit" formControlName="leaveMinLimit" appFocusOnEnter tabIndex="3">
         </mat-form-field>-->
 
-        <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.LeaveMinLimit.valid }">
-          <input matInput placeholder="LeaveMinLimit" formControlName="LeaveMinLimit" appFocusOnEnter tabIndex="3">
-          <mat-error *ngIf="formControls.LeaveMinLimit.errors" class="help-block">
-            <div *ngIf="formControls.LeaveMinLimit.errors.required"> only  Nummbers are allowed</div>
+        <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.leaveMinLimit.valid }">
+          <input matInput placeholder="leaveMinLimit" formControlName="leaveMinLimit" appFocusOnEnter tabIndex="3">
+          <mat-error *ngIf="formControls.leaveMinLimit.errors" class="help-block">
+            <div *ngIf="formControls.leaveMinLimit.errors.required"> only  Nummbers are allowed</div>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="form-element" [ngClass]="{ 'ng--valid': formControls.leaveMaxLimit.valid }">

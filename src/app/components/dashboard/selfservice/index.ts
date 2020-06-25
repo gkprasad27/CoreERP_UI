@@ -2,6 +2,7 @@ export { SelfserviceComponent } from './selfservice.component';
 export { LeavetypeComponent } from './leavetype/leavetype.component';
 export { LeaveopeningbalanceComponent } from './leaveopeningbalance/leaveopeningbalance.component';
 export { LeaveRequestComponent } from './leaverequest/leaverequest.component';
+export { ApplyodComponent } from './applyod/applyod.component';
 //export { StructureCreationComponent } from './structure-creation/structure-creation.component';
 //export { PTMasterComponent } from './ptmaster/ptmaster.component'
 //export { ComponentMasterComponent } from './componentmaster/componentmaster.component'

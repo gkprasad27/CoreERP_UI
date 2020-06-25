@@ -79,6 +79,13 @@ export class ReportTableComponent implements OnInit, OnChanges {
   Products = [];
 
   tableHeaders: any = [];
+  SearchCriteria=[
+    {id:'username',parameter:'User Name'},
+    {id:'branchCode',parameter:'Branch Code'},
+    {id:'shiftId',parameter:'Shift Id'},
+    {id:'userId',parameter:'User Id'}
+  ];
+  search =[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -102,7 +109,9 @@ export class ReportTableComponent implements OnInit, OnChanges {
       selectedAccountLedger: [''],
       selectedBranch: [],
       selectedProduct: [],
-      vehicleRegNo:[null]
+      selectedCriteria:[''],
+      vehicleRegNo:[null],
+      search:[null]
     }, { validator: this.checkDates });
 
     activatedRoute.params.subscribe(params => {
@@ -240,7 +249,9 @@ export class ReportTableComponent implements OnInit, OnChanges {
       selectedAccountLedger: this.dateForm.get('selectedAccountLedger').value,
       selectedBranch: this.dateForm.get('selectedBranch').value,
       selectedProduct: this.dateForm.get('selectedProduct').value,
-      vehicleRegNo:this.dateForm.get('vehicleRegNo').value
+      vehicleRegNo:this.dateForm.get('vehicleRegNo').value,
+      selectedCriteria:this.dateForm.get('selectedCriteria').value,
+      search:this.dateForm.get('search').value
     })
     this.params = new HttpParams();
     this.params = this.params.append('UserID', 'admin');//this.user.userName);
@@ -250,7 +261,18 @@ export class ReportTableComponent implements OnInit, OnChanges {
     this.params = this.params.append('ledgerCode', this.dateForm.value.selectedAccountLedger);
     this.params = this.params.append('branchCode', this.dateForm.value.selectedBranch);
     this.params = this.params.append('productCode', this.dateForm.value.selectedProduct);
+    this.params = this.params.append('selectedCriteria',this.dateForm.value.selectedCriteria);
+    this.params = this.params.append('search',this.dateForm.value.search);
     this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);
+    if(this.dateForm.value.selectedCriteria=="shiftId")
+    {
+      this.params = this.params.append('shiftId', this.dateForm.value.search);
+    }
+    // else
+    // {
+    //    this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);
+    // }
+    
     this.generateTable.emit(this.params);
 
     this.dateForm.controls['formDate'].setValue(new Date(this.dateForm.controls['formDate'].value));

@@ -5,15 +5,7 @@
     </mat-card-title>
     <div class="m-2 table-boarder">
       <form [formGroup]="dateForm" autocomplete="off" class="ml-2 d-flex">
-        <div *ngIf="routeParam=='Shift'" class="m-2">          
-          <mat-form-field>
-            <mat-select placeholder="Shift Report Type" formControlName="selectedReport">
-              <mat-option *ngFor="let report of Reports" [value]="report.id">
-                {{report.reportName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+       
         <div *ngIf="routeParam=='Shift'||routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical Enquiry'
         ||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'"class="m-2">
           <!-- <mat-form-field >
@@ -85,8 +77,32 @@
           </mat-form-field>
           </div>
         </div>
+        <div *ngIf="routeParam=='Shift'" class="m-2">          
+          <mat-form-field>
+            <mat-select placeholder="Shift Report Type" formControlName="selectedReport">
+              <mat-option *ngFor="let report of Reports" [value]="report.id">
+                {{report.reportName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="routeParam=='Shift'" class="m-2">
+           <mat-form-field>
+            <mat-select placeholder="Search Criteria" formControlName="selectedCriteria">
+              <mat-option *ngFor="let search of SearchCriteria" [value]="search.id">
+                {{search.parameter}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="routeParam=='Shift'" class="m-2">
+          <mat-form-field class="form-element">
+            <input matInput placeholder="Search" formControlName="search"
+                appFocusOnEnter tabIndex="1">
+        </mat-form-field>
+        </div>
         <div *ngIf="routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical Enquiry'||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'
-        ||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'" class="d-flex align-items-center">
+        ||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'||routeParam=='Shift'" class="d-flex align-items-center">
           <button mat-raised-button class="button-color-bule text-white ml-2" (click)="GenerateReport()" >Generate</button>
         </div>
         <!-- {{ dateForm.value | json }} -->
