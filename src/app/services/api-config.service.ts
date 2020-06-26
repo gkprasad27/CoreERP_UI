@@ -671,5 +671,9 @@ export class ApiConfigService {
 
    getProductWiseMonthlyPurchaseReport=`${this.environment.runtimeConfig.serverUrl}Reports/ProductWiseMonthlyPurchaseReport/GetProductWiseMonthlyPurchaseReportData`;
 
+   getProductPriceListReport=`${this.environment.runtimeConfig.serverUrl}Reports/ProductPriceList/GetProductPriceListReportData`;
+
+   getReceiptsAndPyamentDetailedReportData=`${this.environment.runtimeConfig.serverUrl}Reports/ReceiptsAndPyamentDetailedReport/GetReceiptsAndPyamentDetailedReportData`;
+
 }
 

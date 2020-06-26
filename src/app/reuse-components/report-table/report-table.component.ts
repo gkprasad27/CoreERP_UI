@@ -86,7 +86,10 @@ export class ReportTableComponent implements OnInit, OnChanges {
     {id:'userId',parameter:'User Id'}
   ];
   search =[];
-
+  ReportsType = [
+    { id: '1', reportName: 'Product Price List All Branch Report' },
+    { id: '2', reportName: 'Product Price List By Branch Report' }
+  ];
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -111,7 +114,8 @@ export class ReportTableComponent implements OnInit, OnChanges {
       selectedProduct: [],
       selectedCriteria:[''],
       vehicleRegNo:[null],
-      search:[null]
+      search:[null],
+      selectedReportType:['']
     }, { validator: this.checkDates });
 
     activatedRoute.params.subscribe(params => {
@@ -251,7 +255,8 @@ export class ReportTableComponent implements OnInit, OnChanges {
       selectedProduct: this.dateForm.get('selectedProduct').value,
       vehicleRegNo:this.dateForm.get('vehicleRegNo').value,
       selectedCriteria:this.dateForm.get('selectedCriteria').value,
-      search:this.dateForm.get('search').value
+      search:this.dateForm.get('search').value,
+      selectedReportType:this.dateForm.get('selectedReportType').value
     })
     this.params = new HttpParams();
     this.params = this.params.append('UserID', 'admin');//this.user.userName);
@@ -264,10 +269,12 @@ export class ReportTableComponent implements OnInit, OnChanges {
     this.params = this.params.append('selectedCriteria',this.dateForm.value.selectedCriteria);
     this.params = this.params.append('search',this.dateForm.value.search);
     this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);
+    this.params = this.params.append('reportType', this.dateForm.value.selectedReportType);
     if(this.dateForm.value.selectedCriteria=="shiftId")
     {
       this.params = this.params.append('shiftId', this.dateForm.value.search);
     }
+    
     // else
     // {
     //    this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);

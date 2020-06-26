@@ -355,21 +355,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       iconName: 'recent_actors',
       route: 'reports',
       children: [
-        // {
-        //   displayName: 'Bonus',
-        //   iconName: 'account_balance',
-        //   route: 'bonus'
-        // },
-        // {
-        //   displayName:'Member Master',
-        //   iconName:'account_balance',
-        //   route:'membermaster'
-        // },
-        // {
-        //   displayName:"Employee Register",
-        //   iconName:'account_balance',
-        //   route:'employeeregister'
-        // },
         {
           displayName:"Account Ledger",
           iconName:'account_balance',
@@ -432,8 +417,18 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         },
         {
           displayName:"Daily Sales",
-          iconName:"category",
+          iconName:"score",
           route:"Daily Sales"
+        },
+        {
+          displayName:"Product Price List",
+          iconName:"category",
+          route:"Product Price List"
+        },
+        {
+          displayName:"Receipts And Payments Detailed",
+          iconName:"track_changes",
+          route:"Receipts And Payments Detailed"
         }
       ]
     }

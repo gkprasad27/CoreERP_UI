@@ -82,6 +82,14 @@ export class ReportsService {
         this.dynamicData.url=this.apiConfigService.getProductWiseMonthlyPurchaseReport;
         this.dynamicData.listName='ProductWiseMonthlyPurchaseList';
         return this.dynamicData;
+      case 'Product Price List':
+        this.dynamicData.url = this.apiConfigService.getProductPriceListReport;
+        this.dynamicData.listName = 'productPriceList';
+        return this.dynamicData;
+        case 'Receipts And Payments Detailed':
+        this.dynamicData.url = this.apiConfigService.getReceiptsAndPyamentDetailedReportData;
+        this.dynamicData.listName = 'receiptsAndPayment';
+        return this.dynamicData;
       default:
     }
   }
