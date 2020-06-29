@@ -23,6 +23,7 @@ import { ProductComponent} from './product/product.component';
 import { MemberMasterComponent } from './member-master/member-master.component';
 import { VehicleComponent } from './member-master/vehicle/vehicle.component';
 import { DesignationComponent } from './designation/designation.component';
+import { String } from 'typescript-string-operations';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,8 @@ export class MastersService {
   ) { }
 
   getRouteUrls(data) {
-    //debugger;
+    
+    const user = JSON.parse(localStorage.getItem('user'));
     switch (data) {
      case 'company':
       this.dynamicData.url = this.apiConfigService.getCompanysList;
@@ -139,14 +141,15 @@ export class MastersService {
       this.dynamicData.primaryKey = 'code';
       return this.dynamicData;
       break;
-     case 'employeeInBranch':
-      this.dynamicData.url = this.apiConfigService.getAllEmployeesInBranch;
+      case 'employeeInBranch':
+        this.dynamicData.url = String.Join('/', this.apiConfigService.getAllEmployeesInBranch, user.branchCode);
+      //this.dynamicData.url = this.apiConfigService.getAllEmployeesInBranch;
       this.dynamicData.component = EmployeeInBranchComponent;
       this.dynamicData.registerUrl = this.apiConfigService.registerEmployeeInBranch;
       this.dynamicData.updateUrl = this.apiConfigService.updateEmployeeInBranch;
       this.dynamicData.deleteUrl = this.apiConfigService.deleteEmployeeInBranch;
-        this.dynamicData.listName = 'employeesList';
-      this.dynamicData.primaryKey = 'code';
+        this.dynamicData.listName = 'empinbrList';
+        this.dynamicData.primaryKey = 'seqId';
       return this.dynamicData;
       break;
      case 'employee':

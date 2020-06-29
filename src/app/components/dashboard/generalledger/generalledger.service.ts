@@ -8,7 +8,8 @@ import {GlSubcodeComponent } from './glsubcode/glsubcode.component';
 import {TaxIntegrationComponent } from './taxintegration/taxintegration.component';
 import {CashAccToBranchesComponent } from './cashacctobranches/cashacctobranches.component';
 import {AccToAccClassComponent} from './acctoaccclass/acctoaccclass.component';
-import {VoucherTypesComponent} from './vouchertypes/vouchertypes.component';
+import { VoucherTypesComponent } from './vouchertypes/vouchertypes.component';
+import { String } from 'typescript-string-operations';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,8 @@ export class GeneralledgerService {
   ) { }
 
   getRouteUrls(data) {
+  
+    const user = JSON.parse(localStorage.getItem('user'));
     switch (data) {
      case 'accountsgroup':
       this.dynamicData.url = this.apiConfigService.getAccountsGroupList;
@@ -72,10 +75,12 @@ export class GeneralledgerService {
             this.dynamicData.primaryKey = 'subCode';
             return this.dynamicData;
             break;
-            case 'taxintegration':
+      case 'taxintegration':
             this.dynamicData.url = this.apiConfigService.getTaxintigrationList;
             this.dynamicData.component = TaxIntegrationComponent;
-            this.dynamicData.registerUrl = this.apiConfigService.registerTaxIntegration;
+            this.dynamicData.registerUrl = String.Join('/', this.apiConfigService.registerTaxIntegration, user.branchCode, user.companyCode ? user.companyCode : "0");
+       //    this.dynamicData.registerUrl = String.Join('/', this.apiConfigService.registerTaxIntegration, user.branchCode, user.companyCode);
+           // this.dynamicData.registerUrl = this.apiConfigService.registerTaxIntegration;
             this.dynamicData.updateUrl = this.apiConfigService.updateTaxIntegration;
             this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxIntegration;
             this.dynamicData.listName = 'TaxintigrationList';

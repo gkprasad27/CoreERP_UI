@@ -36,6 +36,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'designation'
         },
         {
+          displayName: 'PartnerType',
+          iconName: 'speaker_notes',
+          route: 'partnerType'
+        },
+        {
+          displayName: 'PartnerCreation',
+          iconName: 'speaker_notes',
+          route: 'partnerCreation'
+        },
+        {
+          displayName: 'EmployeeInBranch',
+          iconName: 'speaker_notes',
+          route: 'employeeInBranch'
+        },
+        {
+          displayName: 'NoSeries',
+          iconName: 'speaker_notes',
+          route: 'noSeries'
+        },
+        
+        {
           displayName: 'Division',
           iconName: 'speaker_notes',
           route: 'division'
@@ -122,6 +143,23 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'group',
           route: 'undersubgroup'
         },
+        {
+          displayName: 'CashAccBranch',
+          iconName: 'group',
+          route: 'cashacctobranches'
+        },
+        {
+          displayName: 'AsigAcctoAccclass',
+          iconName: 'group',
+          route: 'acctoaccclass'
+        },
+        
+        {
+          displayName: 'Taxintigration',
+          iconName: 'group',
+          route: 'taxintegration'
+        },
+        
         {
           displayName: 'Account Ledger',
           iconName: 'group',

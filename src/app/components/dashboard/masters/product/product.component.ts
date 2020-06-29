@@ -50,7 +50,7 @@ export class ProductComponent implements OnInit {
 
       this.modelFormData  =  this.formBuilder.group({
         productId:0,
-        hsnNo: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+        hsnNo: [null, [Validators.required]],
         productName: [null, [Validators.required, Validators.minLength(2)]],
         productCode: [null,[Validators.required, Validators.minLength(2)]],
         cgst: [null],
