@@ -86,6 +86,8 @@ export class ProductComponent implements OnInit {
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
         this.modelFormData.controls['productCode'].disable();
+        this.getTaxGrouplist();
+        this.getTaxStructure();
       }
 
   }
@@ -247,10 +249,11 @@ export class ProductComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['productId'].enable();
+    // this.modelFormData.controls['productId'].enable();
+    this.modelFormData.controls['productCode'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
-    this.modelFormData.controls['productCode'].enable();
+    
   }
 
   cancel() {

@@ -467,7 +467,27 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName:"Receipts And Payments Detailed",
           iconName:"track_changes",
           route:"Receipts And Payments Detailed"
-        }
+        },
+        {
+          displayName:"Receipts And Payments Summary",
+          iconName:"category",
+          route:"Receipts And Payments Summary"
+        },
+        {
+          displayName:"SMS Summary",
+          iconName:"category",
+          route:"SMS Summary"
+        },
+        {
+          displayName:"Sales GST",
+          iconName:"category",
+          route:"Sales GST"
+        },
+        {
+          displayName:"24Hrs Sale Value 6Am To 6Am",
+          iconName:"category",
+          route:"24Hrs Sale Value 6Am To 6Am"
+        },
       ]
     }
   ];

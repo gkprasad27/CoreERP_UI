@@ -56,7 +56,7 @@ export class ReportsService {
         return this.dynamicData;
       case 'Sales GST':
         this.dynamicData.url = this.apiConfigService.getSalesGSTReport;
-        this.dynamicData.listName = 'SalesGSTList';
+        this.dynamicData.listName = 'salesGst';
         return this.dynamicData;
       case 'Daily Sales':
         this.dynamicData.url = this.apiConfigService.getDailySalesReport;
@@ -89,6 +89,18 @@ export class ReportsService {
         case 'Receipts And Payments Detailed':
         this.dynamicData.url = this.apiConfigService.getReceiptsAndPyamentDetailedReportData;
         this.dynamicData.listName = 'receiptsAndPayment';
+        return this.dynamicData;
+        case 'Receipts And Payments Summary':
+        this.dynamicData.url = this.apiConfigService.getReceiptsAndPaymentSummaryReportData;
+        this.dynamicData.listName = 'receiptsAndPayment';
+        return this.dynamicData;
+        case 'SMS Summary':
+        this.dynamicData.url = this.apiConfigService.getSMSSummaryReportData;
+        this.dynamicData.listName = 'smsSummary';
+        return this.dynamicData;
+        case '24Hrs Sale Value 6Am To 6Am':
+        this.dynamicData.url = this.apiConfigService.getOneDaySaleValueReportData;
+        this.dynamicData.listName = 'saleValue';
         return this.dynamicData;
       default:
     }

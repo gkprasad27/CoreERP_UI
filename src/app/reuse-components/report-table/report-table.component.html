@@ -8,7 +8,7 @@
        
         <div *ngIf="routeParam=='Shift'||routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical Enquiry'
         ||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'
-        ||routeParam=='Product Price List'||routeParam=='Receipts And Payments Detailed'"class="m-2">
+        ||routeParam=='Product Price List'||routeParam=='Receipts And Payments Detailed'||routeParam=='Receipts And Payments Summary'||routeParam=='SMS Summary'||routeParam=='Sales GST'||routeParam=='24Hrs Sale Value 6Am To 6Am'"class="m-2">
           <!-- <mat-form-field >
             <input matInput [matDatepicker]="picker1" (click)="picker1.open()" readonly
               placeholder="{{'FormDate' | translate }}" formControlName="formDate" appFocusOnEnter tabIndex="1">
@@ -53,7 +53,7 @@
           </mat-form-field> -->
         </div>
         <div *ngIf="routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'||routeParam=='Sales analysis by branch'||routeParam=='Daily Sales'
-        ||routeParam=='Product Price List'" class="m-2">
+        ||routeParam=='Product Price List'||routeParam=='24Hrs Sale Value 6Am To 6Am'" class="m-2">
           <mat-form-field>
             <mat-select placeholder="Branch" formControlName="selectedBranch">
               <mat-option *ngFor="let branch of ReportBranches" [value]="branch.branchCode">
@@ -114,7 +114,7 @@
         </div>
         <div *ngIf="routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical Enquiry'||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'
         ||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'||routeParam=='Shift'||routeParam=='Product Price List'
-        ||routeParam=='Receipts And Payments Detailed'" class="d-flex align-items-center">
+        ||routeParam=='Receipts And Payments Detailed'||routeParam=='Receipts And Payments Summary'||routeParam=='SMS Summary'||routeParam=='Sales GST'||routeParam=='24Hrs Sale Value 6Am To 6Am'" class="d-flex align-items-center">
           <button mat-raised-button class="button-color-bule text-white ml-2" (click)="GenerateReport()" >Generate</button>
         </div>
         <!-- {{ dateForm.value | json }} -->

@@ -137,7 +137,7 @@
         </mat-form-field>
         
           <!-- <mat-checkbox [checked]="isActive">is Active</mat-checkbox> -->
-          <mat-checkbox (change)="checkCheckBoxvalue($event)">is Active</mat-checkbox>
+          <mat-checkbox (change)="checkCheckBoxvalue($event)" formControlName="isActive">is Active</mat-checkbox>
       </div>
       <mat-divider></mat-divider>
       <div  class="form-element p-2 d-flex justify-content-end">

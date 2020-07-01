@@ -654,5 +654,15 @@ export class ApiConfigService {
 
    getReceiptsAndPyamentDetailedReportData=`${this.environment.runtimeConfig.serverUrl}Reports/ReceiptsAndPyamentDetailedReport/GetReceiptsAndPyamentDetailedReportData`;
 
+   getReceiptsAndPaymentSummaryReportData=`${this.environment.runtimeConfig.serverUrl}Reports/ReceiptsAndPaymentSummaryReport/GetReceiptsAndPaymentSummaryReportData`;
+
+   getSMSSummaryReportData=`${this.environment.runtimeConfig.serverUrl}Reports/SMSSummaryReport/GetSMSSummaryReportData`;
+
+   getOneDaySaleValueReportData=`${this.environment.runtimeConfig.serverUrl}Reports/OneDaySaleValueReport6amTo6am/GetOneDaySaleValueReportData`;
+
+   
+
+   
+
 }
 
