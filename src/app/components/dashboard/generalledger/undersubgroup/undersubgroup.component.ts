@@ -21,20 +21,21 @@ interface affectGrossProfit {
   styleUrls: ['./undersubgroup.component.scss']
 })
 
-export class UndersubGroupComponent  implements OnInit {
+export class UndersubGroupComponent implements OnInit {
 
   modelFormData: FormGroup;
-  isSubmitted  =  false;
+  isSubmitted = false;
   formData: any;
-  glAccgrpList:any;
-  getAccSubGrpList:any;
-  glAccNameList:any;
+  glAccgrpList: any;
+  getAccSubGrpList: any;
+  glAccNameList: any;
+  glsubAccNameList: any;
 
-  affectGrossProfit : affectGrossProfit[]=
-  [
-    { value: 'Yes', viewValue: 'Yes' },
-    { value: 'No', viewValue: 'No' }
-  ];
+  affectGrossProfit: affectGrossProfit[] =
+    [
+      { value: 'Yes', viewValue: 'Yes' },
+      { value: 'No', viewValue: 'No' }
+    ];
 
   constructor(
     private alertService: AlertService,
@@ -43,34 +44,37 @@ export class UndersubGroupComponent  implements OnInit {
     private spinner: NgxSpinnerService,
     private apiConfigService: ApiConfigService,
     private apiService: ApiService,
-    private commonService:CommonService,
+    private commonService: CommonService,
     // @Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
-      this.modelFormData  =  this.formBuilder.group({
-        accountGroupId: 0,
-        accountGroupName: [null, [Validators.required]],
-        nature: [null, [Validators.required]],
-        narration: [null],
-        affectGrossProfit: [null],
-        extraDate: [null],
-        extra1: [null],
-        extra2:[null],
-        groupUnder:[null, [Validators.required]]
-      });
+    this.modelFormData = this.formBuilder.group({
+      accountGroupId: 0,
+      accountGroupName: [null, [Validators.required]],
+      nature: [null, [Validators.required]],
+      narration: [null],
+      affectGrossProfit: [null],
+      extraDate: [null],
+      extra1: [null],
+      extra2: [null],
+      groupUnder: [null],
+      Undersubaccount: [null]
+    });
 
 
-      this.formData = {...data};
-      if (!isNullOrUndefined(this.formData.item)) {
-        this.modelFormData.patchValue(this.formData.item);
-       this.modelFormData.controls['accountGroupId'].disable();
-      }
+    this.formData = { ...data };
+    if (!isNullOrUndefined(this.formData.item)) {
+      this.modelFormData.patchValue(this.formData.item);
+      this.modelFormData.controls['accountGroupId'].disable();
+      this.getGLUnderGroupList();
+      this.getAccountNamelist();
+    }
 
   }
 
   ngOnInit() {
-this.getglAccgrpList();
-this.getAccountNamelist();
+    this.getglAccgrpList();
+    //this.getAccountNamelist();
   }
 
   getglAccgrpList() {
@@ -78,48 +82,61 @@ this.getAccountNamelist();
     this.apiService.apiGetRequest(getglAccgrpList)
       .subscribe(
         response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            console.log(res);
-            this.glAccgrpList = res.response['GLAccGroupList'];
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.glAccgrpList = res.response['GLAccGroupList'];
+            }
           }
-        }
-        this.spinner.hide();
-      });
+          this.spinner.hide();
+        });
   }
 
   getAccountNamelist() {
-    const getAccountNamelist = String.Join('/', this.apiConfigService.getAccountNamelist);
+    const getAccountNamelist = String.Join('/', this.apiConfigService.getAccountNamelist, this.modelFormData.get('nature').value);
     this.apiService.apiGetRequest(getAccountNamelist)
       .subscribe(
         response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            console.log(res);
-            this.glAccNameList = res.response['GetAccountNamelist'];
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.glAccNameList = res.response['GetAccountNamelist'];
+            }
           }
-        }
-        this.spinner.hide();
-      });
+          this.spinner.hide();
+        });
+  }
+
+  getGLUnderGroupList() {
+    const getGLUnderGroupList = String.Join('/', this.apiConfigService.getGLUnderGroupList, this.modelFormData.get('groupUnder').value);
+    this.apiService.apiGetRequest(getGLUnderGroupList)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              this.getAccSubGrpList = res.response['GetAccountSubGrouplist'];
+            }
+          }
+          this.spinner.hide();
+        });
   }
 
   getAccountSubGrouplist() {
     const getAccountSubGrouplist = String.Join('/', this.apiConfigService.getAccountSubGrouplist,
-    this.modelFormData.get('groupName').value);
+      this.modelFormData.get('groupName').value);
     this.apiService.apiGetRequest(getAccountSubGrouplist)
       .subscribe(
         response => {
-        const res = response.body;
-        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
-          if (!isNullOrUndefined(res.response)) {
-            console.log(res);
-            this.getAccSubGrpList = res.response['GLAccSubGroupList'];
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              console.log(res);
+              this.glAccNameList = res.response['GLAccSubGroupList'];
+            }
           }
-        }
-        this.spinner.hide();
-      });
+          this.spinner.hide();
+        });
   }
 
 
@@ -133,6 +150,8 @@ this.getAccountNamelist();
     }
     this.modelFormData.controls['accountGroupId'].enable();
     this.formData.item = this.modelFormData.value;
+    (!isNullOrUndefined(this.formData.item.Undersubaccount)) ? this.formData.item.groupUnder = this.formData.item.Undersubaccount : null;
+    console.log(this.formData)
     this.dialogRef.close(this.formData);
   }
 

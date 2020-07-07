@@ -43,7 +43,8 @@
     "nature": "Nature",
     "groupUnder": "Under Account",
     "affectGrossProfit": "Affect Gross Profit",    
-    "narration": "Narration"
+    "narration": "Narration",
+    "Undersubaccount":"Under SubAccount"
   },
   "glaccounts": {
     "title": "Account Ledger",
@@ -558,11 +559,18 @@
     "meterReading": "MeterReading",
     "isWorking": "IsWorking"
   },
-  "membermaster": {
-    "title": "Member Master",
-    "memberCode": "Member Code",
+  "membermaster": { 
+    "title": "Member",   
+    "memberCode": "Member Code",    
     "nameTitle": "Name Title",
-    "memberName": "Member Name",
+    "memberName": "Member Name",   
+    "giftIssued":"Gift Issued",
+    "giftIssuedDate":"Gift Issued Date", 
+    "noofShares": "NoofShares",
+    "issuedShares": "IssuedShares",
+    "receivedShares": "ReceivedShares",
+    "totalShares": "TotalShares",
+    "joinDate": "JoinDate",
     "fatherOrHusbandName": "Father/Husband Name",
     "memberAge": "Member Age",
     "address": "Address",
@@ -580,22 +588,15 @@
     "nominee": "Nominee",
     "relation": "Relation",
     "passBook": "PassBook",
-    "passBookStatus": "PassBookStatus",
-    "joinDate": "JoinDate",
-    "noofShares": "NoofShares",
-    "issuedShares": "IssuedShares",
-    "receivedShares": "ReceivedShares",
-    "totalShares": "TotalShares",
+    "passBookStatus": "PassBookStatus",    
     "aadharNumber":"Aadhar Number",
     "dob":"Date Of Birth",
-    "photo":"Photo",
-    "giftIssued":"Gift Issued",
-    "giftIssuedDate":"Gift Issued Date"
+    "photo":"Photo"
+    
   },
   "vehicle": {
     "title": "Vehicle",
-    "vehicleId": "vehicleId",
-    "memberId": "memberId",
+    "vehicleId": "vehicleId",   
     "memberCode": "memberCode",
     "memberShares": "memberShares",
     "vehicleRegNo": "vehicleRegNo",
