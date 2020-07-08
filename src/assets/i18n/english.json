@@ -228,6 +228,21 @@
     "email":"Email",
     "gstin":"GST"
   }, 
+  "advance": {
+    "title": "Advance",
+    "id": "id",
+    "employeeId": "EmployeeId",
+    "advanceType": "AdvanceType",
+    "advanceAmount": "AdvanceAmount",
+    "applyDate": "ApplyDate",
+    "approveDate": "ApproveDate",
+    "reason": "Reason",
+    "recommendedBy": "RecommendedBy",
+    "approvedBy": "ApprovedBy",
+    "status": "Status",
+    "balance": "Balance",
+    "deductedAmount": "DeductedAmount"
+  },
   "applyod": {
     "title": "Applyod",
       "sno": "Sno",

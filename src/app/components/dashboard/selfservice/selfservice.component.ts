@@ -43,8 +43,8 @@ export class SelfserviceComponent implements OnInit {
       this.routeParams = params.id;
       this.tableUrl = mastersService.getRouteUrls(params.id);
       if (!isNullOrUndefined(this.tableUrl)) {
-        this.getTableData();
-        if (!isNullOrUndefined(this.tableComponent)) {
+       this.getTableData();
+       if (!isNullOrUndefined(this.tableComponent)) {
           this.tableComponent.defaultValues();
         }
       }

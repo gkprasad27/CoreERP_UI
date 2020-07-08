@@ -36,7 +36,7 @@ export class VoucherTypesComponent  implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any ) {
 
       this.modelFormData  =  this.formBuilder.group({
-        voucherCode: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(20)]],
+        voucherCode: [null],
         branch: [null, [Validators.required]],
         company: [null, [Validators.required]],
         active: [null],
@@ -53,15 +53,16 @@ export class VoucherTypesComponent  implements OnInit {
       this.formData = {...data};
       if (!isNullOrUndefined(this.formData.item)) {
         this.modelFormData.patchValue(this.formData.item);
-        this.modelFormData.controls['voucherCode'].disable();
+        //this.modelFormData.controls['voucherCode'].disable();
       }
 
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
+ this.getVoucherBranchesList();
 this.getVoucherClassList();
 this.getCompaniesList();
-this.getVoucherBranchesList();
   }
 
   getVoucherClassList() {
@@ -74,6 +75,7 @@ this.getVoucherBranchesList();
           if (!isNullOrUndefined(res.response)) {
             console.log(res);
             this.voucherClass = res.response['VoucherClassList'];
+            console.log(this.voucherClass);
           }
         }
         this.spinner.hide();
@@ -120,7 +122,7 @@ this.getVoucherBranchesList();
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['voucherCode'].enable();
+   // this.modelFormData.controls['voucherCode'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

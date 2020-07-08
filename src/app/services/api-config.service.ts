@@ -90,12 +90,9 @@ export class ApiConfigService {
    getCRAccountLedgerListByName = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetAccountLedgerListByName`;
    getCashReceiptBranchesList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetBranchesList`;
    getCashReceiptVoucherNo = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetVoucherNo`;
-   // // getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
-   // getCashRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetAccountLedgerList`;
    getCashRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetAccountLedgerList`;
    registerCashReceipt = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/RegisterCashReceipt`;
    getCashReceiptDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/CashReceipt/GetCashReceiptDetailsList`;
-   // registerCashPayment = `http://localhost:51414/api/transactions/CashPayment/RegisterCashPayment`;
 
    // Bank Payment
    getBankpaymentList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBankpaymentList`;
@@ -106,7 +103,6 @@ export class ApiConfigService {
    getBankPAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetAccountLedger`;
    registerBankPayment = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/RegisterBankPayment`;
    getBankPaymentDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/BankPayment/GetBankPaymentDetailsList`;
-   //registerCashPayment = `http://localhost:51414/api/transactions/CashPayment/RegisterCashPayment`;
 
    // Bank Receipt
    getBankreceiptList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBankreceiptList`;
@@ -117,7 +113,6 @@ export class ApiConfigService {
    getBankRAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetAccountLedger`;
    registerBankReceipt = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/RegisterBankReceipt`;
    getBankReceiptDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/BankReceipt/GetBankReceiptDetailsList`;
-   //registerCashPayment = `http://localhost:51414/api/transactions/CashPayment/RegisterCashPayment`;
 
    // Journal Voucher
    getJournalvoucherList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalvoucherList`;
@@ -128,19 +123,14 @@ export class ApiConfigService {
    getJVAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetAccountLedger`;
    registerJournalVoucher = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/RegisterJournalVoucher`;
    getJournalVoucherDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalVoucherDetailsList`;
-   // registerCashPayment = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/RegisterCashPayment`;
 
 
   //Stockissues
-  //getbranchesnosList = `http://localhost:51414/api/Transactions/Stockissues/GetbranchesnosList`;
   getbranchesnosList=`${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetbranchesnosList`;
-  //registerStockissues = `http://localhost:51414/api/Transactions/Stockissues/RegisterStockissues`;
   getStockissuesDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetInvoiceDetails`;
   gettingtobranchesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GettobranchesList`;
-  //getStockissuesList = `http://localhost:51414/api/Transactions/Stockissues/GetStockissuesList`;
   getStockissuesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetStockissuesList`;
   getStockissuesnosList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetStackissueNo`;
-//   gettingtobranchesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GettobranchesList`;
   registerStockissues = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/RegisterStockissues`;
   GetProductLists = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetProductLists`;
   GetBranchesList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetBranchesList`;
@@ -150,18 +140,15 @@ export class ApiConfigService {
    //Stockreceipts
   getStockreceiptsDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetInvoiceDetails`;
   gettingtobranchesListforstockreceipt = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GettobranchesList`;
-  //getStockreceiptsList = `http://localhost:51414/api/Transactions/Stockreceipt/GetStockreceiptsList`;
   getStockreceiptsList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetStockreceiptsList`;
   getStockissuesreceiptnosList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetReceiptNo`;
   GetProductListsforStockreceipts = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetProductLists`;
   registerStockreceipts = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/RegisterStockreceipts`;
-//   gettingtobranchesListforstockreceipt = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GettobranchesList`;
   getStockreceiptDeatilList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetStockreceiptDeatilList`;
   GetToBranchesStockreceiptsList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockreceipt/GetToBranchesList`;
 
   //Stockshorts
   getStockshortDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetInvoiceDetails`;
-  //`http://localhost:51414/api/Transactions/Stockshort/GetInvoiceDetails`;
   GetCostCentersList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetCostCentersList`;
   getstockshortvochernosList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetstockshortVoucherNo`;
   GetProductListsforStockshortsList = `${this.environment.runtimeConfig.serverUrl}Transactions/Stockshort/GetProductLists`;
@@ -171,8 +158,6 @@ export class ApiConfigService {
 
   //oilconversion
   getoilcnvsnDeatilListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetInvoiceDetails`;
-  //registerOilconversion = `http://localhost:51414/api/Transactions/Oilconversion/RegisterOilconversion`;
- // getOilconversionList = `http://localhost:51414/api/Transactions/Oilconversion/GetOilconversionList`;
   getOilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetOilconversionList`;
   getoilconversionvocherNo = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetoilconversionVoucherNo`;
   GetProductListsforoilconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetProductLists`;
@@ -180,10 +165,6 @@ export class ApiConfigService {
   getOilconversionDeatilList = `${this.environment.runtimeConfig.serverUrl}Transactions/Oilconversion/GetOilconversionsDeatilList`;
 
  //Packageconversion
-//   getPackageconversionList = `http://localhost:51414/api/Transactions/PackageConversion/GetPackageConversionList`;
-//   registerPackageconversion = `http://localhost:51414/api/Transactions/PackageConversion/RegisterPackageConversion`;
-//   updatePackageconversions = `http://localhost:51414/api/Transactions/PackageConversion/UpdatePackageConversionList`;
-//   deletePackageconversions = `http://localhost:51414/api/Transactions/PackageConversion/DeletePackageConversion`
   GetproductNames = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/GetproductNames`;
   getInputcodeproductList = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/GetInputcodeList`;
   getPackageconversionList = `${this.environment.runtimeConfig.serverUrl}Transactions/PackageConversion/GetPackageConversionList`;
@@ -197,7 +178,6 @@ export class ApiConfigService {
   getstockexcessNo = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetstockexcessNo`;
   getStockExcessCostCentersList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetCostCentersList`;
   getProductListsforStockexcessList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetProductLists`;
-//  getAccountLedgerList = `${this.environment.runtimeConfig.serverUrl}transactions/CashPayment/GetAccountLedgerList`;
   registerStockexcess = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/RegisterStockexcess`;
   getStockExcessDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/StockExcess/GetStockExcessDetailsList`;
 
@@ -210,7 +190,6 @@ export class ApiConfigService {
   updateMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/UpdateMeterReading`;
   deleteMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/deleteMeterReading`;
   getOBFromPump = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetOBFromPump`;
-//   getStockExcessDetailsList = `http://localhost:51414/api/transactions/StockExcess/GetStockExcessDetailsList`;
 
    // *******************************  End Transaction *****************************************
 
@@ -230,7 +209,7 @@ export class ApiConfigService {
    deleteAccountSubGroup = `${this.environment.runtimeConfig.serverUrl}gl/GLAccSubGroup/DeleteAccountSubGroup`;
    getAccgrpList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccSubGroup/GetGLAccountGroupList`;
 
-   // UnderSubGroup //http://localhost:51414/api/
+   // UnderSubGroup //
    getGLUnderSubGroupList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetTblAccountGroupList`;
    getAccountNamelist = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetAccountNamelist`;
    getGLUnderGroupList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetAccountGrouplist`;
@@ -278,7 +257,7 @@ export class ApiConfigService {
    // Acc To Acc Class //
   getAsigAcctoAccclassList = `${this.environment.runtimeConfig.serverUrl}gl/AsignmentAcctoAccClass/GetAsigAcctoAccclassList`;
   registerAsigAcctoAccClass = `${this.environment.runtimeConfig.serverUrl}gl/AsignmentAcctoAccClass/RegisterAsigAcctoAccClass`;
-  updateAccToAccClass = `${this.environment.runtimeConfig.serverUrl}AsignmentAcctoAccClass/UpdateAccToAccClass`;
+  updateAccToAccClass = `${this.environment.runtimeConfig.serverUrl}gl/AsignmentAcctoAccClass/UpdateAccToAccClass`;
   deleteAccToAccClass = `${this.environment.runtimeConfig.serverUrl}gl/AsignmentAcctoAccClass/DeleteAccToAccClass`;
   getAccountingClass = `${this.environment.runtimeConfig.serverUrl}gl/AsignmentAcctoAccClass/GetAccountingClass`;
   getMatTranTypes = `${this.environment.runtimeConfig.serverUrl}gl/AsignmentAcctoAccClass/GetMatTranTypes`;
@@ -350,7 +329,12 @@ export class ApiConfigService {
    updateCompany = `${this.environment.runtimeConfig.serverUrl}masters/Company/UpdateCompany`;
    deleteCompany = `${this.environment.runtimeConfig.serverUrl}masters/Company/DeleteCompany`;
 
-
+  // department
+  getdepartmentlist = `${this.environment.runtimeConfig.serverUrl}masters/Department/getdepartmentlist`;
+  registerdepartment = `${this.environment.runtimeConfig.serverUrl}masters/Department/registerdepartment`;
+  updatedepartment = `${this.environment.runtimeConfig.serverUrl}masters/Department/updatedepartment`;
+  deletedepartment = `${this.environment.runtimeConfig.serverUrl}masters/Department/deletedepartment`;
+  
    // --- Branches
    getBranchesList = `${this.environment.runtimeConfig.serverUrl}masters/Branches/GetBranchesList`;
    registerBranch = `${this.environment.runtimeConfig.serverUrl}masters/Branches/RegisterBranch`;
@@ -418,11 +402,7 @@ export class ApiConfigService {
   registerCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/RegisterCostCenter`;
   updateCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/UpdateCostCenter`;
   deleteCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/DeleteCostCenter`;
-   //GetCostCenterList = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/GetCostCenterList`;
-   //registerCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/RegisterCostCenter`;
-   //updateCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/UpdateCostCenter`;
-   //deleteCostCenter = `${this.environment.runtimeConfig.serverUrl}masters/CostCenter/DeleteCostCenter`;
-
+   
 
    // --- PartnerCreation
 
@@ -442,22 +422,13 @@ export class ApiConfigService {
   registerProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/RegisterProfitCenters`;
   updateProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/UpdateProfitCenters`;
   deleteProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/DeleteProfitCenters`;
-   //getProfitCenterList = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/GetProfitCenterList`;
-   //registerProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/RegisterProfitCenters`;
-   //updateProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/UpdateProfitCenters`;
-   //deleteProfitCenters = `${this.environment.runtimeConfig.serverUrl}masters/ProfitCenter/DeleteProfitCenters`;
-
 
    // --- Segment
   getSegmentList = `${this.environment.runtimeConfig.serverUrl}masters/Segment/GetSegmentList`;
   registerSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/RegisterSegment`;
   updateSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/UpdateSegment`;
   deleteSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/DeleteSegment`;
-   //getSegmentList = `${this.environment.runtimeConfig.serverUrl}masters/Segment/GetSegmentList`;
-   //registerSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/RegisterSegment`;
-   //updateSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/UpdateSegment`;
-   //deleteSegment = `${this.environment.runtimeConfig.serverUrl}masters/Segment/DeleteSegment`;
-
+   
    // --- unit
    getunitList = `${this.environment.runtimeConfig.serverUrl}masters/Unit/GetUnitList`;
    registerunit = `${this.environment.runtimeConfig.serverUrl}masters/Unit/RegisterUnit`;
@@ -571,7 +542,16 @@ export class ApiConfigService {
   registerodRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/Applyod/RegisterApplyOddataDetails`;
   updateapplyodRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/Applyod/UpdateApplyod`;
 
+  //Advance
+  applyadvanceRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/Advance/GetApplyAdvanceDetailsList`;
+  registeradvanceRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/Advance/RegisterApplyAdvancedataDetails`;
+  updateapplyadvanceRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/Advance/UpdateAdvancedataDetails`;
+  getAdvancetypeList = `${this.environment.runtimeConfig.serverUrl}Selfservice/Advance/GetAdvancedataDetailslist`;
 
+  //PermissionRequest
+  permissionRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/PermissionRequest/GetPermissionApplDetailsList`;
+  registerpermissionRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/PermissionRequest/RegisterPermissionapplying`;
+  updatepermissionRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/PermissionRequest/UpdatePermissionapplying`;
 
    //PT Master
   getPTList = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/GetPTList`;
@@ -579,7 +559,6 @@ export class ApiConfigService {
   updatePT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/UpdatePT`;
   deletePT = `${this.environment.runtimeConfig.serverUrl}payroll/PTMaster/DeletePT`;
   
-
    // Component Master
   getComponentsList = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/GetComponentsList`;
   registerComponent = `${this.environment.runtimeConfig.serverUrl}payroll/ComponentMaster/RegisterComponent`;
@@ -595,7 +574,14 @@ export class ApiConfigService {
   updatePF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/UpdatePF`;
   deletePF = `${this.environment.runtimeConfig.serverUrl}payroll/PFMaster/DeletePF`;
  
+  //approvaltype
+  getempList = `${this.environment.runtimeConfig.serverUrl}Selfservice/ApprovalType/GetEmployeesList`;
+  getapprovaltypeList = `${this.environment.runtimeConfig.serverUrl}Selfservice/ApprovalType/GetApprovalTypesList`;
+  registerapprovaltype = `${this.environment.runtimeConfig.serverUrl}Selfservice/ApprovalType/RegisterApprovalType`;
+  updateapprovaltype = `${this.environment.runtimeConfig.serverUrl}Selfservice/ApprovalType/UpdateApprovalType`;
+  deleteapprovaltype = `${this.environment.runtimeConfig.serverUrl}Selfservice/ApprovalType/DeleteApprovalType`;
 
+  
    //CTC Breakup
    getCTCList = `${this.environment.runtimeConfig.serverUrl}payroll/CTCBreakup/GetCTCList`;
    getStructureList = `${this.environment.runtimeConfig.serverUrl}payroll/CTCBreakup/GetStructureList`;
@@ -609,10 +595,31 @@ export class ApiConfigService {
    getStructureComponentsList = `${this.environment.runtimeConfig.serverUrl}payroll/StructureCreation/GetComponentsList`;
    getPFList = `${this.environment.runtimeConfig.serverUrl}payroll/StructureCreation/GetPFList`;
 
+  //OdApproval
+  getOdApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/OdApproval/GetOdApprovalApplDetailsList`;
+  RegisterOdApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/OdApproval/GetOdApprovalApplDetailsList`;
+
+  //AdvanceApproval
+  getAdvanceApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/AdvanceApproval/GetAdvanceApprovalApplDetailsList`;
+  RegisterAdvanceApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/AdvanceApproval/RegisterAdvanceApprovalDetails`;
+
+
+  //Permission RequestApproval
+  getPermissionrqstApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/PermissionApproval/GetPermissionApprovalApplDetailsList`;
+  RegisterPermissionrqstApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/PermissionApproval/RegisterPermissionApprovalDetails`;
+
+  
+  //VehicleRequisition
+  applyvehiclerqsnRequestList = `${this.environment.runtimeConfig.serverUrl}Selfservice/VehicleRequesition/GetApplyVehicleRequesitionDetailsList`;
+  registervehiclerqsnRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/VehicleRequesition/RegisterApplyVehicleRequesitiondataDetails`;
+  updatevehiclerqsnRequest = `${this.environment.runtimeConfig.serverUrl}Selfservice/VehicleRequesition/UpdateApplyVehicleRequesition`;
+
+  //VehicleApproval
+  getVehicleApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/VehicleApproval/GetVehicleApprovalApplDetailsList`;
+  RegisterVehicleApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/VehicleApproval/RegisterVehicleApprovalDetails`;
+
 
    // Leave Approval
-  //getLeaveApplDetailsList = 'http://localhost:51414/api/Selfservice/LeaveApproval/GetLeaveApplDetailsList';
-  //RegisterLeaveApprovalDetails = 'http://localhost:51414/api/Selfservice/LeaveApproval/RegisterLeaveApprovalDetails';
   getLeaveApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/GetLeaveApplDetailsList`;
   RegisterLeaveApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/RegisterLeaveApprovalDetails`;
    // ******************************* End  master *****************************************

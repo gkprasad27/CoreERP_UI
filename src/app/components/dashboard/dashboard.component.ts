@@ -31,6 +31,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'branches'
         },
         {
+          displayName: 'Department',
+          iconName: 'speaker_notes',
+          route: 'department'
+        },
+        {
           displayName: 'Designation',
           iconName: 'speaker_notes',
           route: 'designation'
@@ -149,6 +154,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'cashacctobranches'
         },
         {
+          displayName: 'VoucherTypes',
+          iconName: 'group',
+          route: 'vouchertypes'
+        },
+        {
           displayName: 'AsigAcctoAccclass',
           iconName: 'group',
           route: 'acctoaccclass'
@@ -216,6 +226,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'leaveopeningbalance'
         },
         {
+          displayName: 'ApprovalType',
+          iconName: 'speaker_notes',
+          route: 'approvaltype'
+        },
+        {
           displayName: 'LeaveType',
           iconName: 'speaker_notes',
           route: 'leavetype'
@@ -226,9 +241,44 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'applyod'
         },
         {
+          displayName: 'Advance',
+          iconName: 'speaker_notes',
+          route: 'advance'
+        },
+        {
+          displayName: 'PermissionRquest',
+          iconName: 'speaker_notes',
+          route: 'permissionrequest'
+        },
+        {
           displayName: 'LeaveRequest',
           iconName: 'speaker_notes',
           route: 'Leaverequest'
+        },
+        {
+          displayName: 'VehicleRequisition',
+          iconName: 'speaker_notes',
+          route: 'vehiclerequisition'
+        },
+        {
+          displayName: 'Od Approval',
+          iconName: 'account_balance',
+          route: 'odApproval'
+        },
+        {
+          displayName: 'Permission Approval',
+          iconName: 'account_balance',
+          route: 'permissionapproval'
+        },
+        {
+          displayName: 'Vehicle Approval',
+          iconName: 'account_balance',
+          route: 'vehicleapproval'
+        },
+        {
+          displayName: 'Advance Approval',
+          iconName: 'account_balance',
+          route: 'advanceApproval'
         },
         {
           displayName: 'Leave Approval',

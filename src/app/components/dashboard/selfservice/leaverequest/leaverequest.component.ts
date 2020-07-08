@@ -199,14 +199,7 @@ export class LeaveRequestComponent implements OnInit {
   
   sessionevent2()
   {
-    //debugger;
-   //const user = JSON.parse(localStorage.getItem('user'));
-    //let username = user.userName;
-    //var date1 = this.modelFormData.get('leaveFrom').value
-    //var date2 = this.modelFormData.get('leaveTo').value
-    //let da1 = new Date(date1);
-    //var da2 = new Date(date2);
-    //var date = new Date(date1);
+    
 
     var date1 = this.pipe.transform(this.modelFormData.get('leaveFrom').value, 'dd-MM-yyyy');
     var date2 = this.pipe.transform(this.modelFormData.get('leaveTo').value, 'dd-MM-yyyy');
@@ -238,115 +231,6 @@ export class LeaveRequestComponent implements OnInit {
       this.getProductByProductCodeArray = [];
     }
   }
-
-
-  //sessionevents() {
-  //  let countdays = 0;
-  //  let Difference_In_Days = 0;
-  //  //debugger;
-  //  var date1 = this.modelFormData.get('leaveFrom').value
-  //  var date2 = this.modelFormData.get('leaveTo').value
-
-  //  //var date1 = this.modelFormData.get('leaveFrom').value
-  //  //var date2 = this.modelFormData.get('leaveTo').value
-  //  var da1 = new Date(date1);
-  //  var da2 = new Date(date2);
-  //  var session1 = this.modelFormData.get('session1').value
-  //  var session2 = this.modelFormData.get('session2').value
-  //  if ((session1 == "FirstHalf") && (session2 == "FirstHalf") && (da1 == da2)) {
-  //    countdays = 0.5;
-  //  }
-  //  if ((session1 == "FirstHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 1.5;
-  //  }
-  //  if ((session1 == "SecondHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 2.0;
-  //  }
-  //  var Difference_In_Time = (da2.getTime() - da1.getTime());
-  //  // To calculate the no. of days between two dates 
-  //  Difference_In_Days = Difference_In_Time / (24 * 60 * 60 * 1000);
-  //  //if (Difference_In_Days == 0)
-  //  //{
-  //  //  Difference_In_Days = 1;
-  //  //}
-  //  this.modelFormData.patchValue
-  //    ({
-  //      leaveDays: (Difference_In_Days + countdays)
-  //    });
-  //}
-  //orgValueChanges()
-  //{
-  //  let countdays = 0;
-  //  let Difference_In_Days = 0;
-  //  //debugger;
-  //  var date1 = this.modelFormData.get('leaveFrom').value
-  //  var date2 = this.modelFormData.get('leaveTo').value
-  //  var da1 = new Date(date1);
-  //  var da2 = new Date(date2);
-   
-  //  var session1 = this.modelFormData.get('session1').value
-  //  var session2 = this.modelFormData.get('session2').value
-  //  if ((session1 == "FirstHalf") && (session2 == "FirstHalf") && (da1 == da2))
-  //  {
-  //     countdays = 0.5;
-  //  }
-  //  if ((session1 == "FirstHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 1.5;
-  //  }
-  //  if ((session1 == "SecondHalf") && (session2 == "SecondHalf")) {
-  //    countdays = 2.0;
-  //  }
-  //  var Difference_In_Time = (da2.getTime() - da1.getTime());
-  //  // To calculate the no. of days between two dates 
-  //   Difference_In_Days = Difference_In_Time / (24 * 60 * 60 * 1000);
-  //  //if (Difference_In_Days == 0)
-  //  //{
-  //  //  Difference_In_Days = 1;
-  //  //}
-  //  this.modelFormData.patchValue
-  //    ({
-  //      leaveDays: (Difference_In_Days + countdays)
-  //    });
-  //}
-  //leaveToValueChanges()
-  //{
-  //  //debugger;
-  //  let countdays = 0;
-  //  let Difference_In_Days = 0;
-
-  //  var date11 = this.modelFormData.get('leaveFrom').value
-  //  var date12 = this.modelFormData.get('leaveTo').value
-  //  var da1 = new Date(date11);
-  //  var da2 = new Date(date12); 
-
-  //  var session1 = this.modelFormData.get('session1').value
-  //  var session2 = this.modelFormData.get('session2').value
-  //  if (session1 != null && session2 != null)
-  //  {
-  //    if ((session1 == "FirstHalf") && (session2 == "FirstHalf") && (da1 == da2)) {
-  //      countdays = 0.5;
-  //    }
-  //    if ((session1 == "FirstHalf") && (session2 == "SecondHalf")) {
-  //      countdays = 1.5;
-  //    }
-  //    if ((session1 == "SecondHalf") && (session2 == "SecondHalf")) {
-  //      countdays = 2.0;
-  //    }
-  //  }
-   
-
-  //  var Difference_In_Time = da2.getTime() - da1.getTime();
-  //  Difference_In_Days = Difference_In_Time / (1000 * 3600  *24/*24 * 60 * 60 * 1000*/);
-  //  //if (Difference_In_Days == 0)
-  //  //{
-  //  //  Difference_In_Days = 1;
-  //  //}
-  //  this.modelFormData.patchValue
-  //    ({
-  //      leaveDays: (Difference_In_Days + countdays)
-  //    });
-  //}
-
 
 
   getTableDataonempcodechangevent()

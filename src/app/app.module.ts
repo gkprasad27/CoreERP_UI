@@ -22,7 +22,7 @@ import {
   from './components/dashboard/Inventory/index';
 
 import {
-  CompanyComponent, MastersComponent, BranchesComponent, DivisionComponent,DesignationComponent,
+  CompanyComponent, MastersComponent, BranchesComponent,DepartmentComponent, DivisionComponent,DesignationComponent,
   SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
   NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
   TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
@@ -39,7 +39,7 @@ import {
 } from './components/dashboard/payroll/index';
 
 import {
-  SelfserviceComponent, LeavetypeComponent,ApplyodComponent,LeaveRequestComponent,LeaveopeningbalanceComponent,LeaveApprovalComponent
+  SelfserviceComponent, LeavetypeComponent, ApplyodComponent,PermissionRequestComponent,PermissionApprovalsComponent,ApprovalTypeComponent, VehicleRequisitionsComponent,VehicleApprovalsComponent,AdvanceComponent,LeaveRequestComponent,LeaveopeningbalanceComponent,LeaveApprovalComponent,odApprovalComponent,advanceApprovalComponent
   
 } from './components/dashboard/selfservice/index';
 
@@ -98,7 +98,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AccToAccClassComponent, VoucherTypesComponent,
     InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
     BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,
-    CompanyComponent, MastersComponent, BranchesComponent, DivisionComponent,DesignationComponent,
+    CompanyComponent, MastersComponent, BranchesComponent, DepartmentComponent, DivisionComponent,DesignationComponent,
     SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
     NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
     TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
@@ -110,9 +110,9 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SelfserviceComponent,
     LeavetypeComponent,
     LeaveopeningbalanceComponent,
-    LeavetypesComponent, ApplyodComponent,
+    LeavetypesComponent, ApplyodComponent, PermissionRequestComponent, PermissionApprovalsComponent, ApprovalTypeComponent, AdvanceComponent, VehicleRequisitionsComponent, VehicleApprovalsComponent,
     LeaveRequestComponent, PTMasterComponent, ComponentMasterComponent,
-    StructureCreationComponent, LeaveApprovalComponent,
+    StructureCreationComponent, LeaveApprovalComponent, odApprovalComponent,advanceApprovalComponent,
     PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,
     SalesComponent, SalesInvoiceComponent, SalesReturnComponent, CreateBillComponent, SalesReturnViewComponent,
     TransactionsComponent, CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
@@ -155,7 +155,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     AccToAccClassComponent, VoucherTypesComponent,
     DeleteItemComponent, InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
     BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,
-    CompanyComponent, BranchesComponent, DivisionComponent,DesignationComponent,
+    CompanyComponent, BranchesComponent, DepartmentComponent, DivisionComponent,DesignationComponent,
     SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
     NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
     TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
@@ -165,10 +165,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     LeavetypeComponent,
     LeaveopeningbalanceComponent,
     LeavetypesComponent,
-    ApplyodComponent,
+    ApplyodComponent, PermissionRequestComponent, PermissionApprovalsComponent, ApprovalTypeComponent, AdvanceComponent, VehicleRequisitionsComponent, VehicleApprovalsComponent,
     LeaveRequestComponent,
     PTMasterComponent, ComponentMasterComponent,
-    StructureCreationComponent, LeaveApprovalComponent,
+    StructureCreationComponent, LeaveApprovalComponent,odApprovalComponent,advanceApprovalComponent,
     PFMasterComponent, CTCBreakupComponent, SalaryProcessComponent,CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,
     JournalVoucherComponent,CreateJournalvoucherComponent,

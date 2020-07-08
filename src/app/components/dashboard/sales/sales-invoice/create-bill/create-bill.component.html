@@ -194,7 +194,7 @@
                             <input class="typeAhead" [(ngModel)]="element.pumpNo"
                                 id="pumpNo{{ dataSource.filteredData.indexOf(element) }}"
                                 [disabled]="element.text != 'obj' || disabledPump(element.productCode)"
-                                (input)="getPupms($event.target.value)" [typeahead]="getPupmsArray"
+                                (input)="getPupms($event.target.value, element.productCode)" [typeahead]="getPupmsArray"
                                 typeaheadOptionField='text' autocomplete="off" [typeaheadMinLength]="0" [minLength]="1"
                                 [typeaheadWaitMs]="200">
                         </td>

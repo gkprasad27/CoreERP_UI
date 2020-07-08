@@ -68,11 +68,12 @@ export class ReportTableComponent implements OnInit, OnChanges {
   excelUrl: any;
   Reports = [
     // { id: '1', reportName: 'Shift Report' },
-    { id: '2', reportName: 'Shift wise sale value' },
+    { id: '2', reportName: 'Shift wise Meter Reading' },
     { id: '3', reportName: 'Shift wise sales stock' },
     { id: '4', reportName: 'Shift wise hdfc bank account' },
     { id: '5', reportName: 'Shift wise  fleet card account' },
-    { id: '6', reportName: 'Shift wise daily sales report' }
+    { id: '6', reportName: 'Shift wise daily sales report' },
+    { id: '7', reportName: 'Shift wise Sale Value' }
   ];
   AccountLedgers = [];
   ReportBranches = [];
@@ -368,7 +369,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
   }
 
   exportToPdf() {
-    let doc = new jsPDF('p', 'mm', 'a4');
+    let doc = new jsPDF('l', 'mm', 'a3');
     let columns = []; //["ID", "Name", "Country"];
     for (const key in this.tableData[0]) {
       columns.push(key);

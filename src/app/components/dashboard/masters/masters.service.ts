@@ -23,6 +23,7 @@ import { ProductComponent} from './product/product.component';
 import { MemberMasterComponent } from './member-master/member-master.component';
 import { VehicleComponent } from './member-master/vehicle/vehicle.component';
 import { DesignationComponent } from './designation/designation.component';
+import { DepartmentComponent } from './department/department.component';
 import { String } from 'typescript-string-operations';
 
 @Injectable({
@@ -50,7 +51,17 @@ export class MastersService {
       this.dynamicData.listName = 'companiesList';
         this.dynamicData.primaryKey = 'companyId';
       return this.dynamicData;
-      break;
+        break;
+      case 'department':
+        this.dynamicData.url = this.apiConfigService.getdepartmentlist;
+        this.dynamicData.component = DepartmentComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerdepartment;
+        this.dynamicData.updateUrl = this.apiConfigService.updatedepartment
+        this.dynamicData.deleteUrl = this.apiConfigService.deletedepartment;
+        this.dynamicData.listName = 'departmenList';
+        this.dynamicData.primaryKey = 'departmentId';
+        return this.dynamicData;
+        break;
      case 'branches':
       this.dynamicData.url = this.apiConfigService.getBranchesList;
       this.dynamicData.component = BranchesComponent;

@@ -824,13 +824,13 @@ export class CreateBillComponent implements OnInit {
     }
   }
 
-  getPupms(pump) {
+  getPupms(pump, productCode) {
     const pNumber = +pump;
     if (!isNaN(pNumber)) {
       if (!isNullOrUndefined(this.branchFormData.get('branchCode').value) && this.branchFormData.get('branchCode').value != '' &&
-        !isNullOrUndefined(pump) && pump != '') {
+        !isNullOrUndefined(pump) && pump != '' && !isNullOrUndefined(productCode) && productCode != '') {
         const getPupmsUrl = String.Join('/', this.apiConfigService.getPupms, pump,
-          this.branchFormData.get('branchCode').value);
+          this.branchFormData.get('branchCode').value, productCode);
         this.apiService.apiGetRequest(getPupmsUrl).subscribe(
           response => {
             const res = response.body;
