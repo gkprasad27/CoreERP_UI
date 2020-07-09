@@ -227,6 +227,20 @@
     "phone":"Phone",
     "email":"Email",
     "gstin":"GST"
+  },
+  "department": {
+    "title": "Department",
+    "id": "Id",
+    "departmentId": "DepartmentId",
+    "departmentName": "DepartmentName",
+    "responsiblePersonCode": "ResponsiblePersonCode",
+    "responsiblePersonDesc": "ResponsiblePersonDesc",
+    "isActive": "isActive",
+    "createdBy": "CreatedBy",
+    "createdDate": "CreatedDate",
+    "companyCode": "CompanyCode",
+    "companyDesc": "CompanyDesc",
+    "companyGroupCode": "CompanyGroupCode"
   }, 
   "advance": {
     "title": "Advance",
