@@ -31,37 +31,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'branches'
         },
         {
-          displayName: 'Department',
-          iconName: 'speaker_notes',
-          route: 'department'
-        },
-        {
-          displayName: 'Designation',
-          iconName: 'speaker_notes',
-          route: 'designation'
-        },
-        {
-          displayName: 'PartnerType',
-          iconName: 'speaker_notes',
-          route: 'partnerType'
-        },
-        {
-          displayName: 'PartnerCreation',
-          iconName: 'speaker_notes',
-          route: 'partnerCreation'
-        },
-        {
-          displayName: 'EmployeeInBranch',
-          iconName: 'speaker_notes',
-          route: 'employeeInBranch'
-        },
-        {
-          displayName: 'NoSeries',
-          iconName: 'speaker_notes',
-          route: 'noSeries'
-        },
-        
-        {
           displayName: 'Division',
           iconName: 'speaker_notes',
           route: 'division'
@@ -82,35 +51,30 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'profitCenter'
         },
         {
+          displayName: 'Department',
+          iconName: 'speaker_notes',
+          route: 'department'
+        },
+        {
+          displayName: 'Designation',
+          iconName: 'speaker_notes',
+          route: 'designation'
+        }, 
+        {
           displayName: 'Employee',
           iconName: 'feedback',
           route: 'employee'
-        },
+        },        
         {
-          displayName: 'ProductPacking',
-          iconName: 'feedback',
-          route: 'productpacking'
-        },
-        {
-          displayName: 'TaxGroup',
-          iconName: 'feedback',
-          route: 'taxgroup'
-        },
-        {
-          displayName: 'TaxStructure',
-          iconName: 'feedback',
-          route: 'taxstructure'
-        },
+          displayName: 'EmployeeInBranch',
+          iconName: 'speaker_notes',
+          route: 'employeeInBranch'
+        },               
         {
           displayName: 'Tank',
           iconName: 'feedback',
           route: 'tank'
-        },
-        {
-          displayName: 'Unit',
-          iconName: 'feedback',
-          route: 'unit'
-        },
+        },        
         {
           displayName: 'Pump',
           iconName: 'feedback',
@@ -120,17 +84,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         displayName: 'MSHSD Rates',
         iconName: 'recent_actors',
         route: 'mshsdrates'
-        },
-        {
-          displayName:'Product',
-          iconName:'recent_actors',
-          route:'product'
-        },
-     	 {
-          displayName: 'MemberMaster',
-          iconName: 'feedback',
-          route: 'membermaster'
-        }
+        }  
+     	 
       ]
     },
     {
@@ -174,6 +129,36 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Account Ledger',
           iconName: 'group',
           route: 'glaccounts'
+        },
+        {
+          displayName: 'PartnerType',
+          iconName: 'speaker_notes',
+          route: 'partnerType'
+        },
+        {
+          displayName: 'PartnerCreation',
+          iconName: 'speaker_notes',
+          route: 'partnerCreation'
+        },
+        {
+          displayName: 'PartnerNoSeries',
+          iconName: 'speaker_notes',
+          route: 'noSeries'
+        },
+        {
+          displayName: 'TaxGroup',
+          iconName: 'feedback',
+          route: 'taxgroup'
+        },
+        {
+          displayName: 'TaxStructure',
+          iconName: 'feedback',
+          route: 'taxstructure'
+        },
+        {
+          displayName: 'MemberMaster',
+          iconName: 'feedback',
+          route: 'membermaster'
         }
       ]
     },
@@ -203,7 +188,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'brand'
         },
         {
-          displayName: 'NoAssignment',
+          displayName: 'MaterialNoAssignment',
           iconName: 'speaker_notes',
           route: 'numberassignment'
         },
@@ -212,33 +197,84 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'speaker_notes',
           route: 'materialgroups'
         },
+        {
+          displayName: 'ProductPacking',
+          iconName: 'feedback',
+          route: 'productpacking'
+        },
+        {
+          displayName: 'Unit',
+          iconName: 'feedback',
+          route: 'unit'
+        },
+        {
+          displayName:'Product',
+          iconName:'recent_actors',
+          route:'product'
+        }
       ]
     },
-
     {
-      displayName: 'SelfServices',
-      iconName: 'recent_actors',
+      displayName: 'LMS',
+      iconName: 'videocam',
       route: 'selfservice',
       children: [
-        {
-          displayName: 'Leaveopeningbalances',
-          iconName: 'speaker_notes',
-          route: 'leaveopeningbalance'
-        },
-        {
-          displayName: 'ApprovalType',
-          iconName: 'speaker_notes',
-          route: 'approvaltype'
-        },
         {
           displayName: 'LeaveType',
           iconName: 'speaker_notes',
           route: 'leavetype'
         },
         {
-          displayName: 'Applyod',
+          displayName: 'Leaveopeningbalances',
+          iconName: 'speaker_notes',
+          route: 'leaveopeningbalance'
+        }
+      ]
+    },
+    {
+      displayName: 'SelfServices',
+      iconName: 'recent_actors',
+      route: 'selfservice',
+      children: [
+        {
+          displayName: 'LeaveRequest',
+          iconName: 'speaker_notes',
+          route: 'Leaverequest'
+        },
+        {
+          displayName: 'Leave Approval',
+          iconName: 'account_balance',
+          route: 'leaveApproval'
+        },        
+        {
+          displayName: 'PermissionRquest',
+          iconName: 'speaker_notes',
+          route: 'permissionrequest'
+        },
+        {
+          displayName: 'Permission Approval',
+          iconName: 'account_balance',
+          route: 'permissionapproval'
+        },        
+        {
+          displayName: 'Apply OD',
           iconName: 'speaker_notes',
           route: 'applyod'
+        },
+        {
+          displayName: 'Approval OD',
+          iconName: 'account_balance',
+          route: 'odApproval'
+        },        
+        {
+          displayName: 'Vehicle Request',
+          iconName: 'speaker_notes',
+          route: 'vehiclerequisition'
+        },        
+        {
+          displayName: 'Vehicle Approval',
+          iconName: 'account_balance',
+          route: 'vehicleapproval'
         },
         {
           displayName: 'Advance',
@@ -246,45 +282,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           route: 'advance'
         },
         {
-          displayName: 'PermissionRquest',
-          iconName: 'speaker_notes',
-          route: 'permissionrequest'
-        },
-        {
-          displayName: 'LeaveRequest',
-          iconName: 'speaker_notes',
-          route: 'Leaverequest'
-        },
-        {
-          displayName: 'VehicleRequisition',
-          iconName: 'speaker_notes',
-          route: 'vehiclerequisition'
-        },
-        {
-          displayName: 'Od Approval',
-          iconName: 'account_balance',
-          route: 'odApproval'
-        },
-        {
-          displayName: 'Permission Approval',
-          iconName: 'account_balance',
-          route: 'permissionapproval'
-        },
-        {
-          displayName: 'Vehicle Approval',
-          iconName: 'account_balance',
-          route: 'vehicleapproval'
-        },
-        {
           displayName: 'Advance Approval',
           iconName: 'account_balance',
           route: 'advanceApproval'
-        },
-        {
-          displayName: 'Leave Approval',
-          iconName: 'account_balance',
-          route: 'leaveApproval'
         }
+        
       ]
     },
     {
@@ -341,7 +343,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Sales Return',
           iconName: 'videocam',
           route: 'salesReturn',
-        },
+        }
+        
+      ]
+    },
+
+    {
+      displayName: 'Purchase',
+      iconName: 'videocam',
+      route: 'sales',
+      children: [        
         {
           displayName: 'Stock Transfer',
           iconName: 'videocam',
@@ -359,6 +370,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     },
+
     {
       displayName: 'Transactions',
       iconName: 'account_balance',
@@ -435,7 +447,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Role Previlages',
           iconName: 'account_balance',
           route: 'rolePrevilages',
-        }
+        },
+        {
+          displayName: 'Approvals',
+          iconName: 'speaker_notes',
+          route: 'approvaltype'
+        }, 
       ]
     },
     {
