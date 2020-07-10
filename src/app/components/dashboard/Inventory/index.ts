@@ -5,3 +5,7 @@ export { AccountingClassComponent } from './accountingclass/accountingclass.comp
 export { BrandComponent } from './brand/brand.component'
 export { NumberAssignmentComponent } from './numberassignment/numberassignment.component'
 export { MaterialGroupsComponent } from './materialgroups/materialgroups.component'
+export { ProductpackingComponent } from './productpacking/productpacking.component';
+export { UnitComponent } from './unit/unit.component';
+export { ProductComponent} from './product/product.component';
+

@@ -10,23 +10,23 @@ import {
   DashboardComponent, LoginComponent, SidebarComponent, NotFoundComponent
 } from './components/index';
 import {
-  GeneralledgerComponent, AccountsGroupComponent,
-  SubGroupComponent, UndersubGroupComponent,
+  GeneralledgerComponent, AccountsGroupComponent,NoSeriesComponent,TaxMasterComponent,
+  SubGroupComponent, UndersubGroupComponent, TaxgroupsComponent, TaxstructuresComponent,
   GlAccountsComponent, GlSubcodeComponent, TaxIntegrationComponent, CashAccToBranchesComponent,
-  AccToAccClassComponent, VoucherTypesComponent
+  AccToAccClassComponent, VoucherTypesComponent,PartnerTypeComponent,PartnerCreationComponent
 } from './components/dashboard/generalledger/index';
 import {
-  InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
-  BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent
+  InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,UnitComponent,
+  BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,ProductpackingComponent,ProductComponent
 }
   from './components/dashboard/Inventory/index';
 
 import {
   CompanyComponent, MastersComponent, BranchesComponent,DepartmentComponent, DivisionComponent,DesignationComponent,
-  SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
-  NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
-  TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
-  TaxgroupsComponent, TaxstructuresComponent,MSHSDRatesComponent,ProductComponent
+  SegmentComponent, ProfitCenterComponent,  CostCenterComponent,
+   EmployeeInBranchComponent, EmployeeComponent,
+   TanksComponent, PumpComponent, 
+ MSHSDRatesComponent
 } from './components/dashboard/masters/index';
 
 import {
@@ -96,12 +96,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SubGroupComponent, UndersubGroupComponent,
     GlAccountsComponent, GlSubcodeComponent, TaxIntegrationComponent, CashAccToBranchesComponent,
     AccToAccClassComponent, VoucherTypesComponent,
-    InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
-    BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,
+    InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,UnitComponent,
+    BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,ProductpackingComponent,
     CompanyComponent, MastersComponent, BranchesComponent, DepartmentComponent, DivisionComponent,DesignationComponent,
-    SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
-    NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
-    TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
+    SegmentComponent, ProfitCenterComponent,  CostCenterComponent,
+    NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,PartnerCreationComponent,
+    TaxMasterComponent,  TanksComponent, PumpComponent, 
     TaxgroupsComponent, TaxstructuresComponent,
     PayrollComponent,
     LeaveopeningbalancesComponent,
@@ -153,12 +153,12 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SubGroupComponent, UndersubGroupComponent,
     GlAccountsComponent, GlSubcodeComponent, TaxIntegrationComponent, CashAccToBranchesComponent,
     AccToAccClassComponent, VoucherTypesComponent,
-    DeleteItemComponent, InventoryComponent, BrandModelComponent, SizesComponent, AccountingClassComponent,
-    BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,
+    DeleteItemComponent, InventoryComponent, BrandModelComponent,UnitComponent, SizesComponent, AccountingClassComponent,
+    BrandComponent, NumberAssignmentComponent, MaterialGroupsComponent,ProductpackingComponent,
     CompanyComponent, BranchesComponent, DepartmentComponent, DivisionComponent,DesignationComponent,
-    SegmentComponent, ProfitCenterComponent, PartnerCreationComponent, CostCenterComponent,
-    NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,
-    TaxMasterComponent, UnitComponent, TanksComponent, PumpComponent, ProductpackingComponent,
+    SegmentComponent, ProfitCenterComponent, CostCenterComponent,
+    NoSeriesComponent, PartnerTypeComponent, EmployeeInBranchComponent, EmployeeComponent,PartnerCreationComponent,
+    TaxMasterComponent,  TanksComponent, PumpComponent, 
     TaxgroupsComponent, TaxstructuresComponent,
     LeaveopeningbalancesComponent,
    // LeaveopeningbalanceComponent,

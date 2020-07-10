@@ -6,6 +6,10 @@ import { AccountingClassComponent } from './accountingclass/accountingclass.comp
 import { BrandComponent } from './brand/brand.component'
 import { NumberAssignmentComponent } from './numberassignment/numberassignment.component'
 import { MaterialGroupsComponent } from './materialgroups/materialgroups.component'
+import { ProductpackingComponent } from './productpacking/productpacking.component';
+import { UnitComponent } from './unit/unit.component';
+import { ProductComponent} from './product/product.component';
+
 
 @Injectable({
   providedIn: 'root'
@@ -82,7 +86,36 @@ export class InventoryService {
         this.dynamicData.primaryKey = 'groupId';
         return this.dynamicData;
         break;
-
+        case 'productpacking':
+          this.dynamicData.url = this.apiConfigService.getproductpackingList;
+          this.dynamicData.component = ProductpackingComponent;
+          this.dynamicData.registerUrl = this.apiConfigService.registerproductpacking;
+          this.dynamicData.updateUrl = this.apiConfigService.updateproductpacking;
+          this.dynamicData.deleteUrl = this.apiConfigService.deleteproductpacking;
+          this.dynamicData.listName = 'ProductpackingList';
+          this.dynamicData.primaryKey = 'packingId';
+          return this.dynamicData;
+          break;
+          case 'unit':
+        this.dynamicData.url = this.apiConfigService.getunitList;
+        this.dynamicData.component = UnitComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerunit;
+        this.dynamicData.updateUrl = this.apiConfigService.updateunit;
+        this.dynamicData.deleteUrl = this.apiConfigService.deleteunit;
+        this.dynamicData.listName = 'unitList';
+        this.dynamicData.primaryKey = 'unitId';
+        return this.dynamicData;
+        break;
+        case 'product':
+            this.dynamicData.url = this.apiConfigService.getProductMasterList;
+            this.dynamicData.component = ProductComponent;
+            this.dynamicData.registerUrl = this.apiConfigService.registerProduct;
+            this.dynamicData.updateUrl = this.apiConfigService.updateProduct;
+            this.dynamicData.deleteUrl = this.apiConfigService.deleteProduct;
+            this.dynamicData.listName = 'ProductList';
+            this.dynamicData.primaryKey = 'productId';
+            return this.dynamicData;
+            break;
       default:
     }
   }

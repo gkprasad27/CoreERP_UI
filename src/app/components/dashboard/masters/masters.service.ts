@@ -5,21 +5,12 @@ import { BranchesComponent } from './branches/branches.component';
 import { DivisionComponent } from './division/division.component';
 import { SegmentComponent } from './segment/segment.component';
 import { ProfitCenterComponent } from './profit-center/profit-center.component';
-import { PartnerCreationComponent } from './partner-creation/partner-creation.component';
 import { CostCenterComponent } from './cost-center/cost-center.component';
-import { NoSeriesComponent } from './no-series/no-series.component';
-import { PartnerTypeComponent } from './partner-type/partner-type.component';
 import { EmployeeInBranchComponent } from './employee-in-branch/employee-in-branch.component';
 import { EmployeeComponent } from './employee/employee.component';
-import { TaxMasterComponent } from './tax-master/tax-master.component';
-import { UnitComponent } from './unit/unit.component';
 import { TanksComponent } from './tank/tank.componet';
 import { PumpComponent } from './pump/pump.component';
-import { ProductpackingComponent } from './productpacking/productpacking.component';
-import { TaxgroupsComponent } from './taxgroup/taxgroup.component';
-import { TaxstructuresComponent } from './taxstructure/taxstructure.component';
 import { MSHSDRatesComponent} from './mshsdrates/mshsdrates.component';
-import { ProductComponent} from './product/product.component';
 import { MemberMasterComponent } from './member-master/member-master.component';
 import { VehicleComponent } from './member-master/vehicle/vehicle.component';
 import { DesignationComponent } from './designation/designation.component';
@@ -112,16 +103,7 @@ export class MastersService {
         this.dynamicData.primaryKey = 'seqId';
       return this.dynamicData;
       break;
-     case 'partnerCreation':
-      this.dynamicData.url = this.apiConfigService.getPartnerCreationList;
-      this.dynamicData.component = PartnerCreationComponent;
-      this.dynamicData.registerUrl = this.apiConfigService.registerPartnerCreation;
-      this.dynamicData.updateUrl = this.apiConfigService.updatePartnerCreation;
-      this.dynamicData.deleteUrl = this.apiConfigService.deletePartnerCreation;
-      this.dynamicData.listName = 'partnerCreationList';
-      this.dynamicData.primaryKey = 'code';
-      return this.dynamicData;
-      break;
+     
      case 'costcenter':
       this.dynamicData.url = this.apiConfigService.GetCostCenterList;
       this.dynamicData.component = CostCenterComponent;
@@ -132,26 +114,7 @@ export class MastersService {
       this.dynamicData.primaryKey = 'code';
       return this.dynamicData;
       break;
-     case 'noSeries':
-      this.dynamicData.url = this.apiConfigService.getNoSeriesList;
-      this.dynamicData.component = NoSeriesComponent;
-      this.dynamicData.registerUrl = this.apiConfigService.registerNoSeries;
-      this.dynamicData.updateUrl = this.apiConfigService.updateNoSeries;
-      this.dynamicData.deleteUrl = this.apiConfigService.deleteNoSeries;
-      this.dynamicData.listName = 'noSeriesList';
-      this.dynamicData.primaryKey = 'code';
-      return this.dynamicData;
-      break;
-     case 'partnerType':
-      this.dynamicData.url = this.apiConfigService.getPartnerTypesList;
-      this.dynamicData.component = PartnerTypeComponent;
-      this.dynamicData.registerUrl = this.apiConfigService.registerPartnerType;
-      this.dynamicData.updateUrl = this.apiConfigService.updatePartnerType;
-      this.dynamicData.deleteUrl = this.apiConfigService.deletePartnerType;
-      this.dynamicData.listName = 'partnerTypeList';
-      this.dynamicData.primaryKey = 'code';
-      return this.dynamicData;
-      break;
+    
       case 'employeeInBranch':
         this.dynamicData.url = String.Join('/', this.apiConfigService.getAllEmployeesInBranch, user.branchCode);
       //this.dynamicData.url = this.apiConfigService.getAllEmployeesInBranch;
@@ -172,27 +135,7 @@ export class MastersService {
         this.dynamicData.listName = 'employeesList';
         this.dynamicData.primaryKey = 'employeeId';
       return this.dynamicData;
-      break;
-     case 'taxMaster':
-      this.dynamicData.url = this.apiConfigService.getTaxmastersList;
-      this.dynamicData.component = TaxMasterComponent;
-      this.dynamicData.registerUrl = this.apiConfigService.registerTaxMasters;
-      this.dynamicData.updateUrl = this.apiConfigService.updateTaxMaster;
-      this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxMaster;
-      this.dynamicData.listName = 'TaxmasterList';
-      this.dynamicData.primaryKey = 'code';
-      return this.dynamicData;
-        break;
-      case 'unit':
-        this.dynamicData.url = this.apiConfigService.getunitList;
-        this.dynamicData.component = UnitComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerunit;
-        this.dynamicData.updateUrl = this.apiConfigService.updateunit;
-        this.dynamicData.deleteUrl = this.apiConfigService.deleteunit;
-        this.dynamicData.listName = 'unitList';
-        this.dynamicData.primaryKey = 'unitId';
-        return this.dynamicData;
-        break;
+      break; 
       case 'tank':
         this.dynamicData.url = this.apiConfigService.gettankList;
         this.dynamicData.component = TanksComponent;
@@ -213,36 +156,7 @@ export class MastersService {
         this.dynamicData.primaryKey = 'pumpId';
         return this.dynamicData;
         break;
-      case 'productpacking':
-        this.dynamicData.url = this.apiConfigService.getproductpackingList;
-        this.dynamicData.component = ProductpackingComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerproductpacking;
-        this.dynamicData.updateUrl = this.apiConfigService.updateproductpacking;
-        this.dynamicData.deleteUrl = this.apiConfigService.deleteproductpacking;
-        this.dynamicData.listName = 'ProductpackingList';
-        this.dynamicData.primaryKey = 'packingId';
-        return this.dynamicData;
-        break;
-      case 'taxgroup':
-        this.dynamicData.url = this.apiConfigService.getTaxGroupList;
-        this.dynamicData.component = TaxgroupsComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerTaxGroup;
-        this.dynamicData.updateUrl = this.apiConfigService.updateTaxGroup;
-        this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxGroup;
-        this.dynamicData.listName = 'TaxgroupList';
-        this.dynamicData.primaryKey = 'taxGroupId';
-        return this.dynamicData;
-        break;
-      case 'taxstructure':
-        this.dynamicData.url = this.apiConfigService.getTaxStructureList;
-        this.dynamicData.component = TaxstructuresComponent;
-        this.dynamicData.registerUrl = this.apiConfigService.registerTaxStructure;
-        this.dynamicData.updateUrl = this.apiConfigService.updateTaxStructure;
-        this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxStructure;
-        this.dynamicData.listName = 'TaxStructureList';
-        this.dynamicData.primaryKey = 'taxStructureId';
-        return this.dynamicData;
-        break;
+         
         case 'mshsdrates':
           this.dynamicData.url = `${this.apiConfigService.getMshsdRateList}/${this.branchCode}/${this.role}`;
           this.dynamicData.component = MSHSDRatesComponent;
@@ -253,16 +167,7 @@ export class MastersService {
           this.dynamicData.primaryKey = 'id';
           return this.dynamicData;
           break;
-        case 'product':
-            this.dynamicData.url = this.apiConfigService.getProductMasterList;
-            this.dynamicData.component = ProductComponent;
-            this.dynamicData.registerUrl = this.apiConfigService.registerProduct;
-            this.dynamicData.updateUrl = this.apiConfigService.updateProduct;
-            this.dynamicData.deleteUrl = this.apiConfigService.deleteProduct;
-            this.dynamicData.listName = 'ProductList';
-            this.dynamicData.primaryKey = 'productId';
-            return this.dynamicData;
-            break;
+        
 	    case 'membermaster':
         this.dynamicData.url = this.apiConfigService.getMembersList;
         this.dynamicData.component = MemberMasterComponent;

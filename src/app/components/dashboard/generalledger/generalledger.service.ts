@@ -10,6 +10,14 @@ import {CashAccToBranchesComponent } from './cashacctobranches/cashacctobranches
 import {AccToAccClassComponent} from './acctoaccclass/acctoaccclass.component';
 import { VoucherTypesComponent } from './vouchertypes/vouchertypes.component';
 import { String } from 'typescript-string-operations';
+import { PartnerTypeComponent } from './partner-type/partner-type.component';
+import { PartnerCreationComponent } from './partner-creation/partner-creation.component';
+import { NoSeriesComponent } from './no-series/no-series.component';
+import { TaxgroupsComponent } from './taxgroup/taxgroup.component';
+import { TaxstructuresComponent } from './taxstructure/taxstructure.component';
+import { TaxMasterComponent } from './tax-master/tax-master.component';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +63,26 @@ export class GeneralledgerService {
           this.dynamicData.primaryKey = 'accountGroupId';
           return this.dynamicData;
           break;
+     case 'partnerType':
+      this.dynamicData.url = this.apiConfigService.getPartnerTypesList;
+      this.dynamicData.component = PartnerTypeComponent;
+      this.dynamicData.registerUrl = this.apiConfigService.registerPartnerType;
+      this.dynamicData.updateUrl = this.apiConfigService.updatePartnerType;
+      this.dynamicData.deleteUrl = this.apiConfigService.deletePartnerType;
+      this.dynamicData.listName = 'partnerTypeList';
+      this.dynamicData.primaryKey = 'code';
+      return this.dynamicData;
+      break;
+      case 'partnerCreation':
+      this.dynamicData.url = this.apiConfigService.getPartnerCreationList;
+      this.dynamicData.component = PartnerCreationComponent;
+      this.dynamicData.registerUrl = this.apiConfigService.registerPartnerCreation;
+      this.dynamicData.updateUrl = this.apiConfigService.updatePartnerCreation;
+      this.dynamicData.deleteUrl = this.apiConfigService.deletePartnerCreation;
+      this.dynamicData.listName = 'partnerCreationList';
+      this.dynamicData.primaryKey = 'code';
+      return this.dynamicData;
+      break;
           case 'glaccounts':
           this.dynamicData.url = this.apiConfigService.getTblAccountLedgerList;
           this.dynamicData.component = GlAccountsComponent;
@@ -117,6 +145,47 @@ export class GeneralledgerService {
                 this.dynamicData.primaryKey = 'voucherCode';
                 return this.dynamicData;
                 break;
+                case 'noSeries':
+      this.dynamicData.url = this.apiConfigService.getNoSeriesList;
+      this.dynamicData.component = NoSeriesComponent;
+      this.dynamicData.registerUrl = this.apiConfigService.registerNoSeries;
+      this.dynamicData.updateUrl = this.apiConfigService.updateNoSeries;
+      this.dynamicData.deleteUrl = this.apiConfigService.deleteNoSeries;
+      this.dynamicData.listName = 'noSeriesList';
+      this.dynamicData.primaryKey = 'code';
+      return this.dynamicData;
+      break; 
+      case 'taxgroup':
+        this.dynamicData.url = this.apiConfigService.getTaxGroupList;
+        this.dynamicData.component = TaxgroupsComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerTaxGroup;
+        this.dynamicData.updateUrl = this.apiConfigService.updateTaxGroup;
+        this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxGroup;
+        this.dynamicData.listName = 'TaxgroupList';
+        this.dynamicData.primaryKey = 'taxGroupId';
+        return this.dynamicData;
+        break;
+      case 'taxstructure':
+        this.dynamicData.url = this.apiConfigService.getTaxStructureList;
+        this.dynamicData.component = TaxstructuresComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerTaxStructure;
+        this.dynamicData.updateUrl = this.apiConfigService.updateTaxStructure;
+        this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxStructure;
+        this.dynamicData.listName = 'TaxStructureList';
+        this.dynamicData.primaryKey = 'taxStructureId';
+        return this.dynamicData;
+        break;
+        case 'taxMaster':
+          this.dynamicData.url = this.apiConfigService.getTaxmastersList;
+          this.dynamicData.component = TaxMasterComponent;
+          this.dynamicData.registerUrl = this.apiConfigService.registerTaxMasters;
+          this.dynamicData.updateUrl = this.apiConfigService.updateTaxMaster;
+          this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxMaster;
+          this.dynamicData.listName = 'TaxmasterList';
+          this.dynamicData.primaryKey = 'code';
+          return this.dynamicData;
+            break;
+            
      default:
     }
    }

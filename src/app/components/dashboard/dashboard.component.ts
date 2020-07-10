@@ -84,8 +84,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         displayName: 'MSHSD Rates',
         iconName: 'recent_actors',
         route: 'mshsdrates'
-        }  
-     	 
+        },
+        {
+          displayName: 'MemberMaster',
+          iconName: 'feedback',
+          route: 'membermaster'
+        }
       ]
     },
     {
@@ -154,11 +158,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'TaxStructure',
           iconName: 'feedback',
           route: 'taxstructure'
-        },
-        {
-          displayName: 'MemberMaster',
-          iconName: 'feedback',
-          route: 'membermaster'
         }
       ]
     },
@@ -285,7 +284,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Advance Approval',
           iconName: 'account_balance',
           route: 'advanceApproval'
-        }
+        },
+        {
+          displayName: 'Approvals',
+          iconName: 'speaker_notes',
+          route: 'approvaltype'
+        }, 
         
       ]
     },
@@ -447,12 +451,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           displayName: 'Role Previlages',
           iconName: 'account_balance',
           route: 'rolePrevilages',
-        },
-        {
-          displayName: 'Approvals',
-          iconName: 'speaker_notes',
-          route: 'approvaltype'
-        }, 
+        }
+        
       ]
     },
     {

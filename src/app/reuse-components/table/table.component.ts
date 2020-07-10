@@ -12,6 +12,8 @@ import { take, takeUntil } from 'rxjs/operators';
 import { MatSelect } from '@angular/material';
 import { User } from '../../models/common/user';
 import { TranslateService } from '@ngx-translate/core';
+import { RuntimeConfigService } from '../../services/runtime-config.service';
+
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
@@ -68,11 +70,14 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
     public dialog: MatDialog,
     private cdr: ChangeDetectorRef,
     private activatedRoute: ActivatedRoute,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private runtimeConfigService: RuntimeConfigService,
+    private commonService: CommonService
+
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
     activatedRoute.params.subscribe(params => {
-      if(this.isVehicle) {
+      if (this.isVehicle) {
         this.routeParam = 'vehicle';
       }
       else {
@@ -92,14 +97,14 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
 
   highlightRows(row?) {
     if (!isNullOrUndefined(row)) {
-          this.highlightedRows = [];
-          this.highlightedRows.push(row);
+      this.highlightedRows = [];
+      this.highlightedRows.push(row);
     }
   }
 
   setIndex(row) {
-      this.highlightedRows = [];
-      this.highlightedRows.push(row);
+    this.highlightedRows = [];
+    this.highlightedRows.push(row);
   }
 
 
@@ -134,10 +139,10 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
 
     this.defaultValues();
 
-    if(this.isVehicle){
+    if (this.isVehicle) {
       this.routeParam = 'vehicle';
     }
-    
+
     if (!isNullOrUndefined(this.tableData)) {
       if (this.tableData.length > 0) {
         this.showDataNotFound = false;
@@ -151,44 +156,51 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
       this.dataSource.sort = this.sort;
     }
 
-      if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
-        // tslint:disable-next-line:forin
-        for (const key in this.tableData[0]) {
-          this.keys.push({ col: key });
+    if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
+      // tslint:disable-next-line:forin
+      for (const key in this.tableData[0]) {
+        this.keys.push({ col: key });
+      }
+      const col = [];
+      this.keys.forEach(cols => {
+        const obj = {
+          def: cols.col, label: cols.col, hide: true
+        };
+        col.push(obj);
+      });
+
+      // this.translate.get(this.routeParam).subscribe(res => {
+      // tslint:disable-next-line: forin
+      for (const key in this.runtimeConfigService.tableColumnsData[this.routeParam]) {
+        // tslint:disable-next-line: prefer-for-of
+        if (this.runtimeConfigService.tableColumnsData[this.routeParam][key] == 'Date') {
+          this.formatDate(key)
         }
-        const col = [];
-        this.keys.forEach(cols => {
-          const obj = {
-            def: cols.col, label: cols.col, hide: true
-          };
-          col.push(obj);
-        });
-
-        this.translate.get(this.routeParam).subscribe(res => {
-          let key;
-          // tslint:disable-next-line: forin
-          for (key in res) {
-            // tslint:disable-next-line: prefer-for-of
-            for (let c = 0; c < col.length; c++) {
-              if (key == col[c].def) {
-                this.columnDefinitions.push(col[c]);
-              }
-            }
+        for (let c = 0; c < col.length; c++) {
+          if (key == col[c].def) {
+            this.columnDefinitions.push(col[c]);
           }
+        }
+      }
+      // });
+    }
+
+
+    if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
+      this.filteredTableMulti.next(this.columnDefinitions.slice());
+      this.tableMultiFilterCtrl.valueChanges
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(() => {
+          this.filterBanksMulti();
         });
-      }
+    }
 
-
-      if (!isNullOrUndefined(this.tableData) && this.tableData.length > 0) {
-        this.filteredTableMulti.next(this.columnDefinitions.slice());
-        this.tableMultiFilterCtrl.valueChanges
-          .pipe(takeUntil(this.onDestroy))
-          .subscribe(() => {
-            this.filterBanksMulti();
-          });
-      }
-    
   }
+
+  formatDate(col) {
+    this.tableData.map(res => !isNullOrUndefined(res[col]) ? res[col] = this.commonService.formatDateValue(res[col]) : '');
+  }
+
 
 
   ngAfterViewInit() {
@@ -258,7 +270,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   }
 
   searchMember() {
-    if(this.searchMemberObj.Name || this.searchMemberObj.invoiceNo) {
+    if (this.searchMemberObj.Name || this.searchMemberObj.invoiceNo) {
       this.searchEvent.emit(this.searchMemberObj);
     }
     else {

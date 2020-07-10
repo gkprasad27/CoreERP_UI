@@ -72,6 +72,15 @@ export class CommonService {
     return `${[mnth, day, date.getFullYear()].join('-')} ${[hours, minutes, seconds].join(':')}`;
   }
 
+  formatDateValue(event) {
+    const time = new Date();
+    // tslint:disable-next-line: one-variable-per-declaration
+    const date = new Date(event),
+      mnth = ('0' + (date.getMonth() + 1)).slice(-2),
+      day = ('0' + date.getDate()).slice(-2)
+    return `${[day, mnth, date.getFullYear()].join('-')}`;
+  }
+
 
   formatReportDate(event) {
     var time = new Date();
