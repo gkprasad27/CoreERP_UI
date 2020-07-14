@@ -76,7 +76,10 @@ import { PurchaseReturnViewComponent } from './components/dashboard/sales/purcha
 import { ReportsComponent } from './components/dashboard/reports/index';
 import { MemberMasterComponent } from './components/dashboard/masters/member-master/member-master.component';
 import { VehicleComponent } from './components/dashboard/masters/member-master/vehicle/vehicle.component';
-
+import { TokenInterceptor } from './token-interceptor';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { GiftMasterComponent} from'./components/dashboard/masters/member-master/Giftmaster/giftmaster.component';
+  import { from } from 'rxjs';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -122,7 +125,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent,
     CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
     ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent,MemberMasterComponent, VehicleComponent
+    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent,MemberMasterComponent, VehicleComponent,GiftMasterComponent
   ],
   imports: [
     AppRoutingModule,
@@ -146,6 +149,11 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       multi: true,
       deps: [RuntimeConfigService, HttpClientModule]
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent],
   entryComponents: [

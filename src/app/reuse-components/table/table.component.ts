@@ -39,6 +39,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   @Output() addOrUpdateEvent = new EventEmitter();
   @Input() addOrUpdateData: any;
   @Input() isVehicle: boolean;
+  @Input() isGiftmaster: boolean;
+  @Input() setBackgroun:boolean;
   @Output() searchEvent = new EventEmitter();
   @Output() addEvent = new EventEmitter();
 
@@ -77,7 +79,12 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   ) {
     this.user = JSON.parse(localStorage.getItem('user'));
     activatedRoute.params.subscribe(params => {
-      if (this.isVehicle) {
+      
+      if(this.isGiftmaster){
+        this.routeParam='GiftMaster';
+      }
+
+      if(this.isVehicle) {
         this.routeParam = 'vehicle';
       }
       else {
@@ -143,6 +150,10 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
       this.routeParam = 'vehicle';
     }
 
+    if(this.isGiftmaster){
+      this.routeParam='GiftMaster';
+    }
+    
     if (!isNullOrUndefined(this.tableData)) {
       if (this.tableData.length > 0) {
         this.showDataNotFound = false;

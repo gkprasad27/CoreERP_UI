@@ -606,6 +606,17 @@
     "vehicleTypeName": "vehicleTypeName",
     "vehicleType": "vehicleType"
   },
+  "GiftMaster":{
+    "title":"Gift",
+    "memberCode":"Member Code",
+    "giftId":"Gift Id",
+    "status":"Status",
+    "issuseDate":"Issue Date",
+    "description":"Description",
+    "year":"Year",
+    "giftName":"Gift Name"
+  }
+  ,
   "segment": {
     "title": "Segment",
     "seqId": "Seq Id",

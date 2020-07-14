@@ -73,7 +73,8 @@ export class LoginComponent implements OnInit {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
             if (!isNullOrUndefined(res.response)) {
-              this.getBranchesForUser(res.response);
+              this.getBranchesForUser(res.response['User']);
+              localStorage.setItem('Token', JSON.stringify(res.response['Token']));
             }
           }
           this.spinner.hide();

@@ -17,6 +17,8 @@ export class ApiConfigService {
    loginUrl = `${this.environment.runtimeConfig.serverUrl}Auth/login`;
    getMenuUrl = `${this.environment.runtimeConfig.serverUrl}Auth/getMenu/admin`;
    logoutUrl = `${this.environment.runtimeConfig.serverUrl}Auth/logout`;
+   shiftTerminate = `${this.environment.runtimeConfig.serverUrl}Auth/ShiftTerminate`;
+   shiftStart = `${this.environment.runtimeConfig.serverUrl}Auth/ShiftStart`;
    getBranchesForUser = `${this.environment.runtimeConfig.serverUrl}Auth/GetBranchesForUser`;
 
 
@@ -622,7 +624,18 @@ export class ApiConfigService {
    // Leave Approval
   getLeaveApplDetailsList = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/GetLeaveApplDetailsList`;
   RegisterLeaveApprovalDetails = `${this.environment.runtimeConfig.serverUrl}Selfservice/LeaveApproval/RegisterLeaveApprovalDetails`;
-   // ******************************* End  master *****************************************
+ 
+ //gift master 
+  getGiftProductList=`${this.environment.runtimeConfig.serverUrl}MemberMaster/GetProducts`;
+  getGiftList=`${this.environment.runtimeConfig.serverUrl}MemberMaster/GetGifts`;
+  addGift=`${this.environment.runtimeConfig.serverUrl}MemberMaster/AddGifts`;
+  updateGift=`${this.environment.runtimeConfig.serverUrl}MemberMaster/UpdateGift`;
+
+//   getGiftProductList=`http://localhost:51414/api/MemberMaster/GetProducts`;
+//   getGiftList=`http://localhost:51414/api/MemberMaster/GetGifts`;
+//   addGift=`http://localhost:51414/api/MemberMaster/AddGifts`;
+//   updateGift=`http://localhost:51414/api/MemberMaster/UpdateGift`;
+  // ******************************* End  master *****************************************
 
 
  //Reports

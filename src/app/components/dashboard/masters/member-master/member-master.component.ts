@@ -41,6 +41,7 @@ export class MemberMasterComponent implements OnInit {
   tableData: any = [];
 
   vehicleTableData: any = [];
+  gifttableDataList:any=[]
 
   isMemberForm: boolean = false;
 
@@ -137,6 +138,10 @@ export class MemberMasterComponent implements OnInit {
             if (!isNullOrUndefined(res.response)) {
               this.tableData = [];
               this.tableData = res.response[this.tableUrl.listName];
+              this.tableData.forEach(element => {
+                if(element.giftIssued =='Yes')
+                element.backgroundColor ='green';
+              });
             }
           }
           this.spinner.hide();
@@ -227,6 +232,25 @@ export class MemberMasterComponent implements OnInit {
       );
   }
 
+  getGiftList(memberCode){
+    this.apiService.apiGetRequest(this.apiConfigService.getGiftList+'/'+memberCode)
+        .subscribe(
+           response=>{
+               //debugger;
+              const res=response.body;
+              if(!isNullOrUndefined(res) && res.status == StatusCodes.pass){
+                  if(!isNullOrUndefined(res.response)){
+                    this.gifttableDataList =res.response["Gifts"];
+                  }
+              }
+           }
+         ,error=>{
+             this.spinner.hide();
+         }
+        );
+
+ }
+
   addOrUpdateEvent(value) {
     if (value.action == 'Edit') {
       this.formData = value.item;
@@ -236,7 +260,8 @@ export class MemberMasterComponent implements OnInit {
         this.formToggle();
         this.isFormEdit = true;
 
-        this.getVehicleTableData(this.formData.memberCode)
+        this.getVehicleTableData(this.formData.memberCode);
+        this.getGiftList(this.formData.memberCode);
       }
     }
 

@@ -14,5 +14,6 @@ export { MemberMasterComponent } from './member-master/member-master.component';
 export { VehicleComponent } from './member-master/vehicle/vehicle.component';
 export { DesignationComponent } from './designation/designation.component';
 export { DepartmentComponent } from './department/department.component';
+export { GiftMasterComponent} from'./member-master/Giftmaster/giftmaster.component';
 
 
