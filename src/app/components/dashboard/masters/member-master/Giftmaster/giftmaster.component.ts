@@ -25,13 +25,14 @@ export class GiftMasterComponent implements OnInit, OnChanges {
     isFormEdit:boolean=false;
     isGiftmaster=true;
     formData:any;
+    isFormVisible:boolean =false;
+    gifttableDataList:any =[];
     statusList:giftIsActive[]=[{value:"true",viewValue:"Active"},{value:"false",viewValue:"InActive"}]
 
 @Input()
 membercode:any;
 
-@Input()
-gifttableDataList:any =[];
+
 
     constructor(
         private apiService: ApiService,
@@ -70,6 +71,8 @@ gifttableDataList:any =[];
         this.modelFromData.controls["issueDate"].setValue(d);
         this.modelFromData.controls["year"].setValue(d.getFullYear());
         this.modelFromData.controls["memberCode"].setValue(this.membercode);
+        this.modelFromData.controls["status"].setValue(true);
+        
     }
    
     getGiftProductList() {
@@ -93,7 +96,7 @@ gifttableDataList:any =[];
        this.apiService.apiGetRequest(this.apiConfigService.getGiftList+'/'+this.membercode)
            .subscribe(
               response=>{
-                  //debugger;
+             
                  const res=response.body;
                  if(!isNullOrUndefined(res) && res.status == StatusCodes.pass){
                      if(!isNullOrUndefined(res.response)){
@@ -105,10 +108,9 @@ gifttableDataList:any =[];
                 this.spinner.hide();
             }
            );
-
     }
     addOrUpdateEvent(value) {
-       debugger;
+      
         if (value.action == 'Edit') {
 
           this.formData = value.item;
@@ -119,10 +121,11 @@ gifttableDataList:any =[];
             this.isFormEdit = true;
          }
         }
+        this.isFormVisible=true;
     }
 
       save(){
-          debugger;
+         
         if (this.modelFromData.invalid) {
             return;
           }
@@ -158,6 +161,7 @@ gifttableDataList:any =[];
                   }
                 }
                 this.spinner.hide();
+                
               }
             );
           }
@@ -167,5 +171,6 @@ gifttableDataList:any =[];
       reset(){
           this.modelFromData.reset();
           this.setDefualts();
+          this.isFormVisible=false;
       }
 }

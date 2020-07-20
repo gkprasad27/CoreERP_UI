@@ -12,9 +12,48 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
 
+  
 
   @ViewChild('appDrawer', {static: false}) appDrawer: ElementRef;
-  navItems = [
+  navItems = [];
+  
+  
+
+  constructor(
+    private apiService: ApiService,
+    private commonService: CommonService,
+    private apiConfigService: ApiConfigService,
+    private spinner: NgxSpinnerService,
+  ) {
+    commonService.showNavbar.next(true);
+  }
+
+  ngOnInit() {
+    this.getMenuList();
+  }
+
+  getMenuList() {
+   let obj= JSON.parse(localStorage.getItem("user"));
+
+    const getMenuUrl = String.Join('/', this.apiConfigService.getMenuUrl,obj.userName);
+    this.apiService.apiGetRequest(getMenuUrl)
+      .subscribe(
+        menu => {
+         
+          console.log(menu);
+          this.spinner.hide();
+          this.navItems = menu.body["response"];
+          this.spinner.hide();
+        });
+  }
+
+  ngAfterViewInit() {
+    this.commonService.appDrawer = this.appDrawer;
+    // console.log(this.navItems);
+  }
+
+/*
+[
     {
       displayName: 'Master',
       iconName: 'recent_actors',
@@ -35,6 +74,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'speaker_notes',
           route: 'division'
         },
+
         {
           displayName: 'Segment',
           iconName: 'speaker_notes',
@@ -80,6 +120,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName: 'feedback',
           route: 'pump'
         },
+
         {
         displayName: 'MSHSD Rates',
         iconName: 'recent_actors',
@@ -92,6 +133,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     },
+
     {
       displayName: 'GeneralLedger',
       iconName: 'recent_actors',
@@ -161,6 +203,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     },
+
     {
       displayName: 'Inventory',
       iconName: 'recent_actors',
@@ -213,6 +256,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     },
+  
     {
       displayName: 'LMS',
       iconName: 'videocam',
@@ -230,6 +274,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     },
+
     {
       displayName: 'SelfServices',
       iconName: 'recent_actors',
@@ -293,6 +338,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         
       ]
     },
+   
     {
       displayName: 'Payroll',
       iconName: 'recent_actors',
@@ -442,6 +488,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     },
+  
     {
       displayName: 'Settings',
       iconName: 'settings',
@@ -455,6 +502,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         
       ]
     },
+
     {
       displayName: 'Reports',
       iconName: 'recent_actors',
@@ -562,36 +610,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         }
       ]
     }
-  ];
-
-  constructor(
-    private apiService: ApiService,
-    private commonService: CommonService,
-    private apiConfigService: ApiConfigService,
-    private spinner: NgxSpinnerService,
-  ) {
-    commonService.showNavbar.next(true);
-  }
-
-  ngOnInit() {
-    // this.getMenuList();
-  }
-
-  getMenuList() {
-    const getMenuUrl = String.Join('/', this.apiConfigService.getMenuUrl);
-    this.apiService.apiGetRequest(getMenuUrl)
-      .subscribe(
-        menu => {
-          console.log(menu);
-          this.spinner.hide();
-          // this.navItems = menu.body;
-        });
-  }
-
-  ngAfterViewInit() {
-    this.commonService.appDrawer = this.appDrawer;
-    // console.log(this.navItems);
-  }
-
+  ];*/
 
 }

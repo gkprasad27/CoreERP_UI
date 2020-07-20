@@ -15,7 +15,7 @@ export class ApiConfigService {
 
    // login Url
    loginUrl = `${this.environment.runtimeConfig.serverUrl}Auth/login`;
-   getMenuUrl = `${this.environment.runtimeConfig.serverUrl}Auth/getMenu/admin`;
+   getMenuUrl = `${this.environment.runtimeConfig.serverUrl}Auth/getMenu`;
    logoutUrl = `${this.environment.runtimeConfig.serverUrl}Auth/logout`;
    shiftTerminate = `${this.environment.runtimeConfig.serverUrl}Auth/ShiftTerminate`;
    shiftStart = `${this.environment.runtimeConfig.serverUrl}Auth/ShiftStart`;
