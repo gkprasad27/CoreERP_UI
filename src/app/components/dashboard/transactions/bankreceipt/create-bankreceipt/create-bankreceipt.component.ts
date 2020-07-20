@@ -433,7 +433,6 @@ export class CreateBankreceiptComponent implements OnInit {
               toLedgerName : this.getAccountLedgerListArray[t].text
             });
             flag = false;
-            break;
           }
         }
       }
@@ -449,7 +448,6 @@ export class CreateBankreceiptComponent implements OnInit {
                   toLedgerCode : this.getAccountLedgerListArray[t].id,
                   toLedgerName : this.getAccountLedgerListArray[t].text
                         });
-                break;
               }
             }
           }

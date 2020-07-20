@@ -214,8 +214,8 @@ export class ApiConfigService {
    // UnderSubGroup //
    getGLUnderSubGroupList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetTblAccountGroupList`;
    getAccountNamelist = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetAccountNamelist`;
-   getGLUnderGroupList = `${this.environment.runtimeConfig.serverUrl}/gl/GLAccUnderSubGroup/GetAccountGrouplist`;
-   registerGLUnderSubGroup = `${this.environment.runtimeConfig.serverUrl}/gl/GLAccUnderSubGroup/RegisterTblAccGroup`;
+   getGLUnderGroupList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetAccountGrouplist`;
+   registerGLUnderSubGroup = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/RegisterTblAccGroup`;
    updateGLAccUnderSubGroup = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/UpdateTblAccountGroup`;
    deleteGLAccUnderSubGroup = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/DeleteTblAccountGroup`;
    getglAccgrpList = `${this.environment.runtimeConfig.serverUrl}gl/GLAccUnderSubGroup/GetGLAccountGrouplist`;
@@ -680,6 +680,8 @@ export class ApiConfigService {
    getSMSSummaryReportData=`${this.environment.runtimeConfig.serverUrl}Reports/SMSSummaryReport/GetSMSSummaryReportData`;
 
    getOneDaySaleValueReportData=`${this.environment.runtimeConfig.serverUrl}Reports/OneDaySaleValueReport6amTo6am/GetOneDaySaleValueReportData`;
+
+   getTrialBalanceReportData=`${this.environment.runtimeConfig.serverUrl}Reports/TrialBalanceReport/GetTrialBalanceReportData`;
 
    
 

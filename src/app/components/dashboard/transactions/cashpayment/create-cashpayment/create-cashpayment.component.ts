@@ -360,7 +360,6 @@ export class CreateCashpaymentComponent implements OnInit {
               toLedgerName : this.getAccountLedgerListArray[t].text
             });
             flag = false;
-            break;
           }
         }
       }
@@ -376,7 +375,6 @@ export class CreateCashpaymentComponent implements OnInit {
                   toLedgerCode : this.getAccountLedgerListArray[t].id,
                   toLedgerName : this.getAccountLedgerListArray[t].text
                         });
-                break;
               }
             }
           }

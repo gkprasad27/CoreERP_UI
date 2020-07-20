@@ -340,7 +340,6 @@ export class CreateCashreceiptComponent implements OnInit {
               toLedgerName : this.getAccountLedgerListArray[t].text
             });
             flag = false;
-            break;
           }
         }
       }
@@ -356,7 +355,6 @@ export class CreateCashreceiptComponent implements OnInit {
                   toLedgerCode : this.getAccountLedgerListArray[t].id,
                   toLedgerName : this.getAccountLedgerListArray[t].text
                         });
-                break;
               }
             }
           }

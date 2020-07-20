@@ -555,6 +555,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           iconName:"category",
           route:"24Hrs Sale Value 6Am To 6Am"
         },
+        {
+          displayName:"Trial Balance",
+          iconName:"track_changes",
+          route:"Trial Balance"
+        }
       ]
     }
   ];
