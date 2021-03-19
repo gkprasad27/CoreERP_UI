@@ -40,6 +40,14 @@ export class TransactionsService {
         this.dynamicData.coustom = false;
         return this.dynamicData;
         break;
+      case 'purchaserequisition':
+        this.dynamicData.coustom = false;
+        return this.dynamicData;
+        break;
+      case 'purchaserequisitionapproval':
+        this.dynamicData.coustom = false;
+        return this.dynamicData;
+        break;
       case 'stockreceipt':
         this.dynamicData.coustom = false;
         return this.dynamicData;

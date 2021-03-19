@@ -24,6 +24,7 @@ export class NumberAssignmentComponent implements OnInit {
   formData: any;
     companyList: any;
     MaterialGroupsList: any;
+    getProductGroup: any;
 
   constructor(
     private commonService: CommonService,
@@ -37,7 +38,7 @@ export class NumberAssignmentComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.modelFormData = this.formBuilder.group({
-      code: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+      code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
       companyCode: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(50)]],
       description: [null],
       ext1: [null],
@@ -45,25 +46,27 @@ export class NumberAssignmentComponent implements OnInit {
       materialGroup: [null],
       noType: [null],
       numberInterval: [null],
-      active: [null]
+      active: ['Y']
     });
 
 
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
-      this.modelFormData.controls['code'].disable();
+      //this.modelFormData.controls['code'].disable();
     }
 
   }
 
   ngOnInit() {
     this.getTableData();
-    this.getMaterialGroupsList();
+    this.getProductGroupList();
+
+    //this.getMaterialGroupsList();
   }
 
   getTableData() {
-    const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getCompaniesList);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
         response => {
@@ -71,12 +74,28 @@ export class NumberAssignmentComponent implements OnInit {
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
             if (!isNullOrUndefined(res.response)) {
               console.log(res);
-              this.companyList = res.response['companiesList'];
+              this.companyList = res.response['CompaniesList'];
             }
           }
           this.spinner.hide();
         });
   }
+  getProductGroupList() {
+    const getProductGroupList = String.Join('/', this.apiConfigService.getProductGroupList);
+    this.apiService.apiGetRequest(getProductGroupList)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              console.log(res);
+              this.getProductGroup = res.response['ProductGroupList'];
+            }
+          }
+          this.spinner.hide();
+        });
+  }
+
 
   getMaterialGroupsList() {
     const getCompanyUrl = String.Join('/', this.apiConfigService.getMaterialGroupsList);
@@ -102,7 +121,7 @@ export class NumberAssignmentComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['code'].enable();
+    //this.modelFormData.controls['code'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

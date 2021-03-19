@@ -52,7 +52,7 @@ export class MaterialGroupsComponent implements OnInit {
     this.formData = { ...data };
     if (!isNullOrUndefined(this.formData.item)) {
       this.modelFormData.patchValue(this.formData.item);
-      this.modelFormData.controls['groupId'].disable();
+      //this.modelFormData.controls['groupId'].disable();
     }
 
   }
@@ -106,7 +106,7 @@ export class MaterialGroupsComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
-    this.modelFormData.controls['groupId'].enable();
+    //this.modelFormData.controls['groupId'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
   }

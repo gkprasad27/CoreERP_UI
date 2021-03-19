@@ -25,9 +25,9 @@ export class SalesInvoiceComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['invoiceNo', 'invoiceDate', 'branchCode', 'branchName', 'ledgerCode',
-    'ledgerName', 'grandTotal', 'stateCode', 'vehicleRegNo', 'userId', 'salesInvoice', 'isManualEntry', 'shiftId',
-    'customerGstin', 
+  displayedColumns: string[] = ['branchCode','branchName','invoiceNo', 'invoiceDate', 'ledgerCode',
+    'ledgerName', 'grandTotal','vehicleRegNo', 'salesInvoice','stateCode', 'customerGstin', 'userId',  'shiftId',
+     
   ];
   branchCode: any;
 
@@ -57,6 +57,7 @@ export class SalesInvoiceComponent implements OnInit {
       Role: this.branchCode.role
     })
     this.getInvoiceList();
+    this.commonService.setFocus('ledgerCode');
   }
 
   getInvoiceList() {

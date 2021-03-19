@@ -56,7 +56,7 @@
 
               <input class="typeAhead" [(ngModel)]="element.productCode" type="search"
                      [disabled]="element.text != 'obj'" (typeaheadOnSelect)="getdata($event)"
-                     (input)="getProductByProductCode($event.target.value)"
+                     (input)="getProductByProductCode($event.target.value)" id="productCode"
                      [typeahead]="getProductByProductCodeArray" typeaheadOptionField='id'>
 
             </td>

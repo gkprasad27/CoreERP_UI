@@ -78,12 +78,16 @@
                         <input matInput placeholder="{{ 'PURCHASE.gstin' | translate }}" formControlName="gstin">
                     </mat-form-field>
 
+                    <mat-form-field class="form-element">
+                        <input matInput placeholder="{{ 'PURCHASE.purchaseReturnInvNo' | translate }}" formControlName="purchaseReturnInvNo">
+                    </mat-form-field>
+
                 </div>
             </form>
 
-            <mat-form-field class="form-element w-25 pr-4 mb-3">
+            <!-- <mat-form-field class="form-element w-25 pr-4 mb-3">
                 <input matInput disabled placeholder="Purchase Return Invoice No" [(ngModel)]="isPurchaseReturnInvoice">
-            </mat-form-field>
+            </mat-form-field> -->
         </mat-card-content>
 
     </mat-card>

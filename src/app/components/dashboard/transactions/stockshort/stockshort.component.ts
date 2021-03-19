@@ -24,8 +24,8 @@ export class StockshortComponent  implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['stockshortMasterId', 'stockshortNo', 'stockshortDate', 'branchCode', 'branchName',
-    'shiftId', 'userId','costCenter'
+  displayedColumns: string[] = ['branchCode', 'branchName','stockshortNo', 'stockshortDate', 'costCenter','userId',
+    'shiftId'
   ];
     stockshortNo: any;
     branchCode: any;

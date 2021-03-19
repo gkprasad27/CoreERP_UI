@@ -39,7 +39,7 @@ export class BrandComponent implements OnInit {
       customerCare:[null],
       ext1: [null],
       ext2: [null],
-      active: [null]
+      active: ['Y']
     });
 
 
@@ -56,7 +56,7 @@ export class BrandComponent implements OnInit {
   }
 
   getTableData() {
-    const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
+    const getCompanyUrl = String.Join('/', this.apiConfigService.getCompaniesList);
     this.apiService.apiGetRequest(getCompanyUrl)
       .subscribe(
         response => {
@@ -64,7 +64,7 @@ export class BrandComponent implements OnInit {
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
             if (!isNullOrUndefined(res.response)) {
               console.log(res);
-              this.companyList = res.response['companiesList'];
+              this.companyList = res.response['CompaniesList'];
             }
           }
           this.spinner.hide();

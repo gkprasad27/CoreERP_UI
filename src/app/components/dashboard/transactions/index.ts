@@ -8,7 +8,14 @@ export { CreateBankpaymentComponent} from './bankpayment/create-bankpayment/crea
 export { BankReceiptComponent} from './bankreceipt/bankreceipt.component';
 export { CreateBankreceiptComponent} from './bankreceipt/create-bankreceipt/create-bankreceipt.component';
 export { JournalVoucherComponent} from './journalvoucher/journalvoucher.component';
-export { CreateJournalvoucherComponent} from './journalvoucher/create-journalvoucher/create-journalvoucher.component';
+
+export { CreateJournalvoucherComponent } from './journalvoucher/create-journalvoucher/create-journalvoucher.component';
+
+export { CreatePurchaseRequisitionComponent } from './purchaserequisition/create-purchaserequisition/create-purchaserequisition.component';
+export { PurchaserequisitionComponent } from './purchaserequisition/purchaserequisition.component';
+
+export { CreatePurchaseRequisitionapprovalComponent } from './purchaserequisitionapproval/create-purchaserequisitionapproval/create-purchaserequisitionapproval.component';
+export { PurchaserequisitionapprovalComponent } from './purchaserequisitionapproval/purchaserequisitionapproval.component';
 
 export { CreateStockissuesComponent } from './stockissues/create-stockissues/create-stockissues.component';
 export { StockissuesComponent } from './stockissues/stockissues.component';

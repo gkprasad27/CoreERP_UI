@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 
 import { SharedImportModule } from './shared/shared-import';
 
-import { NavbarComponent, TableComponent, DeleteItemComponent, ReportTableComponent,ReportsInnerTableComponent ,SearchFilterTableComponent, PrintComponent } from './reuse-components/index';
+import { NavbarComponent, TableComponent, DeleteItemComponent, ReportTableComponent, ReportsInnerTableComponent, SearchFilterTableComponent, PrintComponent, PrintPetrolComponent, SaveItemComponent, AutocompleteComponent } from './reuse-components/index';
 import {
   DashboardComponent, LoginComponent, SidebarComponent, NotFoundComponent
 } from './components/index';
@@ -26,7 +26,7 @@ import {
   SegmentComponent, ProfitCenterComponent,  CostCenterComponent,
    EmployeeInBranchComponent, EmployeeComponent,
    TanksComponent, PumpComponent, 
- MSHSDRatesComponent
+ MSHSDRatesComponent,OpeningBalanceComponent
 } from './components/dashboard/masters/index';
 
 import {
@@ -51,9 +51,9 @@ import {
   TransactionsComponent, CashPaymentComponent, CreateCashpaymentComponent, CashReceiptComponent,
   CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent, BankReceiptComponent,
   CreateBankreceiptComponent,JournalVoucherComponent,CreateJournalvoucherComponent,
-   CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
+   CreateStockissuesComponent , StockissuesComponent,PurchaserequisitionComponent,CreatePurchaseRequisitionComponent, CreateStockreceiptsComponent, StockreceiptsComponent
    ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,PackageconversionComponent,
-    StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent
+    StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,PurchaserequisitionapprovalComponent,CreatePurchaseRequisitionapprovalComponent
 } from './components/dashboard/transactions/index';
 
 import {
@@ -76,9 +76,11 @@ import { PurchaseReturnViewComponent } from './components/dashboard/sales/purcha
 import { ReportsComponent } from './components/dashboard/reports/index';
 import { MemberMasterComponent } from './components/dashboard/masters/member-master/member-master.component';
 import { VehicleComponent } from './components/dashboard/masters/member-master/vehicle/vehicle.component';
+import { ShareTransferComponent } from './components/dashboard/masters/member-master/ShareTransfer/ShareTransfer.component';
 import { TokenInterceptor } from './token-interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { GiftMasterComponent} from'./components/dashboard/masters/member-master/Giftmaster/giftmaster.component';
+import { AdditionalShareTransferComponent } from './components/dashboard/masters/member-master/AdditionalShareTransfer/AdditionalShareTransfer.component';
   import { from } from 'rxjs';
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -94,7 +96,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     LoginComponent,
     SidebarComponent,
     NotFoundComponent,
-    TableComponent, DeleteItemComponent,
+    TableComponent, DeleteItemComponent,SaveItemComponent,
     GeneralledgerComponent, AccountsGroupComponent,
     SubGroupComponent, UndersubGroupComponent,
     GlAccountsComponent, GlSubcodeComponent, TaxIntegrationComponent, CashAccToBranchesComponent,
@@ -123,9 +125,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CreateBankreceiptComponent,JournalVoucherComponent,CreateJournalvoucherComponent,
     RolesprevilagesComponent, SettingsComponent, StocktransferComponent, CreateStockTransferComponent, PurchaseComponent, PurchaseCreateComponent, PurchaseReturnComponent, PurchaseReturnViewComponent,
     ReportTableComponent,ReportsInnerTableComponent, ReportsComponent, SearchFilterTableComponent,
-    CreateStockissuesComponent , StockissuesComponent, CreateStockreceiptsComponent, StockreceiptsComponent
-    ,CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent,MemberMasterComponent, VehicleComponent,GiftMasterComponent
+    CreateStockissuesComponent , StockissuesComponent,PurchaserequisitionComponent, PurchaserequisitionapprovalComponent,CreatePurchaseRequisitionapprovalComponent, CreatePurchaseRequisitionComponent, CreateStockreceiptsComponent, StockreceiptsComponent
+    , CreateStockshortsComponent, StockshortComponent, CreateOilconversionsComponent, OilconversionComponent,
+    PrintComponent, PrintPetrolComponent, PackageconversionComponent, MSHSDRatesComponent,OpeningBalanceComponent, StockExcessComponent, CreateStockExcessComponent, MeterReadingComponent, ProductComponent, MemberMasterComponent, VehicleComponent, ShareTransferComponent, GiftMasterComponent,
+    AdditionalShareTransferComponent, AutocompleteComponent
   ],
   imports: [
     AppRoutingModule,
@@ -157,6 +160,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
   ],
   bootstrap: [AppComponent],
   entryComponents: [
+    SaveItemComponent,
     GeneralledgerComponent, AccountsGroupComponent,
     SubGroupComponent, UndersubGroupComponent,
     GlAccountsComponent, GlSubcodeComponent, TaxIntegrationComponent, CashAccToBranchesComponent,
@@ -181,7 +185,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     CreateCashreceiptComponent, BankPaymentComponent, CreateBankpaymentComponent,BankReceiptComponent,CreateBankreceiptComponent,
     JournalVoucherComponent,CreateJournalvoucherComponent,
     ReportsInnerTableComponent, SearchFilterTableComponent,
-    PrintComponent,PackageconversionComponent,MSHSDRatesComponent,StockExcessComponent,CreateStockExcessComponent,MeterReadingComponent,ProductComponent,
+    PrintComponent, PrintPetrolComponent, PackageconversionComponent, MSHSDRatesComponent,OpeningBalanceComponent, StockExcessComponent, CreateStockExcessComponent, MeterReadingComponent, ProductComponent,
     // MemberMasterComponent, VehicleComponent
   ]
 })

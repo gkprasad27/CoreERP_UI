@@ -10,7 +10,7 @@ $color-white: white;
 }
 
 :host ::ng-deep table {
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: "Verdana", Geneva, Tahoma, sans-serif;
   & > tbody  {
     & tr {
       border-bottom: 1px solid #ddd;
@@ -71,6 +71,7 @@ mat-card {
 
 .fs-15 {
   font-size: 15px;
+  font-style: 'bold';
 }
 
 .range-picker {

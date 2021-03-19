@@ -20,14 +20,20 @@ export class NavbarComponent implements OnInit {
   openMenu = false;
   loginUser: any;
   showExpandButtons: any;
-  shiftButton = 'ShiftIN'
-  ShiftId: any;
+  shiftButton: string;
   shiftData: { Shift: string; Id: any; };
+  employeeShift: string
 
   @Input() set showExpandButton(val: string) {
     this.loginUser = JSON.parse(localStorage.getItem('user'));
     this.showExpandButtons = val;
+    if (this.showExpandButtons) {
+      this.employeeShift = '';
+      this.shiftButton = '';
+      this.GetShiftId();
+    }
   }
+
 
   constructor(
     public commonService: CommonService,
@@ -39,13 +45,27 @@ export class NavbarComponent implements OnInit {
     private alertService: AlertService,
 
   ) {
-    let shift = JSON.parse(localStorage.getItem('shift'));
-    this.shiftButton = !isNullOrUndefined(shift) ? shift.Shift : 'ShiftIN'
-    this.ShiftId = !isNullOrUndefined(shift) ? shift.Id : null
   }
 
   ngOnInit() {
   }
+
+  GetShiftId() {
+    const getShiftIdUrl = String.Join('/', this.apiConfigService.getShiftId, this.loginUser.seqId, this.loginUser.branchCode);
+    this.apiService.apiGetRequest(getShiftIdUrl).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            this.shiftButton = !isNullOrUndefined(res.response['ShiftId']) ? 'ShiftOUT' : 'ShiftIN'
+            this.employeeShift = !isNullOrUndefined(res.response['ShiftId']) ? res.response['ShiftId'] : null
+          }
+        } else if (!isNullOrUndefined(res) && res.status === StatusCodes.fail) {
+          this.shiftButton = 'ShiftIN'
+        }
+      });
+  }
+
 
   logout() {
     const logoutUrl = String.Join('/', this.apiConfigService.logoutUrl, this.loginUser.seqId);
@@ -54,9 +74,9 @@ export class NavbarComponent implements OnInit {
         const res = response.body;
         this.spinner.hide();
         if (!isNullOrUndefined(res.response)) {
-        this.alertService.openSnackBar(res.response, Static.Close, SnackBar.success);
-        this.authService.logout();
-        this.router.navigateByUrl('/login');
+          this.alertService.openSnackBar(res.response, Static.Close, SnackBar.success);
+          this.authService.logout();
+          this.router.navigateByUrl('/login');
         }
       });
   }
@@ -66,7 +86,7 @@ export class NavbarComponent implements OnInit {
     if (this.shiftButton == 'ShiftIN') {
       logoutUrl = String.Join('/', this.apiConfigService.shiftStart, this.loginUser.seqId, this.loginUser.branchCode);
     } else {
-      logoutUrl = String.Join('/', this.apiConfigService.shiftTerminate, this.ShiftId);
+      logoutUrl = String.Join('/', this.apiConfigService.shiftTerminate, this.employeeShift);
     }
 
     this.apiService.apiGetRequest(logoutUrl).subscribe(
@@ -74,20 +94,12 @@ export class NavbarComponent implements OnInit {
         const res = response.body;
         this.spinner.hide();
         if (!isNullOrUndefined(res.response)) {
-          if (this.shiftButton == 'ShiftIN') {
-            this.shiftData = { Shift: 'ShiftOUT', Id: res.response.ShiftId }
-            this.shiftButton = 'ShiftOUT';
-            this.ShiftId = res.response.ShiftId;
-          } else {
-            this.shiftData = { Shift: 'ShiftIN', Id: null }
-            this.shiftButton = 'ShiftIN';
-            this.alertService.openSnackBar(res.response, Static.Close, SnackBar.success);
-          }
-          localStorage.setItem('shift', JSON.stringify(this.shiftData))
+          this.shiftButton = !isNullOrUndefined(res.response['ShiftId']) ? 'ShiftOUT' : 'ShiftIN'
+          this.employeeShift = !isNullOrUndefined(res.response['ShiftId']) ? res.response['ShiftId'] : null
+          const mesage = !isNullOrUndefined(res.response['ShiftId']) ? 'Shift IN' : 'Shift Out'
+          this.alertService.openSnackBar(`Successfully ${mesage}`, Static.Close, SnackBar.success);
         }
       });
-
-
   }
 
   openSetting() {
@@ -95,11 +107,11 @@ export class NavbarComponent implements OnInit {
   }
 
   openCloseMemu() {
-    if(this.openMenu) {
-      this.commonService.closeNav();
+    if (this.openMenu) {
+      this.commonService.toggleSidebar();
       this.openMenu = false;
-    } else { 
-      this.commonService.openNav();
+    } else {
+      this.commonService.toggleSidebar();
       this.openMenu = true;
     }
   }

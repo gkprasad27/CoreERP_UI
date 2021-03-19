@@ -10,19 +10,22 @@ import { SnackBar, StatusCodes } from '../../../../../enums/common/common';
 import { AlertService } from '../../../../../services/alert.service';
 import { Static } from '../../../../../enums/common/static';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { PrintComponent } from '../../../../../reuse-components/print/print.component';
+import { PrintPetrolComponent } from '../../../../../reuse-components/printPetrol/printPetrol.component';
+import { SaveItemComponent } from '../../../../../reuse-components/save-item/save-item.component';
 var curValue = require("multilingual-number-to-words");
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { HostListener } from '@angular/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 @Component({
   selector: 'app-create-bill',
   templateUrl: './create-bill.component.html',
   styleUrls: ['./create-bill.component.scss'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
   ]
 })
 export class CreateBillComponent implements OnInit {
@@ -46,7 +49,7 @@ export class CreateBillComponent implements OnInit {
     'slipNo', 'unitName', 'discount', 'taxGroupName', 'rate', 'grossAmount', 'availStock', 'delete'
   ];
   dataSource: MatTableDataSource<any>;
-
+  isSaveDisabled = false;
   date = new Date((new Date().getTime() - 3888000000));
   modelFormData: FormGroup;
   tableFormData: FormGroup;
@@ -57,7 +60,10 @@ export class CreateBillComponent implements OnInit {
   setFocus: any;
   tableLength = 6;
   itemsLength = [];
-
+  allowedChars = new Set('0123456789'.split('').map(c => c.charCodeAt(0)));
+  GetPumpsListArray: any;
+  pumpList = [];
+  getCustomerGstNumListArray: any[];
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -67,6 +73,7 @@ export class CreateBillComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
     public dialog: MatDialog,
+    private router: Router,
     private cd: ChangeDetectorRef
   ) {
 
@@ -127,17 +134,25 @@ export class CreateBillComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.getperchaseBranchData();
+    this.commonService.setFocus('ledgerCode');
+  }
+  check(event: KeyboardEvent) {
+    // 31 and below are control keys, don't block them.
+    if (event.keyCode > 31 && !this.allowedChars.has(event.keyCode)) {
+      event.preventDefault();
+    }
   }
 
   loadData() {
     this.GetBranchesList();
+    this.GetMasterBranchesList();
+    this.getCashPartyAccountList("100");
     this.getStateList();
     this.getSlipDate();
     this.getperchaseData();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
-        this.disableForm(params.id1);
         const billHeader = JSON.parse(localStorage.getItem('selectedBill'));
         this.branchFormData.setValue(billHeader);
         this.getInvoiceDeatilList(params.id2);
@@ -145,8 +160,8 @@ export class CreateBillComponent implements OnInit {
           const user = JSON.parse(localStorage.getItem('user'));
           this.generateSalesReturnInvNo(user.branchCode, params.id2);
         }
+        this.disableForm(params.id1);
       } else {
-        this.disableForm();
         this.addTableRow();
         this.getCashPartyAccountList("100");
         const user = JSON.parse(localStorage.getItem('user'));
@@ -157,11 +172,16 @@ export class CreateBillComponent implements OnInit {
             userName: user.userName,
             ledgerCode: "100"
           });
+          this.branchFormData.patchValue({
+            stateCode: '37',
+            stateName: 'ANDHRA PRADESH'
+          });
           this.getCashPartyAccount();
           this.setBranchCode();
           this.genarateBillNo(user.branchCode);
           this.formGroup();
         }
+        this.disableForm();
       }
     });
   }
@@ -289,6 +309,23 @@ export class CreateBillComponent implements OnInit {
       });
   }
 
+  GetMasterBranchesList() {
+    const getMasterBranchesListUrl = String.Join('/', this.apiConfigService.getBranchesList);
+    this.apiService.apiGetRequest(getMasterBranchesListUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              console.log(res);
+              this.branchesList = res.response['branchesList'];
+            }
+          }
+          this.spinner.hide();
+        });
+  }
+
+
 
   genarateBillNo(branch?) {
     let flag = false;
@@ -359,10 +396,23 @@ export class CreateBillComponent implements OnInit {
       ledgerName: !isNullOrUndefined(lname[0]) ? lname[0].text : null
     });
     this.getCashPartyAccount();
-    this.commonService.setFocus('productCode0');
+    this.commonService.setFocus('vehicleRegNo');
+    
   }
-
-  getAccountBalance() {
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if(event.key === 'F2'){
+      this.commonService.setFocus('productCode0');
+    }
+    // else 
+    // {
+    //   alert("hi2");
+    // }
+    //  else if (event.key === 'Enter' && !isNaN(this.mbfValue)){
+    //   this.cbm = this.mathService.mbf2cbm(this.mbfValue, this.autoRenew.value).toFixed(3);
+    // }
+  }
+  getAccountBalance(accountGroupId) {
     if (!isNullOrUndefined(this.branchFormData.get('ledgerCode').value) && this.branchFormData.get('ledgerCode').value != '') {
       const getAccountBalanceUrl = String.Join('/', this.apiConfigService.getAccountBalance,
         this.branchFormData.get('ledgerCode').value);
@@ -375,6 +425,13 @@ export class CreateBillComponent implements OnInit {
                 this.branchFormData.patchValue({
                   accountBalance: res.response['AccountBalance']
                 });
+                if (accountGroupId === 7576 && res.response['AccountBalance'] <= 0) {
+                  this.isSaveDisabled = true;
+                  this.alertService.openSnackBar(`Advance Party Account Balance Should not Be Less Than or Equal To Zero(${accountGroupId}) code`, Static.Close, SnackBar.error);
+                } else {
+                  this.isSaveDisabled = false;
+                }
+
                 this.spinner.hide();
               }
             }
@@ -407,6 +464,13 @@ export class CreateBillComponent implements OnInit {
 
 
   getVechiels(value) {
+    this.branchFormData.patchValue({
+      memberCode: null,
+      memberName: null,
+      mobile: null,
+      generalNo: null,
+      vehicleId: null
+    })
     if (!isNullOrUndefined(value) && value != '') {
       const getVechielsUrl = String.Join('/', this.apiConfigService.getVechiels, value, this.branchFormData.get('memberCode').value);
       this.apiService.apiGetRequest(getVechielsUrl).subscribe(
@@ -429,6 +493,9 @@ export class CreateBillComponent implements OnInit {
   }
 
   getCashPartyAccountList(value) {
+    if ((value.which || value.keyCode) == 113) {
+      
+  }
     if (!isNullOrUndefined(value) && value != '') {
       const getCashPartyAccountListUrl = String.Join('/', this.apiConfigService.getCashPartyAccountList, value);
       this.apiService.apiGetRequest(getCashPartyAccountListUrl).subscribe(
@@ -438,6 +505,7 @@ export class CreateBillComponent implements OnInit {
             if (!isNullOrUndefined(res.response)) {
               if (!isNullOrUndefined(res.response['CashPartyAccountList']) && res.response['CashPartyAccountList'].length) {
                 this.getCashPartyAccountListArray = res.response['CashPartyAccountList'];
+                this.getCashPartyAccount();
               } else {
                 this.getCashPartyAccountListArray = [];
               }
@@ -449,6 +517,28 @@ export class CreateBillComponent implements OnInit {
       this.getCashPartyAccountListArray = [];
     }
   }
+  //Raghavendra
+  getCustomerGstNumList(value) {
+    if (!isNullOrUndefined(value) && value != '') {
+      const getCashPartyAccountListUrl = String.Join('/', this.apiConfigService.getCustomerGstNumList, value);
+      this.apiService.apiGetRequest(getCashPartyAccountListUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['CustomerGstNum'])) {
+                this.branchFormData.patchValue({
+                  customerGstin: res.response['CustomerGstNum']['customerGstin'],
+                });
+                
+              }
+            }
+            this.spinner.hide();
+          }
+        });
+    }
+  }
+ 
 
   setMemberName(member) {
     this.branchFormData.patchValue({
@@ -471,7 +561,7 @@ export class CreateBillComponent implements OnInit {
                 paymentMode: res.response['CashPartyAccount']['crOrDr'],
                 ledgerId: res.response['CashPartyAccount']['ledgerId']
               });
-              this.getAccountBalance();
+              this.getAccountBalance(res.response['CashPartyAccount']['accountGroupId']);
               this.spinner.hide();
             }
           }
@@ -488,9 +578,9 @@ export class CreateBillComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['StateList']) && res.response['StateList'].length) {
               this.getStateListArray = res.response['StateList'];
-              this.branchFormData.patchValue({
-                stateCode: '37'
-              });
+              // this.branchFormData.patchValue({
+              //   stateCode: '37'
+              // });
               this.getSelectedState();
               this.spinner.hide();
             }
@@ -694,7 +784,7 @@ export class CreateBillComponent implements OnInit {
                 generalNo: res.response['Members']['generalNo'],
                 vehicleId: event.item.id
               });
-              this.getAccountBalance();
+              //this.getAccountBalance();
               this.spinner.hide();
             }
           }
@@ -703,7 +793,7 @@ export class CreateBillComponent implements OnInit {
   }
 
   calculateAmount(row?, index?) {
-    if(!isNullOrUndefined(row)) {
+    if (!isNullOrUndefined(row)) {
       if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
         this.dataSource.data[index].grossAmount = (row.qty * row.rate).toFixed(2);
       } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
@@ -842,6 +932,9 @@ export class CreateBillComponent implements OnInit {
                 }
               }
             }
+            if (this.getPupmsArray.length == 0) {
+              this.alertService.openSnackBar('Select Valid PumpNo', Static.Close, SnackBar.error);
+            }
           });
       } else {
         this.getPupmsArray = [];
@@ -850,6 +943,23 @@ export class CreateBillComponent implements OnInit {
       this.alertService.openSnackBar('Only Number', Static.Close, SnackBar.error);
     }
   }
+
+  // getPumpsList(productCode) {
+  //   const getPumpsListUrl = String.Join('/', this.apiConfigService.getPumps, this.branchFormData.get('branchCode').value, productCode);
+  //   this.apiService.apiGetRequest(getPumpsListUrl).subscribe(
+  //     response => {
+  //       const res = response.body;
+  //       if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+  //         if (!isNullOrUndefined(res.response)) {
+  //           if (!isNullOrUndefined(res.response['PumpsList']) && res.response['PumpsList'].length) {
+  //             this.GetPumpsListArray = res.response['PumpsList'];
+  //             this.setBranchCode();
+  //             this.spinner.hide();
+  //           }
+  //         }
+  //       }
+  //     });
+  // }
 
   setProductName(name, column) {
     this.tableFormData.patchValue({
@@ -862,16 +972,33 @@ export class CreateBillComponent implements OnInit {
 
   print() {
     this.enableFileds();
-    const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: this.dataSource.data };
-   if(requestObj.InvoiceDetail || requestObj.InvoiceHdr)
-    this.printBill=true;
-    if (this.printBill) {
+    const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: this.dataSource.data, Branches: this.branchesList, BranchCode: this.branchFormData.get('branchCode').value };
+    if (requestObj.InvoiceDetail || requestObj.InvoiceHdr)
+      this.printBill = true;
+    //if (this.printBill) {
 
-      this.dialog.open(PrintComponent, {
-        width: '1024px',
-        data: requestObj,
-        disableClose: true
-      });
+    //  this.dialog.open(PrintComponent, {
+    //    width: '1024px',
+    //    data: requestObj,
+    //    disableClose: true
+    //  });
+    //}
+    if (this.printBill) {
+      if (this.branchFormData.get('branchCode').value == 2 || (this.branchFormData.get('branchCode').value == 3) || (this.branchFormData.get('branchCode').value == 4) || (this.branchFormData.get('branchCode').value == 7)) {
+        this.dialog.open(PrintPetrolComponent, {
+          width: '1024px',
+          data: requestObj,
+          disableClose: true
+        });
+      }
+      else {
+        this.dialog.open(PrintComponent, {
+          width: '1024px',
+          data: requestObj,
+          disableClose: true
+        });
+      }
+
     }
   }
 
@@ -903,13 +1030,43 @@ export class CreateBillComponent implements OnInit {
         content = 'qty or Fqty cannot be greater than available stock';
         return stock;
       }
+      if (stock.productCode == 'D') {
+        if (isNullOrUndefined(stock.slipNo)) {
+          content = 'SlipNo is null';
+          return stock;
+        }
+      }
+      if (stock.productCode == 'D' || stock.productCode == 'P' || stock.productCode == 'XP') {
+        if (isNullOrUndefined(stock.pumpNo)) {
+          content = 'PumpNo is null';
+          return stock;
+        }
+      }
+      if (!isNullOrUndefined(stock.pumpNo)) {
+        if (this.getPupmsArray.length == 0) {
+          content = 'PumpNo is not valid';
+          return stock;
+        }
+      }
+
     });
     if (availStock.length) {
       this.alertService.openSnackBar(`This Product(${availStock[0].productCode}) ${content}`, Static.Close, SnackBar.error);
       return;
     }
-    this.enableFileds();
-    this.registerInvoice(tableData);
+
+    const dialogRef = this.dialog.open(SaveItemComponent, {
+      width: '1024px',
+      data: '',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!isNullOrUndefined(result)) {
+        this.enableFileds();
+        this.registerInvoice(tableData);
+        this.isSaveDisabled = true;
+      }
+    });
   }
 
   enableFileds() {
@@ -927,9 +1084,25 @@ export class CreateBillComponent implements OnInit {
     this.branchFormData.controls['userName'].enable();
   }
 
+  enableEditFields() {
+    this.branchFormData.controls['ledgerCode'].enable();
+    this.branchFormData.controls['branchCode'].enable();
+    this.branchFormData.controls['invoiceDate'].enable();
+    this.branchFormData.controls['vehicleRegNo'].enable();
+    this.branchFormData.controls['stateCode'].enable();
+    this.branchFormData.controls['paymentMode'].enable();
+    this.branchFormData.controls['memberName'].enable();
+    this.branchFormData.controls['customerGstin'].enable();
+    this.branchFormData.controls['generalNo'].enable();
+    this.branchFormData.controls['suppliedTo'].enable();
+    this.branchFormData.controls['customerName'].enable();
+    this.branchFormData.controls['mobile'].enable();
+  }
+
   reset() {
     this.branchFormData.reset();
     this.dataSource = new MatTableDataSource();
+    this.getVechielsArray = [];
     this.formDataGroup();
     this.loadData();
   }
@@ -937,10 +1110,10 @@ export class CreateBillComponent implements OnInit {
   registerInvoice(data) {
     this.branchFormData.patchValue({
       paymentMode: 0,
-      invoiceDate:this.commonService.formatDate(this.branchFormData.get('invoiceDate').value)
+      invoiceDate: this.commonService.formatDate(this.branchFormData.get('invoiceDate').value)
     });
     const registerInvoiceUrl = String.Join('/', this.apiConfigService.registerInvoice);
-    const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: data };
+    const requestObj = { InvoiceHdr: this.branchFormData.value, InvoiceDetail: data, Branches: this.branchesList, BranchCode: this.branchFormData.get('branchCode').value };
     this.apiService.apiPostRequest(registerInvoiceUrl, requestObj).subscribe(
       response => {
         const res = response.body;
@@ -948,11 +1121,20 @@ export class CreateBillComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             this.alertService.openSnackBar('Billing Successfully..', Static.Close, SnackBar.success);
             if (this.printBill) {
-              this.dialog.open(PrintComponent, {
-                width: '1024px',
-                data: requestObj,
-                disableClose: true
-              });
+              if (this.branchFormData.get('branchCode').value == 2 || (this.branchFormData.get('branchCode').value == 3) || (this.branchFormData.get('branchCode').value == 4) || (this.branchFormData.get('branchCode').value == 7)) {
+                this.dialog.open(PrintPetrolComponent, {
+                  width: '1024px',
+                  data: requestObj,
+                  disableClose: true
+                });
+              }
+              else {
+                this.dialog.open(PrintComponent, {
+                  width: '1024px',
+                  data: requestObj,
+                  disableClose: true
+                });
+              }
             }
           }
           this.reset();

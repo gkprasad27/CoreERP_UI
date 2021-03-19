@@ -31,6 +31,7 @@ import { runInThisContext } from 'vm';
 import { ReportsService } from 'src/app/components/dashboard/reports/reports.service';
 import { StatusCodes } from 'src/app/enums/common/common';
 import * as moment from 'moment';
+import { style } from '@angular/animations';
 @Component({
   selector: 'app-report-table',
   templateUrl: './report-table.component.html',
@@ -39,6 +40,7 @@ import * as moment from 'moment';
 export class ReportTableComponent implements OnInit, OnChanges {
   selectedDate = {start : moment().add(-1, 'day'), end: moment().add(0, 'day')};
   GetBankPAccountLedgerListArray=[];
+  GetProductListArray=[];
   public tableMultiCtrl: FormControl = new FormControl();
   public filteredTableMulti: ReplaySubject<any> = new ReplaySubject<any>(1);
 
@@ -77,6 +79,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
   ];
   AccountLedgers = [];
   ReportBranches = [];
+  ReportPGList=[];
   Products = [];
 
   tableHeaders: any = [];
@@ -94,6 +97,20 @@ export class ReportTableComponent implements OnInit, OnChanges {
   TrialBalanceReportType = [
     { id: '1', reportName: 'Trial Balance Report' },
     { id: '2', reportName: 'Trial Balance Group Report' }
+  ];
+  ClosingBalanceReportType = [
+    { id: '1', reportName: 'Credit' },
+    { id: '2', reportName: 'Debit' },
+    { id: '3', reportName: 'Both'}
+  ];
+  FourColumnReportType=[
+    {id:'1', reportName:'FourColumn Cash Book By Branch'},
+    {id:'2', reportName:'FourColumn Cash Book COnsolidate'}
+  ];
+  GroupName=[
+    {id:'Spares',parameter:'Spares'},
+    {id:'Lubes',parameter:'Lubes'},
+    {id:'Fuels',parameter:'Fuels'}
   ];
   constructor(
     private formBuilder: FormBuilder,
@@ -121,7 +138,13 @@ export class ReportTableComponent implements OnInit, OnChanges {
       vehicleRegNo:[null],
       search:[null],
       selectedReportType:[''],
-      selectedTrialReportType:['']
+      selectedTrialReportType:[''],
+      selectedClosingReportType:[''],
+      fromAccountLedger: [''],
+      toAccountLedger: [''],
+      RO:[null],
+      selectedFourColumnReportType:[''],
+      selectedGroupName:['']
     }, { validator: this.checkDates });
 
     activatedRoute.params.subscribe(params => {
@@ -157,6 +180,13 @@ export class ReportTableComponent implements OnInit, OnChanges {
     };
 
   }
+
+  checkCheckBoxvalue(event){
+    this.dateForm.patchValue({
+      RO:event.checked
+    })
+ }
+
   saveChanges() {
     this.columnDefinitions = this.filterColData.slice(0);
     this.filterColData = [];
@@ -203,18 +233,54 @@ export class ReportTableComponent implements OnInit, OnChanges {
           }
         });
   }
-  getProductsList() {
-    const getLoginUrl = String.Join('/', this.apiConfigService.getStockProducts);
+  getReportPGList() {
+    const getLoginUrl = String.Join('/', this.apiConfigService.getReportPGList);
     this.apiService.apiGetRequest(getLoginUrl)
       .subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === 'PASS') {
-            if (!isNullOrUndefined(res.response['productList'])) {
-              this.Products = res.response['productList'];
+            if (!isNullOrUndefined(res.response['reportPGList'])) {
+              this.ReportPGList = res.response['reportPGList'];
             }
           }
         });
+  }
+  // getProductsList() {
+  //   const getLoginUrl = String.Join('/', this.apiConfigService.getStockProducts);
+  //   this.apiService.apiGetRequest(getLoginUrl)
+  //     .subscribe(
+  //       response => {
+  //         const res = response.body;
+  //         if (!isNullOrUndefined(res) && res.status === 'PASS') {
+  //           if (!isNullOrUndefined(res.response['productList'])) {
+  //             this.Products = res.response['productList'];
+  //           }
+  //         }
+  //       });
+  // }
+
+  getProductsList(value) {
+    if (!isNullOrUndefined(value) && value != '') {
+      const getProductListUrl = String.Join('/', this.apiConfigService.getStockProducts, value);
+      this.apiService.apiGetRequest(getProductListUrl).subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              if (!isNullOrUndefined(res.response['ProductList']) && res.response['ProductList'].length) {
+                this.GetProductListArray = res.response['ProductList'];
+                //this.getCashPartyAccount();
+              } else {
+                this.GetProductListArray = [];
+              }
+            }
+            this.spinner.hide();
+          }
+        });
+    } else {
+      this.GetBankPAccountLedgerListArray = [];
+    }
   }
 
   getBankPAccountLedgerList(value) {
@@ -251,6 +317,39 @@ export class ReportTableComponent implements OnInit, OnChanges {
     });
   }
 
+  setProductName(value) {
+    const pname = this.GetProductListArray.filter(pCode => {
+      if (pCode.id == this.dateForm.get('selectedProduct').value) {
+        return pCode;
+      }
+    });
+    this.dateForm.patchValue({
+      selectedProduct: !isNullOrUndefined(pname[0]) ? pname[0].id : null
+    });
+  }
+
+  setfromLedgerName(value) {
+    const lname = this.GetBankPAccountLedgerListArray.filter(lCode => {
+      if (lCode.id == this.dateForm.get('fromAccountLedger').value) {
+        return lCode;
+      }
+    });
+    this.dateForm.patchValue({
+      fromAccountLedger: !isNullOrUndefined(lname[0]) ? lname[0].id : null
+    });
+  }
+
+  settoLedgerName(value) {
+    const lname = this.GetBankPAccountLedgerListArray.filter(lCode => {
+      if (lCode.id == this.dateForm.get('toAccountLedger').value) {
+        return lCode;
+      }
+    });
+    this.dateForm.patchValue({
+      toAccountLedger: !isNullOrUndefined(lname[0]) ? lname[0].id : null
+    });
+  }
+
   GenerateReport() {
     this.dateForm.patchValue({
       formDate: this.commonService.formatReportDate(this.dateForm.value.selected.start._d),
@@ -263,7 +362,13 @@ export class ReportTableComponent implements OnInit, OnChanges {
       selectedCriteria:this.dateForm.get('selectedCriteria').value,
       search:this.dateForm.get('search').value,
       selectedReportType:this.dateForm.get('selectedReportType').value,
-      selectedTrialReportType:this.dateForm.get('selectedTrialReportType').value
+      selectedTrialReportType:this.dateForm.get('selectedTrialReportType').value,
+      selectedClosingReportType:this.dateForm.get('selectedClosingReportType').value,
+      fromAccountLedger: this.dateForm.get('fromAccountLedger').value,
+      toAccountLedger: this.dateForm.get('toAccountLedger').value,
+      RO: this.dateForm.get('RO').value,
+      selectedFourColumnReportType:this.dateForm.get('selectedFourColumnReportType').value,
+      selectedGroupName:this.dateForm.get('selectedGroupName').value,
     })
     this.params = new HttpParams();
     this.params = this.params.append('UserID', 'admin');//this.user.userName);
@@ -278,11 +383,24 @@ export class ReportTableComponent implements OnInit, OnChanges {
     this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);
     this.params = this.params.append('reportType', this.dateForm.value.selectedReportType);
     this.params = this.params.append('TrialreportType', this.dateForm.value.selectedTrialReportType);
+    this.params = this.params.append('ClosingreportType', this.dateForm.value.selectedClosingReportType);
+    this.params = this.params.append('fromLedgerCode', this.dateForm.value.fromAccountLedger);
+    this.params = this.params.append('toLedgerCode', this.dateForm.value.toAccountLedger);
+    this.params = this.params.append('RO', this.dateForm.value.RO);
+    this.params = this.params.append('fourColumnreportType', this.dateForm.value.selectedFourColumnReportType);
+    this.params = this.params.append('GroupName',this.dateForm.value.selectedGroupName);
     if(this.dateForm.value.selectedCriteria=="shiftId")
     {
       this.params = this.params.append('shiftId', this.dateForm.value.search);
     }
-    
+    if(this.routeParam=='Shift' && this.dateForm.value.selectedCriteria=='branchCode'){
+      this.reportsService.branchCode=this.dateForm.value.search;
+      this.reportsService.dynamicData.url=`${this.apiConfigService.getDefaultShiftReport}/${this.reportsService.branchCode}`;
+    }
+    if(this.routeParam=='Shift' && this.dateForm.value.selectedCriteria!='branchCode'){
+      this.reportsService.branchCode=this.dateForm.value.search;
+      this.reportsService.dynamicData.url=`${this.apiConfigService.getDefaultShiftReport}/${null}`;
+    }
     // else
     // {
     //    this.params = this.params.append('vehicleRegNo', this.dateForm.value.vehicleRegNo);
@@ -302,7 +420,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
     //Create workbook and worksheet
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Report', {
-      pageSetup: { fitToPage: true, paperSize: 9, orientation: 'landscape' }
+      pageSetup: { fitToPage: true, paperSize: 11, orientation: 'landscape' }
     });
     //Add Row and formatting
     let titleRow = worksheet.addRow([this.routeParam + ' Report']);
@@ -376,7 +494,9 @@ export class ReportTableComponent implements OnInit, OnChanges {
   }
 
   exportToPdf() {
-    let doc = new jsPDF('l', 'mm', 'a3');
+    if(this.routeParam=='Product Wise Monthly Purchase'||this.routeParam=='BranchWise Monthly SalesByLiters'||this.routeParam=='ProductMonthWise PurchaseLtrs'){
+      let doc = new jsPDF('l', 'cm', 'a3');
+    
     let columns = []; //["ID", "Name", "Country"];
     for (const key in this.tableData[0]) {
       columns.push(key);
@@ -393,7 +513,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
 
     doc.autoTable({
       body: [
-        [{ content: this.routeParam + ' Report', colSpan: 2, rowSpan: 2, styles: { halign: 'center', fontStyle: 'bold' } }],
+        [{ content: this.routeParam + ' Report', colSpan: 3, rowSpan: 1, styles: { halign: 'center', fontStyle: 'bold' } }],
       ],
       theme: 'plain'
     });
@@ -423,18 +543,18 @@ export class ReportTableComponent implements OnInit, OnChanges {
 
     headerRows = headerRows.filter(arr => arr != "");
 
-    
+
 
     doc.autoTable({
-      margin: { top: 10 },
+      margin: { top: 3 },
       columnStyles: {
         1: { halign: 'right' }
       },
       body: headerRows,
-      theme: 'plain'
+      theme: 'plain',
     })
 
-    doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 5 });
+    doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 2, styles: { font: 'Tahoma',fontSize: 10}, theme: 'plain' });
 
     let footerRows = [];
     for (var i: number = 0; i < this.footerData.length; i++) {
@@ -463,11 +583,105 @@ export class ReportTableComponent implements OnInit, OnChanges {
     doc.autoTable({
       body: updatedFooterRows,
       theme: 'plain',
-      startY: doc.autoTable.previous.finalY + 10
+      startY: doc.autoTable.previous.finalY + 2
     })
     doc.save(this.routeParam + 'Report.pdf');
+    }
+  
+else{
+  // let doc = new jsPDF('p', 'cm', 'legal');
+  let doc = new jsPDF('p', 'in', [1008, 792]); 
+  let columns = []; //["ID", "Name", "Country"];
+  for (const key in this.tableData[0]) {
+    columns.push(key);
+  }
+  let rows = [];
+  for (var i: number = 0; i < this.dataSource.filteredData.length; i++) {
+    rows[i] = [];
+    let j = 0;
+    for (const key in this.tableData[0]) {
+      rows[i][j] = this.dataSource.filteredData[i][key];
+      j++;
+    }
   }
 
+  doc.autoTable({
+    body: [
+      [{ content: this.routeParam + ' Report', colSpan: 3, rowSpan: 1, styles: { halign: 'center', fontStyle: 'bold' } }],
+    ],
+    theme: 'plain'
+  });
+  let pipe = new DatePipe('en-US');
+  let currentDate = new Date();
+
+  let headerRows = [];
+  for (var i: number = 0; i < this.tableHeaders.length; i++) {
+    headerRows[i] = [];
+    let j = 0;
+    for (const key in this.tableHeaders[0]) {
+      headerRows[i][j] = this.tableHeaders[i][key];
+      j++;
+    }
+  }
+
+  headerRows = [
+    headerRows[0] ? headerRows[0].concat(headerRows[1]) : "",
+    headerRows[2] ? headerRows[2].concat(headerRows[3]) : "",
+    headerRows[4] ? headerRows[4].concat(headerRows[5]) : "",
+    headerRows[6] ? headerRows[6].concat(headerRows[7]) : "",
+    headerRows[8] ? headerRows[8].concat(headerRows[9]) : "",
+    headerRows[10] ? headerRows[10].concat(headerRows[11]) : "",
+    headerRows[12] ? headerRows[12].concat(headerRows[13]) : "",
+    headerRows[14] ? headerRows[14].concat(headerRows[15]) : ""
+  ];
+
+  headerRows = headerRows.filter(arr => arr != "");
+
+
+
+  doc.autoTable({
+    margin: { top: 3 },
+    columnStyles: {
+      1: { halign: 'right' }
+    },
+    body: headerRows,
+    theme: 'plain',
+  })
+
+  doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 1, styles: { font: 'Tahoma',fontSize: 10 }, theme: 'plain' });
+
+  let footerRows = [];
+  for (var i: number = 0; i < this.footerData.length; i++) {
+    footerRows[i] = [];
+    let j = 0;
+    for (const key in this.footerData[0]) {
+      footerRows[i][j] = this.footerData[i][key];
+      j++;
+    }
+  }
+
+  let updatedFooterRows = [];
+
+  if (footerRows && footerRows.length) {
+    footerRows.forEach((ft) => {
+      let temp = [];
+      ft.forEach(data => {
+        if (data != "") {
+          temp.push(data);
+        }
+      });
+      updatedFooterRows.push(temp);
+    })
+  }
+
+  doc.autoTable({
+    body: updatedFooterRows,
+    theme: 'plain',
+    startY: doc.autoTable.previous.finalY + 2
+  })
+  doc.save(this.routeParam + 'Report.pdf');
+}
+  }
   openDialog(val, row?) {
     if (this.routeParam == 'Shift') {
       this.dateForm.patchValue({
@@ -595,7 +809,8 @@ export class ReportTableComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.getAccountLedgersList();
     this.getReportBranchesList();
-    this.getProductsList();
+    this.getReportPGList();
+    // this.getProductsList();
   }
 
   generateTableHeaders() {

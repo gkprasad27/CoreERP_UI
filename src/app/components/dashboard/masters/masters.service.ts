@@ -15,6 +15,7 @@ import { MemberMasterComponent } from './member-master/member-master.component';
 import { VehicleComponent } from './member-master/vehicle/vehicle.component';
 import { DesignationComponent } from './designation/designation.component';
 import { DepartmentComponent } from './department/department.component';
+import { OpeningBalanceComponent} from './openingBalance/openingBalance.component';
 import { String } from 'typescript-string-operations';
 
 @Injectable({
@@ -186,6 +187,16 @@ export class MastersService {
         // this.dynamicData.deleteUrl = this.apiConfigService.deleteTaxStructure;
         this.dynamicData.listName = 'VehicleList';
         this.dynamicData.primaryKey = 'VehicleId';
+        return this.dynamicData;
+        break;
+        case 'openingBalance':
+        this.dynamicData.url = this.apiConfigService.getOpeningBalanceList;
+        this.dynamicData.component = OpeningBalanceComponent;
+        this.dynamicData.registerUrl = this.apiConfigService.registerOpeningBalance;
+        this.dynamicData.updateUrl = this.apiConfigService.updatedepartment
+        this.dynamicData.deleteUrl = this.apiConfigService.deletedepartment;
+        this.dynamicData.listName = 'openingBList';
+        this.dynamicData.primaryKey = 'openingBalanceId';
         return this.dynamicData;
         break;
      default:

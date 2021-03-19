@@ -82,9 +82,10 @@ export class LoginComponent implements OnInit {
   }
 
   getBranchesForUser(obj) {
-    const getBranchesForUserUrl = String.Join('/', this.apiConfigService.getBranchesForUser, obj.seqId );
+    const getBranchesForUserUrl = String.Join('/', this.apiConfigService.getBranchesForUser, obj.seqId);
     this.apiService.apiGetRequest(getBranchesForUserUrl).subscribe(
       response => {
+        this.spinner.hide();
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response)) {
@@ -94,10 +95,8 @@ export class LoginComponent implements OnInit {
               this.authService.login(obj);
               this.alertService.openSnackBar(Static.LoginSussfull, Static.Close, SnackBar.success);
               this.router.navigate(['dashboard']);
-              this.spinner.hide();
             }
           }
-          this.spinner.hide();
         }
       });
   }

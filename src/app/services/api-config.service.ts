@@ -20,12 +20,14 @@ export class ApiConfigService {
    shiftTerminate = `${this.environment.runtimeConfig.serverUrl}Auth/ShiftTerminate`;
    shiftStart = `${this.environment.runtimeConfig.serverUrl}Auth/ShiftStart`;
    getBranchesForUser = `${this.environment.runtimeConfig.serverUrl}Auth/GetBranchesForUser`;
+   getShiftId=`${this.environment.runtimeConfig.serverUrl}Auth/GetShiftId`;
 
 
 
    // ******************************** sales *********************************
    getInvoiceList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetInvoiceList`;
    getCashPartyAccountList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCashPartyAccountList`;
+   getCustomerGstNumList=`${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCustomerGstNumList`;
    getBillingBranchesList = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetBranchesList`;
    getCashPartyAccount = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetCashPartyAccount`;
    getmemberNames = `${this.environment.runtimeConfig.serverUrl}sales/Billing/GetmemberNames`;
@@ -53,6 +55,7 @@ export class ApiConfigService {
    geProductsByName = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/GeProductsByName`;
    geProductsByCode = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/GeProductsByCode`;
    getStockTransferDetailsSection = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/GetStockTransferDetailsSection`;
+   getLtrs = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/GetLtrs`;
    registerStockTransfer = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/RegisterStockTransfer`;
    getStockTransferList = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/GetStockTransferList`;
    getStockTransferDetilsaRecords = `${this.environment.runtimeConfig.serverUrl}transaction/StockTransfer/GetStockTransferDetilsaRecords`;
@@ -72,7 +75,7 @@ export class ApiConfigService {
    getPurchaseRegisterPurchaseReturn = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/RegisterPurchaseReturn`;
    getPurchaseReturns = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GetPurchaseReturns`;
    getPurchaseReturnsDetails = `${this.environment.runtimeConfig.serverUrl}purchase/PurchaseReturn/GetPurchaseReturnsDetails`;
-
+   getPCashPartyAccountList = `${this.environment.runtimeConfig.serverUrl}Purchase/purchases/GetPCashPartyAccountList`;
    
 
    // *******************************   Transaction *****************************************
@@ -126,6 +129,15 @@ export class ApiConfigService {
    registerJournalVoucher = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/RegisterJournalVoucher`;
    getJournalVoucherDetailsList = `${this.environment.runtimeConfig.serverUrl}transactions/JournalVoucher/GetJournalVoucherDetailsList`;
 
+
+  //PurchaseRequisition and approval
+    getprreqreceiptnosList = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/GetStackissueNo`;  getprreqDeatilList = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/GetPrreqDeatilList`;
+  GetProductListsforpreq = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/GetProductLists`;
+  registerPurchaserequisitionDetails = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/RegisterPurchaserequisition`;
+  getPurchaserequisitionDetailsListLoad = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/GetPurchaseequisitionDetails`;
+  getpurchaserequisitionList = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/GetPurchaseequisitionDetails`;
+  registerPurchaserequisitionaaprovalDetails = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionApproval/RegisterPurchaseRequisitionApproval`;
+  //getpurchaserequisitionList = `${this.environment.runtimeConfig.serverUrl}Transactions/PurchaseRequisitionMaster/GetPurchaseRequisitionList`;
 
   //Stockissues
   getbranchesnosList=`${this.environment.runtimeConfig.serverUrl}Transactions/Stockissues/GetbranchesnosList`;
@@ -192,6 +204,7 @@ export class ApiConfigService {
   updateMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/UpdateMeterReading`;
   deleteMeterReading = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/deleteMeterReading`;
   getOBFromPump = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetOBFromPump`;
+  getSaledUnits = `${this.environment.runtimeConfig.serverUrl}transactions/MeterReading/GetSaledUnits`;
 
    // *******************************  End Transaction *****************************************
 
@@ -507,6 +520,23 @@ export class ApiConfigService {
    registerMemberMaster = `${this.environment.runtimeConfig.serverUrl}MemberMaster/RegisterMemberMaster`;
    updateMemberMaster = `${this.environment.runtimeConfig.serverUrl}MemberMaster/UpdateMemberMaster`;
    updateVehicle = `${this.environment.runtimeConfig.serverUrl}MemberMaster/UpdateVehicle`;
+   getShareTransfer = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetShareTransfer`;
+   getShareTransferNo = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetShareTransferNo`;
+   getShareMembersList = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetShareMembersList`;
+   getNoOfShares = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetNoOfShares`;
+   getToMemberName = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetToMemberName`;
+   registerShareTransfer = `${this.environment.runtimeConfig.serverUrl}MemberMaster/RegisterShareTransfer`;
+   getAdditionalShareTransfer = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetAdditionalShareTransfer`;
+   getAdditionalShareTransferNo = `${this.environment.runtimeConfig.serverUrl}MemberMaster/GetAdditionalShareTransferNo`;
+
+   // opening balance
+   getOpeningBalanceList = `http://localhost:51414/api/masters/OpeningBalance/GetOpeningBalanceList`;
+   getObBranchesList = `http://localhost:51414/api/masters/OpeningBalance/GetBranchesList`;
+   getObVoucherNo = `http://localhost:51414/api/masters/OpeningBalance/GetVoucherNo`;
+   getPaymentType = `http://localhost:51414/api/masters/OpeningBalance/GetPaymentType`;
+   registerOpeningBalance = `http://localhost:51414/api/masters/OpeningBalance/RegisterOpeningBalance`;
+  // updatedepartment = `${this.environment.runtimeConfig.serverUrl}masters/Department/updatedepartment`;
+  // deletedepartment = `${this.environment.runtimeConfig.serverUrl}masters/Department/deletedepartment`;
    // ******************************* End  master *****************************************
 
 
@@ -663,7 +693,7 @@ export class ApiConfigService {
    getStockVerificationReport=`${this.environment.runtimeConfig.serverUrl}Reports/StockVerificationReport/GetStockVerificationReportData`;
 
    getStockLedgerForAllProducts=`${this.environment.runtimeConfig.serverUrl}Reports/StockLedgerReport/GetStockLedgerReportData`;
-   getStockProducts=`${this.environment.runtimeConfig.serverUrl}Reports/StockLedgerReport/GetProductList`;
+   getStockProducts=`${this.environment.runtimeConfig.serverUrl}Reports/StockLedgerReport/GetStockProductList`;
 
    getSalesAnalysisByBranch=`${this.environment.runtimeConfig.serverUrl}Reports/SalesAnalysisByBranch/GetSalesAnalysisByBranchrReportData`;
 
@@ -683,9 +713,37 @@ export class ApiConfigService {
 
    getTrialBalanceReportData=`${this.environment.runtimeConfig.serverUrl}Reports/TrialBalanceReport/GetTrialBalanceReportData`;
 
+   getMeterReadingReportData=`${this.environment.runtimeConfig.serverUrl}Reports/MeterReadingReport/GetMeterReadingReportData`;
+
+   getClosingBalanceReportData=`${this.environment.runtimeConfig.serverUrl}Reports/ClosingBalanceReport/GetClosingBalanceReportData`;
+
+   getBankReconciliationReportData=`${this.environment.runtimeConfig.serverUrl}Reports/BankReconciliationReport/GetBankReconciliationReportData`;
+
+   getStockValuationReportData=`${this.environment.runtimeConfig.serverUrl}Reports/StockValuationReport/GetStockValuationReportData`;
+
+   getStockTransferPrintReportData=`${this.environment.runtimeConfig.serverUrl}Reports/StockTransferPrintReport/GetStockTransferPrintReportData`;
+
+   getFourColumnCashBookReportData=`${this.environment.runtimeConfig.serverUrl}Reports/FourColumnCashBookReport/GetFourColumnCashBookReportData`;
+
+   getBranchWiseMonthlySalesByLtrsReportData=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseMonthlySalesByLtrs/GetBranchWiseMonthlySalesByLtrsReportData`;
+
+   getReportPGList=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseMonthlySalesByLtrs/GetReportPGList`;
+
+   getProductMonthWisePurchaseLtrsReportData=`${this.environment.runtimeConfig.serverUrl}Reports/ProductMonthWisePurchaseLtrs/GetProductMonthWisePurchaseLtrsReportData`;
+
+   getBranchWiseStockStatementLtrsReportData=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseStockStatementLtrs/GetBranchWiseStockStatementLtrsReportData`;
+
+   getBranchWiseStockStatementQtyReportData=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseStockStatementQty/GetBranchWiseStockStatementQtyReportData`;
+
    
 
    
+ /****************************** Settings *********************************************************** */
+   getRoles = `${this.environment.runtimeConfig.serverUrl}Auth/getRoles`;
+   getParentMenus = `${this.environment.runtimeConfig.serverUrl}Auth/getParentMenu`;
+   getMenuList = `${this.environment.runtimeConfig.serverUrl}Auth/getMenuList`;
+   giveAccess = `${this.environment.runtimeConfig.serverUrl}Auth/GiveAccess`;
+
 
 }
 

@@ -67,4 +67,9 @@
     padding: 0rem;
     font-size: 0.9rem;
   }
+  mat-form-field {
+    & input:focus {
+      background: #f6ff0091;
+    }
+  }
 }

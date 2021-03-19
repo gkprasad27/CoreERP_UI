@@ -80,7 +80,7 @@ export class CreateStockExcessComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
-   
+    this.commonService.setFocus('costCenter');
   }
 
   loadData() {

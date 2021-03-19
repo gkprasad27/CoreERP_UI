@@ -35,7 +35,7 @@
 
           <mat-form-field class="form-element">
             <mat-label>{{ 'stockshort.costCenter' | translate }}</mat-label>
-            <mat-select formControlName="costCenter" appFocusOnEnter tabIndex="3">
+            <mat-select formControlName="costCenter" appFocusOnEnter tabIndex="3" id="costCenter">
               <mat-option *ngFor="let cct of GetCostCentersListArray" [value]="cct.text">
                 {{ cct.id }} - {{cct.text}}
               </mat-option>
@@ -59,7 +59,7 @@
 
               <input class="typeAhead" [(ngModel)]="element.productCode" type="search"
                      [disabled]="element.text != 'obj'" (typeaheadOnSelect)="getdata($event)"
-                     (input)="getProductByProductCode($event.target.value)"
+                     (input)="getProductByProductCode($event.target.value)" id="productCode"
                      [typeahead]="getProductByProductCodeArray" typeaheadOptionField='id'>
 
             </td>

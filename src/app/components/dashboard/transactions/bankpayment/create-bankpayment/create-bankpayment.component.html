@@ -23,7 +23,7 @@
 
                 <mat-form-field class="form-element">
                     <input matInput placeholder="{{ 'bankpayment.voucherNo' | translate }}" formControlName="voucherNo"
-                        appFocusOnEnter tabIndex="1">
+                        appFocusOnEnter tabIndex="1" (keydown.enter)="save()">
                 </mat-form-field>
 
                 <mat-form-field>
@@ -48,7 +48,7 @@
                     (typeaheadOnSelect)="setLedgerName($event)" (input)="getBankPAccountLedgerList($event.target.value)"
                     [typeahead]="GetBankPAccountLedgerListArray" typeaheadOptionField='id' autocomplete="off"
                     [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="0" [minLength]="1"
-                    [typeaheadWaitMs]="200" >
+                    [typeaheadWaitMs]="200" id="bankLedgerName" (keydown.enter)="save()">
                 <ng-template #customItemTemplate let-model="item">
                     <span><strong>{{model.id}}</strong> - {{model.text}}</span>
                 </ng-template>
@@ -63,12 +63,12 @@
 
             <mat-form-field class="form-element">
               <input matInput placeholder="{{ 'bankpayment.realized' | translate }}"
-                  formControlName="realized" appFocusOnEnter tabIndex="2">
+                  formControlName="realized" appFocusOnEnter tabIndex="2" (keydown.enter)="save()">
           </mat-form-field>
 
           <mat-form-field class="form-element">
             <input matInput placeholder="{{ 'bankpayment.chequeNo' | translate }}"
-                formControlName="chequeNo" appFocusOnEnter tabIndex="3">
+                formControlName="chequeNo" appFocusOnEnter tabIndex="3" (keydown.enter)="save()">
         </mat-form-field>
 
             </div>
@@ -96,7 +96,7 @@
                 <input class="typeAhead" [(ngModel)]="element.toLedgerCode" type="search"
                 [disabled]="element.text != 'obj'" (typeaheadOnSelect)="setAccountName($event)"
                 (input)="getAccountByAccountCode($event.target.value)"
-                [typeahead]="getAccountLedgerListArray" typeaheadOptionField='id'>
+                [typeahead]="getAccountLedgerListArray" typeaheadOptionField='id' (keydown.enter)="save()">
               </td>
         </ng-container>
 
@@ -114,7 +114,7 @@
                 <input class="typeAhead" id="LedgerName" [(ngModel)]="element.toLedgerName" type="search"
                 [disabled]="element.text != 'obj'" (typeaheadOnSelect)="setAccountCode($event)"
                 (input)="getAccountByAccountName($event.target.value)"
-                [typeahead]="getAccountLedgerListArray" typeaheadOptionField='text'>
+                [typeahead]="getAccountLedgerListArray" typeaheadOptionField='text' (keydown.enter)="save()">
             </td>
           </ng-container>
 
@@ -123,7 +123,7 @@
             <td mat-cell *matCellDef="let element;">
             <input matInput [disabled]="element.text != 'obj'" type="number" matInput disabled [value]="element.amount"
                 [(ngModel)]="element.amount" (change)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
-                (input)="setToFormModel(element.text, 'amount', element.amount)" /> </td>
+                (input)="setToFormModel(element.text, 'amount', element.amount)" (keydown.enter)="save()"/> </td>
         </ng-container>
 
         <ng-container matColumnDef="delete">

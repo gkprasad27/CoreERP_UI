@@ -186,10 +186,16 @@
         </form>
       </mat-tab>
       <mat-tab label="{{ 'vehicle.title' | translate }}" *ngIf="isFormEdit">
-        <app-vehicle [vehicleTableData]="vehicleTableData"></app-vehicle>
+        <app-vehicle [vehicleTableData]="vehicleTableData" [memberCode]="formData.memberCode"></app-vehicle>
       </mat-tab>
       <mat-tab label="{{ 'GiftMaster.title' | translate }}" *ngIf="isFormEdit">
         <gift-master   [membercode]="formData.memberCode"></gift-master>
+      </mat-tab>
+      <mat-tab label="{{ 'ShareTransfer.title' | translate }}" *ngIf="isFormEdit">
+        <app-ShareTransfer [shareTableData]="shareTableData" [memberCode]="formData.memberCode"></app-ShareTransfer>
+      </mat-tab>
+      <mat-tab label="{{ 'AdditionalShareTransfer.title' | translate }}" *ngIf="isFormEdit">
+        <app-AdditionalShareTransfer [shareTableData]="shareTableData" [memberCode]="formData.memberCode"></app-AdditionalShareTransfer>
       </mat-tab>
     </mat-tab-group>
 

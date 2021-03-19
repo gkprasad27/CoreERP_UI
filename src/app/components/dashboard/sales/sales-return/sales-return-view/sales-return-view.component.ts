@@ -130,6 +130,7 @@ export class SalesReturnViewComponent implements OnInit {
   loadData() {
     this.GetBranchesList();
     this.getStateList();
+    this.getCashPartyAccountList("100");
     this.getSlipDate();
     this.getperchaseData();
     this.activatedRoute.params.subscribe(params => {

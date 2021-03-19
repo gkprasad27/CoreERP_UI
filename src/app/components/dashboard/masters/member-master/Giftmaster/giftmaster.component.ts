@@ -7,6 +7,7 @@ import { AlertService}from '../../../../../services/alert.service';
 import { isNullOrUndefined } from 'util';
 import { StatusCodes, SnackBar } from 'src/app/enums/common/common';
 import { debug } from 'console';
+import { CommonService } from '../../../../../services/common.service';
 
 interface giftIsActive {
   value: string;
@@ -27,7 +28,8 @@ export class GiftMasterComponent implements OnInit, OnChanges {
     formData:any;
     isFormVisible:boolean =false;
     gifttableDataList:any =[];
-    statusList:giftIsActive[]=[{value:"true",viewValue:"Active"},{value:"false",viewValue:"InActive"}]
+    statusList:giftIsActive[]=[{value:"true",viewValue:"Active"},{value:"false",viewValue:"InActive"}];
+    yearArr:number[]=[new Date().getFullYear(),new Date().getFullYear()-1,new Date().getFullYear()-2];
 
 @Input()
 membercode:any;
@@ -39,7 +41,8 @@ membercode:any;
         private apiConfigService: ApiConfigService,
         private spinner: NgxSpinnerService,
         private alertService: AlertService,
-        private fromBuilder:FormBuilder
+        private fromBuilder:FormBuilder,
+        private commonService: CommonService,
     ){
 
         this.modelFromData= this.fromBuilder.group({
@@ -131,6 +134,9 @@ membercode:any;
           }
           this.modelFromData.controls["memberCode"].setValue(this.membercode);
           if (!this.isFormEdit) {
+            this.modelFromData.patchValue({
+              issueDate: this.commonService.formatDate(this.modelFromData.get('issueDate').value)
+            });
               this.apiService.apiPostRequest(this.apiConfigService.addGift,this.modelFromData.value)
               .subscribe(
                 response => {
@@ -149,6 +155,9 @@ membercode:any;
               this.isFormEdit=false;
           }
           else{
+            this.modelFromData.patchValue({
+              issueDate: this.commonService.formatDate(this.modelFromData.get('issueDate').value)
+            });
             this.apiService.apiPostRequest(this.apiConfigService.updateGift,this.modelFromData.value)
             .subscribe(
               response => {

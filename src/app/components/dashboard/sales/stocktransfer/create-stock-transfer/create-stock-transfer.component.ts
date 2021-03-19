@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonService } from '../../../../../services/common.service';
 import { ApiConfigService } from '../../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../../services/api.service';
 import { isNullOrUndefined } from 'util';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SnackBar, StatusCodes } from '../../../../../enums/common/common';
 import { AlertService } from '../../../../../services/alert.service';
 import { Static } from '../../../../../enums/common/static';
@@ -16,14 +16,19 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import { DatePipe } from '@angular/common';
+import { HttpParams } from '@angular/common/http';
+import { SaveItemComponent } from '../../../../../reuse-components/save-item/save-item.component';
 
 @Component({
   selector: 'app-create-stock-transfer',
   templateUrl: './create-stock-transfer.component.html',
   styleUrls: ['./create-stock-transfer.component.scss'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
   ]
 })
 export class CreateStockTransferComponent implements OnInit {
@@ -33,15 +38,24 @@ export class CreateStockTransferComponent implements OnInit {
   tableFormData: FormGroup;
   totalQty: any;
   totalAmount: any;
+  totalLtrs: any;
   getProductByProductCodeArray = [];
   getProductByProductNameArray = [];
+  getTableArray = [];
   printBill = false;
   setFocus: any;
+  params = new HttpParams();
+  @Input() tableData: any;
+  @Input() headerData: any = [];
+  @Input() footerData: any;
+  routeParam: any;
+  tableHeaders: any = [];
 
-  displayedColumns: string[] = ['SlNo', 'productCode', 'productName', 'hsnNo', 'qty', 'fQty', 'unitId', 'rate', 'totalAmount', 'availStock', 'batchNo', 'delete'];
+  displayedColumns: string[] = ['SlNo', 'productCode', 'productName', 'hsnNo', 'qty', 'ltrs', 'fQty', 'unitId', 'rate', 'totalAmount', 'availStock', 'batchNo', 'delete'];
   dataSource: MatTableDataSource<any>;
 
   date = new Date((new Date().getTime() - 3888000000));
+  getLtrsArray: any;
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -50,6 +64,7 @@ export class CreateStockTransferComponent implements OnInit {
     private alertService: AlertService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    public dialog: MatDialog,
   ) {
     this.formDataGroup();
   }
@@ -80,6 +95,7 @@ export class CreateStockTransferComponent implements OnInit {
 
   loadData() {
     this.GetBranchesList();
+
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
@@ -87,6 +103,7 @@ export class CreateStockTransferComponent implements OnInit {
         this.getStockTransferDetilsaRecords(params.id1);
         const billHeader = JSON.parse(localStorage.getItem('stockTransfer'));
         this.formData.setValue(billHeader);
+
       } else {
         this.disableForm();
         this.addTableRow();
@@ -99,6 +116,7 @@ export class CreateStockTransferComponent implements OnInit {
             userName: user.userName
           });
         }
+
       }
     });
   }
@@ -110,7 +128,9 @@ export class CreateStockTransferComponent implements OnInit {
         const res = response.body;
         if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
           if (!isNullOrUndefined(res.response['InvoiceList']) && res.response['InvoiceList'].length) {
-            this.dataSource = new MatTableDataSource(res.response['InvoiceList']);
+            this.getltrs(res.response['InvoiceList'][0]);
+             this.dataSource = new MatTableDataSource(res.response['InvoiceList']);
+             this.calculateAmount();
             this.spinner.hide();
           }
         }
@@ -178,7 +198,7 @@ export class CreateStockTransferComponent implements OnInit {
         this.formData.patchValue({
           [text]: !isNullOrUndefined(bname[0]) ? bname[0].text : null
         });
-        if (code == 'fromBranchCode') {
+        if (code == 'fromBranchCode' && this.routeUrl == '') {
           this.generateStockTranfNo();
         }
       }
@@ -189,6 +209,7 @@ export class CreateStockTransferComponent implements OnInit {
     const tableObj = {
       stockTransferDetailId: '', stockTransferMasterId: '', stockTransferDetailsDate: '', productId: '', STockTransferDetail: '',
       productCode: '', productName: '', hsnNo: '', rate: '', productGroupId: '', productGroupCode: '', qty: '',
+      ltrs: '',
       fQty: '', batchNo: '', unitId: '', unitName: '', totalAmount: '', availStock: '', text: 'obj', delete: ''
     }
     if (!isNullOrUndefined(this.dataSource)) {
@@ -236,11 +257,13 @@ export class CreateStockTransferComponent implements OnInit {
       productGroupId: [null],
       productGroupCode: [null],
       qty: [null],
+      ltrs: [null],
       fQty: [null],
       batchNo: [null],
       unitId: [null],
       unitName: [null],
       totalAmount: [null],
+      totalLtrs: [null],
       availStock: [null]
     });
   }
@@ -253,10 +276,10 @@ export class CreateStockTransferComponent implements OnInit {
     }
     if (this.tableFormData.valid) {
       // if (this.dataSource.data.length) {
-        if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
-          this.addTableRow();
-        }
-        this.formGroup();
+      if (this.dataSource.data[this.dataSource.data.length - 1].productCode != '') {
+        this.addTableRow();
+      }
+      this.formGroup();
       // }
     }
   }
@@ -281,6 +304,7 @@ export class CreateStockTransferComponent implements OnInit {
 
 
   getProductByProductCode(value) {
+    // this.getltrs(value);
     if (!isNullOrUndefined(value) && value != '') {
       const getProductByProductCodeUrl = String.Join('/', this.apiConfigService.getProductByProductCode);
       this.apiService.apiPostRequest(getProductByProductCodeUrl, { productCode: value }).subscribe(
@@ -308,20 +332,22 @@ export class CreateStockTransferComponent implements OnInit {
     if (!isNullOrUndefined(this.formData.get('fromBranchCode').value) && this.formData.get('fromBranchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
       const getStockTransferDetailsSectionUrl = String.Join('/', this.apiConfigService.getStockTransferDetailsSection);
-      this.apiService.apiPostRequest(getStockTransferDetailsSectionUrl, {branchCode: this.formData.get('fromBranchCode').value, productCode : productCode.value
-    }).subscribe(
+      this.apiService.apiPostRequest(getStockTransferDetailsSectionUrl, {
+        branchCode: this.formData.get('fromBranchCode').value, productCode: productCode.value
+      }).subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
             if (!isNullOrUndefined(res.response)) {
               if (!isNullOrUndefined(res.response['SateteList'])) {
-                this.detailsSection(res.response['SateteList'], index);
+                this.getltrs(res.response['SateteList'], index);
                 this.getProductByProductCodeArray = [];
                 this.spinner.hide();
               }
             }
           }
         });
+        // this.addTableRow();
     }
     // } else {
     //   this.dataSource.data[index].productCode = null;
@@ -349,25 +375,18 @@ export class CreateStockTransferComponent implements OnInit {
     obj.text = 'obj';
     this.dataSource.data[index] = obj;
     this.dataSource = new MatTableDataSource(this.dataSource.data);
+
     this.tableFormData.patchValue({
       productCode: obj.productCode,
-      productName: obj.productName
+      productName: obj.productName,
     });
-    // this.dataSource.data = this.dataSource.data.map(val => {
-    //   if (val.productCode == obj.productCode) {
-    //     this.tableFormData.patchValue({
-    //       productCode: obj.productCode,
-    //       productName: obj.productName
-    //     });
-    //     val = obj;
-    //   }
-    //   val.text = 'obj';
-    //   return val;
-    // });
+
     this.setToFormModel(null, null, null);
+    
   }
 
   getProductByProductName(value) {
+
     if (!isNullOrUndefined(value) && value != '') {
       const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getProductByProductName);
       this.apiService.apiPostRequest(getProductByProductNameUrl, { productName: value }).subscribe(
@@ -386,30 +405,93 @@ export class CreateStockTransferComponent implements OnInit {
       this.getProductByProductNameArray = [];
     }
   }
+  getltrs(value, index?) {
+    if (!isNullOrUndefined(value.productCode) && value.productCode != '') {
+    const getProductByProductNameUrl = String.Join('/', this.apiConfigService.getLtrs);
+    this.apiService.apiPostRequest(getProductByProductNameUrl, { code: value.productCode }).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['Ltrs'])) {
+              console.log(res.response['Ltrs']);
+              value.ltrs = res.response['Ltrs'][0]['id'];
+              if (!isNullOrUndefined(index))
+              {
+                this.detailsSection(value, index);
+              } 
+              else
+               {
+                value.ltrs = +(value.qty)*+(value.ltrs);
+                value.totalQty=value.qty;
+                value.totalAmount=value.totalAmount;
+                this.totalLtrs=+(value.ltrs);
+                // for (let a = 0; a < this.dataSource.data.length; a++) 
+                // {
+                //   if (this.dataSource.data[a].totalAmount)
+                //   {
+                   
+                //   }
+                  
+                // }
+                // this.dataSource = new MatTableDataSource([value]);
+                this.spinner.hide();
+              }
+            }
+          }
+        }
+      });
+    }
+    
+  }
+
 
   calculateAmount(row?, index?) {
-    if(!isNullOrUndefined(row)) {
-      if (!isNullOrUndefined(row.qty) && (row.qty != '')) {
+    if (!isNullOrUndefined(row)) {
+      if (!isNullOrUndefined(row.qty) && (row.qty != '')) 
+      {
         this.dataSource.data[index].totalAmount = (row.qty * row.rate).toFixed(2);
-      } else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) {
+      }
+      if (!isNullOrUndefined(row.ltrs) && (row.ltrs != '')) 
+      {
+        this.dataSource.data[index].totalltrs= (row.qty * row.ltrs);
+        this.dataSource.data[index].ltrs = (row.qty * row.ltrs);
+      }
+      
+       else if (!isNullOrUndefined(row.fQty) && (row.fQty != '')) 
+       {
         this.dataSource.data[index].totalAmount = (0 * row.rate).toFixed(2);
       }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let amount = 0;
+    let totltrs =0;
     let qty = 0;
-    for (let a = 0; a < this.dataSource.data.length; a++) {
-      if (this.dataSource.data[a].totalAmount) {
+    let ltrs = 0;
+    for (let a = 0; a < this.dataSource.data.length; a++) 
+    {
+      if (this.dataSource.data[a].totalAmount)
+      {
         amount = amount + (+this.dataSource.data[a].totalAmount);
+        totltrs =  totltrs  + (+this.dataSource.data[a].totalltrs);
       }
-      if (!isNullOrUndefined(this.dataSource.data[a].qty)) {
-        qty = qty + this.dataSource.data[a].qty;
-      } else if (!isNullOrUndefined(this.dataSource.data[a].fQty)) {
+      if (!isNullOrUndefined(this.dataSource.data[a].qty))
+      {
+         qty = qty + this.dataSource.data[a].qty;
+         //ltrs=this.dataSource.data[a].qty * this.dataSource.data[a].ltrs;
+      }
+      // if (!isNullOrUndefined(this.dataSource.data[a].ltrs))
+      // {
+      //   this.dataSource.data[a].ltrs = this.dataSource.data[a].qty * this.dataSource.data[a].ltrs;
+      // }      
+      else if (!isNullOrUndefined(this.dataSource.data[a].fQty))
+      {
         qty = qty + this.dataSource.data[a].fQty;
       }
     }
     this.totalQty = qty;
-    this.totalAmount = !isNullOrUndefined(amount) ? amount : null
+    this.totalAmount = !isNullOrUndefined(amount) ? amount : null,
+    this.totalLtrs=!isNullOrUndefined(totltrs) ? totltrs: 0,
     this.formData.patchValue({
       totalAmount: !isNullOrUndefined(amount) ? amount.toFixed(2) : null,
     });
@@ -444,8 +526,21 @@ export class CreateStockTransferComponent implements OnInit {
       this.alertService.openSnackBar(`This Product(${availStock[0].productCode}) ${content}`, Static.Close, SnackBar.error);
       return;
     }
-    this.enableFileds();
-    this.registerStockTransfer(tableData);
+
+    const dialogRef = this.dialog.open(SaveItemComponent, {
+      width: '1024px',
+      data: '',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!isNullOrUndefined(result)) {
+        this.enableFileds();
+        this.registerStockTransfer(tableData);
+      }
+    });
+
+    // this.enableFileds();
+    // this.registerStockTransfer(tableData);
   }
 
   enableFileds() {
@@ -453,12 +548,15 @@ export class CreateStockTransferComponent implements OnInit {
     this.formData.controls['userName'].enable();
   }
 
+
   setProductName(name) {
     this.tableFormData.patchValue({
-      productName: name.value
+      productName: name.value,
     });
     this.setToFormModel(null, null, null);
   }
+
+
 
   registerStockTransfer(data) {
     const registerStockTransferUrl = String.Join('/', this.apiConfigService.registerStockTransfer);
@@ -483,5 +581,111 @@ export class CreateStockTransferComponent implements OnInit {
     this.loadData();
   }
 
+  exportToPdf() {
+    const requestObj = { StockHdr: this.formData.value, StockDetail: this.dataSource.data };
+    let tableUrl = String.Join('/', this.apiConfigService.getStockTransferPrintReportData);
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.params = this.params.append('userName', user.userName);
+    this.params = this.params.append('fromBranchCode', this.formData.value.fromBranchCode);
+    this.params = this.params.append('stockTransferNo', this.formData.value.stockTransferNo);
+    this.apiService.apiGetRequest(tableUrl, this.params).subscribe(
+      response => {
+        const res = response.body;
+        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+          if (!isNullOrUndefined(res.response)) {
+            if (!isNullOrUndefined(res.response['StockList'])) {
+              this.getTableArray = res.response['StockList'];
+              this.tableHeaders = res.response['headerList'];
+              this.footerData = res.response['footerList'];
+              this.spinner.hide();
+              let doc = new jsPDF('p', 'mm', 'a3');
+              let columns = []; //["ID", "Name", "Country"];
+              for (const key in this.getTableArray[0]) {
+                columns.push(key);
+              }
+              let rows = [];
+              for (var i: number = 0; i < this.dataSource.filteredData.length; i++) {
+                rows[i] = [];
+                let j = 0;
+                for (const key in this.getTableArray[0]) {
+                  rows[i][j] = this.dataSource.filteredData[i][key];
+                  j++;
+                }
+              }
+
+              doc.autoTable({
+                body: [
+                  [{ content: 'StockTransfer' + ' Report', colSpan: 2, rowSpan: 2, styles: { halign: 'center', fontStyle: 'bold' } }],
+                ],
+                theme: 'plain'
+              });
+              let pipe = new DatePipe('en-US');
+              let currentDate = new Date();
+
+              let headerRows = [];
+              for (var i: number = 0; i < this.tableHeaders.length; i++) {
+                headerRows[i] = [];
+                let j = 0;
+                for (const key in this.tableHeaders[0]) {
+                  headerRows[i][j] = this.tableHeaders[i][key];
+                  j++;
+                }
+              }
+
+              headerRows = [
+                headerRows[0] ? headerRows[0].concat(headerRows[1]) : "",
+                headerRows[2] ? headerRows[2].concat(headerRows[3]) : "",
+                headerRows[4] ? headerRows[4].concat(headerRows[5]) : "",
+                headerRows[6] ? headerRows[6].concat(headerRows[7]) : "",
+                headerRows[8] ? headerRows[8].concat(headerRows[9]) : "",
+                headerRows[10] ? headerRows[10].concat(headerRows[11]) : "",
+                headerRows[12] ? headerRows[12].concat(headerRows[13]) : "",
+                headerRows[14] ? headerRows[14].concat(headerRows[15]) : ""
+              ];
+
+              headerRows = headerRows.filter(arr => arr != "");
+              doc.autoTable({
+                margin: { top: 10 },
+                columnStyles: {
+                  1: { halign: 'right' }
+                },
+                body: headerRows,
+                theme: 'plain'
+              })
+              doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 5 });
+
+              let footerRows = [];
+              for (var i: number = 0; i < this.footerData.length; i++) {
+                footerRows[i] = [];
+                let j = 0;
+                for (const key in this.footerData[0]) {
+                  footerRows[i][j] = this.footerData[i][key];
+                  j++;
+                }
+              }
+              let updatedFooterRows = [];
+
+              if (footerRows && footerRows.length) {
+                footerRows.forEach((ft) => {
+                  let temp = [];
+                  ft.forEach(data => {
+                    if (data != "") {
+                      temp.push(data);
+                    }
+                  });
+                  updatedFooterRows.push(temp);
+                })
+              }
+              doc.autoTable({
+                body: updatedFooterRows,
+                theme: 'plain',
+                startY: doc.autoTable.previous.finalY + 10
+              })
+              doc.save('StockTransfer' + 'Report.pdf');
+            }
+          }
+        }
+      });
+  }
 
 }

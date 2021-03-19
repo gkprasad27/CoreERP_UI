@@ -85,7 +85,7 @@
 
             <ng-container matColumnDef="purchaseInvDate">
               <th mat-header-cell *matHeaderCellDef>{{ "PURCHASE.purchaseInvDate" | translate }}</th>
-              <td mat-cell *matCellDef="let element">{{ element.purchaseInvDate | date: 'dd/MM/yyyy' }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.purchaseInvDate | date: 'dd/MM/yyyy  hh:mm:ss' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="pranchCode">

@@ -55,11 +55,7 @@
     <th mat-header-cell *matHeaderCellDef> Sl No </th>
     <td mat-cell *matCellDef="let element;"> {{dataSource.filteredData.indexOf(element) + 1}} </td>
   </ng-container>-->
-            <ng-container matColumnDef="stockshortMasterId">
-              <th mat-header-cell *matHeaderCellDef> Stockshort MasterId </th>
-              <td mat-cell *matCellDef="let element">{{ element.stockshortMasterId }}</td>
-            </ng-container>
-
+            
             <ng-container matColumnDef="branchCode">
               <th mat-header-cell *matHeaderCellDef> BranchCode </th>
               <td mat-cell *matCellDef="let element;"> {{element.branchCode}} </td>
@@ -70,17 +66,6 @@
               <td mat-cell *matCellDef="let element;"> {{element.branchName}} </td>
             </ng-container>
 
-
-
-            <ng-container matColumnDef="shiftId">
-              <th mat-header-cell *matHeaderCellDef> ShiftId </th>
-              <td mat-cell *matCellDef="let element;"> {{element.shiftId}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="userId">
-              <th mat-header-cell *matHeaderCellDef> UserId </th>
-              <td mat-cell *matCellDef="let element;"> {{element.userId}} </td>
-            </ng-container>
             <ng-container matColumnDef="stockshortNo">
               <th mat-header-cell *matHeaderCellDef> StockshortNo </th>
               <td mat-cell *matCellDef="let element;"> {{element.stockshortNo}} </td>
@@ -88,13 +73,28 @@
 
             <ng-container matColumnDef="stockshortDate">
               <th mat-header-cell *matHeaderCellDef> StockshortDate </th>
-              <td mat-cell *matCellDef="let element;"> {{element.stockshortDate}} </td>
+              <td mat-cell *matCellDef="let element;"> {{element.stockshortDate| date:'dd/MM/yyyy  hh:mm:ss'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="costCenter">
               <th mat-header-cell *matHeaderCellDef>CostCenter </th>
               <td mat-cell *matCellDef="let element;"> {{element.costCenter}} </td>
             </ng-container>
+
+            <ng-container matColumnDef="userId">
+              <th mat-header-cell *matHeaderCellDef> UserId </th>
+              <td mat-cell *matCellDef="let element;"> {{element.userId}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="shiftId">
+              <th mat-header-cell *matHeaderCellDef> ShiftId </th>
+              <td mat-cell *matCellDef="let element;"> {{element.shiftId}} </td>
+            </ng-container>
+
+           
+            
+
+            
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns" (dblclick)="openStockissues(row)"></tr>

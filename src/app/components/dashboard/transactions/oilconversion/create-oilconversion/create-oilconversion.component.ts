@@ -91,6 +91,7 @@ export class CreateOilconversionsComponent implements OnInit {
   ngOnInit()
   {
     this.loadData();
+    this.commonService.setFocus('productCode');
   }
   loadData() {
     this.getCashPaymentBranchesList();

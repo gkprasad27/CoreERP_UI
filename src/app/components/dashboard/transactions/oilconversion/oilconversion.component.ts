@@ -25,8 +25,8 @@ export class OilconversionComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['oilConversionMasterId', 'oilConversionVchNo', 'oilConversionDate', 'branchCode', 'branchName',
-     'shiftId', 'userId'
+  displayedColumns: string[] = ['branchCode', 'branchName','oilConversionVchNo', 'oilConversionDate', 'userId',
+     'shiftId'
   ];
     branchCode: any;
     oilConversionVchNo: any;

@@ -24,7 +24,7 @@ export class PurchaseComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   displayedColumns: string[] = ['purchaseInvNo', 'purchaseInvDate', 'ledgerCode',
-  'ledgerName', 'totalAmount', 'purchaseReturn', 'stateCode',
+  'ledgerName', 'totalAmount', 'stateCode','purchaseReturn', 
   'userId', 'shiftId'];
   branchCode: any;
 

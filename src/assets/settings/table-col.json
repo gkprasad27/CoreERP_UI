@@ -785,17 +785,14 @@
       },
       "meterreading":{
         "title":"Meter Reading",
-        "branchCode":"Branch Code",
         "branchName":"Branch Name",
-        "testing":"Testing",
-        "density":"Density",
         "pumpNo":"Pump No",
-        "totalSales":"Total Sales",
         "inMeterReading":"Opening Reading",
         "outMeterReading":"Closing Reading",
-        "shiftId":"Shift Id",
-        "consumption":"Consumption",
+        "totalSales":"Total Sales",
         "variation":"Variation",
-        "invoiceSales":"Saled Units"
+        "shiftId":"Shift Id",
+        "testing":"Testing",
+        "density":"Density"
       }
 }

@@ -5,7 +5,7 @@ import { ApiConfigService } from '../../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../../services/api.service';
 import { isNullOrUndefined } from 'util';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SnackBar, StatusCodes } from '../../../../../enums/common/common';
 import { AlertService } from '../../../../../services/alert.service';
 import { Static } from '../../../../../enums/common/static';
@@ -16,14 +16,15 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
+import { SaveItemComponent } from '../../../../../reuse-components/save-item/save-item.component';
 
 @Component({
   selector: 'app-create-cashpayment',
   templateUrl: './create-cashpayment.component.html',
   styleUrls: ['./create-cashpayment.component.scss'],
   providers: [
-    {provide: DateAdapter, useClass: AppDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS}
+    { provide: DateAdapter, useClass: AppDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS }
   ]
 })
 export class CreateCashpaymentComponent implements OnInit {
@@ -36,9 +37,9 @@ export class CreateCashpaymentComponent implements OnInit {
   getAccountLedgerListNameArray = [];
   getSalesBranchListArray = [];
   branchesList = [];
-  getmemberNamesArray=[];
+  getmemberNamesArray = [];
 
-  displayedColumns: string[] = ['SlNo','toLedgerCode', 'toLedgerName', 'amount', 'delete'
+  displayedColumns: string[] = ['SlNo', 'toLedgerCode', 'toLedgerName', 'amount', 'delete'
   ];
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -58,6 +59,7 @@ export class CreateCashpaymentComponent implements OnInit {
     private alertService: AlertService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    public dialog: MatDialog,
 
   ) {
     this.branchFormData = this.formBuilder.group({
@@ -72,20 +74,20 @@ export class CreateCashpaymentComponent implements OnInit {
       totalAmount: [null],
       narration: [null],
       //printBill: [false],
-      cashPaymentMasterId:[null],
-      branchId:[null],
-      cashPaymentVchNo:[null],
-      fromLedgerId:[null],
-      fromLedgerCode:[null],
-      fromLedgerName:[null],
-      serverDate:[null]
+      cashPaymentMasterId: [null],
+      branchId: [null],
+      cashPaymentVchNo: [null],
+      fromLedgerId: [null],
+      fromLedgerCode: [null],
+      fromLedgerName: [null],
+      serverDate: [null]
     });
 
   }
 
   ngOnInit() {
     this.loadData();
-   
+    this.commonService.setFocus('toLedgerCode');
   }
 
   loadData() {
@@ -109,8 +111,11 @@ export class CreateCashpaymentComponent implements OnInit {
           this.setBranchCode();
           this.genarateVoucherNo(user.branchCode);
           this.formGroup();
+          this.branchFormData.patchValue({
+            cashPaymentDate: (new Date()).toISOString()
+          });
         }
-	this.addTableRow();
+        this.addTableRow();
       }
     });
   }
@@ -200,7 +205,7 @@ export class CreateCashpaymentComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.getmemberNamesArray.filter(option => option.text.toLowerCase().includes(filterValue));
   }
-  
+
   addTableRow() {
     const tableObj = {
       toLedgerCode: '', toLedgerName: '', amount: '', delete: '', text: 'obj'
@@ -306,9 +311,9 @@ export class CreateCashpaymentComponent implements OnInit {
       }
     }
     this.branchFormData.patchValue({
-      totalAmount : amount
+      totalAmount: amount
     });
-  
+
   }
 
   setAccountCode(value) {
@@ -319,8 +324,8 @@ export class CreateCashpaymentComponent implements OnInit {
           if (this.dataSource.data[d]['toLedgerName'] == this.getAccountLedgerListArray[t]['text']) {
             this.dataSource.data[d]['toLedgerCode'] = this.getAccountLedgerListArray[t]['id'];
             this.tableFormData.patchValue({
-              toLedgerCode : this.getAccountLedgerListArray[t].id,
-              toLedgerName : this.getAccountLedgerListArray[t].text
+              toLedgerCode: this.getAccountLedgerListArray[t].id,
+              toLedgerName: this.getAccountLedgerListArray[t].text
             });
             flag = false;
             break;
@@ -328,22 +333,22 @@ export class CreateCashpaymentComponent implements OnInit {
         }
       }
     }
-    if(flag) {
-        this.dataSource.data[this.dataSource.data.length - 1].toLedgerName = value.value;
-        for (let t = 0; t < this.getAccountLedgerListArray.length; t++) {
-          if (this.getAccountLedgerListArray[t]['text'] == value.value) {
-            for (let d = 0; d < this.dataSource.data.length; d++) {
-              if (this.dataSource.data[d]['toLedgerName'] == this.getAccountLedgerListArray[t]['text']) {
-                this.dataSource.data[d]['toLedgerCode'] = this.getAccountLedgerListArray[t]['id'];
-                this.tableFormData.patchValue({
-                  toLedgerCode : this.getAccountLedgerListArray[t].id,
-                  toLedgerName : this.getAccountLedgerListArray[t].text
-                        });
-                break;
-              }
+    if (flag) {
+      this.dataSource.data[this.dataSource.data.length - 1].toLedgerName = value.value;
+      for (let t = 0; t < this.getAccountLedgerListArray.length; t++) {
+        if (this.getAccountLedgerListArray[t]['text'] == value.value) {
+          for (let d = 0; d < this.dataSource.data.length; d++) {
+            if (this.dataSource.data[d]['toLedgerName'] == this.getAccountLedgerListArray[t]['text']) {
+              this.dataSource.data[d]['toLedgerCode'] = this.getAccountLedgerListArray[t]['id'];
+              this.tableFormData.patchValue({
+                toLedgerCode: this.getAccountLedgerListArray[t].id,
+                toLedgerName: this.getAccountLedgerListArray[t].text
+              });
+              break;
             }
           }
         }
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
   }
@@ -356,41 +361,37 @@ export class CreateCashpaymentComponent implements OnInit {
           if (this.dataSource.data[d]['toLedgerCode'] == this.getAccountLedgerListArray[t]['id']) {
             this.dataSource.data[d]['toLedgerName'] = this.getAccountLedgerListArray[t]['text'];
             this.tableFormData.patchValue({
-              toLedgerCode : this.getAccountLedgerListArray[t].id,
-              toLedgerName : this.getAccountLedgerListArray[t].text
+              toLedgerCode: this.getAccountLedgerListArray[t].id,
+              toLedgerName: this.getAccountLedgerListArray[t].text
             });
             flag = false;
           }
         }
       }
     }
-    if(flag) {
-        this.dataSource.data[this.dataSource.data.length - 1].toLedgerCode = value.value;
-        for (let t = 0; t < this.getAccountLedgerListArray.length; t++) {
-          if (this.getAccountLedgerListArray[t]['id'] == value.value) {
-            for (let d = 0; d < this.dataSource.data.length; d++) {
-              if (this.dataSource.data[d]['toLedgerCode'] == this.getAccountLedgerListArray[t]['id']) {
-                this.dataSource.data[d]['toLedgerName'] = this.getAccountLedgerListArray[t]['text'];
-                this.tableFormData.patchValue({
-                  toLedgerCode : this.getAccountLedgerListArray[t].id,
-                  toLedgerName : this.getAccountLedgerListArray[t].text
-                        });
-              }
+    if (flag) {
+      this.dataSource.data[this.dataSource.data.length - 1].toLedgerCode = value.value;
+      for (let t = 0; t < this.getAccountLedgerListArray.length; t++) {
+        if (this.getAccountLedgerListArray[t]['id'] == value.value) {
+          for (let d = 0; d < this.dataSource.data.length; d++) {
+            if (this.dataSource.data[d]['toLedgerCode'] == this.getAccountLedgerListArray[t]['id']) {
+              this.dataSource.data[d]['toLedgerName'] = this.getAccountLedgerListArray[t]['text'];
+              this.tableFormData.patchValue({
+                toLedgerCode: this.getAccountLedgerListArray[t].id,
+                toLedgerName: this.getAccountLedgerListArray[t].text
+              });
             }
           }
         }
+      }
     }
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
-    console.log(this.dataSource.data,this.tableFormData);
+    console.log(this.dataSource.data, this.tableFormData);
     //this.setToFormModel();
 
   }
   save() {
-    // if (!this.tableFormObj) {
-    //   this.dataSource.data.pop();
-    //   console.log(this.dataSource.data);
-    // }
     if (this.routeUrl != '' || this.dataSource.data.length == 0) {
       return;
     }
@@ -401,14 +402,38 @@ export class CreateCashpaymentComponent implements OnInit {
       }
     }
     let content = '';
+    if (!tableData.length) {
+      content = 'Account code is required'
+      this.alertService.openSnackBar(`${content}`, Static.Close, SnackBar.error);
+      return;
+    }
+    let accountLedger = tableData.filter(ledger => {
+      if (ledger.amount == '') {
+        content = "Amount shouldn't be Empty"
+        return ledger
+      }
+    });
+    if (accountLedger.length) {
+      this.alertService.openSnackBar(`This Product(${accountLedger[0].toLedgerCode}) ${content}`, Static.Close, SnackBar.error);
+      return;
+    }
     let totalAmount = null;
     this.dataSource.data.forEach(element => {
       totalAmount = element.amount + totalAmount;
     });
-  
-    console.log(this.branchFormData, this.dataSource.data);
 
-    this.registerCashPayment(tableData);
+    const dialogRef = this.dialog.open(SaveItemComponent, {
+      width: '1024px',
+      data: '',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!isNullOrUndefined(result)) {
+        // this.enableFileds();
+        this.registerCashPayment(tableData);
+      }
+    });
+    // this.registerCashPayment(tableData);
   }
 
   reset() {
@@ -421,7 +446,7 @@ export class CreateCashpaymentComponent implements OnInit {
   registerCashPayment(data) {
     this.branchFormData.patchValue({
       cashPaymentMasterId: 0,
-      cashPaymentDate:this.commonService.formatDate(this.branchFormData.get('cashPaymentDate').value)
+      cashPaymentDate: this.commonService.formatDate(this.branchFormData.get('cashPaymentDate').value)
     });
     const registerCashPaymentUrl = String.Join('/', this.apiConfigService.registerCashPayment);
     const requestObj = { CashpaymentHdr: this.branchFormData.value, CashpaymentDetail: data };

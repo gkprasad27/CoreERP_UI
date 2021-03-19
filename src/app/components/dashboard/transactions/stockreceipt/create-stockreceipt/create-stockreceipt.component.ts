@@ -51,7 +51,7 @@ export class CreateStockreceiptsComponent implements OnInit {
   receiptNo: any;
   GettoBranchesListArray: any;
   toBranchCode: any;
-
+  setFocus = '';
   constructor(
     private formBuilder: FormBuilder,
     private commonService: CommonService,
@@ -93,6 +93,7 @@ export class CreateStockreceiptsComponent implements OnInit {
   ngOnInit()
   {
     this.loadData();
+    this.commonService.setFocus('productCode');
   }
 
   loadData() {
@@ -104,7 +105,7 @@ export class CreateStockreceiptsComponent implements OnInit {
         this.routeUrl = params.id1;
         //this.disableForm(params.id1);
         this.getStockreceiptDeatilList(params.id1);
-        let billHeader = JSON.parse(localStorage.getItem('selectedStockreceipt'));
+        let billHeader = JSON.parse(localStorage.getItem('selectedstockissues'));
         this.branchFormData.setValue(billHeader);
         this.gettingtobranches();
       } else
@@ -381,7 +382,8 @@ export class CreateStockreceiptsComponent implements OnInit {
   //}
 
   //Code based getting data
-  getdata(productCode) {
+  getdata(productCode, index, id) {
+    this.setFocus = id + index;
     //debugger;
     if (!isNullOrUndefined(this.branchFormData.get('fromBranchCode').value) && this.branchFormData.get('fromBranchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
@@ -417,6 +419,7 @@ export class CreateStockreceiptsComponent implements OnInit {
       return val;
     });
     this.setToFormModel(null, null, null);
+    this.commonService.setFocus(this.setFocus);
   }
 
   setProductName(name)

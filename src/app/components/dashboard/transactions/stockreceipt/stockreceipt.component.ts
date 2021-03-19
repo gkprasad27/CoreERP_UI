@@ -24,8 +24,8 @@ export class StockreceiptsComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['operatorStockReceiptId', 'receiptNo', 'receiptDate', 'fromBranchCode', 'fromBranchName',
-    'toBranchCode', 'toBranchName', 'shiftId', 'userId'
+  displayedColumns: string[] = ['fromBranchCode', 'fromBranchName','toBranchCode', 'toBranchName','receiptNo', 'receiptDate', 
+  'userId','shiftId' 
   ];
     receiptNo: any;
     fromBranchCode: any;

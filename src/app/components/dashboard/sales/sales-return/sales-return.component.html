@@ -49,7 +49,7 @@
 
         <ng-container matColumnDef="invoiceDate">
           <th mat-header-cell *matHeaderCellDef>{{ "SALESINVOICE.invoiceDate" | translate }}</th>
-          <td mat-cell *matCellDef="let element">{{ element.invoiceDate  | date: 'dd/MM/yyyy' }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.invoiceDate  | date: 'dd/MM/yyyy  hh:mm:ss' }}</td>
         </ng-container>
 
         <ng-container matColumnDef="branchCode">

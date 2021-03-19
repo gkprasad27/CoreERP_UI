@@ -23,29 +23,38 @@
         <mat-form-field>
           <mat-label [translate]="'numberassignment.companyCode'"></mat-label>
           <mat-select formControlName="companyCode" appFocusOnEnter tabIndex="3">
-            <mat-option *ngFor="let comp of companyList" [value]="comp.companyCode">
-              {{comp.companyCode}}
+            <mat-option *ngFor="let comp of companyList" [value]="comp.id">
+              {{comp.text}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field>
-          <mat-label [translate]="'numberassignment.materialGroup'"></mat-label>
-          <mat-select formControlName="materialGroup" appFocusOnEnter tabIndex="4">
-            <mat-option *ngFor="let mglist of MaterialGroupsList" [value]="mglist.code">
-              {{mglist.groupName}}
+          <mat-label>{{'numberassignment.materialGroup' | translate }}</mat-label>
+          <mat-select formControlName="materialGroup">
+            <mat-option *ngFor="let mglist of getProductGroup" [value]="mglist.id">
+              {{mglist.text}}
             </mat-option>
           </mat-select>
         </mat-form-field>
 
+        <!--<mat-form-field>
+          <mat-label [translate]="'numberassignment.materialGroup'"></mat-label>
+          <mat-select formControlName="materialGroup" appFocusOnEnter tabIndex="4">
+            <mat-option *ngFor="let mglist of MaterialGroupsList" [value]="mglist.groupId">
+              {{mglist.groupName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>-->
 
-      <mat-form-field>
-        <mat-label [translate]="'numberassignment.noType'"></mat-label>
-        <mat-select formControlName="noType" appFocusOnEnter tabIndex="5">
-          <mat-option value="Manual">Manual</mat-option>
-          <mat-option value="Auto">Auto</mat-option>
-        </mat-select>
-      </mat-form-field>
+
+        <mat-form-field>
+          <mat-label [translate]="'numberassignment.noType'"></mat-label>
+          <mat-select formControlName="noType" appFocusOnEnter tabIndex="5">
+            <mat-option value="Manual">Manual</mat-option>
+            <mat-option value="Auto">Auto</mat-option>
+          </mat-select>
+        </mat-form-field>
 
 
         <mat-form-field class="form-element">

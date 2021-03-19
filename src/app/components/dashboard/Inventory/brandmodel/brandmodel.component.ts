@@ -68,27 +68,42 @@ export class BrandModelComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getTableData();
+    this.getCompiniesList();
     this.getbrandTableData();
     this.getMaterialGroupsList();
     this.getSizesList();
   }
 
-  getTableData() {
-    const getCompanyUrl = String.Join('/', this.apiConfigService.getCompanysList);
-    this.apiService.apiGetRequest(getCompanyUrl)
+  getCompiniesList() {
+    const getCompiniesListList = String.Join('/', this.apiConfigService.getCompaniesList);
+    this.apiService.apiGetRequest(getCompiniesListList)
       .subscribe(
         response => {
           const res = response.body;
           if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
             if (!isNullOrUndefined(res.response)) {
               console.log(res);
-              this.companyList = res.response['companiesList'];
+              this.companyList = res.response['CompaniesList'];
             }
           }
           this.spinner.hide();
         });
   }
+  //getTableData() {
+  //  const getCompanyUrl = String.Join('/', this.apiConfigService.getCompaniesList);
+  //  this.apiService.apiGetRequest(getCompanyUrl)
+  //    .subscribe(
+  //      response => {
+  //        const res = response.body;
+  //        if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+  //          if (!isNullOrUndefined(res.response)) {
+  //            console.log(res);
+  //            this.companyList = res.response['companiesList'];
+  //          }
+  //        }
+  //        this.spinner.hide();
+  //      });
+  //}
 
   getbrandTableData() {
     const getCompanyUrl = String.Join('/', this.apiConfigService.getBrandList);

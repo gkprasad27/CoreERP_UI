@@ -9,7 +9,8 @@
         <div *ngIf="routeParam=='Shift'||routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical Enquiry'
         ||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'
         ||routeParam=='Product Price List'||routeParam=='Receipts And Payments Detailed'||routeParam=='Receipts And Payments Summary'||routeParam=='SMS Summary'||routeParam=='Sales GST'||routeParam=='24Hrs Sale Value 6Am To 6Am'
-        ||routeParam=='Trial Balance'"class="m-2">
+        ||routeParam=='Trial Balance'||routeParam=='24Hrs Meter Reading'||routeParam=='Closing Balance'||routeParam=='Bank Reconciliation'||routeParam=='Stock Valuation'||routeParam=='Four Column Cash Book'||routeParam=='BranchWise Monthly SalesByLiters'||routeParam=='BranchWise StockStatement Ltrs'||routeParam=='BranchWise StockStatement Qty'
+        ||routeParam=='ProductMonthWise PurchaseLtrs' "class="m-2">
           <!-- <mat-form-field >
             <input matInput [matDatepicker]="picker1" (click)="picker1.open()" readonly
               placeholder="{{'FormDate' | translate }}" formControlName="formDate" appFocusOnEnter tabIndex="1">
@@ -32,7 +33,7 @@
             <mat-datepicker #picker2></mat-datepicker>
           </mat-form-field>
         </div>         -->
-        <div *ngIf="routeParam=='AccountLedger'||routeParam=='Intimate Sale'" class="m-2">
+        <div *ngIf="routeParam=='AccountLedger'||routeParam=='Intimate Sale'||routeParam=='Bank Reconciliation'" class="m-2">
           <mat-form-field>
             <mat-label>Account Ledger</mat-label>
             <input class="typeahead" matInput
@@ -45,16 +46,38 @@
                 <span><strong>{{model.id}}</strong> - {{model.text}}</span>
             </ng-template>
         </mat-form-field>
-          <!-- <mat-form-field >
-            <mat-select placeholder="Account Ledger" formControlName="selectedAccountLedger">
-              <mat-option *ngFor="let ledger of AccountLedgers" [value]="ledger.ledgerCode">
-                {{ledger.ledgerName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field> -->
+      </div>
+        <div *ngIf="routeParam=='Closing Balance'" class="m-2">
+          <mat-form-field>
+            <mat-label>From Account Code</mat-label>
+            <input class="typeahead" matInput
+            placeholder="Account Ledger" formControlName="fromAccountLedger"
+                (typeaheadOnSelect)="setLedgerName($event)" (input)="getBankPAccountLedgerList($event.target.value)"
+                [typeahead]="GetBankPAccountLedgerListArray" typeaheadOptionField='id' autocomplete="off"
+                [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="0" [minLength]="1"
+                [typeaheadWaitMs]="200" >
+            <ng-template #customItemTemplate let-model="item">
+                <span><strong>{{model.id}}</strong> - {{model.text}}</span>
+            </ng-template>
+        </mat-form-field>
+        </div>
+        <div *ngIf="routeParam=='Closing Balance'" class="m-2">
+          <mat-form-field>
+            <mat-label>To Account Code</mat-label>
+            <input class="typeahead" matInput
+            placeholder="Account Ledger" formControlName="toAccountLedger"
+                (typeaheadOnSelect)="setLedgerName($event)" (input)="getBankPAccountLedgerList($event.target.value)"
+                [typeahead]="GetBankPAccountLedgerListArray" typeaheadOptionField='id' autocomplete="off"
+                [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="0" [minLength]="1"
+                [typeaheadWaitMs]="200" >
+            <ng-template #customItemTemplate let-model="item">
+                <span><strong>{{model.id}}</strong> - {{model.text}}</span>
+            </ng-template>
+        </mat-form-field>
         </div>
         <div *ngIf="routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'||routeParam=='Sales analysis by branch'||routeParam=='Daily Sales'
-        ||routeParam=='Product Price List'||routeParam=='24Hrs Sale Value 6Am To 6Am'" class="m-2">
+        ||routeParam=='Product Price List'||routeParam=='24Hrs Sale Value 6Am To 6Am'||routeParam=='AccountLedger'||routeParam=='24Hrs Meter Reading'||routeParam=='Four Column Cash Book'||routeParam=='BranchWise Monthly SalesByLiters'||routeParam=='BranchWise StockStatement Ltrs'||routeParam=='BranchWise StockStatement Qty'
+        ||routeParam=='ProductMonthWise PurchaseLtrs'" class="m-2">
           <mat-form-field>
             <mat-select placeholder="Branch" formControlName="selectedBranch">
               <mat-option *ngFor="let branch of ReportBranches" [value]="branch.branchCode">
@@ -81,13 +104,32 @@
          </mat-select>
        </mat-form-field>
      </div>
+     <div *ngIf="routeParam=='Closing Balance'" class="m-2">
+      <mat-form-field>
+       <mat-select placeholder="Report Type" formControlName="selectedClosingReportType">
+         <mat-option *ngFor="let reporttype of ClosingBalanceReportType" [value]="reporttype.id">
+           {{reporttype.reportName}}
+         </mat-option>
+       </mat-select>
+     </mat-form-field>
+   </div>
         <div *ngIf="routeParam=='Stock Ledger'" class="m-2">
           <mat-form-field>
-            <mat-select placeholder="Product" formControlName="selectedProduct">
+            <mat-label>Product</mat-label>
+            <input class="typeahead" matInput
+            placeholder="Product" formControlName="selectedProduct"
+                (typeaheadOnSelect)="setProductName($event)" (input)="getProductsList($event.target.value)"
+                [typeahead]="GetProductListArray" typeaheadOptionField='id' autocomplete="off"
+                [typeaheadItemTemplate]="customItemTemplate" [typeaheadMinLength]="0" [minLength]="1"
+                [typeaheadWaitMs]="200" >
+            <ng-template #customItemTemplate let-model="item">
+                <span><strong>{{model.id}}</strong> - {{model.text}}</span>
+            </ng-template>
+            <!-- <mat-select placeholder="Product" formControlName="selectedProduct">
               <mat-option *ngFor="let product of Products" [value]="product.productCode">
                 {{product.productCode}}
               </mat-option>
-            </mat-select>
+            </mat-select> -->
           </mat-form-field>
         </div>
         <div *ngIf="routeParam=='Vehical Enquiry'" class="m-2">
@@ -122,10 +164,39 @@
                 appFocusOnEnter tabIndex="1">
         </mat-form-field>
         </div>
+        <div *ngIf="routeParam=='Stock Verification'">
+            <mat-checkbox (change)="checkCheckBoxvalue($event)" formControlName="RO">RO'S</mat-checkbox>
+        </div>
+        <div *ngIf="routeParam=='Four Column Cash Book'" class="m-2">
+          <mat-form-field>
+           <mat-select placeholder="Report Type" formControlName="selectedFourColumnReportType">
+             <mat-option *ngFor="let reporttype of FourColumnReportType" [value]="reporttype.id">
+               {{reporttype.reportName}}
+             </mat-option>
+           </mat-select>
+         </mat-form-field>
+       </div>
+       <div *ngIf="routeParam=='Product Wise Monthly Purchase'||routeParam=='ProductMonthWise PurchaseLtrs'||routeParam=='BranchWise Monthly SalesByLiters'" class="m-2">
+        <mat-form-field>
+          <mat-select placeholder="Group Type" formControlName="selectedGroupName">
+            <mat-option *ngFor="let groupType of ReportPGList" [value]="groupType.groupName">
+              {{groupType.groupName}} 
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <!-- <mat-form-field>
+         <mat-select placeholder="Group Type" formControlName="selectedGroupName">
+           <mat-option *ngFor="let groupType of GroupName" [value]="groupType.id">
+             {{groupType.parameter}}
+           </mat-option>
+         </mat-select>
+       </mat-form-field> -->
+     </div>
         <div *ngIf="routeParam=='AccountLedger'||routeParam=='24HrsSaleValue'||routeParam=='24HrsSalesStock'||routeParam=='Vehical Enquiry'||routeParam=='Intimate Sale'||routeParam=='Stock Verification'||routeParam=='Stock Ledger'
         ||routeParam=='Sales analysis by branch'||routeParam=='Product Wise Monthly Purchase'||routeParam=='Daily Sales'||routeParam=='Shift'||routeParam=='Product Price List'
         ||routeParam=='Receipts And Payments Detailed'||routeParam=='Receipts And Payments Summary'||routeParam=='SMS Summary'||routeParam=='Sales GST'||routeParam=='24Hrs Sale Value 6Am To 6Am'
-        ||routeParam=='Trial Balance'" class="d-flex align-items-center">
+        ||routeParam=='Trial Balance'||routeParam=='24Hrs Meter Reading'||routeParam=='Closing Balance'||routeParam=='Bank Reconciliation'||routeParam=='Stock Valuation'||routeParam=='Four Column Cash Book'||routeParam=='ProductMonthWise PurchaseLtrs'
+        ||routeParam=='BranchWise Monthly SalesByLiters'||routeParam=='BranchWise StockStatement Ltrs'||routeParam=='BranchWise StockStatement Qty' " class="d-flex align-items-center">
           <button mat-raised-button class="button-color-bule text-white ml-2" (click)="GenerateReport()" >Generate</button>
         </div>
         <!-- {{ dateForm.value | json }} -->

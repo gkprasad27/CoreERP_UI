@@ -5,7 +5,7 @@ import { ApiConfigService } from '../../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../../services/api.service';
 import { isNullOrUndefined } from 'util';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource, MatDialog } from '@angular/material';
 import { SnackBar, StatusCodes } from '../../../../../enums/common/common';
 import { AlertService } from '../../../../../services/alert.service';
 import { Static } from '../../../../../enums/common/static';
@@ -15,6 +15,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 var curValue = require("multilingual-number-to-words");
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
+import { SaveItemComponent } from '../../../../../reuse-components/save-item/save-item.component';
+
 @Component({
   selector: 'app-purchase-create',
   templateUrl: './purchase-create.component.html',
@@ -61,6 +63,7 @@ export class PurchaseCreateComponent implements OnInit {
     private alertService: AlertService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    public dialog: MatDialog,
   ) {
 
     this.formDataGroup();
@@ -108,6 +111,7 @@ export class PurchaseCreateComponent implements OnInit {
   ngOnInit() {
     this.loadData();
     this.getperchaseData();
+    this.commonService.setFocus('ledgerCode');
     // this.getperchaseBranchData();
   }
 
@@ -131,7 +135,7 @@ export class PurchaseCreateComponent implements OnInit {
 
   loadData() {
     this.GetBranchesList();
-    this.getCashPartyAccountList('100');
+    this.getPCashPartyAccountList('100');
     this.getStateList();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
@@ -155,7 +159,11 @@ export class PurchaseCreateComponent implements OnInit {
             userName: user.userName,
             ledgerCode: "100"
           });
-          this.getCashPartyAccount();
+         this.branchFormData.patchValue({
+                stateCode: '37',
+                stateName: 'ANDHRA PRADESH'
+              });
+          // this.getCashPartyAccount();
           this.setBranchCode();
           this.genarateBillNo(user.branchCode);
           this.formGroup();
@@ -242,9 +250,9 @@ export class PurchaseCreateComponent implements OnInit {
       });
   }
 
-  getCashPartyAccountList(value) {
+  getPCashPartyAccountList(value) {
     if (!isNullOrUndefined(value) && value != '') {
-      const getCashPartyAccountListUrl = String.Join('/', this.apiConfigService.getCashPartyAccountList, value);
+      const getCashPartyAccountListUrl = String.Join('/', this.apiConfigService.getPCashPartyAccountList, value);
       this.apiService.apiGetRequest(getCashPartyAccountListUrl).subscribe(
         response => {
           const res = response.body;
@@ -252,6 +260,7 @@ export class PurchaseCreateComponent implements OnInit {
             if (!isNullOrUndefined(res.response)) {
               if (!isNullOrUndefined(res.response['CashPartyAccountList']) && res.response['CashPartyAccountList'].length) {
                 this.getCashPartyAccountListArray = res.response['CashPartyAccountList'];
+                this.getCashPartyAccount();
               } else {
                 this.getCashPartyAccountListArray = [];
               }
@@ -429,10 +438,10 @@ export class PurchaseCreateComponent implements OnInit {
           if (!isNullOrUndefined(res.response)) {
             if (!isNullOrUndefined(res.response['StateList']) && res.response['StateList'].length) {
               this.getStateListArray = res.response['StateList'];
-              this.branchFormData.patchValue({
-                stateCode: '37',
-                stateName: 'ANDHRA PRADESH'
-              });
+              // this.branchFormData.patchValue({
+              //   stateCode: '37',
+              //   stateName: 'ANDHRA PRADESH'
+              // });
               this.getSelectedState();
             }
           }
@@ -786,8 +795,20 @@ export class PurchaseCreateComponent implements OnInit {
       this.alertService.openSnackBar(`This Product(${availStock[0].productCode}) ${content}`, Static.Close, SnackBar.error);
       return;
     }
-    this.enableFileds();
-    this.registerPurchase(tableData);
+
+    const dialogRef = this.dialog.open(SaveItemComponent, {
+      width: '1024px',
+      data: '',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!isNullOrUndefined(result)) {
+        this.enableFileds();
+        this.registerPurchase(tableData);
+      }
+    });
+    // this.enableFileds();
+    // this.registerPurchase(tableData);
   }
 
   registerReturnPurchase() {
@@ -832,7 +853,8 @@ export class PurchaseCreateComponent implements OnInit {
 
   registerPurchase(data) {
     this.branchFormData.patchValue({
-      paymentMode: 0
+      paymentMode: 0,
+      purchaseInvDate:this.commonService.formatDate(this.branchFormData.get('purchaseInvDate').value)
     });
     const registerPurchaseUrl = String.Join('/', this.apiConfigService.registerPurchase);
     const requestObj = { purchaseHdr: this.branchFormData.value, purchaseDetail: data };

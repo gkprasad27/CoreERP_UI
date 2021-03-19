@@ -109,8 +109,8 @@ export class PurchaseReturnViewComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
-    this.getperchaseData();
-    this.getperchaseBranchData();
+    
+    // this.getperchaseBranchData();
   }
 
   getperchaseBranchData() {
@@ -135,6 +135,7 @@ export class PurchaseReturnViewComponent implements OnInit {
     this.GetBranchesList();
     this.getCashPartyAccountList('100');
     this.getStateList();
+    this.getperchaseData();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
@@ -142,8 +143,8 @@ export class PurchaseReturnViewComponent implements OnInit {
         const billHeader = JSON.parse(localStorage.getItem('purchaseReturn'));
         this.getPurchaseReturnsDetails(billHeader.purchaseReturnId);
         this.branchFormData.setValue(billHeader);
-        const user = JSON.parse(localStorage.getItem('user'));
-        this.genarateBillNo(user.branchCode);
+        // const user = JSON.parse(localStorage.getItem('user'));
+        // this.genarateBillNo(user.branchCode);
 
       } else {
         this.disableForm();

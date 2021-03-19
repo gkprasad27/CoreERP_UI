@@ -22,11 +22,11 @@ export class AccountingClassComponent implements OnInit {
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) {
 
     this.modelFormData = this.formBuilder.group({
-      code: [null, [Validators.required, Validators.minLength(2), Validators.maxLength(4)]],
+      code: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(4)]],
       description: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
       ext1: [null],
       ext2: [null],
-      active: [null]
+      active: ['Y']
     });
 
 

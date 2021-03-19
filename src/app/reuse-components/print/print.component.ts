@@ -9,6 +9,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 export class PrintComponent implements OnInit, AfterViewInit {
   invoiceHdr: any;
   invoiceDetail: any;
+  userName:any;
+  Branch:any;
+  BranchPhone:any;
+  BranchList:any;
+  
   constructor(
     public dialogRef: MatDialogRef<PrintComponent>,
     // @Optional() is used to prevent error if no data is passed
@@ -17,6 +22,19 @@ export class PrintComponent implements OnInit, AfterViewInit {
     console.log(data);
     this.invoiceHdr = data.InvoiceHdr;
     this.invoiceDetail = data.InvoiceDetail;
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.userName=user.userName;
+    this.Branch = data.Branches;
+    this.BranchList = this.Branch.filter(branchCode => {
+      if (branchCode.branchCode == data.BranchCode){
+        return branchCode;
+      }});
+      var array = this.BranchList,  
+       object = Object.assign({}, ...array);  
+        
+       this.BranchPhone= object;
+       console.log(this.BranchPhone);
+
 
 // debugger;
 // let printContents, popupWin;

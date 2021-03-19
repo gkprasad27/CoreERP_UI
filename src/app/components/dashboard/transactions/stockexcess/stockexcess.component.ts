@@ -25,8 +25,7 @@ export class StockExcessComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['stockExcessMasterId', 'stockExcessDate', 'branchCode', 'branchName', 'costCenter',
-  'stockExcessNo'
+  displayedColumns: string[] = ['branchCode','branchName','stockExcessNo','stockExcessDate', 'costCenter','userId','shiftId'
 ];
 branchCode: any;
   constructor(

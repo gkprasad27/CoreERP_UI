@@ -38,6 +38,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   @Input() addOrUpdateData: any;
   @Input() isVehicle: boolean;
   @Input() isGiftmaster: boolean;
+  @Input() isSharetransfer: boolean;
+  @Input() isAdditionalSharetransfer: boolean;
   @Input() setBackgroun:boolean;
   @Output() searchEvent = new EventEmitter();
   @Output() addEvent = new EventEmitter();
@@ -62,7 +64,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
     toDate: null,
     invoiceNo: '',
     Name: null,
-    Role: "1"
+    Role: "1",
+    Vehicle : null
   }
 
 
@@ -77,6 +80,20 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
       
       if(this.isGiftmaster){
         this.routeParam='GiftMaster';
+      }
+
+      if(this.isSharetransfer){
+        this.routeParam='ShareTransfer';
+      }
+      else {
+        this.routeParam = params.id;
+      }
+
+      if(this.isAdditionalSharetransfer){
+        this.routeParam='AdditionalShareTransfer';
+      }
+      else {
+        this.routeParam = params.id;
       }
 
       if(this.isVehicle) {
@@ -149,6 +166,14 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
       this.routeParam='GiftMaster';
     }
     
+    if(this.isSharetransfer){
+      this.routeParam='ShareTransfer';
+    }
+
+    if(this.isAdditionalSharetransfer){
+      this.routeParam='AdditionalShareTransfer';
+    }
+
     if (!isNullOrUndefined(this.tableData)) {
       if (this.tableData.length > 0) {
         this.showDataNotFound = false;
@@ -270,7 +295,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit, OnDestr
   }
 
   searchMember() {
-    if(this.searchMemberObj.Name || this.searchMemberObj.invoiceNo) {
+    if(this.searchMemberObj.Name || this.searchMemberObj.invoiceNo || this.searchMemberObj.Vehicle) {
       this.searchEvent.emit(this.searchMemberObj);
     }
     else {

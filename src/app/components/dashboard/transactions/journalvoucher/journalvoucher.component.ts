@@ -25,8 +25,8 @@ export class JournalVoucherComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['journalVoucherMasterId', 'journalVoucherDate', 'branchCode', 'branchName', 'fromLedgerCode',
-  'fromLedgerName', 'totalAmount','voucherNo'
+  displayedColumns: string[] = ['branchCode', 'branchName','fromLedgerCode','fromLedgerName','voucherNo','journalVoucherDate',  
+   'totalAmount','userId', 'shiftId'
 ];
 branchCode:any;
   constructor(

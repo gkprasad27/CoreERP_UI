@@ -7,7 +7,7 @@ import { ApiConfigService } from '../../../services/api-config.service';
 export class ReportsService {
 
   dynamicData = { url: '', component: null, registerUrl: '', listName: '', updateUrl: '', primaryKey: '', deleteUrl: '' };
-
+  branchCode: any;
 
   constructor(
     private apiConfigService: ApiConfigService
@@ -39,7 +39,7 @@ export class ReportsService {
         this.dynamicData.listName = 'savleValueList';
         return this.dynamicData;
       case 'Shift':
-        this.dynamicData.url = this.apiConfigService.getDefaultShiftReport;
+        this.dynamicData.url = `${this.apiConfigService.getDefaultShiftReport}/${this.branchCode}`;
         this.dynamicData.listName = 'shiftViewList';
         return this.dynamicData;
       case 'InnerShift':
@@ -106,6 +106,42 @@ export class ReportsService {
           this.dynamicData.url = this.apiConfigService.getTrialBalanceReportData;
           this.dynamicData.listName = 'trialBalanceList';
           return this.dynamicData;
+          case '24Hrs Meter Reading':
+            this.dynamicData.url = this.apiConfigService.getMeterReadingReportData;
+            this.dynamicData.listName = 'meterReadingList';
+            return this.dynamicData;
+            case 'Closing Balance':
+            this.dynamicData.url = this.apiConfigService.getClosingBalanceReportData;
+            this.dynamicData.listName = 'closingBalanceList';
+            return this.dynamicData;
+            case 'Bank Reconciliation':
+              this.dynamicData.url = this.apiConfigService.getBankReconciliationReportData;
+              this.dynamicData.listName = 'bankReconciliationList';
+              return this.dynamicData;
+              case 'Stock Valuation':
+                this.dynamicData.url = this.apiConfigService.getStockValuationReportData;
+                this.dynamicData.listName = 'stockValuationList';
+                return this.dynamicData;
+                case 'Four Column Cash Book':
+                this.dynamicData.url = this.apiConfigService.getFourColumnCashBookReportData;
+                this.dynamicData.listName = 'fourColumnList';
+                return this.dynamicData;
+                case 'BranchWise Monthly SalesByLiters':
+                this.dynamicData.url = this.apiConfigService.getBranchWiseMonthlySalesByLtrsReportData;
+                this.dynamicData.listName = 'branchwiseLtrs';
+                return this.dynamicData;
+                case 'ProductMonthWise PurchaseLtrs':
+                this.dynamicData.url = this.apiConfigService.getProductMonthWisePurchaseLtrsReportData;
+                this.dynamicData.listName = 'productWiseLtrs';
+                return this.dynamicData;
+                case 'BranchWise StockStatement Ltrs':
+                  this.dynamicData.url = this.apiConfigService.getBranchWiseStockStatementLtrsReportData;
+                  this.dynamicData.listName = 'branchWiseStockLtrs';
+                  return this.dynamicData;
+                  case 'BranchWise StockStatement Qty':
+                    this.dynamicData.url = this.apiConfigService.getBranchWiseStockStatementQtyReportData;
+                    this.dynamicData.listName = 'branchWiseStockQty';
+                    return this.dynamicData;
       default:
     }
   }

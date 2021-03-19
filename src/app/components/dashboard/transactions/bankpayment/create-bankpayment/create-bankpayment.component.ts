@@ -5,7 +5,7 @@ import { ApiConfigService } from '../../../../../services/api-config.service';
 import { String } from 'typescript-string-operations';
 import { ApiService } from '../../../../../services/api.service';
 import { isNullOrUndefined } from 'util';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import { SnackBar, StatusCodes } from '../../../../../enums/common/common';
 import { AlertService } from '../../../../../services/alert.service';
 import { Static } from '../../../../../enums/common/static';
@@ -16,6 +16,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
+import { SaveItemComponent } from '../../../../../reuse-components/save-item/save-item.component';
 
 @Component({
   selector: 'app-create-bankpayment',
@@ -60,6 +61,7 @@ export class CreateBankpaymentComponent implements OnInit {
     private alertService: AlertService,
     private activatedRoute: ActivatedRoute,
     private spinner: NgxSpinnerService,
+    public dialog: MatDialog,
 
   ) {
     this.branchFormData = this.formBuilder.group({
@@ -90,6 +92,7 @@ export class CreateBankpaymentComponent implements OnInit {
 
   ngOnInit() {
     this.loadData();
+    this.commonService.setFocus('bankLedgerName');
   }
   loadData() {
     this.getBankPaymentBranchesList();
@@ -464,10 +467,6 @@ export class CreateBankpaymentComponent implements OnInit {
 
   }
   save() {
-    // if (!this.tableFormObj) {
-    //   this.dataSource.data.pop();
-    //   console.log(this.dataSource.data);
-    // }
     if (this.routeUrl != '' || this.dataSource.data.length == 0) {
       return;
     }
@@ -478,14 +477,39 @@ export class CreateBankpaymentComponent implements OnInit {
       }
     }
     let content = '';
+    if (!tableData.length) {
+      content = 'Account code is required'
+      this.alertService.openSnackBar(`${content}`, Static.Close, SnackBar.error);
+      return;
+    }
+    let accountLedger = tableData.filter(ledger => {
+      if (ledger.amount == '') {
+        content = "Amount shouldn't be Empty"
+        return ledger
+      }
+    });
+    if (accountLedger.length) {
+      this.alertService.openSnackBar(`This Product(${accountLedger[0].toLedgerCode}) ${content}`, Static.Close, SnackBar.error);
+      return;
+    }
     let totalAmount = null;
     this.dataSource.data.forEach(element => {
       totalAmount = element.amount + totalAmount;
     });
 
+    const dialogRef = this.dialog.open(SaveItemComponent, {
+      width: '1024px',
+      data: '',
+      disableClose: true
+    });
     console.log(this.branchFormData, this.dataSource.data);
-
-    this.registerBankPayment(tableData);
+    dialogRef.afterClosed().subscribe(result => {
+      if (!isNullOrUndefined(result)) {
+        // this.enableFileds();
+        this.registerBankPayment(tableData);
+      }
+    });
+    // this.registerBankPayment(tableData);
   }
 
   reset() {

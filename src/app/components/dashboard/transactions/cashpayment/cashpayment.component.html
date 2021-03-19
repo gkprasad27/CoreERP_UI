@@ -80,15 +80,10 @@
             </td>
           </ng-container> -->
 
-          <ng-container matColumnDef="cashPaymentMasterId">
+          <!-- <ng-container matColumnDef="cashPaymentMasterId">
             <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.cashPaymentMasterId" | translate }}</th>
             <td mat-cell *matCellDef="let element">{{ element.cashPaymentMasterId }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="cashPaymentDate">
-            <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.cashPaymentDate" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.cashPaymentDate | date: 'dd/MM/yyyy' }}</td>
-          </ng-container>
+          </ng-container> -->
 
           <ng-container matColumnDef="branchCode">
             <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.branchCode" | translate }}</th>
@@ -110,15 +105,31 @@
             <td mat-cell *matCellDef="let element">{{ element.fromLedgerName }}</td>
           </ng-container>
 
+          <ng-container matColumnDef="voucherNo">
+            <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.voucherNo" | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.voucherNo }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="cashPaymentDate">
+            <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.cashPaymentDate" | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.cashPaymentDate | date: 'dd/MM/yyyy  hh:mm:ss' }}</td>
+          </ng-container>
+
           <ng-container matColumnDef="totalAmount">
             <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.totalAmount" | translate }}</th>
             <td mat-cell *matCellDef="let element">{{ element.totalAmount }}</td>
           </ng-container>
 
-          <ng-container matColumnDef="voucherNo">
-            <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.voucherNo" | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.voucherNo }}</td>
+          <ng-container matColumnDef="userId">
+            <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.userId" | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.userId }}</td>
           </ng-container>
+
+          <ng-container matColumnDef="shiftId">
+            <th mat-header-cell *matHeaderCellDef>{{ "cashpayment.shiftId" | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.shiftId }}</td>
+          </ng-container>
+          
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns" (dblclick)="openSale(row)"></tr>
         </table>

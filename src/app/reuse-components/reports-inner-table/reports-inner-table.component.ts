@@ -144,7 +144,7 @@ export class ReportsInnerTableComponent  {
     //Create workbook and worksheet
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Report', {
-      pageSetup: { fitToPage: true, paperSize: 9, orientation: 'landscape' }
+      pageSetup: { fitToPage: true, paperSize: 11, orientation: 'landscape' }
     });
     //Add Row and formatting
     let titleRow = worksheet.addRow([this.routeParam + ' Report']);
@@ -196,7 +196,7 @@ export class ReportsInnerTableComponent  {
       let row = worksheet.addRow(d);
     });
     worksheet.addRow([]);
-    //Adding fooer Rows
+    //Adding footer Rows
     let footerRows = [];
     for (var i: number = 0; i < this.data.footerData.length; i++) {
       footerRows[i] = [];
@@ -215,7 +215,9 @@ export class ReportsInnerTableComponent  {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       fs.saveAs(blob, this.routeParam + 'Report.xlsx');
     });
-  }exportToPdf() {
+  }
+  
+  exportToPdf() {
     let doc = new jsPDF('p', 'mm', 'a4');
     let columns = []; //["ID", "Name", "Country"];
     for (const key in this.tableData[0]) {

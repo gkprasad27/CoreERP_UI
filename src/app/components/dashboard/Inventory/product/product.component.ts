@@ -70,7 +70,7 @@ export class ProductComponent implements OnInit {
         unitName:[null],
         mrp: [null],
         purchaseRate:[null],
-        salesRate:[null,[Validators.required, Validators.minLength(2)]],
+        salesRate:[null,[Validators.required]],
         taxStructureCode:[null],
         taxapplicableOn:[null],
         totalPercentageGst: [null],

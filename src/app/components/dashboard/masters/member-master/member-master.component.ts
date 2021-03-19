@@ -41,6 +41,8 @@ export class MemberMasterComponent implements OnInit {
   tableData: any = [];
 
   vehicleTableData: any = [];
+  shareTableData: any = [];
+  AdditionalshareTableData: any = [];
  
 
   isMemberForm: boolean = false;
@@ -233,6 +235,40 @@ export class MemberMasterComponent implements OnInit {
       );
   }
 
+  getShareTableData(memberCode) {
+
+    this.apiService.apiGetRequest(this.apiConfigService.getShareTransfer + '/' + memberCode)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              // console.log(res);
+              this.shareTableData = res.response['ShareList'];
+            }
+          }
+          this.spinner.hide();
+        }
+      );
+  }
+
+  getAdditionalShareTableData(memberCode) {
+
+    this.apiService.apiGetRequest(this.apiConfigService.getAdditionalShareTransfer + '/' + memberCode)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === StatusCodes.pass) {
+            if (!isNullOrUndefined(res.response)) {
+              // console.log(res);
+              this.AdditionalshareTableData = res.response['ShareList'];
+            }
+          }
+          this.spinner.hide();
+        }
+      );
+  }
+
 //   getGiftList(memberCode){
 //     this.apiService.apiGetRequest(this.apiConfigService.getGiftList+'/'+memberCode)
 //         .subscribe(
@@ -262,7 +298,9 @@ export class MemberMasterComponent implements OnInit {
         this.isFormEdit = true;
 
         this.getVehicleTableData(this.formData.memberCode);
-       // this.getGiftList(this.formData.memberCode);
+        this.getShareTableData(this.formData.memberCode);
+        this.getAdditionalShareTableData(this.formData.memberCode);
+        //  this.getGiftList(this.formData.memberCode);
       }
     }
 

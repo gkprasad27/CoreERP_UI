@@ -9,6 +9,9 @@
   max-height: 300px !important;
 }
 
+#customerName,#memberName,#customerGstin,#suppliedTo{
+  text-transform: uppercase;
+}
 
 :host ::ng-deep table {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -22,7 +25,7 @@
       border-bottom: 1px solid $color-ddd;
     }
     & td {
-      font-size: 12px;
+      font-size: 13px;
       vertical-align: middle;
             // border: none !important;
       border: 1px solid $color-gray;
@@ -52,6 +55,8 @@
 //   min-width: 150px;
 // }
 
+
+
 .table th, .table td {
   vertical-align: middle;
   // border: none !important;
@@ -60,6 +65,7 @@
 .table th {
   background-color: $color-blue;
   color: $color-white;
+  font-size: 13px;
 }
 
 .table tr {
@@ -104,8 +110,14 @@
 
 mat-form-field {
   height: 40px;
+  font-size: 16px;
+  font-weight: 500;
 }
-
+mat-form-field {
+& input:focus {
+  background: #f6ff0091;
+}
+}
 
 .flashLight {
   -webkit-animation: glowing 1500ms infinite;

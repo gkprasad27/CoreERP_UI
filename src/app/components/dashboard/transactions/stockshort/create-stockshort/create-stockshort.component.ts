@@ -123,6 +123,7 @@ export class CreateStockshortsComponent implements OnInit {
   ngOnInit() {
     //debugger;
     this.loadData();
+    this.commonService.setFocus('costCenter');
     //debugger;
     //this.formGroup();
     //this.getBranchesList();

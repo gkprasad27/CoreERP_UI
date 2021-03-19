@@ -25,8 +25,8 @@ export class StockissuesComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = [ 'operatorStockIssueId', 'issueNo', 'issueDate', 'fromBranchCode', 'fromBranchName',
-    'toBranchCode', 'toBranchName', 'shiftId', 'userId'
+  displayedColumns: string[] = ['fromBranchCode', 'fromBranchName', 'toBranchCode', 'toBranchName','issueNo', 'issueDate', 
+  'userId', 'shiftId'
   ];
     fromBranchCode: any;
     issueNo: any;

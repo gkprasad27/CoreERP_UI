@@ -143,6 +143,8 @@
   "sizes": {
     "title": "Sizes",
     "code": "Code",
+    "ext1": "ext1",
+    "ext2": "ext2",
     "description": "Description",
     "active": "Active",
     "addDate": "Add Date"
@@ -150,6 +152,8 @@
   "accountingclass": {
     "title": "Accounting Class",
     "code": "Code",
+    "ext1": "ext1",
+    "ext2": "ext2",
     "description": "Description",
     "active": "Active",
     "addDate": "Add Date"
@@ -158,10 +162,26 @@
     "title": "Brand",
     "code": "Code",
     "brandName": "Brand Name",
+    "ext1": "ext1",
+    "ext2": "ext2",
     "compCode": "Company",
     "customerCare": "CustomerCare",
     "active": "Active",
     "addDate": "Add Date"
+  },
+  "approvaltype": {
+    "title": "ApprovalType",
+    "id": "Id",
+    "approvalType1": "ApprovalType1",
+    "immediateReporting": "ImmediateReporting",
+    "reportingTo": "ReportingTo",
+    "approvedBy": "ApprovedBy",
+    "company": "Company",
+    
+    "department": "Department",
+    "companyName": "CompanyName",
+    "departmentName": "DepartmentName",
+    "approveName": "ApproveName"
   },
   "numberassignment": {
     "title": "Number Assignment",
@@ -589,7 +609,8 @@
     "passBookStatus": "PassBookStatus",    
     "aadharNumber":"Aadhar Number",
     "dob":"Date Of Birth",
-    "photo":"Photo"
+    "photo":"Photo",
+    "membervehicle":"Member Vehicle"
     
   },
   "vehicle": {
@@ -615,8 +636,31 @@
     "description":"Description",
     "year":"Year",
     "giftName":"Gift Name"
-  }
-  ,
+  },
+  "ShareTransfer": {
+    "title": "Share Transfer",
+    "shareTransferCode":"Share Transfer Code",
+    "transferDate":"Transfer Date",
+    "fromMemberCode":"From Member Code",
+    "toMemberCode" : "To Member Code",
+    "toMemberName":"To Member Name",
+    "fromMemberSharesBefore":"From Member Shares Before T/F",
+    "fromMemberSharesAfter":"From Member Shares After T/F",
+    "toMemberSharesBefore":"To Member Shares Before T/F",
+    "toMemberSharesAfter":"To Member Shares After T/F"
+  },
+  "AdditionalShareTransfer": {
+    "title": "Additional Shares",
+    "shareTransferCode":"Share Transfer Code",
+    "transferDate":"Transfer Date",
+    "fromMemberCode":"From Member Code",
+    "toMemberCode" : "To Member Code",
+    "toMemberName":"To Member Name",
+    "fromMemberSharesBefore":"From Member Shares Before T/F",
+    "fromMemberSharesAfter":"From Member Shares After T/F",
+    "toMemberSharesBefore":"To Member Shares Before T/F",
+    "toMemberSharesAfter":"To Member Shares After T/F"
+  },
   "segment": {
     "title": "Segment",
     "seqId": "Seq Id",
@@ -877,6 +921,7 @@
     "hsnNo": "HsnNo",
     "unitId": "Unit",
     "qty": "Qty",
+    "ltrs": "Ltrs",
     "rate": "Rate",
     "totalAmount": "Total Amount",
     "availStock": "Avail Stock",
@@ -966,7 +1011,9 @@
     "toLedgerName":"To Account Name",
     "narration":"Narration",
     "SlNo":"SL.No",
-    "userName":"Created By"
+    "userName":"Created By",
+    "userId":"User Id",
+    "shiftId":"Shift Id"
   },
   "cashreceipt": {
     "title": "Cash Receipt",
@@ -987,7 +1034,9 @@
     "toLedgerName":"To Account Name",
     "narration":"Narration",
     "SlNo":"SL.No",
-    "userName":"Created By"
+    "userName":"Created By",
+    "userId":"User Id",
+    "shiftId":"Shift Id"
   },
   "bankpayment": {
     "title": "Bank Payment",
@@ -1011,7 +1060,9 @@
     "SlNo":"SL.No",
     "userName":"Created By",
     "toLedgerCode":"To Account Code",
-    "toLedgerName":"To Account Name"
+    "toLedgerName":"To Account Name",
+    "userId":"User Id",
+    "shiftId":"Shift Id"
   },
   "bankreceipt": {
     "title": "Bank Receipt",
@@ -1035,7 +1086,9 @@
     "SlNo":"SL.No",
     "userName":"Created By",
     "toLedgerCode":"To Account Code",
-    "toLedgerName":"To Account Name"
+    "toLedgerName":"To Account Name",
+    "userId":"User Id",
+    "shiftId":"Shift Id"
   },
   "journalvoucher":{
     "title":"Journal Voucher",
@@ -1060,12 +1113,15 @@
     "referenceNo":"Reference No",
     "toLedgerCode":"To Account Code",
     "toLedgerName":"To Account Name",
-    "transactionType":"Debit/Credit"
+    "transactionType":"Debit/Credit",
+    "userId":"User Id",
+    "shiftId":"Shift Id"
     },
   "rolePrevilages": {
     "title": "Role Previlages",
     "role": "Role",
     "menuName": "Menu Name",
+    "headerMenu": "Header Menu",
     "active": "Active",
     "add": "Add",
     "edit": "Edit",
@@ -1073,13 +1129,11 @@
   },
    "packageconversion": {
     "title": "PackageConversion List",
-    "inputProductId": "Input ProductID",
     "inputproductCode": "Input ProductCode",
     "inputproductName": "Input ProductName",
-    "outputProductId": "Output ProductId",
+    "inputQty": "Input Qty",
     "outputproductCode": "Output ProductCode",
     "outputproductName": "Output ProductName",
-    "inputQty": "Input Qty",
     "outputQty": "Output Qty",
     "addDate": "AddDate"
   },
@@ -1108,22 +1162,25 @@
     "unitName":"Unit Name",
     "totalAmount":"Total Amount",
     "productCode":"Product Code",
-    "productName":"Product Name"
+    "productName":"Product Name",
+    "userId":"User Id",
+    "shiftId":"Shift Id"
   },
   "meterreading":{
     "title":"Meter Reading",
     "branchCode":"Branch Code",
     "branchName":"Branch Name",
-    "testing":"Testing",
-    "density":"Density",
     "pumpNo":"Pump No",
-    "totalSales":"Total Sales",
     "inMeterReading":"Opening Reading",
     "outMeterReading":"Closing Reading",
-    "shiftId":"Shift Id",
-    "consumption":"Consumption",
+    "totalSales":"Total Sales",
     "variation":"Variation",
-    "invoiceSales":"Saled Units"
+    "shiftId":"Shift Id",
+    "testing":"Testing",
+    "density":"Density",
+    "consumption":"Consumption",
+    "invoiceSales":"Saled Units",
+    "entryDate":"Date"
   },
  "product":{
     "title":"Product",
@@ -1208,6 +1265,23 @@
     "department": "Department",
     "fromDate": "Fromdate",
     "todate": "Todate"
+  },
+
+  "openingBalance":{
+    "title":"Opening Balance",
+    "branchCode": "Branch Code",
+    "branchName": "Branch Name",
+    "ledgerCode": "Account No",
+    "ledgerName": "Account Name",
+    "voucherNo": "Voucher No",
+    "openingBalanceDate": "Opening Balance Date",
+    "paymentTypeName": "Payment Type",
+    "amount": "Amount",
+    "narration": "Narration",
+    "shiftId": "Shift",
+    "userName": "User Name"
+    
   }
+
 }
 

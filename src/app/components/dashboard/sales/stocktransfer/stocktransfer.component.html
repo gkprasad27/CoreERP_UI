@@ -83,7 +83,7 @@
 
             <ng-container matColumnDef="stockTransferDate">
               <th mat-header-cell *matHeaderCellDef>{{ "STOCKTRANSFER.StockTransferDate" | translate }}</th>
-              <td mat-cell *matCellDef="let element">{{ element.stockTransferDate | date: 'dd/MM/yyyy' }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.stockTransferDate | date: 'dd/MM/yyyy  hh:mm:ss' }}</td>
             </ng-container>
 
             <ng-container matColumnDef="userId">

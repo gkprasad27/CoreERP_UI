@@ -35,7 +35,7 @@
 
                 <mat-form-field class="form-element">
                   <mat-label>{{ 'stockexcess.costCenter' | translate }}</mat-label>
-                  <mat-select formControlName="costCenter" appFocusOnEnter tabIndex="3">
+                  <mat-select formControlName="costCenter" appFocusOnEnter tabIndex="3" id="costCenter">
                     <mat-option *ngFor="let costcenter of getStockExcessListArray" [value]="costcenter.id">
                       {{costcenter.text}}
                     </mat-option>

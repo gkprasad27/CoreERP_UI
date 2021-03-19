@@ -27,6 +27,7 @@ export class VehicleComponent implements OnInit, OnChanges {
   tableUrl: any;
   vehicleTypes: any = [];
 
+  @Input() memberCode: any;
   @Input() vehicleTableData: any = [];
 
   isFormEdit: boolean = false;
@@ -74,8 +75,8 @@ export class VehicleComponent implements OnInit, OnChanges {
   }
 
   seDefaults() {
-    this.modelFormData.controls['memberId'].setValue(this.formData.memberId);
-    this.modelFormData.controls['memberCode'].setValue(this.formData.memberCode);
+    //this.modelFormData.controls['memberId'].setValue(this.formData.memberId);
+   // this.modelFormData.controls['memberCode'].setValue(this.formData.memberCode);
     this.modelFormData.controls['memberId'].disable();
     this.modelFormData.controls['memberCode'].disable();
   }
@@ -141,10 +142,13 @@ export class VehicleComponent implements OnInit, OnChanges {
     this.modelFormData.controls['memberId'].enable();
     this.modelFormData.controls['memberCode'].enable();
 
-    let memberCode = this.modelFormData.controls['memberCode'].value;
-
+    let memberCode =this.memberCode;// this.modelFormData.controls['memberCode'].value;
+    this.modelFormData.patchValue({
+      fromDate:this.commonService.formatDate(this.modelFormData.get('fromDate').value),
+      toDate:this.commonService.formatDate(this.modelFormData.get('toDate').value)
+    });
     if (!this.isFormEdit) {
-      this.apiService.apiPostRequest(this.tableUrl.registerUrl + '/' + memberCode, this.modelFormData.value)
+      this.apiService.apiPostRequest(this.apiConfigService.registerMemberMaster + '/' + memberCode, this.modelFormData.value)
         .subscribe(
           response => {
             const res = response.body;
@@ -162,7 +166,7 @@ export class VehicleComponent implements OnInit, OnChanges {
 
     else if (this.isFormEdit) {
 
-      this.apiService.apiUpdateRequest(this.tableUrl.updateUrl, this.modelFormData.value)
+      this.apiService.apiUpdateRequest(this.apiConfigService.updateVehicle, this.modelFormData.value)
         .subscribe(
           response => {
             const res = response.body;

@@ -25,8 +25,8 @@ export class BankPaymentComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['bankPaymentMasterId', 'bankPaymentDate', 'branchCode', 'branchName', 'bankLedgerCode',
-  'bankLedgerName', 'totalAmount','voucherNo'
+  displayedColumns: string[] = ['branchCode', 'branchName','bankLedgerCode','bankLedgerName','voucherNo','bankPaymentDate',  
+  'totalAmount','userId', 'shiftId'
 ];
 branchCode:any;
   constructor(

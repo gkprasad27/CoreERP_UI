@@ -25,8 +25,8 @@ export class CashPaymentComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['cashPaymentMasterId', 'cashPaymentDate', 'branchCode', 'branchName', 'fromLedgerCode',
-  'fromLedgerName', 'totalAmount','voucherNo'
+  displayedColumns: string[] = ['branchCode', 'branchName','fromLedgerCode','fromLedgerName','voucherNo','cashPaymentDate',  
+   'totalAmount', 'userId', 'shiftId'
 ];
 branchCode: any;
   constructor(

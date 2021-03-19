@@ -98,6 +98,7 @@ export class CreateStockissuesComponent implements OnInit {
   {
     //debugger;
     this.getCashPaymentBranchesList();
+    // this.gettingtobranches();
     this.activatedRoute.params.subscribe(params => {
       if (!isNullOrUndefined(params.id1)) {
         this.routeUrl = params.id1;
@@ -105,6 +106,7 @@ export class CreateStockissuesComponent implements OnInit {
         this.getStockissuesDeatilList(params.id1);
         let billHeader = JSON.parse(localStorage.getItem('selectedstockissues'));
         this.branchFormData.setValue(billHeader);
+        this.gettingtobranches();
       } else {
         //this.disableForm();
         const user = JSON.parse(localStorage.getItem('user'));
@@ -188,6 +190,7 @@ export class CreateStockissuesComponent implements OnInit {
   {
     //debugger;
     this.loadData();
+    this.commonService.setFocus('productCode');
   }
 
   getStockissuesDeatilList(id)

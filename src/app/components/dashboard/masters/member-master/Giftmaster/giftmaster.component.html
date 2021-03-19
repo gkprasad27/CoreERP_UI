@@ -24,14 +24,14 @@
                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                     <mat-datepicker #picker2></mat-datepicker>
                 </mat-form-field>
-                <!-- <mat-form-field>
-                  <mat-label [translate]="'GiftMaster.status'"></mat-label>
+                <mat-form-field>
+                  <mat-label [translate]="'GiftMaster.year'"></mat-label>
                   <select matNativeControl placeholder="{{'select'}}"
-                    formControlName="status">
-                    <option *ngFor="let s of statusList" [value]="s.value">
-                      {{s.viewValue}}</option>
+                    formControlName="year">
+                    <option *ngFor="let yr of yearArr" [value]="yr">
+                      {{yr}}</option>
                   </select>
-                </mat-form-field> -->
+                </mat-form-field>
             </div>
         </form>
     </mat-card-content>
@@ -45,5 +45,6 @@
         </button>
       </div>
 </div>
-<app-table *ngIf="!isFormVisible" [tableData]="gifttableDataList" (addOrUpdateEvent)="addOrUpdateEvent($event)" [isGiftmaster]="'true'">
+
+<app-table  [tableData]="gifttableDataList" (addOrUpdateEvent)="addOrUpdateEvent($event)" [isGiftmaster]="'true'">
 </app-table>

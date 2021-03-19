@@ -25,8 +25,8 @@ export class BankReceiptComponent implements OnInit {
   // table
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-  displayedColumns: string[] = ['bankReceiptMasterId', 'bankReceiptDate', 'branchCode', 'branchName', 'bankLedgerCode',
-  'bankLedgerName', 'totalAmount','voucherNo'
+  displayedColumns: string[] = ['branchCode', 'branchName','bankLedgerCode','bankLedgerName','voucherNo','bankReceiptDate', 
+   'totalAmount','userId', 'shiftId'
 ];
 branchCode:any;
   constructor(
