@@ -16,6 +16,7 @@ var curValue = require("multilingual-number-to-words");
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../directives/format-datepicker';
 import { SaveItemComponent } from '../../../../../reuse-components/save-item/save-item.component';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-purchase-create',
@@ -50,6 +51,7 @@ export class PurchaseCreateComponent implements OnInit {
   modelFormData: FormGroup;
   tableFormData: FormGroup;
   printBill = false;
+  tcs : boolean = false;
   routeUrl = '';
   taxPercentage: any;
   // tableLength = 6;
@@ -104,7 +106,8 @@ export class PurchaseCreateComponent implements OnInit {
       totalAmount: [null],
       amountInWords: [null],
       narration: [null],
-      isPurchaseReturned: [null]
+      isPurchaseReturned: [null],
+      totalTcsAmount: [null]
     });
   }
 
@@ -144,6 +147,9 @@ export class PurchaseCreateComponent implements OnInit {
         this.getPurchaseInvoiceDeatilList(params.id2);
         const billHeader = JSON.parse(localStorage.getItem('purchase'));
         this.branchFormData.setValue(billHeader);
+        if(billHeader.totalTcsAmount!=0){
+          this.tcs=true;
+        }
         if (this.routeUrl == 'return') {
           const user = JSON.parse(localStorage.getItem('user'));
           this.getPurchasePurchaseReturnInvNo(user.branchCode);
@@ -163,6 +169,7 @@ export class PurchaseCreateComponent implements OnInit {
                 stateCode: '37',
                 stateName: 'ANDHRA PRADESH'
               });
+              
           // this.getCashPartyAccount();
           this.setBranchCode();
           this.genarateBillNo(user.branchCode);
@@ -211,10 +218,11 @@ export class PurchaseCreateComponent implements OnInit {
     this.branchFormData.controls['amountInWords'].disable();
     this.branchFormData.controls['userName'].disable();
     this.branchFormData.controls['ledgerName'].disable();
+    this.branchFormData.controls['totalTcsAmount'].disable();
   }
 
   getPurchasePurchaseReturnInvNo(branch) {
-    const generateBillUrl = String.Join('/', this.apiConfigService.getPurchasePurchaseReturnInvNo, branch)
+    const generateBillUrl = String.Join('/', this.apiConfigService.getPurchasePurchaseReturnInvNo, this.branchFormData.get('branchCode').value)
     this.apiService.apiGetRequest(generateBillUrl).subscribe(
       response => {
         const res = response.body;
@@ -620,6 +628,8 @@ export class PurchaseCreateComponent implements OnInit {
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     let totaltaxAmount = 0;
     let totalAmount = 0;
+    let gTotal =0;
+    let TcsAmt =0;
     for (let a = 0; a < this.dataSource.data.length; a++) {
       if (this.dataSource.data[a].grossAmount) {
         let tax = (this.taxPercentage) ? (this.dataSource.data[a].cgst + this.dataSource.data[a].sgst) : this.dataSource.data[a].igst;
@@ -627,22 +637,33 @@ export class PurchaseCreateComponent implements OnInit {
         let totalTax = (amountTax - (+this.dataSource.data[a].grossAmount));
         totalAmount = totalAmount + (+this.dataSource.data[a].grossAmount);
         totaltaxAmount = totaltaxAmount + totalTax;
+        gTotal=totalAmount+totaltaxAmount;
+        let totalTcs = (this.tcs) ? (gTotal * 0.1/100):0;
+        TcsAmt = totalTcs;
       }
     }
     this.branchFormData.patchValue({
       totalAmount: !isNullOrUndefined(totalAmount) ? totalAmount.toFixed(2) : null,
-      totaltaxAmount: !isNullOrUndefined(totaltaxAmount) ? totaltaxAmount.toFixed(2) : null,
+      totaltaxAmount: !isNullOrUndefined(totaltaxAmount) ? (totaltaxAmount + TcsAmt).toFixed(2)   : null,
     });
     this.branchFormData.patchValue({
-      grandTotal: (totalAmount + totaltaxAmount).toFixed(2),
+      grandTotal: (totalAmount + totaltaxAmount + TcsAmt).toFixed(2),
       totalCgst: (this.taxPercentage) ? (totaltaxAmount / 2).toFixed(2) : 0,
       totalSgst: (this.taxPercentage) ? (totaltaxAmount / 2).toFixed(2) : 0,
       totalIgst: (!this.taxPercentage) ? (totaltaxAmount).toFixed(2) : 0,
+      totalTcsAmount: (this.tcs) ? (gTotal * 0.1/100).toFixed(2) : 0,
     })
     this.branchFormData.patchValue({
       amountInWords: curValue.lakhWord(this.branchFormData.get('grandTotal').value)[0],
     });
+    
   }
+
+  toggleChanges($event: MatSlideToggleChange) {
+    this.tcs = $event.checked;
+  }
+
+  
 
   getProductDeatilsSectionRcd(productCode, index, id) {
     this.setFocus = id + index;
@@ -745,7 +766,7 @@ export class PurchaseCreateComponent implements OnInit {
     if (!isNullOrUndefined(this.branchFormData.get('totalAmount').value) && this.branchFormData.get('totalAmount').value > 0) {
       if (prop == 'roundOffPlus') {
         this.branchFormData.patchValue({
-          grandTotal: ((+this.branchFormData.get('totalAmount').value) + (+this.branchFormData.get('totaltaxAmount').value) + (+this.branchFormData.get('roundOffPlus').value)).toFixed(2),
+          grandTotal: ((+this.branchFormData.get('totalAmount').value) + (+this.branchFormData.get('totaltaxAmount').value)  + (+this.branchFormData.get('roundOffPlus').value)).toFixed(2),
           roundOffMinus: null
         })
       } else if (prop == 'roundOffMinus') {
@@ -842,6 +863,7 @@ export class PurchaseCreateComponent implements OnInit {
     this.branchFormData.controls['amountInWords'].enable();
     this.branchFormData.controls['userName'].enable();
     this.branchFormData.controls['ledgerName'].enable();
+    this.branchFormData.controls['totalTcsAmount'].enable();
   }
 
   reset() {

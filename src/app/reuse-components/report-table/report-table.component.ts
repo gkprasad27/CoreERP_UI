@@ -587,6 +587,99 @@ export class ReportTableComponent implements OnInit, OnChanges {
     })
     doc.save(this.routeParam + 'Report.pdf');
     }
+    if(this.routeParam=='Four Column Cash Book'){
+      let doc = new jsPDF('l', 'cm', 'legal');
+    
+      let columns = []; //["ID", "Name", "Country"];
+      for (const key in this.tableData[0]) {
+        columns.push(key);
+      }
+      let rows = [];
+      for (var i: number = 0; i < this.dataSource.filteredData.length; i++) {
+        rows[i] = [];
+        let j = 0;
+        for (const key in this.tableData[0]) {
+          rows[i][j] = this.dataSource.filteredData[i][key];
+          j++;
+        }
+      }
+  
+      doc.autoTable({
+        body: [
+          [{ content: this.routeParam + ' Report', colSpan: 3, rowSpan: 1, styles: { halign: 'center', fontStyle: 'bold' } }],
+        ],
+        theme: 'plain'
+      });
+      let pipe = new DatePipe('en-US');
+      let currentDate = new Date();
+  
+      let headerRows = [];
+      for (var i: number = 0; i < this.tableHeaders.length; i++) {
+        headerRows[i] = [];
+        let j = 0;
+        for (const key in this.tableHeaders[0]) {
+          headerRows[i][j] = this.tableHeaders[i][key];
+          j++;
+        }
+      }
+  
+      headerRows = [
+        headerRows[0] ? headerRows[0].concat(headerRows[1]) : "",
+        headerRows[2] ? headerRows[2].concat(headerRows[3]) : "",
+        headerRows[4] ? headerRows[4].concat(headerRows[5]) : "",
+        headerRows[6] ? headerRows[6].concat(headerRows[7]) : "",
+        headerRows[8] ? headerRows[8].concat(headerRows[9]) : "",
+        headerRows[10] ? headerRows[10].concat(headerRows[11]) : "",
+        headerRows[12] ? headerRows[12].concat(headerRows[13]) : "",
+        headerRows[14] ? headerRows[14].concat(headerRows[15]) : ""
+      ];
+  
+      headerRows = headerRows.filter(arr => arr != "");
+  
+  
+  
+      doc.autoTable({
+        margin: { top: 3 },
+        columnStyles: {
+          1: { halign: 'right' }
+        },
+        body: headerRows,
+        theme: 'plain',
+      })
+  
+      doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 2, styles: { font: 'Tahoma',fontSize: 10}, theme: 'plain' });
+  
+      let footerRows = [];
+      for (var i: number = 0; i < this.footerData.length; i++) {
+        footerRows[i] = [];
+        let j = 0;
+        for (const key in this.footerData[0]) {
+          footerRows[i][j] = this.footerData[i][key];
+          j++;
+        }
+      }
+  
+      let updatedFooterRows = [];
+  
+      if (footerRows && footerRows.length) {
+        footerRows.forEach((ft) => {
+          let temp = [];
+          ft.forEach(data => {
+            if (data != "") {
+              temp.push(data);
+            }
+          });
+          updatedFooterRows.push(temp);
+        })
+      }
+  
+      doc.autoTable({
+        body: updatedFooterRows,
+        theme: 'plain',
+        startY: doc.autoTable.previous.finalY + 2
+      })
+      doc.save(this.routeParam + 'Report.pdf');
+      }
   
 else{
   // let doc = new jsPDF('p', 'cm', 'legal');

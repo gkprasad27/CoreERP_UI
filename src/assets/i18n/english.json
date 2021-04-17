@@ -898,7 +898,8 @@
     "totalCgst": "Total CGST",
     "totalSgst": "Total SGST",
     "totalIgst": "Total IGST",
-    "userName": "User Name"
+    "userName": "User Name",
+    "totalTcs": "Total TCS"
   },
   "STOCKTRANSFER": {
     "TITLE": "Stock Transfer",
