@@ -587,8 +587,9 @@ export class ReportTableComponent implements OnInit, OnChanges {
     })
     doc.save(this.routeParam + 'Report.pdf');
     }
+    
     if(this.routeParam=='Four Column Cash Book'){
-      let doc = new jsPDF('l', 'cm', 'legal');
+      let doc = new jsPDF('p', 'in', [1008, 792]);
     
       let columns = []; //["ID", "Name", "Country"];
       for (const key in this.tableData[0]) {
