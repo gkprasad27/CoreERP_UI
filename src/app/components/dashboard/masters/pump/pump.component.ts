@@ -145,9 +145,10 @@ export class PumpComponent implements OnInit {
     if (this.modelFormData.invalid) {
       return;
     }
+    this.modelFormData.controls['pumpNo'].enable();
     this.formData.item = this.modelFormData.value;
     this.dialogRef.close(this.formData);
-    this.modelFormData.controls['pumpNo'].enable();
+    
   }
 
   cancel() {

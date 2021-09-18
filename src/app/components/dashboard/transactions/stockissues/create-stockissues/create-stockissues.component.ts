@@ -32,6 +32,7 @@ export class CreateStockissuesComponent implements OnInit {
   branchesList = [];
   getmemberNamesArray = [];
   fromBranchCode= null;
+  setFocus = '';
 
   displayedColumns: string[] = ['productCode', 'productName', 'hsnNo', 'unitName', 'qty', 'rate', 'grossAmount', 'availStock', 'batchNo', 'delete'
   ];
@@ -360,9 +361,13 @@ export class CreateStockissuesComponent implements OnInit {
     }
   }
 
-  clearQty(index, value, column) {
+  clearQty(index, value, column, row) {
     this.dataSource.data[index].qty = null;
     this.dataSource.data[index].fQty = null;
+    if (row.availStock < value) {
+      this.alertService.openSnackBar(`This Product(${row.productCode}) qty or Fqty cannot be greater than available stock`, Static.Close, SnackBar.error);
+      return;
+    }
     this.dataSource.data[index][column] = value;
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
@@ -462,8 +467,9 @@ export class CreateStockissuesComponent implements OnInit {
   //}
 
   //Code based getting data
-  getdata(productCode)
+  getdata(productCode, index, id)
   {
+    this.setFocus = id + index;
     //debugger;
     if (!isNullOrUndefined(this.branchFormData.get('fromBranchCode').value) && this.branchFormData.get('fromBranchCode').value != '' &&
       !isNullOrUndefined(productCode.value) && productCode.value != '') {
@@ -483,12 +489,10 @@ export class CreateStockissuesComponent implements OnInit {
         });
     }
   }
-
+  
   //assign data
-  DetailsSection(obj)
-  {
-    this.dataSource.data = this.dataSource.data.map(val =>
-    {
+  DetailsSection(obj) {
+    this.dataSource.data = this.dataSource.data.map(val => {
       if (val.productCode == obj.productCode) {
         this.tableFormData.patchValue
           ({
@@ -501,7 +505,9 @@ export class CreateStockissuesComponent implements OnInit {
       return val;
     });
     this.setToFormModel(null, null, null);
+    this.commonService.setFocus(this.setFocus);
   }
+
 
   setProductName(name)
   {

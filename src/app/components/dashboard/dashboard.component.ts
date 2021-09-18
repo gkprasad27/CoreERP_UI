@@ -30,6 +30,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getMenuList();
+    // this.getStockInformationDashboardData();
   }
 
   getMenuList() {
@@ -46,7 +47,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.spinner.hide();
         });
   }
-
+  
   ngAfterViewInit() {
     this.commonService.appDrawer = this.appDrawer;
     // console.log(this.navItems);

@@ -131,7 +131,7 @@
                     id="qty{{ dataSource.filteredData.indexOf(element) }}"
                     (keyup)="calculateAmount(element, dataSource.filteredData.indexOf(element))"
                     [(ngModel)]="element.qty"
-                    (input)="setToFormModel(element.text, 'qty', element.qty); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty');" (keydown.enter)="save()" /></strong>
+                    (input)="setToFormModel(element.text, 'qty', element.qty); clearQty(dataSource.filteredData.indexOf(element), element.qty, 'qty', element);" (keydown.enter)="save()" /></strong>
             </td>
         </ng-container>
 

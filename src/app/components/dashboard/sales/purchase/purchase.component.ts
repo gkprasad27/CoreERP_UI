@@ -82,17 +82,34 @@ export class PurchaseComponent implements OnInit {
     this.router.navigate(['dashboard/sales/salesInvoice/viewPurchaseInvoice', 'return',  row.purchaseInvNo]);
   }
 
+  // search() {
+  //   if (isNullOrUndefined(this.dateForm.value.invoiceNo)) {
+  //       if (isNullOrUndefined(this.dateForm.value.selected)) {
+  //         this.alertService.openSnackBar('Select Invoice or Date', Static.Close, SnackBar.error);
+  //         return;
+  //       } else {
+  //         this.dateForm.patchValue({
+  //           fromDate:  this.commonService.formatDate(this.dateForm.value.selected.start._d),
+  //           toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d)
+  //         });
+  //       }
+  //   }
+
+  //   this.getPurchaseInvoiceList();
+  // }
+
   search() {
     if (isNullOrUndefined(this.dateForm.value.invoiceNo)) {
-        if (isNullOrUndefined(this.dateForm.value.selected)) {
-          this.alertService.openSnackBar('Select Invoice or Date', Static.Close, SnackBar.error);
-          return;
-        } else {
-          this.dateForm.patchValue({
-            fromDate:  this.commonService.formatDate(this.dateForm.value.selected.start._d),
-            toDate:  this.commonService.formatDate(this.dateForm.value.selected.end._d)
-          });
-        }
+      if (isNullOrUndefined(this.dateForm.value.selected)) {
+        this.alertService.openSnackBar('Select Invoice or Date', Static.Close, SnackBar.error);
+        return;
+      } else {
+        this.dateForm.patchValue({
+          fromDate: this.commonService.formatDate(this.dateForm.value.selected.start._d),
+          toDate: this.commonService.formatDate(this.dateForm.value.selected.end._d),
+          role:this.branchCode.role
+        });
+      }
     }
 
     this.getPurchaseInvoiceList();

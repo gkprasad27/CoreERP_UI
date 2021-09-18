@@ -75,11 +75,13 @@ export class ReportTableComponent implements OnInit, OnChanges {
     { id: '4', reportName: 'Shift wise hdfc bank account' },
     { id: '5', reportName: 'Shift wise  fleet card account' },
     { id: '6', reportName: 'Shift wise daily sales report' },
-    { id: '7', reportName: 'Shift wise Sale Value' }
+    { id: '7', reportName: 'Shift wise Sale Value' },
+    { id: '8', reportName: 'Shift wise ICICI SWIPE RECEIVABLES A/c' }
   ];
   AccountLedgers = [];
   ReportBranches = [];
   ReportPGList=[];
+  ReportSGList=[];
   Products = [];
 
   tableHeaders: any = [];
@@ -144,7 +146,8 @@ export class ReportTableComponent implements OnInit, OnChanges {
       toAccountLedger: [''],
       RO:[null],
       selectedFourColumnReportType:[''],
-      selectedGroupName:['']
+      selectedGroupName:[''],
+      selectedSupplierGroup:['']
     }, { validator: this.checkDates });
 
     activatedRoute.params.subscribe(params => {
@@ -242,6 +245,19 @@ export class ReportTableComponent implements OnInit, OnChanges {
           if (!isNullOrUndefined(res) && res.status === 'PASS') {
             if (!isNullOrUndefined(res.response['reportPGList'])) {
               this.ReportPGList = res.response['reportPGList'];
+            }
+          }
+        });
+  }
+  getReportSGList() {
+    const getLoginUrl = String.Join('/', this.apiConfigService.getReportSGList);
+    this.apiService.apiGetRequest(getLoginUrl)
+      .subscribe(
+        response => {
+          const res = response.body;
+          if (!isNullOrUndefined(res) && res.status === 'PASS') {
+            if (!isNullOrUndefined(res.response['reportSGList'])) {
+              this.ReportSGList = res.response['reportSGList'];
             }
           }
         });
@@ -369,6 +385,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
       RO: this.dateForm.get('RO').value,
       selectedFourColumnReportType:this.dateForm.get('selectedFourColumnReportType').value,
       selectedGroupName:this.dateForm.get('selectedGroupName').value,
+      selectedSupplierGroup:this.dateForm.get('selectedSupplierGroup').value,
     })
     this.params = new HttpParams();
     this.params = this.params.append('UserID', 'admin');//this.user.userName);
@@ -389,6 +406,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
     this.params = this.params.append('RO', this.dateForm.value.RO);
     this.params = this.params.append('fourColumnreportType', this.dateForm.value.selectedFourColumnReportType);
     this.params = this.params.append('GroupName',this.dateForm.value.selectedGroupName);
+    this.params = this.params.append('SupplierGroup',this.dateForm.value.selectedSupplierGroup);
     if(this.dateForm.value.selectedCriteria=="shiftId")
     {
       this.params = this.params.append('shiftId', this.dateForm.value.search);
@@ -648,7 +666,7 @@ export class ReportTableComponent implements OnInit, OnChanges {
         theme: 'plain',
       })
   
-      doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 2, styles: { font: 'Tahoma',fontSize: 10}, theme: 'plain' });
+      doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 2, styles: { font: 'Tahoma',fontSize: 10},columnStyles: {0:{cellWidth: 2},1:{cellWidth:3}}, theme: 'plain'});
   
       let footerRows = [];
       for (var i: number = 0; i < this.footerData.length; i++) {
@@ -904,6 +922,7 @@ else{
     this.getAccountLedgersList();
     this.getReportBranchesList();
     this.getReportPGList();
+    this.getReportSGList();
     // this.getProductsList();
   }
 

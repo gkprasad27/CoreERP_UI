@@ -729,6 +729,8 @@ export class ApiConfigService {
 
    getReportPGList=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseMonthlySalesByLtrs/GetReportPGList`;
 
+   getReportSGList=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseMonthlySalesByLtrs/GetSupplierGroupList`;
+
    getProductMonthWisePurchaseLtrsReportData=`${this.environment.runtimeConfig.serverUrl}Reports/ProductMonthWisePurchaseLtrs/GetProductMonthWisePurchaseLtrsReportData`;
 
    getBranchWiseStockStatementLtrsReportData=`${this.environment.runtimeConfig.serverUrl}Reports/BranchWiseStockStatementLtrs/GetBranchWiseStockStatementLtrsReportData`;

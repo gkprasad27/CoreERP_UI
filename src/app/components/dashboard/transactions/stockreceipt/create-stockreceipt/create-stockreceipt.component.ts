@@ -299,13 +299,18 @@ export class CreateStockreceiptsComponent implements OnInit {
     }
   }
 
-  clearQty(index, value, column) {
+  clearQty(index, value, column, row) {
     this.dataSource.data[index].qty = null;
     this.dataSource.data[index].fQty = null;
+    if (row.availStock < value) {
+      this.alertService.openSnackBar(`This Product(${row.productCode}) qty or Fqty cannot be greater than available stock`, Static.Close, SnackBar.error);
+      return;
+    }
     this.dataSource.data[index][column] = value;
     this.dataSource = new MatTableDataSource(this.dataSource.data);
     this.dataSource.paginator = this.paginator;
   }
+    
 
   deleteRow(i) {
     this.dataSource.data = this.dataSource.data.filter((value, index, array) => {

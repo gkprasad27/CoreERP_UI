@@ -559,7 +559,9 @@ export class CreateBillComponent implements OnInit {
               this.branchFormData.patchValue({
                 ledgerName: res.response['CashPartyAccount']['ledgerName'],
                 paymentMode: res.response['CashPartyAccount']['crOrDr'],
-                ledgerId: res.response['CashPartyAccount']['ledgerId']
+                ledgerId: res.response['CashPartyAccount']['ledgerId'],
+                mobile: res.response['CashPartyAccount']['mobile'],
+                customerGstin: res.response['CashPartyAccount']['tin']
               });
               this.getAccountBalance(res.response['CashPartyAccount']['accountGroupId']);
               this.spinner.hide();
@@ -640,6 +642,7 @@ export class CreateBillComponent implements OnInit {
                 this.taxPercentage = false;
               }
               this.spinner.hide();
+              this.calculateAmount();
             }
           }
         }
