@@ -467,7 +467,7 @@ export class CreateBillComponent implements OnInit {
     this.branchFormData.patchValue({
       memberCode: null,
       memberName: null,
-      mobile: null,
+      // mobile: null,
       generalNo: null,
       vehicleId: null
     })
@@ -560,11 +560,29 @@ export class CreateBillComponent implements OnInit {
                 ledgerName: res.response['CashPartyAccount']['ledgerName'],
                 paymentMode: res.response['CashPartyAccount']['crOrDr'],
                 ledgerId: res.response['CashPartyAccount']['ledgerId'],
-                mobile: res.response['CashPartyAccount']['mobile'],
-                customerGstin: res.response['CashPartyAccount']['tin']
+                // mobile: res.response['CashPartyAccount']['mobile'],
+                // customerGstin: res.response['CashPartyAccount']['tin']
               });
               this.getAccountBalance(res.response['CashPartyAccount']['accountGroupId']);
               this.spinner.hide();
+            }
+            if(this.branchFormData.get('ledgerCode').value!='100'){
+              this.branchFormData.patchValue({
+                mobile: res.response['CashPartyAccount']['mobile'],
+                customerGstin: res.response['CashPartyAccount']['tin']
+              });
+            }
+            if(this.branchFormData.get('ledgerCode').value!='2295'){
+              this.branchFormData.patchValue({
+                mobile: res.response['CashPartyAccount']['mobile'],
+                customerGstin: res.response['CashPartyAccount']['tin']
+              });
+            }
+            if(this.branchFormData.get('ledgerCode').value!='2403'){
+              this.branchFormData.patchValue({
+                mobile: res.response['CashPartyAccount']['mobile'],
+                customerGstin: res.response['CashPartyAccount']['tin']
+              });
             }
           }
         }

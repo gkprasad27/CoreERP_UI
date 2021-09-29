@@ -571,10 +571,14 @@ export class ReportTableComponent implements OnInit, OnChanges {
       body: headerRows,
       theme: 'plain',
     })
+    
+    
 
     doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 2, styles: { font: 'Tahoma',fontSize: 10}, theme: 'plain' });
+     
 
     let footerRows = [];
+    
     for (var i: number = 0; i < this.footerData.length; i++) {
       footerRows[i] = [];
       let j = 0;
@@ -704,6 +708,7 @@ else{
   // let doc = new jsPDF('p', 'cm', 'legal');
   let doc = new jsPDF('p', 'in', [1008, 792]); 
   let columns = []; //["ID", "Name", "Country"];
+  
   for (const key in this.tableData[0]) {
     columns.push(key);
   }
@@ -716,13 +721,14 @@ else{
       j++;
     }
   }
-
+  
   doc.autoTable({
     body: [
       [{ content: this.routeParam + ' Report', colSpan: 3, rowSpan: 1, styles: { halign: 'center', fontStyle: 'bold' } }],
     ],
     theme: 'plain'
   });
+  
   let pipe = new DatePipe('en-US');
   let currentDate = new Date();
 
@@ -759,8 +765,18 @@ else{
     body: headerRows,
     theme: 'plain',
   })
+  
 
-  doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 1, styles: { font: 'Tahoma',fontSize: 10 }, theme: 'plain' });
+  doc.autoTable(columns, rows, { startY: doc.autoTable.previous.finalY + 1, styles: { font: 'Tahoma',fontSize: 10 }, theme: 'plain'});
+  
+  doc.addPage();
+  var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
+  for(i = 0; i < pageCount; i++) { 
+  doc.setPage(i); 
+  let pageCurrent = doc.internal.getCurrentPageInfo().pageNumber; //Current Page
+  doc.setFontSize(10);
+  doc.text('page: ' + pageCurrent + '/' + pageCount, 10, 10);
+}
 
   let footerRows = [];
   for (var i: number = 0; i < this.footerData.length; i++) {
@@ -771,6 +787,7 @@ else{
       j++;
     }
   }
+  
 
   let updatedFooterRows = [];
 
